@@ -1,0 +1,50 @@
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.smooth-scrolling {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+textarea {
+  direction: ltr;
+  unicode-bidi: plaintext;
+  text-align: left;
+}
+
+input {
+  direction: ltr;
+  unicode-bidi: plaintext;
+  text-align: left;
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.loadingAnimation {
+  animation: moveRight 2s ease-in-out infinite;
+}

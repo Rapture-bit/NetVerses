@@ -1,0 +1,30 @@
+import React from "react";
+
+export default function Footer() {
+  return (
+    <footer className="textColor py-4">
+      <div className="px-4 flex flex-row justify-center items-center">
+        <div className="flex flex-row space-x-3 md:space-x-6 text-sm md:text-base">
+          <a
+            href="https://help.netverses.com/privacy"
+            className="hover:underline"
+          >
+            Privacy Policy
+          </a>
+          <a href="https://help.netverses.com/tos" className="hover:underline">
+            Terms of Service
+          </a>
+          <a
+            href="https://help.netverses.com/support"
+            className="hover:underline"
+          >
+            Support
+          </a>
+          <a href="https://help.netverses.com/api" className="hover:underline">
+            API
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}

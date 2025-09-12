@@ -1,0 +1,19 @@
+.halo {
+  position: absolute;
+  top: -15px; /* Increase top offset for better visibility */
+  left: -15px; /* Increase left offset for better visibility */
+  width: calc(100% + 30px); /* Extend width for halo */
+  height: calc(100% + 30px); /* Extend height for halo */
+  border-radius: 50%; /* Circular shape */
+  background: radial-gradient(
+    circle,
+    rgba(255, 165, 0, 0.8) 0%,
+    /* Increased opacity for stronger color */ rgba(255, 255, 0, 0) 70%
+      /* Transparent outer edge */
+  ); /* Orange to transparent */
+  box-shadow:
+    0 0 30px rgba(255, 165, 0, 0.9),
+    /* Brighter halo glow */ 0 0 60px rgba(255, 255, 0, 0.6),
+    /* Extended yellow glow */ inset 0 0 10px rgba(255, 165, 0, 0.5); /* Inner shadow for depth */
+  z-index: -1; /* Ensure it appears below the image */
+}

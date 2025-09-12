@@ -1,0 +1,182 @@
+:root {
+  --darker-background-color-light: #f1f1f1;
+  --border-input-color-light: #b6b6b6;
+  --background-color-light: white;
+  --text-color-light: #1f1f1f;
+  --selection-text-color-light: black;
+  --vibrant-color-light: #9b59b6;
+
+  --background-color-dark: #1a1a1a;
+  --darker-background-color-dark: #222222;
+  --border-input-color-dark: #5a5a5a;
+  --text-color-dark: #c0c0c0;
+  --selection-text-color-dark: white;
+  --vibrant-color-dark: #8e2a8a;
+
+  --purple-dark: #b479fc;
+  --purple-light: #6c00f0;
+
+  --primary-color: #5700c2;
+  --selection-color: #780cfc8e;
+
+  --background-color: var(--background-color-light);
+  --border-input-color: var(--border-input-color-light);
+  --darker-background-color: var(--darker-background-color-light);
+  --text-color: var(--text-color-light);
+  --selection-text-color: var(--selection-text-color-light);
+  --vibrant-color: var(--vibrant-color-light);
+  --purple: var(--text-purple-light) --border-color-transparent:
+    rgba(241, 241, 241, 0.5);
+}
+
+html {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+}
+
+[data-mode="light"] ::-webkit-scrollbar-track {
+  background: var(--darker-background-color-light);
+}
+
+[data-mode="light"] ::-webkit-scrollbar-thumb {
+  background-color: var(--border-input-color-light);
+}
+
+[data-mode="dark"] ::-webkit-scrollbar-thumb {
+  background-color: var(--border-input-color-dark);
+}
+
+[data-mode="dark"] ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--purple-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: var(--background-color-dark);
+    --darker-background-color: var(--darker-background-color-dark);
+    --border-input-color: var(--border-input-color-dark);
+    --text-color: var(--text-color-dark);
+    --selection-text-color: var(--selection-text-color-dark);
+    --vibrant-color: var(--vibrant-color-dark);
+    --border-color-transparent: var(--background-color-dark);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--darker-background-color-dark);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-input-color-dark);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--purple-dark);
+  }
+}
+
+[data-mode="light"] {
+  --darker-background-color: var(--darker-background-color-light);
+  --border-input-color: var(--border-input-color-light);
+  --background-color: var(--background-color-light);
+  --text-color: var(--text-color-light);
+  --selection-text-color: var(--selection-text-color-light);
+  --vibrant-color: var(--vibrant-color-light);
+  --border-color-transparent: var(--background-color-light);
+  --purple: var(--purple-light);
+}
+
+[data-mode="dark"] {
+  --darker-background-color: var(--darker-background-color-dark);
+  --border-input-color: var(--border-input-color-dark);
+  --background-color: var(--background-color-dark);
+  --text-color: var(--text-color-dark);
+  --selection-text-color: var(--selection-text-color-dark);
+  --vibrant-color: var(--vibrant-color-dark);
+  --border-color-transparent: var(--background-color-dark);
+  --purple: var(--purple-dark);
+}
+
+::selection {
+  background-color: var(--selection-color);
+  color: var(--selection-text-color);
+}
+
+.preferred-color {
+  background-color: var(--preferred-color-500);
+}
+
+.hover\:preferred-color-100:hover {
+  background-color: var(--preferred-color-100);
+}
+
+.hover\:preferred-color-200:hover {
+  background-color: var(--preferred-color-200);
+}
+
+.hover\:preferred-color-300:hover {
+  background-color: var(--preferred-color-300);
+}
+
+.hover\:preferred-color-400:hover {
+  background-color: var(--preferred-color-400);
+}
+
+.hover\:preferred-color-500:hover {
+  background-color: var(--preferred-color-500);
+}
+
+.hover\:preferred-color-600:hover {
+  background-color: var(--preferred-color-600);
+}
+
+.hover\:preferred-color-700:hover {
+  background-color: var(--preferred-color-700);
+}
+
+.hover\:preferred-color-800:hover {
+  background-color: var(--preferred-color-800);
+}
+
+.hover\:preferred-color-900:hover {
+  background-color: var(--preferred-color-900);
+}
+
+.backgroundColor {
+  background-color: var(--background-color);
+}
+
+.darkerBackgroundColor {
+  background-color: var(--darker-background-color);
+}
+
+.textPurple {
+  color: var(--purple);
+}
+
+.backgroundPurple {
+  background-color: var(--purple);
+}
+
+.textColor {
+  color: var(--text-color);
+}
+
+.bg-dark-violet {
+  background-color: var(--primary-color);
+}
+
+.borderColor {
+  border-color: var(--border-input-color);
+}
+
+.borderColorTransparent {
+  border-color: var(--border-color-transparent);
+}

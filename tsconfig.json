@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "outDir": "./dist",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "allowImportingTsExtensions": false,
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types", "node_modules/@types"],
+    "paths": {
+      "@/*": ["src/*"],
+      "*": ["node_modules/*"]
+    }
+  },
+  "include": ["node_modules/vite/client.d.ts", "**/*"],
+  "exclude": ["node_modules", "dist", "**/*.js"]
+}
