@@ -422,7 +422,6 @@ export default async function (req, res) {
             id: userId,
             username,
             display_name,
-            profile_picture: `https://assets.netverses.com/media/avatars/default/type${picturetype}`,
           });
 
           const secureToken = generateToken();

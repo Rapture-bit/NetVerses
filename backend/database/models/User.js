@@ -112,8 +112,7 @@ UserProfile.init(
     profile_picture: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue:
-        "https://assets.netverses.com/media/avatars/default/type1.jpg",
+      defaultValue: "https://assets.netverses.com/media/image_placeholder.jpg",
       validate: {
         isUrl: true,
       },
