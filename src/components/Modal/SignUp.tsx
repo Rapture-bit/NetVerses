@@ -399,6 +399,12 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
     }
   }, [username, usernameCache]);
 
+  const refreshPage = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 10 * 1000);
+  };
+
   const checkEmailAvailability = useCallback(async () => {
     if (!email) return;
     if (errorState.TabOne.Email["Invalid"]) return;
@@ -673,8 +679,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         setError("An error occurred while processing your request.", 1);
       }
     } else if (currentTab === 2) {
-      setTab(3);
-    } else if (currentTab === 3) {
       try {
         const registerFetch = await fetch(
           "https://api.netverses.com/v1/auth/register",
@@ -713,7 +717,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           );
         }
 
-        setTab(4);
+        refreshPage();
+
+        setTab(3);
       } catch (error) {
         setError("An error occurred while verifying the provided code.", 3);
       }
@@ -904,18 +910,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             </Button>
           )}
           {currentTab === 2 && (
-            <Button
-              aria-label="Next"
-              type="primary"
-              onClick={toggleTab}
-              className="p-4 !bg-violet-700 mt-2 hover:!bg-opacity-85 px-16 rounded-full transition-all duration-300"
-            >
-              <span className="font-medium text-white transition-all duration-300">
-                Next
-              </span>
-            </Button>
-          )}
-          {currentTab === 3 && (
             <div className="justify-center items-center flex flex-row space-x-3">
               <Button
                 aria-label={resendStatus["label"]}
@@ -1156,21 +1150,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
               <p className="text-base dark:text-gray-300 lato text-center">
                 Your account has been successfully created with the selected
                 username and email address.
-              </p>
-              <p className="text-base dark:text-gray-300 lato text-center">
-                A secure token has been stored in your cookies. Please ensure
-                that you keep this token confidential and do not share it with
-                anyone.
-              </p>
-              <p className="text-base dark:text-gray-300 lato text-center">
-                For further information, please visit our subdomain:
-                <a
-                  href="https://info.netverses.com"
-                  className="text-purple-400 hover:text-purple-400 underline"
-                >
-                  {" "}
-                  info.netverses.com (Under development) /** To be removed */
-                </a>
               </p>
             </div>
           </motion.div>
