@@ -1,4 +1,4 @@
-import { blacklistedCountries } from "../constants/blacklists.js";
+import { blacklistedCountries } from "../constants/blacklistedCountries.js";
 
 async function getCountryFromIp(ip) {
   try {

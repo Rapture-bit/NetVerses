@@ -5,7 +5,6 @@ const blacklistedCountries = new Set([
   "SY", // Syria
   "CU", // Cuba
   "SD", // Sudan
-  "LY", // Libya
   "VE", // Venezuela
   "YE", // Yemen
   "ZW", // Zimbabwe
