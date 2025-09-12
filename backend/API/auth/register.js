@@ -93,16 +93,8 @@ export default async function (req, res) {
   );
 
   try {
-    let {
-      email,
-      password,
-      passwordconfirm,
-      requestid,
-      username,
-      code,
-      picturetype,
-      send,
-    } = normalizedBody;
+    let { email, password, passwordconfirm, requestid, username, code, send } =
+      normalizedBody;
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
     const countryCode = await getCountryFromIp(ip);
 
@@ -167,23 +159,11 @@ export default async function (req, res) {
     email = validator.normalizeEmail(email);
     password = validator.trim(password);
     passwordconfirm = validator.trim(passwordconfirm);
-    // requestid = validator.trim(requestid);
     username = validator.trim(username);
     username = validator.escape(username);
-    // picturetype = validator.trim(picturetype);
-    // picturetype = validator.trim(picturetype);
-    // code = validator.escape(code);
-    // send = validator.escape(send);
 
     const lowercaseRegex = /[a-z]/g;
     const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/g;
-
-    if (picturetype > 10 || picturetype < 1) {
-      return res.status(200).json({
-        success: false,
-        message: "Picture type must be within the range of 1 to 10.",
-      });
-    }
 
     if (
       password.length < 8 ||
@@ -412,23 +392,6 @@ export default async function (req, res) {
             success: false,
             message:
               "Please provide the 'Username' field along with the 'Code' field to complete registration.",
-            generatedRequestID,
-          });
-        }
-
-        if (!picturetype) {
-          return res.status(200).json({
-            success: false,
-            message:
-              "Please ensure that you select a profile picture numbered from 1 to 10. Additional details can be found in the API documentation.",
-            generatedRequestID,
-          });
-        }
-
-        if (picturetype > 10 || picturetype < 1) {
-          return res.status(200).json({
-            success: false,
-            message: "Picture type must be within the range of 1 to 10.",
             generatedRequestID,
           });
         }

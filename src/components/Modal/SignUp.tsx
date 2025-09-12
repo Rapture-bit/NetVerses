@@ -59,7 +59,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
     onHold: false,
     label: "Resend",
   });
-  const [chosenPictureType, setChosenPictureType] = useState<number>(1);
   const [errorState, setErrorState] = useState<ErrorState>({
     TabOne: {
       Username: {
@@ -691,7 +690,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
               passwordConfirm: confirmPassword,
               code: OTPValue,
               requestId: requestID,
-              picturetype: chosenPictureType,
             }),
             credentials: "include",
           },
@@ -1109,81 +1107,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
         {currentTab === 2 && (
           <motion.div
-            key="tab3"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-          >
-            <div className="mb-4">
-              <span>Choose your favorite profile picture from the list.</span>
-            </div>
-            <div className="flex flex-col gap-5 justify-center items-center mt-5">
-              <div className="flex flex-row gap-5">
-                <div className="flex flex-col gap-5">
-                  {Array.from({ length: 3 }, (_, i) => (
-                    <button
-                      aria-label="Choose Profile Picture"
-                      key={i}
-                      onClick={() => setChosenPictureType(i + 1)}
-                      className={`transform transition-transform duration-200 select-none hover:scale-105`}
-                    >
-                      <img
-                        onContextMenu={(e) => e.preventDefault()}
-                        src={`https://assets.netverses.com/media/avatars/type${i + 1}.jpg`}
-                        className={`w-20 h-20 rounded-lg ${chosenPictureType === i + 1 ? "border-2 border-purple-600" : "border border-transparent"} transition duration-200`}
-                        alt={`type${i + 1}`}
-                        draggable={false}
-                        crossOrigin="anonymous"
-                      />
-                    </button>
-                  ))}
-                </div>
-                <div className="flex flex-col gap-5">
-                  {Array.from({ length: 3 }, (_, i) => (
-                    <button
-                      aria-label="Choose Profile Picture"
-                      key={i + 4}
-                      onClick={() => setChosenPictureType(i + 5)}
-                      className={`transform transition-transform duration-200 select-none hover:scale-105`}
-                    >
-                      <img
-                        onContextMenu={(e) => e.preventDefault()}
-                        src={`https://assets.netverses.com/media/avatars/type${i + 5}.jpg`}
-                        className={`w-20 h-20 rounded-lg ${chosenPictureType === i + 5 ? "border-2 border-purple-600" : "border border-transparent"} transition duration-200`}
-                        alt={`type${i + 5}`}
-                        draggable={false}
-                        crossOrigin="anonymous"
-                      />
-                    </button>
-                  ))}
-                </div>
-                <div className="flex flex-col gap-5">
-                  {Array.from({ length: 3 }, (_, i) => (
-                    <button
-                      aria-label="Choose Profile Picture"
-                      key={i + 7}
-                      onClick={() => setChosenPictureType(i + 8)}
-                      className={`transform transition-transform duration-200 select-none hover:scale-105`}
-                    >
-                      <img
-                        onContextMenu={(e) => e.preventDefault()}
-                        src={`https://assets.netverses.com/media/avatars/type${i + 8}.jpg`}
-                        className={`w-20 h-20 rounded-lg ${chosenPictureType === i + 8 ? "border-2 border-purple-600" : "border border-transparent"} transition duration-200`}
-                        alt={`type${i + 8}`}
-                        draggable={false}
-                        crossOrigin="anonymous"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {currentTab === 3 && (
-          <motion.div
             key="tab2"
             initial="initial"
             animate="animate"
@@ -1217,7 +1140,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           </motion.div>
         )}
 
-        {currentTab === 4 && (
+        {currentTab === 3 && (
           <motion.div
             key="tab3"
             initial="initial"
