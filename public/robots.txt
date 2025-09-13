@@ -24,4 +24,4 @@ User-agent: *
 Disallow: /
 
 Crawl-delay: 1
-Sitemap: https://nteverses.com/sitemap.xml
+Sitemap: https://netverses.com/sitemap.xml
