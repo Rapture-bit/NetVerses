@@ -7,7 +7,7 @@ export default function FeatureList() {
       <Feature
         title="Content Age Verification"
         description="Keep it safe and secure! NSFW content is locked behind 18+ ID verification, ensuring it stays out of reach for minors."
-        IconClass="icon-[noto--identification-card]"
+        IconClass="icon-[uil--18-plus]"
       />
 
       <Feature
@@ -33,17 +33,17 @@ export default function FeatureList() {
       <Feature
         title="Post Ownership Transfer"
         description="Seamlessly transfer your post's ownership to another user, giving them the option to accept or decline securely!"
-        IconClass="icon-[icon-park--exchange-three]"
+        IconClass="icon-[tabler--transfer]"
       />
       <Feature
         title="NoSpy"
         description="Unlock ultimate privacy with the NoSpy feature your secret weapon against spies. Keep your profile secure and invisible to strangers, so you can connect confidently and stay in control!"
-        IconClass="icon-[fxemoji--sleuthspy]"
+        IconClass="icon-[mdi--spy-off]"
       />
       <Feature
         title="Share News"
         description="Spread the word fast! Share news with varying emergency levels quickly and efficiently, ensuring the right information reaches the right people."
-        IconClass="icon-[flat-color-icons--news]"
+        IconClass="icon-[ri--news-line]"
       />
     </div>
   );
