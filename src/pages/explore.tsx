@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import RightBar from "@/components/navigation/RightBar";
 import BottomBar from "@/components/navigation/BottomBar";
 import PageTitle from "@/components/others/PageTitle";
 import SearchBar from "@/components/input/SearchBar";
@@ -11,24 +10,6 @@ import { Tooltip } from "antd";
 const Explore = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("constant");
 
-  const [topNews, setTopNews] = useState<object[]>([
-    {
-      title: "Breaking News 1",
-      description: "This is the description for breaking news 1.",
-      category: "Business",
-    },
-    {
-      title: "Breaking News 2",
-      description: "This is the description for breaking news 2.",
-      category: "Technology",
-    },
-    {
-      title: "Breaking News 3",
-      description: "This is the description for breaking news 3.",
-      category: "Health",
-    },
-  ]);
-
   const handleSelectCategory = (categoryId) => {
     setSelectedCategory(categoryId);
   };
@@ -36,7 +17,6 @@ const Explore = () => {
   return (
     <>
       <PageTitle title="NetVerse ~ Explore" />
-      <RightBar news={topNews} />
       <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">

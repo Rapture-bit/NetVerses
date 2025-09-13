@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import PageTitle from "@/components/others/PageTitle";
-import RightBar from "@/components/navigation/RightBar";
 import BottomBar from "@/components/navigation/BottomBar";
 
 const Clubs = () => {
@@ -25,7 +24,6 @@ const Clubs = () => {
   return (
     <>
       <PageTitle title="NetVerse ~ Clubs" />
-      <RightBar news={topNews} />
       <BottomBar />
       <div className="flex flex-col">
         <div></div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PageTitle from "@/components/others/PageTitle";
-import RightBar from "@/components/navigation/RightBar";
 import BottomBar from "@/components/navigation/BottomBar";
 import { Tooltip } from "antd";
 import ProfilePreview from "@/components/profile/ProfilePreview";
@@ -63,7 +62,6 @@ const ProfilePage = () => {
   return (
     <>
       <PageTitle title="NetVerse ~ Profile" />
-      <RightBar news={topNews} />
       <BottomBar />
       <div
         className={`flex flex-col gap-3 ${isAvailable ? "justify-start" : "justify-center"} items-center w-full h-full pt-24 bg-fixed bg-cover bg-center`}

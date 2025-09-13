@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import RightBar from "@/components/navigation/RightBar";
 import BottomBar from "@/components/navigation/BottomBar";
 import Verse from "@/components/post/Verse";
 import Post from "@/components/post/Post";
@@ -332,7 +331,6 @@ export default function Home() {
   return (
     <>
       <PageTitle title="NetVerse ~ Home" />
-      <RightBar news={topNews} />
       <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">

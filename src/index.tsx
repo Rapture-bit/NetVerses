@@ -135,7 +135,7 @@ const App = () => {
       <AuthProvider>
         <Suspense fallback={<Loading />}>
           <Routes>
-            <Route>
+            <Route element={<DefaultLayout />}>
               <Route path="/" element={<LandingPage />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/starplus" element={<StarPlus />} />

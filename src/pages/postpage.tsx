@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import RightBar from "@/components/navigation/RightBar";
 import BottomBar from "@/components/navigation/BottomBar";
 import FocusedPost from "@/components/post/FocusedPost";
 
@@ -33,7 +32,6 @@ export default function PostsPage() {
     <>
       <PageTitle title="NetVerse" />
       <BottomBar />
-      <RightBar news={topNews} />
       <div className="flex flex-col justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <FocusedPost
           id={Number(id)}
