@@ -619,7 +619,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         );
 
         const registerResponse = await registerFetch.json();
-        console.log(registerResponse);
 
         if (!registerFetch.ok) {
           return setError(
@@ -1130,8 +1129,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                 Account Successfully Created!
               </h2>
               <p className="text-base dark:text-gray-300 lato text-center">
-                Your account has been successfully created with the selected
-                username and email address.
+                Your account has been successfully created with the chosen
+                username and email address. You will be redirected shortly.
               </p>
             </div>
           </motion.div>

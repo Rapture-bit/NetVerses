@@ -7,7 +7,7 @@ import {
 } from "../../database/models/User.js";
 import sendVerification from "../../services/sendVerification.js";
 import crypto from "crypto";
-import { blacklistedCountries } from "../../constants/blacklists.js";
+import { blacklistedCountries } from "../../constants/blacklistedCountries.js";
 import { addMinutes, differenceInMinutes } from "date-fns";
 import argon2 from "argon2";
 import { Op } from "sequelize";
