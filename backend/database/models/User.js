@@ -1,19 +1,17 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
-import crypto from "crypto";
+import { randomUUID } from "crypto";
 
-function generateRandomId() {
-  const buffer = crypto.randomBytes(4);
-  const randomNumber = buffer.readUIntBE(0, 4);
-  const digitId = (randomNumber % 90000000) + 10000000;
-  return digitId.toString();
+function generateNonHyphenUUID() {
+  return randomUUID().replace(/-/g, "");
 }
 
 class User extends Model {}
 User.init(
   {
     id: {
-      type: DataTypes.STRING(8),
+      type: DataTypes.STRING(32),
+      defaultValue: generateNonHyphenUUID,
       allowNull: false,
       primaryKey: true,
     },
@@ -41,8 +39,8 @@ class TemporaryUser extends Model {}
 TemporaryUser.init(
   {
     id: {
-      type: DataTypes.STRING(8),
-      defaultValue: generateRandomId,
+      type: DataTypes.STRING(32),
+      defaultValue: generateNonHyphenUUID,
       primaryKey: true,
     },
     username: {

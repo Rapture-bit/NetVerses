@@ -29,7 +29,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const fetchResponse = await fetchAPI.json();
         setAuth(fetchResponse.success && fetchResponse.isAuthenticated);
       } catch (error) {
-        console.error("Error:", error);
         setAuth(false);
       }
     };

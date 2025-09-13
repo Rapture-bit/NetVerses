@@ -137,13 +137,18 @@ const App = () => {
           <Routes>
             <Route element={<DefaultLayout />}>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/messages" element={<Messages />} />
               <Route path="/starplus" element={<StarPlus />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/:username/posts/:id" element={<PostsPage />} />
               <Route path="/:username" element={<ProfilePage />} />
-              <Route path="/explore" element={<ExplorePage />} />
-              <Route path="/my/clubs" element={<ClubsPage />} />
+              {isAuth && (
+                <Route path="/messages" element={<Messages />} />
+              )}: {<Route path="/messages" element={<PageNotFound />} />}
+              {isAuth && (
+                <Route path="/explore" element={<ExplorePage />} />
+              )}: {<Route path="/explore" element={<PageNotFound />} />}
+              {isAuth && <Route path="/my/*" element={<ClubsPage />} />}:{" "}
+              {<Route path="/my/*" element={<PageNotFound />} />}
               <Route path="*" element={<PageNotFound />} />
             </Route>
           </Routes>

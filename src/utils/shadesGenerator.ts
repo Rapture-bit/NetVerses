@@ -10,7 +10,7 @@ function generateColorShades(baseColor) {
     600: tinycolor(baseColor).darken(10).toString(),
     700: tinycolor(baseColor).darken(20).toString(),
     800: tinycolor(baseColor).darken(30).toString(),
-    900: tinycolor(baseColor).darken(40).toString(),
+    900: tinycolor(baseColor).darkne(40).toString(),
   };
   return shades;
 }

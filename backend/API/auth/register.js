@@ -39,13 +39,6 @@ function generateToken(length = 256) {
   return crypto.createHash("sha256").update(randomBytes).digest("hex");
 }
 
-function generateUserID() {
-  const buffer = crypto.randomBytes(5);
-  const randomNumber = buffer.readUInt32BE(0);
-  const digitId = (randomNumber % 90000000) + 10000000;
-  return digitId.toString();
-}
-
 async function getCountryFromIp(ip) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 5000);
@@ -403,11 +396,9 @@ export default async function (req, res) {
         }
 
         if (foundTempUser2.getDataValue("OTP") === code) {
-          const userId = generateUserID();
           const hashedPassword = await hashPassword(password);
 
           await User.create({
-            id: userId,
             email,
             username,
             password: hashedPassword,
