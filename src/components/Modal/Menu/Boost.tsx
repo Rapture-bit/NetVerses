@@ -1,41 +1,16 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useContext } from "react";
 import PrimaryModal from "@/components/Modal/Primary";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button, notification, ConfigProvider } from "antd";
 import type { NotificationArgsProps } from "antd";
 
+import { ThemeContext } from "@/context/themeContext";
+
 type NotificationPlacement = NotificationArgsProps["placement"];
 
 export default function Boost({ visible, setIsOpen }) {
   const [api, contextHolder] = notification.useNotification();
-  const [backgroundColor, setBackgroundColor] = useState<string>("");
-  const [primaryColor, setPrimaryColor] = useState<string>("");
-  const [textColor, setTextColor] = useState<string>("");
-
-  const getCssVariable = (variable) => {
-    const root = document.documentElement;
-    return getComputedStyle(root).getPropertyValue(variable).trim();
-  };
-
-  useLayoutEffect(() => {
-    const updateColors = () => {
-      setBackgroundColor(getCssVariable("--background-color"));
-      setTextColor(getCssVariable("--text-color"));
-      setPrimaryColor(getCssVariable("--primary-color"));
-    };
-
-    updateColors();
-
-    const observer = new MutationObserver(updateColors);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-mode"],
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  const { colorProperties } = useContext(ThemeContext);
 
   const pageVariants = {
     initial: {
@@ -68,10 +43,12 @@ export default function Boost({ visible, setIsOpen }) {
       {contextHolder}
       <ConfigProvider
         theme={{
-          colorPrimary: primaryColor,
-          colorBgElevated: backgroundColor,
-          colorTextBase: textColor,
-          colorBorder: textColor,
+          colorPrimary: colorProperties.primaryColor
+            ? colorProperties.primaryColor
+            : "#1677ff",
+          colorBgElevated: colorProperties.backgroundColor,
+          colorTextBase: colorProperties.textColor,
+          colorBorder: colorProperties.textColor,
         }}
       >
         <PrimaryModal

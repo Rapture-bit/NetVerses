@@ -1,4 +1,5 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { ThemeContext } from "@/context/themeContext";
 
 interface Props {
   last_message?: string;
@@ -17,30 +18,7 @@ const FriendMessage = ({
 }: Props) => {
   const [username, setUsername] = useState<string>(author);
   const [pfp, setPfp] = useState<string>("/images/avatars/default.jpg");
-  const [textColor, setTextColor] = useState<string>("");
-
-  const getCssVariable = (variable) => {
-    const root = document.documentElement;
-    return getComputedStyle(root).getPropertyValue(variable).trim();
-  };
-
-  useLayoutEffect(() => {
-    const updateColors = () => {
-      setTextColor(getCssVariable("--text-color"));
-    };
-
-    updateColors();
-
-    const observer = new MutationObserver(updateColors);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-mode"],
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  const { colorProperties } = useContext(ThemeContext);
 
   useEffect(() => {
     setUsername(author);
@@ -49,7 +27,7 @@ const FriendMessage = ({
   return (
     <button
       id="friend"
-      className={`flex items-center w-full py-1.5 px-4 ${isSelected ? (textColor === "#c0c0c0" ? "bg-neutral-700" : "bg-neutral-300") : "bg-transparent"} ${textColor === "#c0c0c0" ? "hover:bg-neutral-700" : "hover:bg-neutral-300"} transition-all duration-200`}
+      className={`flex items-center w-full py-1.5 px-4 ${isSelected ? (colorProperties.textColor === "#c0c0c0" ? "bg-neutral-700" : "bg-neutral-300") : "bg-transparent"} ${colorProperties.textColor === "#c0c0c0" ? "hover:bg-neutral-700" : "hover:bg-neutral-300"} transition-all duration-200`}
       onClick={() => {
         onSelected(author);
       }}
@@ -70,7 +48,7 @@ const FriendMessage = ({
               {username}
             </span>
             <span
-              className={`text-sm ${textColor === "#c0c0c0" ? "text-neutral-400" : "text-neutral-600"} roboto`}
+              className={`text-sm ${colorProperties.textColor === "#c0c0c0" ? "text-neutral-400" : "text-neutral-600"} roboto`}
             >
               {last_message || "No messages yet."}{" "}
             </span>

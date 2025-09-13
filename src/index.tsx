@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, createContext } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -16,6 +16,7 @@ import "./fonts/rubik.css";
 import "./fonts/jost.css";
 
 import Loading from "@/components/Others/Loading";
+import ThemeProvider from "./context/themeContext";
 
 const LandingPage = React.lazy(() => import("./pages/landingpage"));
 const ClubsPage = React.lazy(() => import("./pages/my/clubs"));
@@ -125,19 +126,21 @@ const App = () => {
   }
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/messages" element={<Messages />} />
-        <Route path="/starplus" element={<StarPlus />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/:username/posts/:id" element={<PostsPage />} />
-        <Route path="/:username" element={<ProfilePage />} />
-        <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/my/clubs" element={<ClubsPage />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </Suspense>
+    <ThemeProvider>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/starplus" element={<StarPlus />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/:username/posts/:id" element={<PostsPage />} />
+          <Route path="/:username" element={<ProfilePage />} />
+          <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/my/clubs" element={<ClubsPage />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Suspense>
+    </ThemeProvider>
   );
 };
 

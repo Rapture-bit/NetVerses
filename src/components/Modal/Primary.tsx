@@ -1,5 +1,6 @@
-import React, { useLayoutEffect, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Modal, Button, ConfigProvider } from "antd";
+import { ThemeContext } from "@/context/themeContext";
 
 interface PrimaryModalProps {
   confirmClose: boolean;
@@ -22,36 +23,9 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
   setIsOpen,
   ...props
 }) => {
-  const [backgroundColor, setBackgroundColor] = useState<string>("");
-  const [primaryColor, setPrimaryColor] = useState<string>("");
-  const [textColor, setTextColor] = useState<string>("");
+  const { colorProperties } = useContext(ThemeContext);
   const [showConfirmClose, setShowConfirmClose] = useState<boolean>(false);
   const [modalClosed, setModalClosed] = useState<boolean>(false);
-
-  const getCssVariable = (variable) => {
-    const root = document.documentElement;
-    return getComputedStyle(root).getPropertyValue(variable).trim();
-  };
-
-  useLayoutEffect(() => {
-    const updateColors = () => {
-      setBackgroundColor(getCssVariable("--background-color"));
-      setTextColor(getCssVariable("--text-color"));
-      setPrimaryColor(getCssVariable("--primary-color"));
-    };
-
-    updateColors();
-
-    const observer = new MutationObserver(updateColors);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-mode"],
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   useEffect(() => {
     const handleBeforeUnload = (e) => {
@@ -97,10 +71,12 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: primaryColor,
-            colorBgElevated: backgroundColor,
-            colorTextBase: textColor,
-            colorBorder: textColor,
+            colorPrimary: colorProperties.primaryColor
+              ? colorProperties.primaryColor
+              : "#1677ff",
+            colorBgElevated: colorProperties.backgroundColor,
+            colorTextBase: colorProperties.textColor,
+            colorBorder: colorProperties.textColor,
           },
           components: {
             Modal: {
@@ -120,8 +96,8 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
                 <ConfigProvider
                   theme={{
                     token: {
-                      colorBgBase: backgroundColor,
-                      colorPrimary: textColor,
+                      colorBgBase: colorProperties.backgroundColor,
+                      colorPrimary: colorProperties.textColor,
                     },
                   }}
                 >
@@ -151,8 +127,8 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
                 <ConfigProvider
                   theme={{
                     token: {
-                      colorBgBase: backgroundColor,
-                      colorPrimary: textColor,
+                      colorBgBase: colorProperties.backgroundColor,
+                      colorPrimary: colorProperties.textColor,
                     },
                   }}
                 >

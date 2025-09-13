@@ -1,39 +1,20 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useContext } from "react";
+import { ThemeContext } from "@/context/themeContext";
 import { Tooltip } from "antd";
 
 type Props = {};
 
 const Media = (props: Props) => {
-  const [textColor, setTextColor] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState("GIFs");
+  const { colorProperties } = useContext(ThemeContext);
 
-  const getCssVariable = (variable) => {
-    const root = document.documentElement;
-    return getComputedStyle(root).getPropertyValue(variable).trim();
-  };
-
-  useLayoutEffect(() => {
-    const updateColors = () => {
-      setTextColor(getCssVariable("--text-color"));
-    };
-
-    updateColors();
-
-    const observer = new MutationObserver(updateColors);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-mode"],
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
   return (
     <div
       id="mediaMenu"
       className={`flex flex-col gap-3 border border-neutral-700 rounded-lg p-3 transition-all duration-500 ease-in-out transform ${
-        textColor === "#c0c0c0" ? "bg-neutral-900" : "bg-neutral-300"
+        colorProperties.textColor === "#c0c0c0"
+          ? "bg-neutral-900"
+          : "bg-neutral-300"
       }`}
     >
       <div className="flex flex-row gap-5">

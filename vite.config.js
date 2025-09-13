@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   server: {
+    allowedHosts: ["netverses.com"],
     hmr: {
       overlay: true,
     },

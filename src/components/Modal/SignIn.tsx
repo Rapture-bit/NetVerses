@@ -1,4 +1,5 @@
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ThemeContext } from "@/context/themeContext";
 
 import PrimaryModal from "./Primary";
 import PrimaryInput from "@/components/Input/Primary";
@@ -24,14 +25,12 @@ interface ErrorState {
 }
 
 const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
-  const [primaryColor, setPrimaryColor] = useState<string>("");
-  const [backgroundColor, setBackgroundColor] = useState<string>("");
-  const [borderInputColor, setBorderInputColor] = useState<string>("");
-
   const [currentTab, setTab] = useState<number>(1);
   const [isNextDisabled, setNextDisabled] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const { colorProperties } = useContext(ThemeContext);
 
   const [errorState, setErrorState] = useState<ErrorState>({
     TabOne: {
@@ -65,31 +64,6 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
       transition: { duration: 0.1 },
     },
   };
-
-  const getCssVariable = (variable) => {
-    const root = document.documentElement;
-    return getComputedStyle(root).getPropertyValue(variable).trim();
-  };
-
-  useLayoutEffect(() => {
-    const updateColors = () => {
-      setBackgroundColor(getCssVariable("--background-color"));
-      setBorderInputColor(getCssVariable("--border-input-color"));
-      setPrimaryColor(getCssVariable("--primary-color"));
-    };
-
-    updateColors();
-
-    const observer = new MutationObserver(updateColors);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-mode"],
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   const toggleEmail = (e) => {
     setEmail(e.target.value);
@@ -255,10 +229,10 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
                 <ConfigProvider
                   theme={{
                     token: {
-                      colorBgBase: backgroundColor,
+                      colorBgBase: colorProperties.backgroundColor,
                       colorPrimary: "#535353",
                       colorTextPlaceholder: "#9ca3af",
-                      colorBorder: borderInputColor,
+                      colorBorder: colorProperties.borderInputColor,
                     },
                   }}
                 >
@@ -270,7 +244,7 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
                       ColorSettings={{
                         BorderColor: errorState.TabOne.Email["Invalid"]
                           ? "#EF4444"
-                          : borderInputColor,
+                          : colorProperties.borderInputColor,
                       }}
                       prefix={<MailOutlined className="!mr-1" />}
                       onChange={toggleEmail}
@@ -286,7 +260,7 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
                     <PrimaryInput
                       maxLength={128}
                       ColorSettings={{
-                        BorderColor: borderInputColor,
+                        BorderColor: colorProperties.borderInputColor,
                       }}
                       placeholder="Password"
                       type="password"

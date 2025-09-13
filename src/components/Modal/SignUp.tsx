@@ -1,12 +1,8 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import PrimaryModal from "./Primary";
 import PrimaryInput from "@/components/Input/Primary";
 import OTP from "@/components/Input/OTP";
+import { ThemeContext } from "@/context/themeContext";
 import {
   UserOutlined,
   MailOutlined,
@@ -36,10 +32,7 @@ interface ErrorState {
 }
 
 const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
-  const [primaryColor, setPrimaryColor] = useState<string>("");
-  const [backgroundColor, setBackgroundColor] = useState<string>("");
-  const [borderInputColor, setBorderInputColor] = useState<string>("");
-
+  const { colorProperties } = useContext(ThemeContext);
   const [isNextDisabled, setNextDisabled] = useState<boolean>(true);
   const [currentTab, setTab] = useState<number>(1);
   const [username, setUsername] = useState<string>("");
@@ -284,31 +277,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
       }));
     }
   };
-
-  const getCssVariable = (variable) => {
-    const root = document.documentElement;
-    return getComputedStyle(root).getPropertyValue(variable).trim();
-  };
-
-  useLayoutEffect(() => {
-    const updateColors = () => {
-      setBackgroundColor(getCssVariable("--background-color"));
-      setBorderInputColor(getCssVariable("--border-input-color"));
-      setPrimaryColor(getCssVariable("--primary-color"));
-    };
-
-    updateColors();
-
-    const observer = new MutationObserver(updateColors);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-mode"],
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   const checkUsernameAvailability = useCallback(async () => {
     if (!username) return;
@@ -958,10 +926,10 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                 <ConfigProvider
                   theme={{
                     token: {
-                      colorBgBase: backgroundColor,
+                      colorBgBase: colorProperties.backgroundColor,
                       colorPrimary: "#535353",
                       colorTextPlaceholder: "#9ca3af",
-                      colorBorder: borderInputColor,
+                      colorBorder: colorProperties.borderInputColor,
                     },
                   }}
                 >
@@ -973,7 +941,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                       ColorSettings={{
                         BorderColor: errorState.TabOne.Username["Invalid"]
                           ? "#EF4444"
-                          : borderInputColor,
+                          : colorProperties.borderInputColor,
                       }}
                       prefix={<UserOutlined className="!mr-1" />}
                       onChange={toggleUsername}
@@ -993,7 +961,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                       ColorSettings={{
                         BorderColor: errorState.TabOne.Email["Invalid"]
                           ? "#EF4444"
-                          : borderInputColor,
+                          : colorProperties.borderInputColor,
                       }}
                       prefix={<MailOutlined className="!mr-1" />}
                       onChange={toggleEmail}
@@ -1011,7 +979,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                       ColorSettings={{
                         BorderColor: errorState.TabOne.Password["Invalid"]
                           ? "#EF4444"
-                          : borderInputColor,
+                          : colorProperties.borderInputColor,
                       }}
                       placeholder="Password"
                       type="password"
@@ -1035,7 +1003,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                           "Invalid"
                         ]
                           ? "#EF4444"
-                          : borderInputColor,
+                          : colorProperties.borderInputColor,
                       }}
                       placeholder="Confirm Password"
                       type="password"
@@ -1054,7 +1022,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                   <ConfigProvider
                     theme={{
                       token: {
-                        colorPrimary: primaryColor,
+                        colorPrimary: colorProperties.primaryColor
+                          ? colorProperties.primaryColor
+                          : "#1677ff",
                       },
                     }}
                   >
