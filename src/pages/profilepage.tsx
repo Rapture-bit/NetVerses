@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PageTitle from "@/components/Others/PageTitle";
-import TopBar from "@/components/Navigation/TopBar";
-import LeftBar from "@/components/Navigation/LeftBar";
-import RightBar from "@/components/Navigation/RightBar";
-import BottomBar from "@/components/Navigation/BottomBar";
+import PageTitle from "@/components/others/PageTitle";
+import RightBar from "@/components/navigation/RightBar";
+import BottomBar from "@/components/navigation/BottomBar";
 import { Tooltip } from "antd";
-import ProfilePreview from "@/components/Profile/ProfilePreview";
-import ContentPreview from "@/components/Profile/ContentPreview";
+import ProfilePreview from "@/components/profile/ProfilePreview";
+import ContentPreview from "@/components/profile/ContentPreview";
 
 const ProfilePage = () => {
   const [availableUsernames, setAvailableUsernames] = useState<string[]>([
@@ -65,8 +63,6 @@ const ProfilePage = () => {
   return (
     <>
       <PageTitle title="NetVerse ~ Profile" />
-      <TopBar />
-      <LeftBar />
       <RightBar news={topNews} />
       <BottomBar />
       <div

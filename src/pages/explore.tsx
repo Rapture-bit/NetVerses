@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import TopBar from "@/components/Navigation/TopBar";
-import LeftBar from "@/components/Navigation/LeftBar";
-import RightBar from "@/components/Navigation/RightBar";
-import BottomBar from "@/components/Navigation/BottomBar";
-import PageTitle from "@/components/Others/PageTitle";
-import SearchBar from "@/components/Input/SearchBar";
-import CategoriesContainer from "@/components/Others/CategoriesContainer";
-import Category from "@/components/Others/Category";
+import RightBar from "@/components/navigation/RightBar";
+import BottomBar from "@/components/navigation/BottomBar";
+import PageTitle from "@/components/others/PageTitle";
+import SearchBar from "@/components/input/SearchBar";
+import CategoriesContainer from "@/components/others/CategoriesContainer";
+import Category from "@/components/others/Category";
 
 import { Tooltip } from "antd";
 
@@ -38,9 +36,7 @@ const Explore = () => {
   return (
     <>
       <PageTitle title="NetVerse ~ Explore" />
-      <TopBar />
       <RightBar news={topNews} />
-      <LeftBar />
       <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">

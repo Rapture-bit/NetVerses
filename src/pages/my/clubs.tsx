@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import PageTitle from "@/components/Others/PageTitle";
-import TopBar from "@/components/Navigation/TopBar";
-import LeftBar from "@/components/Navigation/LeftBar";
-import RightBar from "@/components/Navigation/RightBar";
-import BottomBar from "@/components/Navigation/BottomBar";
+import PageTitle from "@/components/others/PageTitle";
+import RightBar from "@/components/navigation/RightBar";
+import BottomBar from "@/components/navigation/BottomBar";
 
 const Clubs = () => {
   const [topNews, setTopNews] = useState<object[]>([
@@ -27,8 +25,6 @@ const Clubs = () => {
   return (
     <>
       <PageTitle title="NetVerse ~ Clubs" />
-      <TopBar />
-      <LeftBar />
       <RightBar news={topNews} />
       <BottomBar />
       <div className="flex flex-col">

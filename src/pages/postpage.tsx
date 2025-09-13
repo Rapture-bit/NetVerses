@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import TopBar from "@/components/Navigation/TopBar";
-import LeftBar from "@/components/Navigation/LeftBar";
-import RightBar from "@/components/Navigation/RightBar";
-import BottomBar from "@/components/Navigation/BottomBar";
-import FocusedPost from "@/components/Post/FocusedPost";
+import RightBar from "@/components/navigation/RightBar";
+import BottomBar from "@/components/navigation/BottomBar";
+import FocusedPost from "@/components/post/FocusedPost";
 
-import PageTitle from "@/components/Others/PageTitle";
+import PageTitle from "@/components/others/PageTitle";
 
 const topNews = [
   {
@@ -34,8 +32,6 @@ export default function PostsPage() {
   return (
     <>
       <PageTitle title="NetVerse" />
-      <TopBar />
-      <LeftBar />
       <BottomBar />
       <RightBar news={topNews} />
       <div className="flex flex-col justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">

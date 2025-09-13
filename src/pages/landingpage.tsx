@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SignUpModal from "@/components/Modal/SignUp";
-import SignInModal from "@/components/Modal/SignIn";
-import FeatureList from "@/components/Others/FeatureList";
-import PageTitle from "@/components/Others/PageTitle";
+import SignUpModal from "@/components/modal/SignUp";
+import SignInModal from "@/components/modal/SignIn";
+import FeatureList from "@/components/others/FeatureList";
+import PageTitle from "@/components/others/PageTitle";
 
 export default function Page() {
   const [isSignUpVisible, setSignUpVisible] = useState<boolean>(false);

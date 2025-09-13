@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 
-import TopBar from "@/components/Navigation/TopBar";
-import SearchBar from "@/components/Input/SearchBar";
-import BottomBar from "@/components/Navigation/BottomBar";
-import FriendMessage from "@/components/Messages/FriendMessage";
-import TextArea from "@/components/Input/TextArea";
-import Options from "@/components/Others/Options";
+import SearchBar from "@/components/input/SearchBar";
+import BottomBar from "@/components/navigation/BottomBar";
+import FriendMessage from "@/components/messages/FriendMessage";
+import TextArea from "@/components/input/TextArea";
+import Options from "@/components/others/Options";
 
 import { Tooltip } from "antd";
 
-import PageTitle from "@/components/Others/PageTitle";
+import PageTitle from "@/components/others/PageTitle";
 
 function toggleBack() {
   if (window.history.length > 1) {
@@ -196,7 +195,6 @@ export default function Messages() {
   return (
     <>
       <PageTitle title="NetVerse ~ Messages" />
-      <TopBar />
       <BottomBar />
 
       <div className="flex flex-col gap-3 justify-start items-center w-full h-screen pt-24 bg-fixed bg-cover bg-center sm:px-9">

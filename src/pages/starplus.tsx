@@ -4,9 +4,8 @@ import { Tooltip } from "antd";
 import { Checkbox } from "antd";
 import type { CheckboxProps } from "antd";
 
-import TopBar from "@/components/Navigation/TopBar";
-import Footer from "@/components/Navigation/Footer";
-import PageTitle from "@/components/Others/PageTitle";
+import Footer from "@/components/navigation/Footer";
+import PageTitle from "@/components/others/PageTitle";
 
 export default function StarPlus() {
   const [selected, setSelected] = useState("monthly");
@@ -14,7 +13,6 @@ export default function StarPlus() {
   return (
     <div className="flex flex-col min-h-screen">
       <PageTitle title="NetVerse ~ StarPlus" />
-      <TopBar />
       <div className="relative flex-grow pt-20 md:pt-24 pb-20 md:pb-24 flex flex-col items-center justify-center text-center space-y-4 md:space-y-5 px-4 md:px-10">
         <div className="flex flex-col gap-2 justify-center items-center text-center">
           <span className="font-semibold break-words text-inherit text-6xl dark:text-white rubik">

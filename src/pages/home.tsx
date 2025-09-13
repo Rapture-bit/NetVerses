@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
-import TopBar from "@/components/Navigation/TopBar";
-import LeftBar from "@/components/Navigation/LeftBar";
-import RightBar from "@/components/Navigation/RightBar";
-import BottomBar from "@/components/Navigation/BottomBar";
-import Verse from "@/components/Post/Verse";
-import Post from "@/components/Post/Post";
-import News from "@/components/Post/News";
-import TodaySummary from "@/components/Others/TodaySummary";
-import FeedSelection from "@/components/Others/FeedSelection";
+import RightBar from "@/components/navigation/RightBar";
+import BottomBar from "@/components/navigation/BottomBar";
+import Verse from "@/components/post/Verse";
+import Post from "@/components/post/Post";
+import News from "@/components/post/News";
+import TodaySummary from "@/components/others/TodaySummary";
+import FeedSelection from "@/components/others/FeedSelection";
 import { useState } from "react";
 import type { MenuProps } from "antd/es/menu";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { Dropdown, Space, ConfigProvider } from "antd";
-import PageTitle from "@/components/Others/PageTitle";
+import PageTitle from "@/components/others/PageTitle";
 import { getCssVariable } from "@/utils/getCssVariable";
 
 export default function Home() {
@@ -334,9 +332,7 @@ export default function Home() {
   return (
     <>
       <PageTitle title="NetVerse ~ Home" />
-      <TopBar />
       <RightBar news={topNews} />
-      <LeftBar />
       <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">
