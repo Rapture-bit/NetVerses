@@ -23,6 +23,10 @@ const app = express();
 const secretKey = generateSecretKey(512);
 
 app.use(compression());
+app.use((req, res, next) => {
+  res.locals.nonce = crypto.randomBytes(16).toString("base64");
+  next();
+});
 
 app.use(
   cors({
@@ -40,10 +44,8 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'",
-          "'sha256-f/boWXmyki+qd/mtiJSdXw8lK1rRlRdg1vbMEqMFfyo='",
           "'sha256-N2vi+DkocM+iW/3yclKUZdJ1gW1wGfCwP8qahG/+7uI='",
-          "'sha256-15avjLv0LS3GByJL/ABbx6ORZdgtcWTCjlA8l0jmVwE='",
-          "'sha256-dgXnOzUQbx17mJCKdIh2jm05qedYPgHnq1eJZarkUuY='",
+          (req, res) => `'nonce-${res.locals.nonce}'`,
           "https://static.cloudflareinsights.com",
           "https://netverses.com:5173",
           "https://netverses.com",
@@ -95,8 +97,16 @@ app.use(
   }),
 );
 
+import fs from "fs";
+const indexPath = path.join(__dirname, "../dist", "index.html");
+let indexHtml = fs.readFileSync(indexPath, "utf-8");
+
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist", "index.html"));
+  const htmlWithNonce = indexHtml.replace(
+    /<script(?!.*nonce)(.*?)>/g,
+    `<script$1 nonce="${res.locals.nonce}">`,
+  );
+  res.send(htmlWithNonce);
 });
 
 app.use((err, req, res, next) => {
