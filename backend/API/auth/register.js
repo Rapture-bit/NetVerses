@@ -28,7 +28,7 @@ function validateDisplayName(displayName) {
     return {
       success: false,
       message:
-        "Display name must be between 4 and 30 characters long and contain only letters, numbers, spaces, underscores, dashes, periods, or apostrophes.",
+        "Display name must be 4-30 characters and may include letters, numbers, spaces, _, -, ., or '.",
     };
   }
   return { success: true };
@@ -110,8 +110,7 @@ export default async function (req, res) {
       if (tokenEntry) {
         return res.status(200).json({
           success: false,
-          message:
-            "Sorry, account registration is not permitted while a user is logged in.",
+          message: "Registration not allowed while logged in.",
         });
       }
     }
@@ -119,7 +118,7 @@ export default async function (req, res) {
     if (blacklistedCountries.has(countryCode)) {
       return res.status(403).json({
         success: false,
-        message: "Sorry, sign-ups from your region are currently restricted.",
+        message: "Sign-ups from your region are restricted.",
       });
     }
 
@@ -138,7 +137,7 @@ export default async function (req, res) {
     if (!password || !passwordconfirm) {
       return res.status(200).json({
         success: false,
-        message: "Both password and password confirmation are required.",
+        message: "Password and confirmation are required.",
       });
     }
 
@@ -173,7 +172,7 @@ export default async function (req, res) {
       return res.status(200).json({
         success: false,
         message:
-          "Password must be at least 8 characters long, include two lowercase letters, and one special character.",
+          "Password must be ≥8 characters, with 2 lowercase letters and 1 special character.",
       });
     }
 
@@ -182,7 +181,7 @@ export default async function (req, res) {
       return res.status(200).json({
         success: false,
         message:
-          "Username must be at least 4 characters long and contain only letters, numbers, underscores, or dashes.",
+          "Username must be ≥4 characters and contain only letters, numbers, _, or -.",
       });
     }
 
@@ -195,14 +194,14 @@ export default async function (req, res) {
     if (username.length > 20) {
       return res.status(200).json({
         success: false,
-        message: "The username must not exceed 20 characters.",
+        message: "Username must be ≤20 characters.",
       });
     }
 
     if (display_name.length > 30) {
       return res.status(200).json({
         success: false,
-        message: "The display name must not exceed 20 characters.",
+        message: "Display name must be ≤20 characters.",
       });
     }
 
@@ -228,7 +227,7 @@ export default async function (req, res) {
         return res.status(200).json({
           success: false,
           requestid,
-          message: "An account linked with this email already exists",
+          message: "An account with this email already exists.",
         });
       }
 
@@ -236,14 +235,14 @@ export default async function (req, res) {
         return res.status(200).json({
           success: false,
           requestid,
-          message: "An account linked with this email already exists",
+          message: "An account with this email already exists.",
         });
       }
 
       if (foundUserProfile) {
         return res.status(200).json({
           success: false,
-          message: "The username is already taken.",
+          message: "Username is already taken.",
         });
       }
 
@@ -253,21 +252,21 @@ export default async function (req, res) {
       ) {
         return res.status(200).json({
           success: false,
-          message: "The username is already taken.",
+          message: "Username is already taken.",
         });
       }
     } else {
       if (foundUser || foundTempUserEmail) {
         return res.status(200).json({
           success: false,
-          message: "An account linked with this email already exists.",
+          message: "An account with this email already exists.",
         });
       }
 
       if (foundTempUserUsername || foundUserProfile) {
         return res.status(200).json({
           success: false,
-          message: "The username is already taken.",
+          message: "Username is already taken.",
         });
       }
 
@@ -304,7 +303,7 @@ export default async function (req, res) {
           return res.status(200).json({
             success: false,
             message:
-              "Verification code has expired. Please start the registration process again or request a new code.",
+              "Verification code expired. Restart registration or request a new code.",
           });
         }
 
@@ -312,8 +311,7 @@ export default async function (req, res) {
         if (foundTempUserEmail.getDataValue("isLocked")) {
           return res.status(200).json({
             success: false,
-            message:
-              "Account is locked. Please try the registration process again.",
+            message: "Account locked. Please restart registration.",
           });
         }
       }
@@ -322,8 +320,7 @@ export default async function (req, res) {
     if (!requestid) {
       return res.status(200).json({
         success: false,
-        message:
-          "This account already exists, or a valid request ID has not been provided.",
+        message: "Account exists or request ID is missing.",
       });
     }
 
@@ -336,7 +333,7 @@ export default async function (req, res) {
         return res.status(200).json({
           success: false,
           message:
-            "The account you provided is not registered for verification. Please remove the 'requestId' field to start registration.",
+            "Account not registered. Remove 'requestId' to restart registration.",
         });
       }
 
@@ -352,7 +349,7 @@ export default async function (req, res) {
             return res.status(200).json({
               success: false,
               delayed: true,
-              message: `Please wait ${delayInSeconds - Math.floor(elapsedTime)} seconds before requesting a new code.`,
+              message: `Wait ${delayInSeconds - Math.floor(elapsedTime)}s before requesting a new code.`,
               requestID: generatedRequestID,
             });
           }
@@ -368,7 +365,7 @@ export default async function (req, res) {
           return res.status(200).json({
             success: true,
             message:
-              "A new verification code has been sent. Please provide the 'Code' field to verify your account.",
+              "Verification code sent. Provide the 'Code' field to verify.",
             requestID: generatedRequestID,
           });
         } else {
@@ -390,8 +387,7 @@ export default async function (req, res) {
         if (!username) {
           return res.status(200).json({
             success: false,
-            message:
-              "Please provide the 'Username' field along with the 'Code' field to complete registration.",
+            message: "Provide 'Username' and 'Code' to complete registration.",
             generatedRequestID,
           });
         }
@@ -401,7 +397,7 @@ export default async function (req, res) {
           return res.status(200).json({
             success: false,
             message:
-              "Invalid username. It must be at least 4 characters long and contain only letters, numbers, underscores, or dashes.",
+              "Invalid username. Must be ≥4 characters and use only letters, numbers, underscores, or dashes.",
             requestID: generatedRequestID,
           });
         }
@@ -452,7 +448,7 @@ export default async function (req, res) {
             success: true,
             verified: true,
             message:
-              "Your account has been successfully verified and created using the provided display name and username. Please be cautious that sharing your token with anyone may compromise the security of your account.",
+              "Account verified and created successfully. Keep your token secure.",
             token: secureToken,
           });
         } else {
