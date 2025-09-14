@@ -43,7 +43,7 @@ export default function DefaultLayout() {
       {isAuth && currentPage !== "/" && currentPage !== "/privacy" && (
         <RightBar news={topNews} />
       )}
-      <CookiesNotification visible={null} setIsOpen={null} />
+      <CookiesNotification showNotif={true} setNotifVisibility={null} />
 
       <Outlet />
     </>
