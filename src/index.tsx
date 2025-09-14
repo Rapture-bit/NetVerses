@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense, useLayoutEffect } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import "@/styles/tailwind.css";
 import "@/styles/theme.css";
@@ -18,18 +18,7 @@ import "@/fonts/jost.css";
 import Loading from "@/components/others/Loading";
 import ThemeProvider from "@/context/ThemeContext";
 import AuthProvider from "@/context/AuthContext";
-import DefaultLayout from "@/layouts/DefaultLayout";
-
-const LandingPage = React.lazy(() => import("@/pages/landingpage"));
-const ClubsPage = React.lazy(() => import("@/pages/my/clubs"));
-const PostsPage = React.lazy(() => import("@/pages/postpage"));
-const Home = React.lazy(() => import("@/pages/home"));
-const PageNotFound = React.lazy(() => import("@/pages/pagenotfound"));
-const PrivacyPage = React.lazy(() => import("@/pages/privacypolicy"));
-const Messages = React.lazy(() => import("@/pages/messages"));
-const StarPlus = React.lazy(() => import("@/pages/starplus"));
-const ProfilePage = React.lazy(() => import("@/pages/profilepage"));
-const ExplorePage = React.lazy(() => import("@/pages/explore"));
+import SubdomainDivider from "@/SubdomainDivider";
 
 document.addEventListener("keydown", (event) => {
   if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === "I") {
@@ -134,24 +123,7 @@ const App = () => {
     <ThemeProvider>
       <AuthProvider>
         <Suspense fallback={<Loading />}>
-          <Routes>
-            <Route element={<DefaultLayout />}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/starplus" element={<StarPlus />} />
-              <Route path="/privacy" element={<PrivacyPage />} />
-              <Route path="/:username/posts/:id" element={<PostsPage />} />
-              <Route path="/:username" element={<ProfilePage />} />
-              {isAuth && (
-                <Route path="/messages" element={<Messages />} />
-              )}: {<Route path="/messages" element={<PageNotFound />} />}
-              {isAuth && (
-                <Route path="/explore" element={<ExplorePage />} />
-              )}: {<Route path="/explore" element={<PageNotFound />} />}
-              {isAuth && <Route path="/my/*" element={<ClubsPage />} />}:{" "}
-              {<Route path="/my/*" element={<PageNotFound />} />}
-              <Route path="*" element={<PageNotFound />} />
-            </Route>
-          </Routes>
+          <SubdomainDivider isAuth={isAuth} />
         </Suspense>
       </AuthProvider>
     </ThemeProvider>
