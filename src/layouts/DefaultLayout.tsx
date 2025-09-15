@@ -9,24 +9,19 @@ import RightBar from "@/components/navigation/RightBar";
 
 import { AuthContext } from "@/context/AuthContext";
 
-const GA_TRACKING_ID = "G-EDV3RGP46V";
+const GA_TRACKING_ID = "G-EDV3RGP46V"; // [!] GA_TRACKING_ID
 const loadGA = () => {
   if (document.querySelector(`script[src*="${GA_TRACKING_ID}"]`)) return;
 
   const script = document.createElement("script");
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
   script.async = true;
+  script.type = "text/javascript";
   document.body.appendChild(script);
 
   const loadingScript = document.createElement("script");
-  loadingScript.textContent = `
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag("js", new Date());
-  gtag("config", "G-EDV3RGP46V");
-`;
+  loadingScript.src = "https://assets.netverses.com/scripts/ga.js";
+  script.type = "text/javascript";
   document.body.appendChild(loadingScript);
 };
 
