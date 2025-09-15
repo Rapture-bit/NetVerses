@@ -30,7 +30,11 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: ["https://netverses.com", "https://assets.netverses.com"],
+    origin: [
+      "https://netverses.com",
+      "https://assets.netverses.com",
+      "https://help.netverses.com",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

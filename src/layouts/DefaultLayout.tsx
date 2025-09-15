@@ -9,6 +9,27 @@ import RightBar from "@/components/navigation/RightBar";
 
 import { AuthContext } from "@/context/AuthContext";
 
+const GA_TRACKING_ID = "G-EDV3RGP46V";
+const loadGA = () => {
+  if (document.querySelector(`script[src*="${GA_TRACKING_ID}"]`)) return;
+
+  const script = document.createElement("script");
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
+  script.async = true;
+  document.body.appendChild(script);
+
+  const loadingScript = document.createElement("script");
+  loadingScript.textContent = `
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "G-EDV3RGP46V");
+`;
+  document.body.appendChild(loadingScript);
+};
+
 export default function DefaultLayout() {
   const { isAuth } = useContext(AuthContext);
   const [currentPage, setCurrentPage] = useState<string>("");
@@ -42,6 +63,7 @@ export default function DefaultLayout() {
   useEffect(() => {
     if (consentValue) {
       Cookies.set("consentToCookies", "true", { expires: 365, path: "/" });
+      loadGA();
     }
   }, [consentValue]);
 
@@ -49,6 +71,7 @@ export default function DefaultLayout() {
     if (!Cookies.get("consentToCookies")) {
       setCookiesVisibility(true);
     } else {
+      loadGA();
       setCookiesVisibility(false);
     }
   }, []);

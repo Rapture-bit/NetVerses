@@ -3,7 +3,7 @@
 User-agent: Googlebot
 
 User-Agent: Google-Extended
-Disallow: *
+Disallow:
 
 User-Agent: FacebookBot
 Disallow: *
@@ -15,10 +15,10 @@ User-agent: Discordbot
 Disallow: *
 
 User-agent: Bingbot
-Disallow: *
+Disallow:
 
 User-agent: Slurp
-Disallow: *
+Disallow:
 
 User-agent: *
 Disallow: /

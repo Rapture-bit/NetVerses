@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 interface CookiesNotificationProps {
   showNotif: boolean;
@@ -15,6 +15,11 @@ export default function CookiesNotification({
   setAgreedWithCookies,
 }: CookiesNotificationProps) {
   const [expand, SetExpand] = useState<boolean | null>(null);
+
+  const consentToCookies = () => {
+    setNotifVisibility(false);
+    setAgreedWithCookies(true);
+  };
 
   return (
     <AnimatePresence>
@@ -72,10 +77,7 @@ export default function CookiesNotification({
 
             <div className="flex items-center justify-end w-full max-w-md mx-auto">
               <button
-                onClick={() => {
-                  setNotifVisibility(false);
-                  setAgreedWithCookies(true);
-                }}
+                onClick={consentToCookies}
                 className="bg-violet-900 font-medium text-white py-2 sm:px-10 px-5 rounded-full shadow-sm hover:bg-opacity-85 transition duration-300 text-sm"
               >
                 Got it
