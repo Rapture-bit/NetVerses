@@ -52,6 +52,7 @@ app.use(
           (req, res) => `'nonce-${res.locals.nonce}'`,
           "https://static.cloudflareinsights.com",
           "https://netverses.com:5173",
+          "https://assets.netverses.com",
           "https://netverses.com",
           "https://www.googletagmanager.com",
           "https://www.google-analytics.com",
