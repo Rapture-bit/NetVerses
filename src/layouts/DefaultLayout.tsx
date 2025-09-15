@@ -1,5 +1,6 @@
-import React, { useState, useLayoutEffect, useContext } from "react";
+import React, { useState, useLayoutEffect, useEffect, useContext } from "react";
 import { Outlet } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import CookiesNotification from "@/components/modal/BottomMenu/CookiesNotification";
 import TopBar from "@/components/navigation/TopBar";
@@ -11,6 +12,10 @@ import { AuthContext } from "@/context/AuthContext";
 export default function DefaultLayout() {
   const { isAuth } = useContext(AuthContext);
   const [currentPage, setCurrentPage] = useState<string>("");
+  const [cookiesVisibility, setCookiesVisibility] = useState<boolean | null>(
+    null,
+  );
+  const [consentValue, setConsentValue] = useState<boolean>(false);
 
   const [topNews, setTopNews] = useState<object[]>([
     {
@@ -34,6 +39,20 @@ export default function DefaultLayout() {
     setCurrentPage(window.location.pathname);
   }, []);
 
+  useEffect(() => {
+    if (consentValue) {
+      Cookies.set("consentToCookies", "true", { expires: 365, path: "/" });
+    }
+  }, [consentValue]);
+
+  useEffect(() => {
+    if (!Cookies.get("consentToCookies")) {
+      setCookiesVisibility(true);
+    } else {
+      setCookiesVisibility(false);
+    }
+  }, []);
+
   return (
     <>
       {currentPage !== "/" && <TopBar />}
@@ -43,7 +62,14 @@ export default function DefaultLayout() {
       {isAuth && currentPage !== "/" && currentPage !== "/privacy" && (
         <RightBar news={topNews} />
       )}
-      <CookiesNotification showNotif={true} setNotifVisibility={null} />
+      {currentPage !== "/privacy" && (
+        <CookiesNotification
+          showNotif={cookiesVisibility}
+          agreedWithCookies={consentValue}
+          setAgreedWithCookies={setConsentValue}
+          setNotifVisibility={setCookiesVisibility}
+        />
+      )}
 
       <Outlet />
     </>

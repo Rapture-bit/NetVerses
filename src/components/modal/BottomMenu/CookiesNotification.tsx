@@ -1,22 +1,32 @@
-import React, { useState, useContext } from "react";
-import { ThemeContext } from "@/context/ThemeContext";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
 
 interface CookiesNotificationProps {
   showNotif: boolean;
   setNotifVisibility: Function;
+  agreedWithCookies: boolean;
+  setAgreedWithCookies: Function;
 }
 
 export default function CookiesNotification({
   showNotif,
   setNotifVisibility,
+  agreedWithCookies,
+  setAgreedWithCookies,
 }: CookiesNotificationProps) {
-  const { colorProperties } = useContext(ThemeContext);
   const [expand, SetExpand] = useState<boolean | null>(null);
 
   return (
-    <>
+    <AnimatePresence>
       {showNotif && (
-        <div className="fixed bottom-0 w-full flex justify-center items-center p-4 z-[9999]">
+        <motion.div
+          key="cookie-notif"
+          className="fixed bottom-0 w-full flex justify-center items-center p-4 z-[9999]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+        >
           <div className="darkerBackgroundColor w-full max-w-md p-4 rounded-xl shadow-lg flex flex-col space-y-1">
             <div className="flex items-center justify-between w-full max-w-md mx-auto px-2">
               <span className="flex-1 text-center text-base md:text-lg font-medium select-text">
@@ -62,15 +72,18 @@ export default function CookiesNotification({
 
             <div className="flex items-center justify-end w-full max-w-md mx-auto">
               <button
-                onClick={() => setNotifVisibility(false)}
+                onClick={() => {
+                  setNotifVisibility(false);
+                  setAgreedWithCookies(true);
+                }}
                 className="bg-violet-900 font-medium text-white py-2 sm:px-10 px-5 rounded-full shadow-sm hover:bg-opacity-85 transition duration-300 text-sm"
               >
                 Got it
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 }
