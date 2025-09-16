@@ -26,13 +26,13 @@ export default function CookiesNotification({
       {showNotif && (
         <motion.div
           key="cookie-notif"
-          className="fixed bottom-0 w-full flex justify-center items-center p-4 z-[9999]"
+          className="fixed bottom-0 w-full flex justify-center items-center p-4 z-[9999] pointer-events-none"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
         >
-          <div className="darkerBackgroundColor w-full max-w-md p-4 rounded-xl shadow-lg flex flex-col space-y-1">
+          <div className="darkerBackgroundColor w-full max-w-md p-4 rounded-xl shadow-lg flex flex-col space-y-1 pointer-events-auto">
             <div className="flex items-center justify-between w-full max-w-md mx-auto px-2">
               <span className="flex-1 text-center text-base md:text-lg font-medium select-text">
                 <span className="text-black dark:text-gray-200">Net</span>

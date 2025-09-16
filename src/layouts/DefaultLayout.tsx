@@ -60,7 +60,11 @@ export default function DefaultLayout() {
   }, []);
 
   useEffect(() => {
-    setNonce((document as any).querySelector(`meta[name="csp-nonce"]`).content);
+    if ((document as any).querySelector(`meta[name="csp-nonce"]`)) {
+      setNonce(
+        (document as any).querySelector(`meta[name="csp-nonce"]`).content,
+      );
+    }
   }, []);
 
   useEffect(() => {
