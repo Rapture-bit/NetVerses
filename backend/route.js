@@ -57,7 +57,7 @@ const route = {
       functionFile: "../API/auth/status.js",
       authRequired: false,
       rateLimit: {
-        max: 20,
+        max: 100000000000,
       },
     },
     {

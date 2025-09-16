@@ -10,20 +10,6 @@ import RightBar from "@/components/navigation/RightBar";
 import { AuthContext } from "@/context/AuthContext";
 
 const GA_TRACKING_ID = "G-EDV3RGP46V"; // [!] GA_TRACKING_ID
-const loadGA = () => {
-  if (document.querySelector(`script[src*="${GA_TRACKING_ID}"]`)) return;
-
-  const script = document.createElement("script");
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
-  script.async = true;
-  script.type = "text/javascript";
-  document.body.appendChild(script);
-
-  const loadingScript = document.createElement("script");
-  loadingScript.src = "https://assets.netverses.com/scripts/ga.js";
-  script.type = "text/javascript";
-  document.body.appendChild(loadingScript);
-};
 
 export default function DefaultLayout() {
   const { isAuth } = useContext(AuthContext);
@@ -32,6 +18,7 @@ export default function DefaultLayout() {
     null,
   );
   const [consentValue, setConsentValue] = useState<boolean>(false);
+  const [nonce, setNonce] = useState<string | null>(null);
 
   const [topNews, setTopNews] = useState<object[]>([
     {
@@ -51,25 +38,50 @@ export default function DefaultLayout() {
     },
   ]);
 
+  const loadGA = () => {
+    if (!nonce) return;
+    if (document.querySelector(`script[src*="${GA_TRACKING_ID}"]`)) return;
+    const script = document.createElement("script");
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
+    script.setAttribute("nonce", nonce);
+    script.async = true;
+    script.type = "text/javascript";
+    document.body.appendChild(script);
+
+    const loadingScript = document.createElement("script");
+    loadingScript.src = "https://assets.netverses.com/scripts/ga.js";
+    loadingScript.setAttribute("nonce", nonce);
+    loadingScript.type = "text/javascript";
+    document.body.appendChild(loadingScript);
+  };
+
   useLayoutEffect(() => {
     setCurrentPage(window.location.pathname);
   }, []);
 
   useEffect(() => {
+    setNonce((document as any).querySelector(`meta[name="csp-nonce"]`).content);
+  }, []);
+
+  useEffect(() => {
     if (consentValue) {
-      Cookies.set("consentToCookies", "true", { expires: 365, path: "/" });
-      loadGA();
+      if (nonce) {
+        Cookies.set("consentToCookies", "true", { expires: 365, path: "/" });
+        loadGA();
+      }
     }
-  }, [consentValue]);
+  }, [consentValue, nonce]);
 
   useEffect(() => {
     if (!Cookies.get("consentToCookies")) {
       setCookiesVisibility(true);
     } else {
-      loadGA();
+      if (nonce) {
+        loadGA();
+      }
       setCookiesVisibility(false);
     }
-  }, []);
+  }, [nonce]);
 
   return (
     <>

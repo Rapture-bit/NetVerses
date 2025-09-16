@@ -96,20 +96,26 @@ app.use(cookieParser(secretKey));
 app.use(apiMiddleware);
 app.use(assetsMiddleware);
 
+import fs from "fs";
+app.use("/assets", express.static(path.join(__dirname, "../dist/assets")));
+
 app.use(
   express.static(path.join(__dirname, "../dist"), {
-    maxAge: "1y",
+    index: false,
   }),
 );
 
-import fs from "fs";
 const indexPath = path.join(__dirname, "../dist", "index.html");
 let indexHtml = fs.readFileSync(indexPath, "utf-8");
 
-app.get("*", (req, res) => {
+app.get("*", (req, res, next) => {
+  if (/\.(js|css|png|jpg|svg|map|json)$/i.test(req.path)) {
+    return next();
+  }
+
   const htmlWithNonce = indexHtml.replace(
-    /<script(?!.*nonce)(.*?)>/g,
-    `<script$1 nonce="${res.locals.nonce}">`,
+    "</head>",
+    `<meta name="csp-nonce" content="${res.locals.nonce}"></head>`,
   );
   res.send(htmlWithNonce);
 });

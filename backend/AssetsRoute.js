@@ -6,9 +6,8 @@ const AssetsRoute = [
     filePath: "/images/default/placeholder.jpg",
   },
   {
-    name: "Google Analytics Script",
+    urlPath: "scripts/ga.js",
     type: "server",
-    urlPath: "/scripts/ga.js",
     filePath: "/scripts/ga.js",
   },
 ];
