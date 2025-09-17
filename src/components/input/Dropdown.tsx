@@ -24,7 +24,8 @@ export default function Dropdown({
   return (
     <button className={`text-${textSize} space-x-1`}>
       <span className={`text-${textSize}`}>{selectedOption}</span>
-      <UpOutlined />
+      {openSide == "up" && <UpOutlined />}
+      {openSide == "down" && <DownOutlined />}
     </button>
   );
 }

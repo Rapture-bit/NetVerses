@@ -83,7 +83,7 @@ export default function LocaleMenu() {
         )}
       </div>
       {smallDevice && (
-        <div className="bottom-0 mt-10">
+        <div className="">
           <Dropdown
             primaryOption="Select Language"
             contentArray={dropdownLocales}

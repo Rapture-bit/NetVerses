@@ -397,13 +397,23 @@ export default async function (req, res) {
 
         if (foundTempUser2.getDataValue("OTP") === code) {
           const hashedPassword = await hashPassword(password);
+          const creationDate = new Date();
 
           await User.create({
             email,
             username,
             password: hashedPassword,
-            createdAt: new Date(),
+            createdAt: creationDate,
           });
+
+          const user = await User.findOne({
+            where: {
+              email: email,
+              username: username,
+              createdAt: creationDate,
+            },
+          });
+          const userId = user.getDataValue("id");
 
           await UserProfile.create({
             id: userId,
@@ -417,7 +427,7 @@ export default async function (req, res) {
 
           await UserToken.create({
             token: secureToken,
-            userId,
+            userId: userId,
             expiresAt,
           });
 
