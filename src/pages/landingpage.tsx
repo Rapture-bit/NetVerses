@@ -3,6 +3,7 @@ import SignUpModal from "@/components/modal/SignUp";
 import SignInModal from "@/components/modal/SignIn";
 import FeatureList from "@/components/others/FeatureList";
 import PageTitle from "@/components/others/PageTitle";
+import LocaleMenu from "@/components/modal/BottomMenu/LocaleMenu";
 
 export default function Page() {
   const [isSignUpVisible, setSignUpVisible] = useState<boolean>(false);
@@ -81,6 +82,7 @@ export default function Page() {
         </div>
 
         <FeatureList />
+        <LocaleMenu />
       </div>
     </>
   );
