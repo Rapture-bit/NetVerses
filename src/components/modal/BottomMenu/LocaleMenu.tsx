@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import Dropdown from "@/components/input/Dropdown";
 
 export default function LocaleMenu() {
@@ -22,12 +22,18 @@ export default function LocaleMenu() {
   const [dropdownLocales, setDropdownLocales] = useState<any[]>([
     "English",
     "French",
+    "Arabic",
+    "Spanish",
+    "Danish",
+    "German",
+    "Chinese",
+    "Italiano",
+    "Darija ",
   ]);
 
   const [maxLocales, setMaxLocales] = useState<number>(availableLocales.length);
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
   const [smallDevice, setSmallDevice] = useState<boolean>(false);
-  // const [screenHeight, setScreenHeight] = useState<number>(window.innerHeight);
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,7 +45,7 @@ export default function LocaleMenu() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (screenWidth >= 1024 && screenWidth < 1125) {
       setMaxLocales(8);
       setSmallDevice(false);
