@@ -40,7 +40,7 @@ export default function SubdomainDivider({ isAuth }) {
       ) : (
         <Routes>
           <Route element={<DefaultLayout />}>
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/" element={isAuth ? <Home /> : <LandingPage />} />
             <Route path="/starplus" element={<StarPlus />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/:username/posts/:id" element={<PostsPage />} />

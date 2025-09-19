@@ -89,13 +89,10 @@ export default function DefaultLayout() {
 
   return (
     <>
-      {currentPage !== "/" && <TopBar />}
-      {isAuth && currentPage !== "/" && currentPage !== "/privacy" && (
-        <LeftBar />
-      )}
-      {isAuth && currentPage !== "/" && currentPage !== "/privacy" && (
-        <RightBar news={topNews} />
-      )}
+      {isAuth && <TopBar />}
+      {!isAuth && currentPage !== "/" && <TopBar />}
+      {isAuth && currentPage !== "/privacy" && <LeftBar />}
+      {isAuth && currentPage !== "/privacy" && <RightBar news={topNews} />}
       {currentPage !== "/privacy" && (
         <CookiesNotification
           showNotif={cookiesVisibility}
@@ -104,7 +101,6 @@ export default function DefaultLayout() {
           setNotifVisibility={setCookiesVisibility}
         />
       )}
-
       <Outlet />
     </>
   );

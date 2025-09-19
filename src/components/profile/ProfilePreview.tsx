@@ -147,22 +147,22 @@ const ProfilePreview = ({ username }) => {
           <div className="flex flex-row gap-5">
             {[
               {
-                label: "followers",
+                label: "Followers",
                 count: followers,
                 link: self ? "/my/followers" : `/${username}/followers`,
               },
               {
-                label: "following",
+                label: "Following",
                 count: following,
                 link: self ? "/my/following" : `/${username}/following`,
               },
               {
-                label: "achievements",
+                label: "Achievements",
                 count: achievements,
                 link: self ? "/my/achievements" : `/${username}/achievements`,
               },
               {
-                label: "reputation",
+                label: "Reputation",
                 count: reputation,
                 link: self ? "/my/reputation" : `/${username}/reputation`,
               },
