@@ -1,10 +1,21 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import Dropdown from "@/components/input/Dropdown";
+import Cookies from "js-cookie";
 
 export default function LocaleMenu() {
-  const [currentLocale, setCurrentLocale] = useState<string>("en-US"); // determined by region or cookies
-  const [currentLang, setCurrentLang] = useState<string>("English"); // determined by region or cookies
-  const [availableLocales] = useState<any[]>([
+  const [currentLocale, setCurrentLocale] = useState<string>("en-US");
+  const [currentLang, setCurrentLang] = useState<string>("English");
+  const [clearDropdown, setClearDropdown] = useState<boolean>(undefined);
+  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
+  const [smallDevice, setSmallDevice] = useState<boolean>(
+    window.innerWidth <= 620,
+  );
+  const [primaryOption, setPrimaryOption] = useState<string>("Open");
+  const [secondPrimaryOption, setSecondPrimaryOption] =
+    useState<string>("Choose Language");
+
+  const maxLocales = 9;
+  const availableLocales = [
     { content: "English", locale: "en-US" },
     { content: "ⵜⴰⵎⴰⵣⵉⵖⵜ", locale: "tzm-Latn-DZ" },
     { content: "中文", locale: "zh-CN" },
@@ -35,13 +46,29 @@ export default function LocaleMenu() {
     { content: "Swahili", locale: "sw-KE" },
     { content: "Română", locale: "ro-RO" },
     { content: "Filipino", locale: "fil-PH" },
-  ]);
+  ];
+  const dropdownLocales = availableLocales.slice(maxLocales);
 
-  const [dropdownLocales, setDropdownLocales] = useState<any[]>([]);
-  const [maxLocales, setMaxLocales] = useState<number>(9); // Always maximum 9
-  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
-  const [smallDevice, setSmallDevice] = useState<boolean>(false);
-  const [clearDropdown, setClearDropdown] = useState<boolean>(false);
+  const forceDropdownContent = (isReset: boolean, content?: string) => {
+    if (!isReset) {
+      setPrimaryOption(content);
+      setSecondPrimaryOption(content);
+    } else {
+      setPrimaryOption("Open");
+      setSecondPrimaryOption("Choose Language");
+    }
+    setClearDropdown(false);
+    setTimeout(() => {
+      setClearDropdown(undefined);
+    }, 2 * 1000);
+  };
+
+  const getLangFromLocale = (locale: string) =>
+    availableLocales.find((item) => item.locale === locale)?.content ||
+    "English";
+
+  const getLocaleFromLang = (lang: string) =>
+    availableLocales.find((item) => item.content === lang)?.locale || "en-US";
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
@@ -49,28 +76,44 @@ export default function LocaleMenu() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setSmallDevice(screenWidth <= 620);
   }, [screenWidth]);
 
   useEffect(() => {
-    setDropdownLocales(availableLocales.slice(maxLocales));
-  }, [availableLocales, maxLocales]);
+    const cookieLocale = Cookies.get("locale") || "en-US";
+    setCurrentLocale(cookieLocale);
+    setCurrentLang(getLangFromLocale(cookieLocale));
+  }, []);
 
   useEffect(() => {
-    const match = availableLocales.find(
-      (item) => item.locale === currentLocale,
-    );
-    if (match) setCurrentLang(match.content);
-  }, [currentLocale, availableLocales]);
+    const lang = getLangFromLocale(currentLocale);
+    if (currentLang !== lang) setCurrentLang(lang);
+    Cookies.set("locale", currentLocale, { expires: 365, path: "/" });
+  }, [currentLocale]);
 
   useEffect(() => {
-    const match = availableLocales.find((item) => item.content === currentLang);
-    if (match) setCurrentLocale(match.locale);
+    const locale = getLocaleFromLang(currentLang);
+    if (locale && currentLocale !== locale) setCurrentLocale(locale);
   }, [currentLang]);
 
+  useLayoutEffect(() => {
+    const cookieLocale = Cookies.get("locale") || "en-US";
+    const selectedDropdownOption = dropdownLocales.find(
+      (item) => item.locale === cookieLocale,
+    );
+    if (selectedDropdownOption) {
+      forceDropdownContent(false, selectedDropdownOption.content);
+    }
+  }, []);
+
   useEffect(() => {
-    console.log(currentLocale);
+    const selectedDropdownOption = dropdownLocales.find(
+      (item) => item.locale === currentLocale,
+    );
+    if (primaryOption != "Open" && !selectedDropdownOption) {
+      forceDropdownContent(true);
+    }
   }, [currentLocale]);
 
   return (
@@ -98,22 +141,21 @@ export default function LocaleMenu() {
           <Dropdown
             setOption={setCurrentLang}
             currentOption={currentLang}
-            primaryOption="Open"
-            contentArray={dropdownLocales.map((loc) => loc.content)}
             clearTrigger={clearDropdown}
+            primaryOption={primaryOption}
+            contentArray={dropdownLocales.map((loc) => loc.content)}
             size="sm"
             openSide="up"
           />
         )}
       </div>
-
       {smallDevice && dropdownLocales.length > 0 && (
         <Dropdown
-          primaryOption="Choose Language"
+          primaryOption={secondPrimaryOption}
           currentOption={currentLang}
           contentArray={dropdownLocales.map((loc) => loc.content)}
-          setOption={setCurrentLang}
           clearTrigger={clearDropdown}
+          setOption={setCurrentLang}
           size="sm"
           openSide="up"
         />

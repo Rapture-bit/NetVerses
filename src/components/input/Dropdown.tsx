@@ -65,9 +65,11 @@ export default function Dropdown({
   const toggleDropdown = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-
+      const viewportHeight = window.visualViewport
+        ? window.visualViewport.height
+        : window.innerHeight;
       const spaceAbove = rect.top;
-      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceBelow = viewportHeight - rect.bottom;
 
       setPosition({
         left: rect.left + window.scrollX,
@@ -83,9 +85,12 @@ export default function Dropdown({
     const handleResize = () => {
       if (buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
+        const viewportHeight = window.visualViewport
+          ? window.visualViewport.height
+          : window.innerHeight;
 
         const spaceAbove = rect.top;
-        const spaceBelow = window.innerHeight - rect.bottom;
+        const spaceBelow = viewportHeight - rect.bottom;
 
         setPosition({
           left: rect.left + window.scrollX,
@@ -134,7 +139,7 @@ export default function Dropdown({
             id="dropdown-menu"
             key="dropdown-menu"
             ref={menuRef}
-            className={`fixed overflow-y-auto border-[0.1px] backgroundColor dark:border-[#313131] border-[#a8a8a8] text-sm flex justify-center items-center p-3.5 rounded-lg z-[9999]`}
+            className={`fixed border-[0.1px] backgroundColor dark:border-[#313131] border-[#a8a8a8] text-sm flex justify-center items-center rounded-lg z-[9999]`}
             initial={{ opacity: 0, y: openSide === "up" ? 10 : -10 }}
             animate={{ opacity: 1, y: 0 }}
             style={{
@@ -147,16 +152,18 @@ export default function Dropdown({
                   ? `calc(${position.top}px + 25px)`
                   : undefined,
               left: position.left - 38,
-              maxHeight:
-                openSide === "up"
-                  ? `${position.spaceAbove - 10}px`
-                  : `${position.spaceBelow - 10}px`,
             }}
             exit={{ opacity: 0, y: openSide === "up" ? 10 : -10 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <div
-              className={`justify-center space-y-1.5 items-center flex flex-col`}
+              className={`flex flex-col space-y-1 p-3 overflow-y-auto`}
+              style={{
+                maxHeight:
+                  openSide === "up"
+                    ? `${position.spaceAbove - 10}px`
+                    : `${position.spaceBelow - 10}px`,
+              }}
             >
               {contentArray.map((content, index) => {
                 return (

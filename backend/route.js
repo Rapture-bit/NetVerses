@@ -90,6 +90,16 @@ const route = {
         max: 50,
       },
     },
+    {
+      name: "Translate Content",
+      path: "/services/translate",
+      allowedMethods: ["GET"],
+      functionFile: "../API/services/translate.js",
+      authRequired: false,
+      rateLimit: {
+        max: 10000000000000,
+      },
+    },
   ],
   Default: [],
 };
