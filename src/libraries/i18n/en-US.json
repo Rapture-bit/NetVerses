@@ -1,0 +1,49 @@
+{
+  "general": {
+    "RegisterBtn": "Register",
+    "SignInBtn": "Sign In",
+    "andLabel": "and",
+    "tosLabel": "Terms of Service",
+    "privacyLabel": "Privacy Policy"
+  },
+  "welcomePage": {
+    "title": "Welcome to NetVerse",
+    "quote": "“Transforming the way you discover and engage with news.” — CEO of NetVerse",
+    "description": "NetVerse is your new platform for sharing and discovering news. Whether you're a journalist, blogger, or simply interested in staying updated, you can post and access news for free. Get real-time updates and be informed about breaking news as it happens.",
+    "termsAgreement": "By continuing, you agree to our"
+  },
+  "features": {
+    "contentAgeVerification": {
+      "title": "Content Age Verification",
+      "description": "Keep it safe and secure! NSFW content is locked behind 18+ ID verification, ensuring it stays out of reach for minors."
+    },
+    "advancedPostPrivacy": {
+      "title": "Advanced Post Privacy",
+      "description": "Choose your audience! Set your posts to be visible only to followers, custom clubs, or share them with the public."
+    },
+    "livePostTranslation": {
+      "title": "Live Post Translation",
+      "description": "Automatically translate posts into any language of your choice and connect with a global audience effortlessly."
+    },
+    "summarizeButton": {
+      "title": "Summarize Button",
+      "description": "Stay informed anytime, anywhere! Get a quick summary of today's or even yesterday's news, so you're always up-to-date even offline!"
+    },
+    "ephemeralPosts": {
+      "title": "Ephemeral Posts",
+      "description": "Set it and forget it! With auto-delete, your posts vanish after your chosen time."
+    },
+    "postOwnershipTransfer": {
+      "title": "Post Ownership Transfer",
+      "description": "Seamlessly transfer your post's ownership to another user, giving them the option to accept or decline securely!"
+    },
+    "noSpy": {
+      "title": "NoSpy",
+      "description": "Unlock ultimate privacy with the NoSpy feature, your secret weapon against spies. Keep your profile secure and invisible to strangers, so you can connect confidently and stay in control!"
+    },
+    "shareNews": {
+      "title": "Share News",
+      "description": "Spread the word fast! Share news with varying emergency levels quickly and efficiently, ensuring the right information reaches the right people."
+    }
+  }
+}

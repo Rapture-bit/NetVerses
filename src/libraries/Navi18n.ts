@@ -115,7 +115,7 @@ export default class Navi18n {
     date: Date | string | number,
     options?: { locale?: string; region?: string },
   ): string {
-    return "Placeholder";
+    return "Placeholder 1";
   }
 
   t(
@@ -128,7 +128,7 @@ export default class Navi18n {
       context?: string;
     },
   ): string {
-    return "Placeholder";
+    return "Placeholder 2";
   }
 }
 

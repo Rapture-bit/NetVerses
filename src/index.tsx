@@ -20,6 +20,8 @@ import ThemeProvider from "@/context/ThemeContext";
 import AuthProvider from "@/context/AuthContext";
 import SubdomainDivider from "@/SubdomainDivider";
 
+import "@/libraries/i18n/i18n";
+
 document.addEventListener("keydown", (event) => {
   if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === "I") {
     event.preventDefault();

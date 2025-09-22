@@ -16,3 +16,5 @@ def translate_text(content, from_code, to_code):
     
     translatedText = argostranslate.translate.translate(content, from_code, to_code)
     return translatedText
+
+print(translate_text("Hello!", "en", "ar"))
