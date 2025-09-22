@@ -19,6 +19,6 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["node_modules/vite/client.d.ts", "**/*"],
+  "include": ["node_modules/vite/client.d.ts", "**/*", "src/context/.tsx"],
   "exclude": ["node_modules", "dist", "**/*.js"]
 }
