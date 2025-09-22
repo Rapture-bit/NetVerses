@@ -3,7 +3,9 @@ import Dropdown from "@/components/input/Dropdown";
 import Cookies from "js-cookie";
 
 export default function LocaleMenu() {
-  const [currentLocale, setCurrentLocale] = useState<string>("en-US");
+  const defaultLocale = "en-US";
+  const defaultMaxLocales = 9;
+  const [currentLocale, setCurrentLocale] = useState<string>(defaultLocale);
   const [currentLang, setCurrentLang] = useState<string>("English");
   const [clearDropdown, setClearDropdown] = useState<boolean>(undefined);
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
@@ -13,8 +15,8 @@ export default function LocaleMenu() {
   const [primaryOption, setPrimaryOption] = useState<string>("Open");
   const [secondPrimaryOption, setSecondPrimaryOption] =
     useState<string>("Choose Language");
+  const [maxLocales, setMaxLocales] = useState<number>(defaultMaxLocales);
 
-  const maxLocales = 9;
   const availableLocales = [
     { content: "English", locale: "en-US" },
     { content: "ⵜⴰⵎⴰⵣⵉⵖⵜ", locale: "tzm-Latn-DZ" },
@@ -47,28 +49,23 @@ export default function LocaleMenu() {
     { content: "Română", locale: "ro-RO" },
     { content: "Filipino", locale: "fil-PH" },
   ];
-  const dropdownLocales = availableLocales.slice(maxLocales);
 
-  const forceDropdownContent = (isReset: boolean, content?: string) => {
-    if (!isReset) {
-      setPrimaryOption(content);
-      setSecondPrimaryOption(content);
-    } else {
-      setPrimaryOption("Open");
-      setSecondPrimaryOption("Choose Language");
-    }
-    setClearDropdown(false);
-    setTimeout(() => {
-      setClearDropdown(undefined);
-    }, 2 * 1000);
-  };
+  const dropdownLocales = availableLocales.slice(maxLocales);
 
   const getLangFromLocale = (locale: string) =>
     availableLocales.find((item) => item.locale === locale)?.content ||
     "English";
 
   const getLocaleFromLang = (lang: string) =>
-    availableLocales.find((item) => item.content === lang)?.locale || "en-US";
+    availableLocales.find((item) => item.content === lang)?.locale ||
+    defaultLocale;
+
+  const forceDropdownContent = (isReset: boolean, content?: string) => {
+    setPrimaryOption(isReset ? "Open" : content);
+    setSecondPrimaryOption(isReset ? "Choose Language" : content);
+    setClearDropdown(false);
+    setTimeout(() => setClearDropdown(undefined), 500); // faster reset for smoother UX
+  };
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
@@ -78,10 +75,11 @@ export default function LocaleMenu() {
 
   useEffect(() => {
     setSmallDevice(screenWidth <= 620);
+    setMaxLocales(screenWidth <= 620 ? 0 : defaultMaxLocales);
   }, [screenWidth]);
 
   useEffect(() => {
-    const cookieLocale = Cookies.get("locale") || "en-US";
+    const cookieLocale = Cookies.get("locale") || defaultLocale;
     setCurrentLocale(cookieLocale);
     setCurrentLang(getLangFromLocale(cookieLocale));
   }, []);
@@ -98,20 +96,18 @@ export default function LocaleMenu() {
   }, [currentLang]);
 
   useLayoutEffect(() => {
-    const cookieLocale = Cookies.get("locale") || "en-US";
-    const selectedDropdownOption = dropdownLocales.find(
+    const cookieLocale = Cookies.get("locale") || defaultLocale;
+    const foundLocale = dropdownLocales.find(
       (item) => item.locale === cookieLocale,
     );
-    if (selectedDropdownOption) {
-      forceDropdownContent(false, selectedDropdownOption.content);
-    }
-  }, []);
+    forceDropdownContent(!foundLocale, foundLocale?.content);
+  }, [dropdownLocales, screenWidth]);
 
   useEffect(() => {
     const selectedDropdownOption = dropdownLocales.find(
       (item) => item.locale === currentLocale,
     );
-    if (primaryOption != "Open" && !selectedDropdownOption) {
+    if (primaryOption !== "Open" && !selectedDropdownOption) {
       forceDropdownContent(true);
     }
   }, [currentLocale]);
@@ -120,11 +116,11 @@ export default function LocaleMenu() {
     <>
       <div className="fixed bottom-0 w-full flex justify-start items-center mb-3 space-x-3">
         {!smallDevice && (
-          <div className="flex flex-row space-x-3">
-            {availableLocales.slice(0, maxLocales).map((loc, index) => (
+          <div className="flex flex-row flex-wrap gap-2 transition-all duration-300 ease-in-out">
+            {availableLocales.slice(0, maxLocales).map((loc) => (
               <button
-                key={index}
-                className={`localeBtn text-sm hover:underline ${
+                key={loc.locale}
+                className={`localeBtn text-sm transition-colors duration-200 hover:underline ${
                   currentLocale === loc.locale
                     ? "font-bold underline"
                     : "font-normal"
@@ -149,17 +145,19 @@ export default function LocaleMenu() {
           />
         )}
       </div>
-      {smallDevice && dropdownLocales.length > 0 && (
-        <Dropdown
-          primaryOption={secondPrimaryOption}
-          currentOption={currentLang}
-          contentArray={dropdownLocales.map((loc) => loc.content)}
-          clearTrigger={clearDropdown}
-          setOption={setCurrentLang}
-          size="sm"
-          openSide="up"
-        />
-      )}
+      <div>
+        {smallDevice && dropdownLocales.length > 0 && (
+          <Dropdown
+            primaryOption={secondPrimaryOption}
+            currentOption={currentLang}
+            contentArray={dropdownLocales.map((loc) => loc.content)}
+            clearTrigger={clearDropdown}
+            setOption={setCurrentLang}
+            size="sm"
+            openSide="up"
+          />
+        )}
+      </div>
     </>
   );
 }

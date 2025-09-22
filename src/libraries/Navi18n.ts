@@ -2,7 +2,7 @@ interface interpolationProps {
   escapeValue?: boolean;
 }
 
-class Navi18n {
+export default class Navi18n {
   lang?: string;
   fallbackLang?: any[];
   resources?: object | string;

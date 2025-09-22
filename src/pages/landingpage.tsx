@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Navi18n from "@/libraries/Navi18n";
+
 import SignUpModal from "@/components/modal/SignUp";
 import SignInModal from "@/components/modal/SignIn";
 import FeatureList from "@/components/others/FeatureList";
