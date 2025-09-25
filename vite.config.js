@@ -25,7 +25,9 @@ export default defineConfig(({ mode }) => ({
       interval: 100,
     },
     compress: true,
-    port: 3000,
+    port: 5173,
+    strictPort: true,
+    https: false,
   },
   resolve: {
     alias: {

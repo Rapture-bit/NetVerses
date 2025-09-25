@@ -35,52 +35,6 @@ User.init(
   },
 );
 
-class TemporaryUser extends Model {}
-TemporaryUser.init(
-  {
-    id: {
-      type: DataTypes.STRING(32),
-      defaultValue: generateNonHyphenUUID,
-      primaryKey: true,
-    },
-    username: {
-      type: DataTypes.STRING(15),
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    attempts: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    OTP: {
-      type: DataTypes.STRING(255),
-    },
-    CodeExpiresAt: {
-      type: DataTypes.DATE,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    requestID: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    modelName: "TemporaryUser",
-  },
-);
-
 class UserProfile extends Model {}
 UserProfile.init(
   {
@@ -198,12 +152,12 @@ UserToken.init(
       defaultValue: DataTypes.UUIDV1,
       primaryKey: true,
     },
-    token: {
-      type: DataTypes.STRING(255),
+    refresh_token: {
+      type: DataTypes.TEXT,
       allowNull: false,
-    },
+    }, // Safe UUID
     userId: {
-      type: DataTypes.STRING(8),
+      type: DataTypes.STRING(32),
       allowNull: false,
     },
     createdAt: {
@@ -221,4 +175,4 @@ UserToken.init(
   },
 );
 
-export { User, TemporaryUser, UserProfile, UserToken };
+export { User, UserProfile, UserToken };

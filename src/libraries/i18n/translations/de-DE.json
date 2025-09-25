@@ -1,0 +1,49 @@
+{
+  "general": {
+    "RegisterBtn": "Registrieren",
+    "SignInBtn": "Anmelden",
+    "andLabel": "und",
+    "tosLabel": "Nutzungsbedingungen",
+    "privacyLabel": "Datenschutzrichtlinie"
+  },
+  "welcomePage": {
+    "title": "Willkommen bei NetVerse",
+    "quote": "„Wir verändern die Art und Weise, wie Sie Nachrichten entdecken und damit interagieren.“ — CEO von NetVerse",
+    "description": "NetVerse ist Ihre neue Plattform zum Teilen und Entdecken von Nachrichten. Egal, ob Sie Journalist, Blogger oder einfach daran interessiert sind, auf dem Laufenden zu bleiben – Sie können Nachrichten kostenlos posten und abrufen. Erhalten Sie Echtzeit-Updates und bleiben Sie über aktuelle Nachrichten informiert, sobald sie passieren.",
+    "termsAgreement": "Indem Sie fortfahren, stimmen Sie unseren"
+  },
+  "features": {
+    "contentAgeVerification": {
+      "title": "Altersverifikation für Inhalte",
+      "description": "Sicher und geschützt! NSFW-Inhalte sind hinter einer Altersverifikation (18+) gesperrt, damit sie für Minderjährige unzugänglich bleiben."
+    },
+    "advancedPostPrivacy": {
+      "title": "Erweiterte Beitragsprivatsphäre",
+      "description": "Wählen Sie Ihr Publikum! Legen Sie fest, ob Ihre Beiträge nur für Follower, bestimmte Clubs oder öffentlich sichtbar sind."
+    },
+    "livePostTranslation": {
+      "title": "Live-Beitragsübersetzung",
+      "description": "Übersetzen Sie Beiträge automatisch in jede gewünschte Sprache und verbinden Sie sich mühelos mit einem globalen Publikum."
+    },
+    "summarizeButton": {
+      "title": "Zusammenfassen-Button",
+      "description": "Bleiben Sie jederzeit informiert! Erhalten Sie eine schnelle Zusammenfassung der heutigen oder sogar gestrigen Nachrichten, sodass Sie immer auf dem neuesten Stand sind, auch offline!"
+    },
+    "ephemeralPosts": {
+      "title": "Vergängliche Beiträge",
+      "description": "Einrichten und vergessen! Mit der Auto-Löschfunktion verschwinden Ihre Beiträge nach der von Ihnen gewählten Zeit automatisch."
+    },
+    "postOwnershipTransfer": {
+      "title": "Beitragsübertragung",
+      "description": "Übertragen Sie die Eigentümerschaft Ihrer Beiträge nahtlos an einen anderen Nutzer, der die Möglichkeit hat, die Übernahme sicher anzunehmen oder abzulehnen!"
+    },
+    "noSpy": {
+      "title": "NoSpy",
+      "description": "Erleben Sie ultimative Privatsphäre mit der NoSpy-Funktion, Ihrem Geheimwaffe gegen Spione. Halten Sie Ihr Profil sicher und unsichtbar für Fremde, damit Sie sich selbstbewusst verbinden und die Kontrolle behalten!"
+    },
+    "shareNews": {
+      "title": "Nachrichten teilen",
+      "description": "Verbreiten Sie Informationen schnell! Teilen Sie Nachrichten mit unterschiedlichen Dringlichkeitsstufen effizient, damit die richtigen Informationen die richtigen Personen erreichen."
+    }
+  }
+}

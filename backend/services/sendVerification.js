@@ -6,8 +6,12 @@ function generateCode() {
   return otp.toString();
 }
 
-export default async function sendVerification(email, username, authMethod) {
-  const code = generateCode();
+export default async function sendVerification(
+  email,
+  code,
+  username,
+  authMethod,
+) {
   let mailOptions;
 
   if (authMethod === "register") {

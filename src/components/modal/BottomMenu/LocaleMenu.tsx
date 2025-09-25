@@ -27,7 +27,7 @@ export default function LocaleMenu() {
     { content: "ⵜⴰⵎⴰⵣⵉⵖⵜ", locale: "tzm-Latn-DZ" },
     { content: "中文", locale: "zh-CN" },
     { content: "الدّارجة", locale: "ary-MA" },
-    { content: "العربية", locale: "ar" },
+    { content: "العربية", locale: "ar-AR" },
     { content: "Italiano", locale: "it-IT" },
     { content: "German", locale: "de-DE" },
     { content: "日本語", locale: "ja-JP" },

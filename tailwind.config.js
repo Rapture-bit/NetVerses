@@ -1,4 +1,5 @@
 import { addDynamicIconSelectors, addIconSelectors } from "@iconify/tailwind";
+import tailwindRtl from "tailwindcss-rtl";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -51,5 +52,5 @@ export default {
       },
     },
   },
-  plugins: [addDynamicIconSelectors()],
+  plugins: [addDynamicIconSelectors(), tailwindRtl],
 };

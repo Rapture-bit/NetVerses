@@ -26,7 +26,7 @@ export default function Page() {
       <PageTitle title="NetVerse" />
       <div className="flex flex-col ml-4 items-start justify-center min-h-screen p-4 z-10 roboto">
         <div className="flex flex-col items-start space-y-4 w-full">
-          <h1 className="text-4xl md:text-5xl font-bold dark:text-violet-100">
+          <h1 className="text-4xl rtl:text-right md:text-5xl font-bold dark:text-violet-100">
             {t("welcomePage.title")}
           </h1>
           <div className="w-full md:w-3/4 lg:w-1/2 border-l-2 border-violet-300 pl-3">

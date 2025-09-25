@@ -26,7 +26,7 @@ interface ErrorState {
     ConfirmPassword: Object;
     Additional: Object;
   };
-  TabThree: {
+  TabTwo: {
     OneTimeCode: Object;
   };
 }
@@ -75,7 +75,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         msg: "",
       },
     },
-    TabThree: {
+    TabTwo: {
       OneTimeCode: {
         Invalid: false,
         msg: "",
@@ -538,8 +538,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
     const setError = (msg, tab) => {
       setErrorState((prevState) => ({
         ...prevState,
-        [tab === 1 ? "TabOne" : "TabThree"]: {
-          ...prevState[tab === 1 ? "TabOne" : "TabThree"],
+        [tab === 1 ? "TabOne" : "TabTwo"]: {
+          ...prevState[tab === 1 ? "TabOne" : "TabTwo"],
           [tab === 1 ? "Additional" : "OneTimeCode"]: {
             Invalid: true,
             msg,
@@ -602,8 +602,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           );
         }
 
-        const registerFetch = await fetch(
-          "https://api.netverses.com/v1/auth/register",
+        const otpRequestFetch = await fetch(
+          "https://api.netverses.com/v1/otp/request",
           {
             method: "POST",
             headers: {
@@ -612,43 +612,33 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             body: JSON.stringify({
               email,
               username,
-              password,
-              passwordConfirm: confirmPassword,
             }),
           },
         );
 
-        const registerResponse = await registerFetch.json();
+        const otpRequestResponse = await otpRequestFetch.json();
 
-        if (!registerFetch.ok) {
+        if (!otpRequestFetch.ok) {
+          return setError("An error occurred during registration.", 1);
+        }
+
+        if (otpRequestFetch.ok && !otpRequestResponse.success) {
           return setError(
-            registerResponse.message ||
+            otpRequestResponse.message ||
               "An error occurred during registration.",
             1,
           );
         }
 
-        if (
-          !registerResponse.success ||
-          registerResponse.message ===
-            "An account linked with this email already exists."
-        ) {
-          return setError(
-            registerResponse.message ||
-              "An error occurred during registration.",
-            1,
-          );
-        }
-
-        setRequestID(registerResponse.requestID);
+        setRequestID(otpRequestResponse.requestId);
         setTab(2);
       } catch (error) {
         setError("An error occurred while processing your request.", 1);
       }
     } else if (currentTab === 2) {
       try {
-        const registerFetch = await fetch(
-          "https://api.netverses.com/v1/auth/register",
+        const confirmOTPFetch = await fetch(
+          "https://api.netverses.com/v1/otp/confirm",
           {
             method: "POST",
             headers: {
@@ -656,9 +646,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             },
             body: JSON.stringify({
               email,
-              username,
               password,
-              passwordConfirm: confirmPassword,
+              username,
               code: OTPValue,
               requestId: requestID,
             }),
@@ -666,22 +655,30 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           },
         );
 
-        const registerResponse = await registerFetch.json();
+        const confirmOTPResponse = await confirmOTPFetch.json();
 
-        if (!registerFetch.ok) {
-          return setError(
-            registerResponse.message ||
-              "An error occured while verifying the provided code.",
-            2,
-          );
+        if (!confirmOTPFetch.ok) {
+          return setError("An error occurred during registration.", 2);
         }
 
-        if (!registerResponse.success) {
-          return setError(
-            registerResponse.message ||
+        if (confirmOTPFetch.ok && !confirmOTPResponse.success) {
+          setError(
+            confirmOTPResponse.message ||
               "An error occured while verifying the provided code.",
             2,
           );
+          setInterval(() => {
+            setErrorState((prevState) => ({
+              ...prevState,
+              TabTwo: {
+                OneTimeCode: {
+                  Invalid: false,
+                  msg: "",
+                },
+              },
+            }));
+          }, 15 * 1000);
+          return;
         }
 
         refreshPage();
@@ -713,16 +710,12 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
     }, 1000);
 
     const resendFetch = await fetch(
-      "https://api.netverses.com/v1/auth/register",
+      "https://api.netverses.com/v1/otp/request",
       {
         method: "POST",
         body: JSON.stringify({
-          Email: email,
-          username: username,
-          password: password,
-          passwordConfirm: confirmPassword,
-          Send: true,
-          requestId: requestID,
+          email,
+          username,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -752,11 +745,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
       });
     }
 
-    if (
-      responseResend.success &&
-      responseResend.message ===
-        "A new verification code has been sent. Please provide the 'Code' field to verify your account."
-    ) {
+    if (responseResend.success && responseResend.sent) {
       setResendStatus((prevStatus) => ({
         ...prevStatus,
         label: 30,
@@ -772,6 +761,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
     setPassword("");
     setConfirmPassword("");
     setAgreementChecked("");
+    setEmailCache({});
+    setUsernameCache({});
     setNextDisabled(true);
     setErrorState({
       TabOne: {
@@ -796,7 +787,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           msg: "",
         },
       },
-      TabThree: {
+      TabTwo: {
         OneTimeCode: {
           Invalid: false,
           msg: "",
@@ -1101,13 +1092,13 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                 </label>
                 <OTP
                   onOTPChange={checkOTP}
-                  isError={errorState.TabThree.OneTimeCode["Invalid"]}
+                  isError={errorState.TabTwo.OneTimeCode["Invalid"]}
                   length={5}
                   inputType="numeric"
                 />
-                {errorState.TabThree.OneTimeCode["Invalid"] && (
+                {errorState.TabTwo.OneTimeCode["Invalid"] && (
                   <span className="text-sm text-red-500">
-                    {errorState.TabThree.OneTimeCode["msg"]}
+                    {errorState.TabTwo.OneTimeCode["msg"]}
                   </span>
                 )}
               </div>

@@ -1,5 +1,6 @@
 import sequelize from "./config/database.js";
-import { User, TemporaryUser, UserProfile, UserToken } from "./models/User.js";
+import { User, UserProfile, UserToken } from "./models/User.js";
+import { OTP } from "./models/OTP.js";
 
 async function syncDatabase() {
   try {

@@ -102,6 +102,12 @@ export default function Dropdown({
       setShowMenu(false);
     };
 
+    const handleEscapeKey = (e) => {
+      if (e.key === "Escape") {
+        setShowMenu(false);
+      }
+    };
+
     const handleClickOutside = (e) => {
       if (
         menuRef.current &&
@@ -113,9 +119,11 @@ export default function Dropdown({
       }
     };
 
+    window.addEventListener("keydown", handleEscapeKey);
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousedown", handleClickOutside);
     return () => (
+      window.removeEventListener("keydown", handleEscapeKey),
       window.removeEventListener("resize", handleResize),
       window.removeEventListener("mousedown", handleClickOutside)
     );

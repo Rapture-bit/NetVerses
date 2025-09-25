@@ -1,13 +1,25 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import { initReactI18next, Translation } from "react-i18next";
 
-import enUS from "./en-US.json";
-import frFR from "./fr-FR.json";
+import enUS from "./translations/en-US.json";
+import frFR from "./translations/fr-FR.json";
+import ruRU from "./translations/ru-RU.json";
+import zhCN from "./translations/zh-CN.json";
+import deDE from "./translations/de-DE.json";
+import heIL from "./translations/he-IL.json";
+import arAR from "./translations/ar-AR.json";
+import jaJP from "./translations/ja-JP.json";
 // import other locales similarly...
 
 const resources = {
   "en-US": { translation: enUS },
   "fr-FR": { translation: frFR },
+  "ru-RU": { translation: ruRU },
+  "zh-CN": { translation: zhCN },
+  "de-DE": { translation: deDE },
+  "he-IL": { translation: heIL },
+  "ar-AR": { translation: arAR },
+  "ja-JP": { translation: jaJP },
 };
 
 i18n.use(initReactI18next).init({

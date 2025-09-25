@@ -1,0 +1,49 @@
+{
+  "general": {
+    "RegisterBtn": "注册",
+    "SignInBtn": "登录",
+    "andLabel": "和",
+    "tosLabel": "服务条款",
+    "privacyLabel": "隐私政策"
+  },
+  "welcomePage": {
+    "title": "欢迎来到 NetVerse",
+    "quote": "“改变你发现和参与新闻的方式。” — NetVerse 首席执行官",
+    "description": "NetVerse 是您的新闻分享与发现新平台。无论您是记者、博主，还是只是想随时了解最新消息，都可以免费发布和获取新闻。实时更新，让您第一时间掌握突发新闻。",
+    "termsAgreement": "继续即表示您同意我们的"
+  },
+  "features": {
+    "contentAgeVerification": {
+      "title": "内容年龄验证",
+      "description": "保持安全！限制级内容需通过 18+ 身份验证，确保未成年人无法访问。"
+    },
+    "advancedPostPrivacy": {
+      "title": "高级帖子隐私",
+      "description": "选择您的受众！设置帖子仅对关注者、自定义社群可见，或公开分享。"
+    },
+    "livePostTranslation": {
+      "title": "实时帖子翻译",
+      "description": "自动将帖子翻译成您选择的语言，轻松与全球受众连接。"
+    },
+    "summarizeButton": {
+      "title": "摘要按钮",
+      "description": "随时随地保持知情！快速获取今天或昨天的新闻摘要，即使离线也能掌握最新动态！"
+    },
+    "ephemeralPosts": {
+      "title": "短期帖子",
+      "description": "设置好即可忘记！开启自动删除，您的帖子将在设定时间后消失。"
+    },
+    "postOwnershipTransfer": {
+      "title": "帖子所有权转移",
+      "description": "安全地将帖子所有权转移给其他用户，他们可选择接受或拒绝。"
+    },
+    "noSpy": {
+      "title": "NoSpy",
+      "description": "解锁终极隐私！NoSpy 功能是您的秘密武器，让您的个人资料对陌生人不可见，安全地连接他人，掌控一切！"
+    },
+    "shareNews": {
+      "title": "分享新闻",
+      "description": "快速传播信息！根据紧急程度分享新闻，确保正确的信息传达给正确的人。"
+    }
+  }
+}

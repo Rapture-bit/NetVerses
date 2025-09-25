@@ -1,6 +1,7 @@
 # Google Search Engine Robot
 # ==========================
 User-agent: Googlebot
+Disallow:
 
 User-Agent: Google-Extended
 Disallow:

@@ -1,16 +1,6 @@
 const route = {
   API: [
     {
-      name: "Ping",
-      path: "/ping",
-      allowedMethods: ["*"],
-      functionFile: "../API/ping.js",
-      authRequired: false,
-      rateLimit: {
-        max: 100,
-      },
-    },
-    {
       name: "Check Email",
       path: "/users/check-email",
       allowedMethods: ["GET"],
@@ -21,6 +11,26 @@ const route = {
       },
     },
     {
+      name: "Request OTP",
+      path: "/otp/request",
+      allowedMethods: ["POST"],
+      functionFile: "../API/otp/otp-request.js",
+      authRequired: false,
+      rateLimit: {
+        max: 9000,
+      },
+    },
+    {
+      name: "Confirm OTP",
+      path: "/otp/confirm",
+      allowedMethods: ["POST"],
+      functionFile: "../API/otp/otp-confirm.js",
+      authRequired: false,
+      rateLimit: {
+        max: 9000,
+      },
+    },
+    {
       name: "Check Username",
       path: "/users/check-username",
       allowedMethods: ["GET"],
@@ -28,16 +38,6 @@ const route = {
       authRequired: false,
       rateLimit: {
         max: 15,
-      },
-    },
-    {
-      name: "Register",
-      path: "/auth/register",
-      allowedMethods: ["POST"],
-      functionFile: "../API/auth/register.js",
-      authRequired: false,
-      rateLimit: {
-        max: 8,
       },
     },
     {
