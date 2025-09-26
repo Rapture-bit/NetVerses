@@ -11,10 +11,10 @@ const route = {
       },
     },
     {
-      name: "Request OTP",
-      path: "/otp/request",
+      name: "Refresh Token",
+      path: "/auth/refresh",
       allowedMethods: ["POST"],
-      functionFile: "../API/otp/otp-request.js",
+      functionFile: "../API/auth/refresh-token.js",
       authRequired: false,
       rateLimit: {
         max: 9000,
@@ -25,6 +25,16 @@ const route = {
       path: "/otp/confirm",
       allowedMethods: ["POST"],
       functionFile: "../API/otp/otp-confirm.js",
+      authRequired: false,
+      rateLimit: {
+        max: 9000,
+      },
+    },
+    {
+      name: "Confirm OTP",
+      path: "/otp/request",
+      allowedMethods: ["POST"],
+      functionFile: "../API/otp/otp-request.js",
       authRequired: false,
       rateLimit: {
         max: 9000,
@@ -72,9 +82,9 @@ const route = {
     },
     {
       name: "Get Self Information",
-      path: "/users/self",
-      allowedMethods: ["POST"],
-      functionFile: "../API/users/self.js",
+      path: "/self",
+      allowedMethods: ["GET"],
+      functionFile: "../API/users/me.js",
       authRequired: true,
       rateLimit: {
         max: 20,

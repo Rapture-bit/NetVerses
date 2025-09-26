@@ -2,11 +2,12 @@
 // -- [Valid Email, Country (by IP), Username, Password]
 // -- Validate email (validator.isEmail)
 import { OTP } from "../../database/models/OTP.js";
-import { blacklistedCountries } from "../../constants/blacklistedCountries.js";
 
+import checkAuth from "../../auth/checkAuth.js";
 import sendVerification from "../../services/sendVerification.js";
 import crypto from "crypto";
 import validator from "validator";
+import { blacklistedCountries } from "../../constants/blacklistedCountries.js";
 
 function generateOTP() {
   return crypto.randomInt(10000, 99999).toString();
@@ -101,77 +102,92 @@ async function createNewOTP(res, email, username) {
 }
 
 async function requestOTP(res, email, username) {
-  const existingOTP = await OTP.findOne({ where: { email: email } });
-  if (existingOTP) {
-    const now = new Date();
-    const lastRequestDate = existingOTP.getDataValue("lastRequestAt");
-    const timeDifference = (now - lastRequestDate) / 1000;
+  try {
+    const existingOTP = await OTP.findOne({ where: { email: email } });
+    if (existingOTP) {
+      const now = new Date();
+      const lastRequestDate = existingOTP.getDataValue("lastRequestAt");
+      const timeDifference = (now - lastRequestDate) / 1000;
 
-    if (existingOTP.getDataValue("validated") === true) {
-      return res.status(200).json({
-        success: false,
-        message:
-          "You cannot request another OTP once validated. Please create an account.",
-      });
-    }
-    if (existingOTP.getDataValue("requestsCount") >= 3) {
-      if (timeDifference < 120) {
-        // Before 2 minutes (120 seconds)
+      if (existingOTP.getDataValue("validated") === true) {
         return res.status(200).json({
           success: false,
-          max: true,
           message:
-            "You have reached the maximum of 3 OTP requests. Please try again in 2 minutes.",
+            "You cannot request another OTP once validated. Please create an account.",
         });
-      } else {
-        // Past 2 minutes (120 seconds)
+      }
+      if (existingOTP.getDataValue("requestsCount") >= 3) {
+        if (timeDifference < 120) {
+          // Before 2 minutes (120 seconds)
+          return res.status(200).json({
+            success: false,
+            max: true,
+            message:
+              "You have reached the maximum of 3 OTP requests. Please try again in 2 minutes.",
+          });
+        } else {
+          // Past 2 minutes (120 seconds)
+          await existingOTP.destroy();
+          return await createNewOTP(res, email, username);
+        }
+      }
+      if (timeDifference >= 600) {
+        // Past 10 minutes
         await existingOTP.destroy();
         return await createNewOTP(res, email, username);
       }
+      return await attemptOTP(res, email, username, existingOTP);
     }
-    if (timeDifference >= 600) {
-      // Past 10 minutes
-      await existingOTP.destroy();
-      return await createNewOTP(res, email, username);
-    }
-    return await attemptOTP(res, email, username, existingOTP);
+    return await createNewOTP(res, email, username);
+  } catch (e) {
+    console.error(`INTERNAL SERVER ERROR: ${e}`);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
   }
-  return await createNewOTP(res, email, username);
 }
 
 export default async function (req, res) {
-  const signedCookies = req.signedCookies;
-  if (signedCookies && signedCookies.access_token) {
+  try {
+    const isAuthenticated = await checkAuth(req).success;
+    if (isAuthenticated) {
+      return res.status(200).json({
+        success: false,
+        message: "The user is already authenticated.",
+      });
+    }
+
+    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    await isBlacklisted(res, ip);
+
+    const { email, username } = req.body;
+    if (!email || !validator.isEmail(email)) {
+      return res.status(200).json({
+        success: false,
+        message: "Invalid email address.",
+      });
+    }
+
+    if (!username) {
+      return res.status(200).json({
+        success: false,
+        message: "Username field is required.",
+      });
+    }
+
+    if (!validateUsername(username)) {
+      return res.status(200).json({
+        success: false,
+        message:
+          "Username must be ≥4 characters and contain only letters, numbers, _, or -.",
+      });
+    }
+
+    return await requestOTP(res, email, username);
+  } catch (e) {
+    console.error(`INTERNAL SERVER ERROR: ${e}`);
     return res
-      .status(200)
-      .json({ success: false, message: "The user is already authenticated." });
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
   }
-
-  const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-  await isBlacklisted(res, ip);
-
-  const { email, username } = req.body;
-  if (!email || !validator.isEmail(email)) {
-    return res.status(200).json({
-      success: false,
-      message: "Invalid email address.",
-    });
-  }
-
-  if (!username) {
-    return res.status(200).json({
-      success: false,
-      message: "Username field is required.",
-    });
-  }
-
-  if (!validateUsername(username)) {
-    return res.status(200).json({
-      success: false,
-      message:
-        "Username must be ≥4 characters and contain only letters, numbers, _, or -.",
-    });
-  }
-
-  return await requestOTP(res, email, username);
 }

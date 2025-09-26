@@ -1,15 +1,20 @@
 import { blacklistedCountries } from "../../constants/blacklistedCountries.js";
+
 import { OTP } from "../../database/models/OTP.js";
-import { User, UserProfile, UserToken } from "../../database/models/User.js";
+import {
+  User,
+  UserProfile,
+  UserSession,
+  UserToken,
+} from "../../database/models/User.js";
+import { createJwtToken } from "../../auth/HandleJWT.js";
+import {
+  generateSessionId,
+  generateRefreshToken,
+} from "../../auth/detailsGenerator.js";
+
 import argon2 from "argon2";
-import crypto from "crypto";
-
 import validator from "validator";
-
-function generateToken(length = 256) {
-  const randomBytes = crypto.randomBytes(length / 2);
-  return crypto.createHash("sha256").update(randomBytes).digest("hex");
-}
 
 function checkPassword(password) {
   const lowercaseRegex = /[a-z]/g;
@@ -40,14 +45,55 @@ async function createAccount(res, email, username, password) {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7);
 
-    await UserProfile.create({ id: userId, display_name: username, username });
+    const accessTokenExpires = new Date();
+    accessTokenExpires.setMinutes(accessTokenExpires.getMinutes() + 15);
 
-    const refreshToken = generateToken();
+    await UserProfile.create({
+      id: userId,
+      display_name: username,
+      username: username,
+    });
+
+    const refreshToken = generateRefreshToken();
+    const sessionId = generateSessionId();
     await UserToken.create({
       refresh_token: refreshToken,
       userId: userId,
       expiresAt: expiresAt,
     });
+    await UserSession.create({
+      sessionId: sessionId,
+      userId: userId,
+      expiresAt: expiresAt,
+    });
+
+    const generatedAccessToken = createJwtToken({ userId, username });
+    res.cookie("access_token", generatedAccessToken, {
+      httpOnly: true,
+      secure: true,
+      expires: accessTokenExpires,
+      domain: ".netverses.com",
+      sameSite: "Strict",
+      signed: true,
+    });
+    res.cookie("refresh_token", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      expires: expiresAt,
+      domain: ".netverses.com",
+      sameSite: "Strict",
+      signed: true,
+    });
+    res.cookie("session_id", sessionId, {
+      httpOnly: true,
+      secure: true,
+      domain: ".netverses.com",
+      sameSite: "Strict",
+      signed: true,
+    });
+
+    res.header("Access-Control-Allow-Origin", "https://netverses.com");
+    res.header("Access-Control-Allow-Credentials", "true");
 
     return res
       .status(200)

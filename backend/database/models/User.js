@@ -35,11 +35,34 @@ User.init(
   },
 );
 
+class UserSession extends Model {}
+UserSession.init(
+  {
+    sessionId: {
+      type: DataTypes.STRING(32),
+      primaryKey: true,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.STRING(32),
+      allowNull: false,
+    },
+    expiresAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    modelName: "UserSession",
+  },
+);
+
 class UserProfile extends Model {}
 UserProfile.init(
   {
     id: {
-      type: DataTypes.STRING(8),
+      type: DataTypes.STRING(32),
       primaryKey: true,
       allowNull: false,
     },
@@ -175,4 +198,4 @@ UserToken.init(
   },
 );
 
-export { User, UserProfile, UserToken };
+export { User, UserProfile, UserToken, UserSession };
