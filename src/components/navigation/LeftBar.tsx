@@ -7,7 +7,7 @@ export default function LeftBar() {
   const [hideButtons, setHideButtons] = useState<boolean>(false);
   const [leftPosition, setLeftPosition] = useState<string>("8%");
   const [description, setDescription] =
-    useState<string>(`Proud chairman of NetVerse™, empowering connections and shaping the
+    useState<string>(`Proud chairman of NetVerses™, empowering connections and shaping the
     future of digital social platforms.`);
   const [posts, setPosts] = useState<number>(300);
   const [followers, setFollowers] = useState<number>(20000);
@@ -241,7 +241,7 @@ export default function LeftBar() {
               <span className="text-base xl:flex hidden">StarPlus</span>
             </button>
             <div className="flex flex-row gap-2 mr-auto">
-              <span className="text-xs mr-auto">© 2024 NetVerse</span>
+              <span className="text-xs mr-auto">© 2024 NetVerses</span>
             </div>
           </div>
         </div>

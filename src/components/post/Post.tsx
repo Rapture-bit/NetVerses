@@ -60,27 +60,27 @@ export default function Post({
     images: [
       {
         URL: "https://assets.netverses.com/media/avatars/type11.jpg",
-        comment: "NetVerse's Default Avatar",
+        comment: "NetVerses's Default Avatar",
       },
       {
         URL: "https://assets.netverses.com/media/avatars/type11.jpg",
-        comment: "NetVerse's Default Avatar",
+        comment: "NetVerses's Default Avatar",
       },
       {
         URL: "https://assets.netverses.com/media/avatars/type11.jpg",
-        comment: "NetVerse's Default Avatar",
+        comment: "NetVerses's Default Avatar",
       },
       {
         URL: "https://assets.netverses.com/media/avatars/type11.jpg",
-        comment: "NetVerse's Default Avatar",
+        comment: "NetVerses's Default Avatar",
       },
       {
         URL: "https://assets.netverses.com/media/avatars/type11.jpg",
-        comment: "NetVerse's Default Avatar",
+        comment: "NetVerses's Default Avatar",
       },
       {
         URL: "https://assets.netverses.com/media/avatars/type11.jpg",
-        comment: "NetVerse's Default Avatar",
+        comment: "NetVerses's Default Avatar",
       },
     ],
   },

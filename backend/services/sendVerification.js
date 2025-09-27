@@ -16,7 +16,7 @@ export default async function sendVerification(
 
   if (authMethod === "register") {
     mailOptions = {
-      from: '"NetVerse" <services@netverses.com>',
+      from: '"NetVerses" <services@netverses.com>',
       to: email,
       subject: "Verification Code",
       html: `<!DOCTYPE html>
@@ -84,11 +84,11 @@ export default async function sendVerification(
                     </div>
                     <div role="separator" style="height: 1px; line-height: 1px; margin: 32px 0; background-color: #e2e8f0">&zwj;</div>
                     <p style="margin: 0;">
-                      If you did not request an OTP code from NetVerse, please
+                      If you did not request an OTP code from NetVerses, please
                       disregard this email.
                       <br>
                       <br>
-                      Thanks, <br>The NetVerse Team
+                      Thanks, <br>The NetVerses Team
                     </p>
                   </td>
                 </tr>
@@ -98,9 +98,9 @@ export default async function sendVerification(
               </table>
               <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
                 <span style="font-size: 12px; color: #000001">
-                © 2024 NetVerse. All rights reserved.
+                © 2024 NetVerses. All rights reserved.
               </span>
-                <span style="font-size: 12px; color: #000001;">NetVerse® is a registered trademark of NetVerse, Inc.</span>
+                <span style="font-size: 12px; color: #000001;">NetVerses® is a registered trademark of NetVerses, Inc.</span>
               </div>
             </td>
           </tr>
@@ -112,7 +112,7 @@ export default async function sendVerification(
     };
   } else {
     mailOptions = {
-      from: '"NetVerse" <services@netverses.com>',
+      from: '"NetVerses" <services@netverses.com>',
       to: email,
       subject: "[Sign In] Please verify it's you",
       html: `<!DOCTYPE html>
@@ -187,7 +187,7 @@ export default async function sendVerification(
                     to secure your account. For further information, please visit
                     <a href="https://info.netverses.com" style="color: #5b21b6;">info.netverses.com</a>. <br>
                     <br>
-                    Thanks, <br>The NetVerse Team
+                    Thanks, <br>The NetVerses Team
                   </p>
                 </td>
               </tr>
@@ -197,9 +197,9 @@ export default async function sendVerification(
             </table>
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <span style="font-size: 12px; color: #000001">
-              © 2024 NetVerse. All rights reserved.
+              © 2024 NetVerses. All rights reserved.
             </span>
-              <span style="font-size: 12px; color: #000001;">NetVerse® is a registered trademark of NetVerse, Inc.</span>
+              <span style="font-size: 12px; color: #000001;">NetVerses® is a registered trademark of NetVerses, Inc.</span>
             </div>
           </td>
         </tr>

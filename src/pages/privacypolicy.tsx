@@ -29,7 +29,7 @@ export default function PrivacyPage() {
         `A Privacy Policy is a legal document that outlines how an 
         organization collects, uses, stores, and manages personal 
         information from its users or customers. In this context, 
-        NetVerse operates as part of the Xenon Corporation ecosystem, 
+        NetVerses operates as part of the Xenon Corporation ecosystem, 
         meaning that the practices described in this Privacy Policy 
         apply to all entities within our network.`,
         `This document explains how we collect, use, share, and 
@@ -43,19 +43,19 @@ export default function PrivacyPage() {
         {
           title: "Personal Information",
           content: [
-            `We only collect personal information that you voluntarily provide, such as a username, email address, and contact details, when you sign up or interact with specific features of NetVerse. We never ask for sensitive personal information unless it is essential to the service we provide. You control what personal data you share with us, and we keep it secure.`,
+            `We only collect personal information that you voluntarily provide, such as a username, email address, and contact details, when you sign up or interact with specific features of NetVerses. We never ask for sensitive personal information unless it is essential to the service we provide. You control what personal data you share with us, and we keep it secure.`,
           ],
         },
         {
           title: "Usage Data",
           content: [
-            `We collect data about your interactions with the platform, like pages you visit, features you use, and the time spent on NetVerse. This data helps us understand your preferences and improve the platform, but it never identifies you personally unless linked to your account. We aim to enhance your experience without compromising your privacy.`,
+            `We collect data about your interactions with the platform, like pages you visit, features you use, and the time spent on NetVerses. This data helps us understand your preferences and improve the platform, but it never identifies you personally unless linked to your account. We aim to enhance your experience without compromising your privacy.`,
           ],
         },
         {
           title: "Device Data",
           content: [
-            `To ensure the platform works smoothly across different devices, we gather technical information about the devices you use, such as the type of device, operating system, and browser version. This data is anonymous and only used to optimize your experience on NetVerse.`,
+            `To ensure the platform works smoothly across different devices, we gather technical information about the devices you use, such as the type of device, operating system, and browser version. This data is anonymous and only used to optimize your experience on NetVerses.`,
           ],
         },
         {
@@ -72,13 +72,13 @@ export default function PrivacyPage() {
         {
           title: "Platform Improvement",
           content: [
-            `The data we collect is used to improve the performance, reliability, and user experience of NetVerse. This includes fixing bugs, enhancing features, and ensuring the platform works efficiently for all users.`,
+            `The data we collect is used to improve the performance, reliability, and user experience of NetVerses. This includes fixing bugs, enhancing features, and ensuring the platform works efficiently for all users.`,
           ],
         },
         {
           title: "Personalization",
           content: [
-            `Your data allows us to offer personalized content and recommendations based on your activity and preferences. This helps you discover relevant content, connections, and experiences tailored to you, ensuring your time on NetVerse is enjoyable and relevant.`,
+            `Your data allows us to offer personalized content and recommendations based on your activity and preferences. This helps you discover relevant content, connections, and experiences tailored to you, ensuring your time on s is enjoyable and relevant.`,
           ],
         },
       ],
@@ -129,7 +129,7 @@ export default function PrivacyPage() {
         {
           title: "Privacy Settings",
           content: [
-            `Our platform provides robust privacy settings, allowing you to customize who can view your profile, share your content, and interact with you. You are in control of your privacy on NetVerse, ensuring a safe and secure social experience.`,
+            `Our platform provides robust privacy settings, allowing you to customize who can view your profile, share your content, and interact with you. You are in control of your privacy on NetVerses, ensuring a safe and secure social experience.`,
           ],
         },
       ],
@@ -137,7 +137,7 @@ export default function PrivacyPage() {
     {
       title: "Cookies Technology",
       descriptions: [
-        `We use cookies and similar technologies to enhance your experience on our platform. Cookies are small text files stored on your device that allow us to remember your preferences, optimize site performance, and provide personalized content. These cookies may also be used for analytics purposes to help us understand how you interact with NetVerse, enabling us to improve our services and user experience.`,
+        `We use cookies and similar technologies to enhance your experience on our platform. Cookies are small text files stored on your device that allow us to remember your preferences, optimize site performance, and provide personalized content. These cookies may also be used for analytics purposes to help us understand how you interact with s, enabling us to improve our services and user experience.`,
         `You have the ability to manage or disable cookies through your browser settings at any time. However, please note that disabling cookies may affect the functionality and performance of certain features on our platform. We ensure that all cookies used comply with applicable privacy laws and are handled with the utmost care to safeguard your data.`,
       ],
       sections: [
@@ -176,7 +176,7 @@ export default function PrivacyPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <PageTitle title="NetVerse ~ Privacy Policy" />
+      <PageTitle title="NetVerses ~ Privacy Policy" />
       <div className="relative flex-grow pt-20 md:pt-24 pb-20 md:pb-24 flex flex-col items-center justify-center text-center space-y-4 md:space-y-5 px-4 md:px-10">
         {activeTab === 0 && (
           <motion.div

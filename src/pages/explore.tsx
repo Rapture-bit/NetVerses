@@ -16,7 +16,7 @@ const Explore = () => {
 
   return (
     <>
-      <PageTitle title="NetVerse ~ Explore" />
+      <PageTitle title="NetVerses ~ Explore" />
       <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">

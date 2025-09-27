@@ -91,8 +91,12 @@ export default function DefaultLayout() {
     <>
       {isAuth && <TopBar />}
       {!isAuth && currentPage !== "/" && <TopBar />}
-      {isAuth && currentPage !== "/privacy" && <LeftBar />}
-      {isAuth && currentPage !== "/privacy" && <RightBar news={topNews} />}
+      {isAuth && currentPage !== "/privacy" && currentPage !== "/messages" && (
+        <LeftBar />
+      )}
+      {isAuth && currentPage !== "/privacy" && currentPage !== "/messages" && (
+        <RightBar news={topNews} />
+      )}
       {currentPage !== "/privacy" && (
         <CookiesNotification
           showNotif={cookiesVisibility}

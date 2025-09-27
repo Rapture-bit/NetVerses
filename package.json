@@ -6,12 +6,9 @@
     "build": "vite build",
     "serve": "vite preview"
   },
-  "license": "MIT",
   "author": "Mohamed Mekouar",
   "keywords": [
-    "NetVerse",
-    "Social App",
-    "Digital News"
+    "NetVerses"
   ],
   "dependencies": {
     "@emoji-mart/data": "^1.2.1",

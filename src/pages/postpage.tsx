@@ -30,7 +30,7 @@ export default function PostsPage() {
 
   return (
     <>
-      <PageTitle title="NetVerse" />
+      <PageTitle title="NetVerses" />
       <BottomBar />
       <div className="flex flex-col justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <FocusedPost

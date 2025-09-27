@@ -910,7 +910,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           >
             <div className="space-y-4 flex flex-col">
               <span className="text-sm inter">
-                Create an account with NetVerse and begin your journey with us
+                Create an account with NetVerses and begin your journey with us
                 today.
               </span>
 

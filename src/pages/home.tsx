@@ -133,10 +133,10 @@ export default function Home() {
     },
     {
       id: 1842124855719629178,
-      title: "Top Features of NetVerse",
+      title: "Top Features of NetVerses",
       type: "Blog",
       description:
-        "Discover the top features of NetVerse that set it apart from other news platforms. Personalized feeds, real-time updates, and more!",
+        "Discover the top features of NetVerses that set it apart from other news platforms. Personalized feeds, real-time updates, and more!",
       author: "Xenon",
       date: "2024-09-16T09:30:00Z",
       interactions: {
@@ -153,11 +153,11 @@ export default function Home() {
     },
     {
       id: 1842124855719629179,
-      title: "NetVerse User Tips",
+      title: "NetVerses User Tips",
       type: "Blog",
       description:
-        "Get the most out of NetVerse with these tips and tricks. Enhance your user experience and stay informed more effectively.",
-      author: "NetVerseGuide",
+        "Get the most out of NetVerses with these tips and tricks. Enhance your user experience and stay informed more effectively.",
+      author: "NetVersesGuide",
       date: "2024-09-16T09:30:00Z",
       interactions: {
         likes: 85,
@@ -173,11 +173,11 @@ export default function Home() {
     },
     {
       id: 1842124855719629180,
-      title: "Upcoming Updates on NetVerse",
+      title: "Upcoming Updates on NetVerses",
       type: "Blog",
       description:
-        "Stay tuned for exciting updates coming to NetVerse. We’re constantly improving and adding new features to enhance your experience.",
-      author: "NetVerseDev",
+        "Stay tuned for exciting updates coming to NetVerses. We’re constantly improving and adding new features to enhance your experience.",
+      author: "NetVersesDev",
       date: "2024-09-16T09:30:00Z",
       interactions: {
         likes: 110,
@@ -193,11 +193,11 @@ export default function Home() {
     },
     {
       id: 1842124855719629181,
-      title: "How NetVerse Ensures Privacy",
+      title: "How NetVerses Ensures Privacy",
       type: "Blog",
       description:
-        "Learn how NetVerse protects your privacy with advanced security measures and data protection protocols.",
-      author: "NetVerseSecurity",
+        "Learn how NetVerses protects your privacy with advanced security measures and data protection protocols.",
+      author: "NetVersesSecurity",
       date: "2024-09-16T09:30:00Z",
       interactions: {
         likes: 130,
@@ -213,11 +213,11 @@ export default function Home() {
     },
     {
       id: 1842124855719629182,
-      title: "The Future of News on NetVerse",
+      title: "The Future of News on NetVerses",
       type: "Blog",
       description:
-        "Explore how NetVerse is shaping the future of news consumption and what you can expect from the platform in the coming years.",
-      author: "NetVerseVisionary",
+        "Explore how NetVerses is shaping the future of news consumption and what you can expect from the platform in the coming years.",
+      author: "NetVersesVisionary",
       date: "2024-09-16T09:30:00Z",
       interactions: {
         likes: 140,
@@ -229,7 +229,7 @@ export default function Home() {
       comments: [
         {
           author: "FutureReader",
-          text: "The future looks bright for NetVerse!",
+          text: "The future looks bright for NetVerses!",
         },
       ],
       isNSFW: true,
@@ -330,7 +330,7 @@ export default function Home() {
 
   return (
     <>
-      <PageTitle title="NetVerse ~ Home" />
+      <PageTitle title="NetVerses ~ Home" />
       <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">

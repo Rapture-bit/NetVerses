@@ -23,7 +23,7 @@ const Clubs = () => {
 
   return (
     <>
-      <PageTitle title="NetVerse ~ Clubs" />
+      <PageTitle title="NetVerses ~ Clubs" />
       <BottomBar />
       <div className="flex flex-col">
         <div></div>

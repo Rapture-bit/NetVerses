@@ -9,7 +9,7 @@ const ProfilePreview = ({ username }) => {
   const [Banner, setBanner] = useState<string>(""); // To be updated with API
   const [self, setSelf] = useState<boolean>(true); // To be updated with API
   const [Bio, setBio] = useState<string>(
-    "Proud chairman of NetVerse™, empowering connections and shaping the future of digital social platforms.",
+    "Proud chairman of NetVerses™, empowering connections and shaping the future of digital social platforms.",
   ); // To be updated with API
   const [followers, setFollowers] = useState<number>(20000); // To be updated with API
   const [reputation, setReputation] = useState<number>(100); // To be updated with API

@@ -61,7 +61,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <PageTitle title="NetVerse ~ Profile" />
+      <PageTitle title="NetVerses ~ Profile" />
       <BottomBar />
       <div
         className={`flex flex-col gap-3 ${isAvailable ? "justify-start" : "justify-center"} items-center w-full h-full pt-24 bg-fixed bg-cover bg-center`}

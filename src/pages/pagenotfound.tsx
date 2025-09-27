@@ -25,7 +25,7 @@ export default function PageNotFound() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <PageTitle title="NetVerse ~ Not Found" />
+      <PageTitle title="NetVerses ~ Not Found" />
 
       <div className="flex-grow pt-20 md:pt-24 pb-20 md:pb-24 flex flex-col items-center justify-center text-center space-y-4 md:space-y-5 px-4 md:px-10">
         <span className="bg-gradient-to-b p-2 from-purple-500 to-purple-900 text-transparent bg-clip-text font-bold text-3xl md:text-5xl">

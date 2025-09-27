@@ -23,7 +23,7 @@ export default function Page() {
 
   return (
     <>
-      <PageTitle title="NetVerse" />
+      <PageTitle title="NetVerses" />
       <div className="flex flex-col ml-4 items-start justify-center min-h-screen p-4 z-10 roboto">
         <div className="flex flex-col items-start space-y-4 w-full">
           <h1 className="text-4xl rtl:text-right md:text-5xl font-bold dark:text-violet-100">

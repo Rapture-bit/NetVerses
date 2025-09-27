@@ -194,7 +194,7 @@ export default function Messages() {
 
   return (
     <>
-      <PageTitle title="NetVerse ~ Messages" />
+      <PageTitle title="NetVerses ~ Messages" />
       <BottomBar />
 
       <div className="flex flex-col gap-3 justify-start items-center w-full h-screen pt-24 bg-fixed bg-cover bg-center sm:px-9">
