@@ -113,7 +113,7 @@ async function requestOTP(res, email, username) {
         return res.status(200).json({
           success: false,
           message:
-            "You cannot request another OTP once validated. Please create an account.",
+            "User cannot request another OTP once validated. Please create an account.",
         });
       }
       if (existingOTP.getDataValue("requestsCount") >= 3) {
@@ -123,7 +123,7 @@ async function requestOTP(res, email, username) {
             success: false,
             max: true,
             message:
-              "You have reached the maximum of 3 OTP requests. Please try again in 2 minutes.",
+              "User have reached the maximum of 3 OTP requests. Please try again in 2 minutes.",
           });
         } else {
           // Past 2 minutes (120 seconds)

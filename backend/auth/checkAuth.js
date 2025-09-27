@@ -38,7 +38,7 @@ export default async function checkAuth(req) {
       return { success: false, message: "User not found." };
     }
 
-    return { success: true, user: user };
+    return { success: true, user: user, sessionId: session_id };
   } catch (e) {
     console.error(`INTERNAL SERVER ERROR: ${e}`);
   }

@@ -75,13 +75,10 @@ const App = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const fetchAPI = await fetch(
-          "https://api.netverses.com/v1/auth/status",
-          {
-            method: "POST",
-            credentials: "include",
-          },
-        );
+        const fetchAPI = await fetch("https://api.netverses.com/v1/self", {
+          method: "POST",
+          credentials: "include",
+        });
 
         if (!fetchAPI.ok) {
           setAuth(false);
@@ -89,16 +86,35 @@ const App = () => {
         }
 
         const fetchResponse = await fetchAPI.json();
-        setAuth(fetchResponse.success && fetchResponse.isAuthenticated);
+        setAuth(fetchResponse.success && fetchResponse.user);
       } catch (error) {
         console.error("Error:", error);
         setAuth(false);
+      }
+    };
+
+    const refreshAuth = async () => {
+      try {
+        const fetchAPI = await fetch(
+          "https://api.netverses.com/v1/auth/refresh",
+          {
+            method: "POST",
+            credentials: "include",
+          },
+        );
+
+        if (!fetchAPI.ok) {
+          return;
+        }
+      } catch (e) {
+        console.error("Error:", e);
       } finally {
         setLoading(false);
       }
     };
 
     checkAuth();
+    refreshAuth();
   }, []);
 
   // Check feed

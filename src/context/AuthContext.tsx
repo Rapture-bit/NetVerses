@@ -16,10 +16,10 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const fetchAPI = await fetch(
-          "https://api.netverses.com/v1/auth/status",
-          { method: "POST", credentials: "include" },
-        );
+        const fetchAPI = await fetch("https://api.netverses.com/v1/self", {
+          method: "POST",
+          credentials: "include",
+        });
 
         if (!fetchAPI.ok) {
           setAuth(false);
@@ -27,7 +27,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
 
         const fetchResponse = await fetchAPI.json();
-        setAuth(fetchResponse.success && fetchResponse.isAuthenticated);
+        setAuth(fetchResponse.success && fetchResponse.user);
       } catch (error) {
         setAuth(false);
       }

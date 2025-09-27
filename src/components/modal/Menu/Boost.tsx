@@ -33,7 +33,7 @@ export default function Boost({ visible, setIsOpen }) {
       message: `Insufficient Boosts`,
       showProgress: true,
       pauseOnHover: false,
-      description: "You don't have enough boosts to perform this action!", // i18n
+      description: "User don't have enough boosts to perform this action!", // i18n
       placement,
     });
   };

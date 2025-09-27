@@ -613,6 +613,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
               email,
               username,
             }),
+            credentials: "include",
           },
         );
 
@@ -720,6 +721,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
       },
     );
 

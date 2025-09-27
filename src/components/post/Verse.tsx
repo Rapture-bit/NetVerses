@@ -143,7 +143,7 @@ export default function Verse({ isComment }) {
             }}
             placeholder={
               isComment
-                ? "Your comment here..."
+                ? "User's comment here..."
                 : "Share your updates with the universe"
             }
             className={`!bg-transparent pl-0 overflow-hidden resize-none select-none ${isItalic} border-none outline-none focus:border-none dark:text-white opacity-95 w-full text-lg placeholder:text-gray-500`}
