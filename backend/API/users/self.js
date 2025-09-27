@@ -8,7 +8,7 @@ export default async function (req, res) {
   if (!authToken || !sessionId) {
     return res.status(200).json({
       success: false,
-      message: "User is not authenticated to continue!",
+      message: "User is not authenticated to continue! (1)",
     });
   }
 
@@ -17,7 +17,7 @@ export default async function (req, res) {
   if (!authCheck.success) {
     return res.status(200).json({
       success: false,
-      message: "User is not authenticated to continue!",
+      message: authCheck.message,
     });
   }
 

@@ -7,7 +7,7 @@ const Loading = () => {
       <div className="backgroundColor min-h-screen min-w-screen flex justify-center items-center textColor">
         <div className="text-center flex flex-col gap-3">
           <span className="text-5xl font-bold">
-            Net<span className="text-violet-600">Verse</span>
+            Net<span className="text-violet-600">Verses</span>
           </span>
           <p className="mt-2 w-3/4 mx-auto text-lg">
             A new realm of social media awaits you, offering an exciting journey

@@ -221,7 +221,7 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
           >
             <div className="space-y-4 flex flex-col">
               <span className="text-sm inter">
-                Welcome back to NetVerse! Please sign in to your account and
+                Welcome back to NetVerses! Please sign in to your account and
                 resume your journey with us.
               </span>
 

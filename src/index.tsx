@@ -2,6 +2,8 @@ import React, { useState, useEffect, Suspense, useLayoutEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
+import Cookies from "js-cookie";
+
 import "@/styles/tailwind.css";
 import "@/styles/theme.css";
 import "@/styles/global.css";
@@ -106,6 +108,8 @@ const App = () => {
         if (!fetchAPI.ok) {
           return;
         }
+
+        await new Promise((resolve) => setTimeout(resolve, 200));
       } catch (e) {
         console.error("Error:", e);
       } finally {

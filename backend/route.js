@@ -14,7 +14,7 @@ const route = {
       name: "Refresh Token",
       path: "/auth/refresh",
       allowedMethods: ["POST"],
-      functionFile: "../API/auth/refresh-token.js",
+      functionFile: "../API/auth/rotate-token.js",
       authRequired: false,
       rateLimit: {
         max: 9000,
@@ -84,7 +84,7 @@ const route = {
       name: "Get Self Information",
       path: "/self",
       allowedMethods: ["POST"],
-      functionFile: "../API/users/me.js",
+      functionFile: "../API/users/self.js",
       authRequired: true,
       rateLimit: {
         max: 20,

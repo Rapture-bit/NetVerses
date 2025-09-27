@@ -59,27 +59,27 @@ export default function Post({
   attachments = {
     images: [
       {
-        URL: "https://assets.netverses.com/media/avatars/type11.jpg",
+        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/avatars/type11.jpg",
+        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/avatars/type11.jpg",
+        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/avatars/type11.jpg",
+        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/avatars/type11.jpg",
+        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/avatars/type11.jpg",
+        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
     ],

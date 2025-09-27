@@ -1,5 +1,3 @@
-import checkAuth from "../../auth/checkAuth.js";
-
 import {
   UserToken,
   UserProfile,
@@ -13,10 +11,9 @@ import {
 
 export default async function (req, res) {
   try {
-    const { success } = await checkAuth(req);
-    const { refresh_token } = req.signedCookies;
+    const { refresh_token, access_token } = req.signedCookies;
 
-    if (success) {
+    if (access_token) {
       return res.status(200).json({
         success: false,
         message: "User is already authenticated.",
@@ -31,7 +28,7 @@ export default async function (req, res) {
     }
 
     const tokenData = await UserToken.findOne({
-      where: { refresh_token: refresh_token },
+      where: { refresh_token },
     });
     if (!tokenData) {
       return res
@@ -41,31 +38,30 @@ export default async function (req, res) {
 
     const userId = tokenData.userId;
 
-    const session = await UserProfile.findOne({ where: { id: userId } });
-    const username = session.getDataValue("username");
+    const session = await UserSession.findOne({ where: { userId: userId } });
+    const profileUser = await UserProfile.findOne({ where: { id: userId } });
+    const username = profileUser.getDataValue("username");
 
     const accessTokenExpires = new Date();
     accessTokenExpires.setMinutes(accessTokenExpires.getMinutes() + 15);
 
     const refreshTokenExpires = new Date();
-    refreshTokenExpires.setDate(refreshTokenExpires.getDate() + 7); // 7 days
+    refreshTokenExpires.setDate(refreshTokenExpires.getDate() + 7);
 
     const refreshToken = generateRefreshToken();
     const generatedSessionId = generateSessionId();
 
-    tokenData.setDataValue("refresh_token", refreshToken);
+    tokenData.refresh_token = refreshToken;
     await tokenData.save();
 
     if (session) {
-      session.setDataValue("sessionId", generatedSessionId);
-      await session.save();
-    } else {
-      await UserSession.create({
-        userId,
-        sessionId: generatedSessionId,
-        expiresAt: refreshTokenExpires,
-      });
+      await session.destroy();
     }
+    await UserSession.create({
+      userId,
+      sessionId: generatedSessionId,
+      expiresAt: refreshTokenExpires,
+    });
 
     const accessToken = createJwtToken({ userId, username });
 
@@ -99,7 +95,7 @@ export default async function (req, res) {
       .status(200)
       .json({ success: true, message: "User successfully authenticated." });
   } catch (e) {
-    console.error(e);
+    console.error("rotate-token error:", e);
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error" });

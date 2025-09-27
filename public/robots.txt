@@ -7,13 +7,10 @@ User-Agent: Google-Extended
 Disallow:
 
 User-Agent: FacebookBot
-Disallow: *
-
-User-agent: facebookexternalhit
-Disallow: *
+Disallow:
 
 User-agent: Discordbot
-Disallow: *
+Disallow:
 
 User-agent: Bingbot
 Disallow:
@@ -21,8 +18,11 @@ Disallow:
 User-agent: Slurp
 Disallow:
 
+User-agent: facebookexternalhit
+Disallow:
+
 User-agent: *
-Disallow: /
+Disallow:
 
 Crawl-delay: 1
 Sitemap: https://netverses.com/sitemap.xml

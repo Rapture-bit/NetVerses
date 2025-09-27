@@ -9,6 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 export default async function checkAuth(req) {
   try {
     const { access_token, session_id } = req.signedCookies;
+
     if (!access_token) {
       return {
         success: false,
@@ -23,10 +24,27 @@ export default async function checkAuth(req) {
       return { success: false, message: "Access token invalid or expired." };
     }
 
+    if (!session_id) {
+      return {
+        success: false,
+        message: "Session not found. Please log in again.",
+      };
+    }
+
     const session = await UserSession.findOne({
       where: { sessionId: session_id },
     });
-    if (!session || session.expiresAt < new Date()) {
+
+    if (!session) {
+      console.warn("No session found for session_id:", session_id);
+      return {
+        success: false,
+        message: "Session not found. Please log in again.",
+      };
+    }
+
+    if (session.expiresAt < new Date()) {
+      console.warn("Session expired:", session.sessionId);
       return {
         success: false,
         message: "Session expired. Please log in again.",
@@ -38,8 +56,12 @@ export default async function checkAuth(req) {
       return { success: false, message: "User not found." };
     }
 
-    return { success: true, user: user };
+    return { success: true, user };
   } catch (e) {
-    console.error(`INTERNAL SERVER ERROR: ${e}`);
+    console.error("Internal error:", e);
+    return {
+      success: false,
+      message: "Internal server error while checking auth.",
+    };
   }
 }
