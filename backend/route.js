@@ -21,6 +21,16 @@ const route = {
       },
     },
     {
+      name: "Retrieve Feed",
+      path: "/feeds",
+      allowedMethods: ["GET"],
+      functionFile: "../API/feed/get-feed.js",
+      authRequired: false,
+      rateLimit: {
+        max: 9000,
+      },
+    },
+    {
       name: "Confirm OTP",
       path: "/otp/confirm",
       allowedMethods: ["POST"],

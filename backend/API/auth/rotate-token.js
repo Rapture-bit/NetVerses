@@ -11,12 +11,19 @@ import {
 
 export default async function (req, res) {
   try {
-    const { refresh_token, access_token } = req.signedCookies;
+    const { refresh_token, access_token, session_id } = req.signedCookies;
 
     if (access_token) {
       return res.status(200).json({
         success: false,
         message: "User is already authenticated.",
+      });
+    }
+
+    if (!session_id) {
+      return res.status(200).json({
+        success: false,
+        message: "Invalid session.",
       });
     }
 
@@ -28,7 +35,7 @@ export default async function (req, res) {
     }
 
     const tokenData = await UserToken.findOne({
-      where: { refresh_token },
+      where: { refresh_token, session_id },
     });
     if (!tokenData) {
       return res

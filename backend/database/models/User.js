@@ -15,6 +15,18 @@ User.init(
       allowNull: false,
       primaryKey: true,
     },
+    role: {
+      type: DataTypes.ENUM(
+        "user",
+        "verified",
+        "journalist",
+        "moderator",
+        "admin",
+        "founder",
+      ),
+      allowNull: false,
+      defaultValue: "user",
+    },
     email: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -179,6 +191,10 @@ UserToken.init(
       type: DataTypes.TEXT,
       allowNull: false,
     }, // Safe UUID
+    session_id: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     userId: {
       type: DataTypes.STRING(32),
       allowNull: false,
@@ -197,5 +213,14 @@ UserToken.init(
     modelName: "UserToken",
   },
 );
+
+User.hasOne(UserProfile, { foreignKey: "id" });
+UserProfile.belongsTo(User, { foreignKey: "id" });
+
+User.hasMany(UserSession, { foreignKey: "userId" });
+UserSession.belongsTo(User, { foreignKey: "userId" });
+
+User.hasMany(UserToken, { foreignKey: "userId" });
+UserToken.belongsTo(User, { foreignKey: "userId" });
 
 export { User, UserProfile, UserToken, UserSession };

@@ -58,6 +58,7 @@ async function createAccount(res, email, username, password) {
     const sessionId = generateSessionId();
     await UserToken.create({
       refresh_token: refreshToken,
+      session_id: sessionId,
       userId: userId,
       expiresAt: expiresAt,
     });
