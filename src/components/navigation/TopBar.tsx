@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Tooltip } from "antd";
+
+import { AuthContext } from "@/context/AuthContext";
 
 import SignUpModal from "@/components/modal/SignUp";
 import SignInModal from "@/components/modal/SignIn";
 
 export default function TopBar() {
-  const [isAuth, setAuth] = useState<boolean>(false);
+  const { isAuth } = useContext(AuthContext);
   const [isSignInVisible, setSignInVisible] = useState<boolean>(false);
   const [isSignUpVisible, setSignUpVisible] = useState<boolean>(false);
 

@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BottomBar from "@/components/navigation/BottomBar";
 import Verse from "@/components/post/Verse";
 import Post from "@/components/post/Post";
 import News from "@/components/post/News";
 import TodaySummary from "@/components/others/TodaySummary";
 import FeedSelection from "@/components/others/FeedSelection";
-import { useState } from "react";
+import BottomPageComponent from "@/components/post/BottomPageComponent";
 import type { MenuProps } from "antd/es/menu";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { Dropdown, Space, ConfigProvider } from "antd";
@@ -21,6 +21,7 @@ export default function Home() {
   );
   const [isLoading, setLoading] = useState<boolean>(true);
   const [isDropdownOpened, setDropdownOpened] = useState<boolean>(true);
+  const [reachedBottom, setReachedBottom] = useState<boolean>(false);
   const [isFeedLoading, setFeedLoading] = useState<boolean>(false);
   const [topNews, setTopNews] = useState<object>([
     {
@@ -328,6 +329,16 @@ export default function Home() {
     },
   ];
 
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        setReachedBottom(true);
+      } else {
+        setReachedBottom(false);
+      }
+    });
+  }, []);
+
   return (
     <>
       <PageTitle title="NetVerses ~ Home" />
@@ -409,6 +420,10 @@ export default function Home() {
                   ))
                 : null)}
         </div>
+        <BottomPageComponent
+          selectedFeed={selectedFeed}
+          bottomReached={reachedBottom}
+        />
       </div>
     </>
   );

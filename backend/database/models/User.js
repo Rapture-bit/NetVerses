@@ -84,7 +84,7 @@ UserProfile.init(
       unique: false,
       validate: {
         len: [3, 50],
-        isAlphanumeric: true,
+        is: /^[a-zA-Z0-9_-]+$/,
       },
     },
     username: {
@@ -93,7 +93,7 @@ UserProfile.init(
       unique: true,
       validate: {
         len: [3, 50],
-        isAlphanumeric: true,
+        is: /^[a-zA-Z0-9_-]+$/,
       },
     },
     profile_picture: {

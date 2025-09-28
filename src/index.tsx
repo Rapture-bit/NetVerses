@@ -73,31 +73,12 @@ const App = () => {
     };
   }, []);
 
-  // Check authentication
   useEffect(() => {
-    const checkAuth = async () => {
+    let isMounted = true;
+
+    const authenticate = async () => {
       try {
-        const fetchAPI = await fetch("https://api.netverses.com/v1/self", {
-          method: "POST",
-          credentials: "include",
-        });
-
-        if (!fetchAPI.ok) {
-          setAuth(false);
-          return;
-        }
-
-        const fetchResponse = await fetchAPI.json();
-        setAuth(fetchResponse.success && fetchResponse.user);
-      } catch (error) {
-        console.error("Error:", error);
-        setAuth(false);
-      }
-    };
-
-    const refreshAuth = async () => {
-      try {
-        const fetchAPI = await fetch(
+        const refreshRes = await fetch(
           "https://api.netverses.com/v1/auth/refresh",
           {
             method: "POST",
@@ -105,25 +86,41 @@ const App = () => {
           },
         );
 
-        if (!fetchAPI.ok) {
-          return;
+        if (refreshRes.ok) {
+          const refreshData = await refreshRes.json();
+          if (refreshData.success && isMounted) {
+            setAuth(true);
+          }
         }
 
-        await new Promise((resolve) => setTimeout(resolve, 200));
-      } catch (e) {
-        console.error("Error:", e);
+        const res = await fetch("https://api.netverses.com/v1/self", {
+          method: "POST",
+          credentials: "include",
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted) setAuth(data.success && data.user);
+        } else if (isMounted) {
+          setAuth(false);
+        }
+      } catch (err) {
+        console.error(err);
+        if (isMounted) setAuth(false);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
-    checkAuth();
-    refreshAuth();
+    authenticate();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Check feed
   useEffect(() => {
-    console.log(isAuth);
     if (!isAuth) {
       return;
     }

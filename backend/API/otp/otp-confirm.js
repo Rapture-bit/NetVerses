@@ -36,6 +36,13 @@ async function hashPassword(password) {
 
 async function createAccount(res, email, username, password) {
   try {
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(200).json({
+        success: false,
+        message: "An account with this email already exists.",
+      });
+    }
     const hashedPassword = await hashPassword(password);
 
     await User.create({ email, password: hashedPassword });
