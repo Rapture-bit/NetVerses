@@ -1,4 +1,4 @@
-import { UserSession, User } from "../database/models/User.js";
+import { UserSession, UserProfile, User } from "../database/models/User.js";
 import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
@@ -51,7 +51,7 @@ export default async function checkAuth(req) {
       };
     }
 
-    const user = await User.findOne({ where: { id: payload.userId } });
+    const user = await UserProfile.findOne({ where: { id: payload.userId } });
     if (!user) {
       return { success: false, message: "User not found." };
     }

@@ -189,7 +189,7 @@ export default function PrivacyPage() {
               <div className="flex flex-col space-y-2 md:space-y-3 lg:space-y-4 p-4 md:p-6 lg:p-8">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold rubik tracking-wide">
                   <span>Net</span>
-                  <span className="text-purple-600">Verse</span>
+                  <span className="text-purple-600">Verses</span>
                 </h1>
                 <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl textColor font-semibold rubik tracking-tight">
                   Privacy Policy

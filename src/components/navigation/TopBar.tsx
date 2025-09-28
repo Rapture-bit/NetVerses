@@ -25,7 +25,7 @@ export default function TopBar() {
           className="flex items-center text-xl md:text-2xl select-none"
         >
           <span className="dark:text-gray-200 text-black">Net</span>
-          <span className="text-purple-600">Verse</span>
+          <span className="text-purple-600">Verses</span>
         </a>
 
         {isAuth && (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useLayoutEffect, createContext } from "react";
 
 interface AuthContextType {
   isAuth: boolean;
@@ -13,7 +13,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isAuth, setAuth] = useState<boolean>(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const checkAuth = async () => {
       try {
         const fetchAPI = await fetch("https://api.netverses.com/v1/self", {
