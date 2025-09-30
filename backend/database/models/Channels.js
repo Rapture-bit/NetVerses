@@ -154,7 +154,7 @@ Channels.belongsToMany(User, {
   foreignKey: "channelId",
   otherKey: "userId",
   as: "subscribers",
-  onDelet: "CASCADE",
+  onDelete: "CASCADE",
 });
 
 User.belongsToMany(Channels, {

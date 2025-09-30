@@ -4,7 +4,6 @@ import SearchBar from "@/components/input/SearchBar";
 import BottomBar from "@/components/navigation/BottomBar";
 import FriendMessage from "@/components/messages/FriendMessage";
 import TextArea from "@/components/input/TextArea";
-import Options from "@/components/others/Options";
 
 import { Tooltip } from "antd";
 
@@ -198,10 +197,6 @@ export default function Messages() {
       <BottomBar />
 
       <div className="flex flex-col gap-3 justify-start items-center w-full h-screen pt-24 bg-fixed bg-cover bg-center sm:px-9">
-        <Options
-          setVisible={setOptionsSelected}
-          isVisible={IsOptionsSelected}
-        />
         <div className="flex flex-row justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-full darkerBackgroundColor">
           <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
             <button

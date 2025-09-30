@@ -14,6 +14,9 @@ export default async function (req, res) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
+    console.log("Amount: ", amount);
+    console.log("Filter: ", filter);
+
     return res.status(200).json({ feeds: {} });
   } catch (e) {
     console.error(e);

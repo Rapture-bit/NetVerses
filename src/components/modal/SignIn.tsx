@@ -192,19 +192,34 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
       footer={
         <div className="justify-center items-center text-center">
           {currentTab === 1 && (
-            <Button
-              aria-label="Submit"
-              type="primary"
-              onClick={toggleTab}
-              className={`p-4 ${isNextDisabled ? "!bg-violet-900" : "!bg-violet-700"} !border-violet-900 mt-2 hover:!bg-opacity-85 px-16 rounded-full transition-all duration-300`}
-              disabled={isNextDisabled}
-            >
-              <span
-                className={`font-medium ${isNextDisabled ? "textColor" : "text-white"} transition-all duration-300`}
+            <div className="flex flex-row space-x-3 justify-center items-center">
+              <Button
+                aria-label="LinkConnect Option"
+                type="primary"
+                onClick={toggleTab}
+                className={`p-4 !bg-violet-800 !border-violet-900 mt-2 hover:!bg-opacity-80 px-6 rounded-full transition-all duration-300`}
               >
-                Submit
-              </span>
-            </Button>
+                <span
+                  className={`font-medium text-white transition-all duration-300`}
+                >
+                  LinkConnect
+                </span>
+              </Button>
+              <span className="p-1 mt-2">or</span>
+              <Button
+                aria-label="Submit"
+                type="primary"
+                onClick={toggleTab}
+                className={`p-4 ${isNextDisabled ? "bg-gray-600 cursor-not-allowed" : "!bg-violet-700"} !border-violet-900 mt-2 hover:!bg-opacity-85 px-10 rounded-full transition-all duration-300`}
+                disabled={isNextDisabled}
+              >
+                <span
+                  className={`font-medium ${isNextDisabled ? "textColor" : "text-white"} transition-all duration-300`}
+                >
+                  Submit
+                </span>
+              </Button>
+            </div>
           )}
         </div>
       }

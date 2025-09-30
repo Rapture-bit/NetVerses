@@ -370,7 +370,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   const refreshPage = () => {
     setTimeout(() => {
       window.location.reload();
-    }, 10 * 1000);
+    }, 1000);
   };
 
   const checkEmailAvailability = useCallback(async () => {

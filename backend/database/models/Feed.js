@@ -1,4 +1,5 @@
 import { Channels } from "./Channels";
+import { Clubs } from "./Clubs";
 import { User } from "./User";
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database";
@@ -19,16 +20,24 @@ Verses.init(
     },
     authorId: {
       type: DataTypes.STRING(32),
-      allowNull: false,
+      allowNull: true,
+    },
+    clubId: {
+      type: DataTypes.STRING(32),
+      allowNull: true,
+      references: {
+        model: "Clubs",
+        key: "id",
+      },
+      onDelete: "CASCADE",
     },
     visibility: {
       type: DataTypes.JSON,
       allowNull: true,
       defaultValue: {
-        regions: [],
         people: [],
         clubs: [],
-        genres: [],
+        genres: [], // By algorithm (default) or manually
       },
     },
     content: {
@@ -39,9 +48,27 @@ Verses.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    assets: {
-      type: DataTypes.TEXT,
+    hashtags: {
+      type: DataTypes.JSON,
+      defaultValue: [],
       allowNull: false,
+    },
+    assets: {
+      type: DataTypes.JSON,
+      defaultValue: [
+        {
+          assetId: 0,
+          assetURL: "https://assets.netverses.com/media/image_placeholder.jpg",
+          isNSFW: false,
+          comment: "Placeholder",
+        },
+      ],
+      allowNull: false,
+    },
+    nsfwFilter: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
     defaultLocale: {
       type: DataTypes.STRING(5),
@@ -50,19 +77,36 @@ Verses.init(
         is: /^[a-z]{2}-[A-Z]{2}$/,
       },
     },
-    statistics: {
+    interactions: {
       type: DataTypes.JSON,
       defaultValue: {
-        likes: 0,
-        dislikes: 0,
         comments: [],
+        reactions: {
+          likes: 0,
+          dislikes: 0,
+        },
         boosts: 0,
         views: 0,
       },
       allowNull: false,
     },
   },
-  { sequelize, modelName: "Verses", timestamps: true, paranoid: true },
+  {
+    sequelize,
+    modelName: "Verses",
+    timestamps: true,
+    paranoid: true,
+    validate: {
+      eitherUserOrClub() {
+        if (!this.clubId && !this.authorId) {
+          throw new Error("Either clubId or authorId must be set");
+        }
+        if (this.clubId && this.authorId) {
+          throw new Error("Only one of clubId or authorId can be set");
+        }
+      },
+    },
+  },
 );
 
 class Articles extends Model {}
@@ -86,12 +130,25 @@ Articles.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    redactedFilter: {
+      type: DataTypes.JSON,
+      allowNull: false,
+      defaultValue: [],
+    },
     title: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
     assets: {
-      type: DataTypes.TEXT,
+      type: DataTypes.JSON,
+      defaultValue: [
+        {
+          assetId: 0,
+          assetURL: "https://assets.netverses.com/media/image_placeholder.jpg",
+          isNSFW: false,
+          comment: "Placeholder",
+        },
+      ],
       allowNull: false,
     },
     defaultLocale: {
@@ -115,14 +172,34 @@ Articles.init(
         genres: [],
       },
     },
-    statistics: {
+    interactions: {
       type: DataTypes.JSON,
       defaultValue: {
-        likes: 0,
-        dislikes: 0,
         comments: [],
+        reactions: {
+          likes: 0,
+          dislikes: 0,
+        },
         boosts: 0,
         views: 0,
+      },
+      allowNull: false,
+    },
+    internalStatistics: {
+      type: DataTypes.JSON,
+      defaultValue: {
+        regions: [],
+        devices: {
+          desktop: 0,
+          mobile: 0,
+          tablet: 0,
+        },
+        impressions: 0,
+        uniqueViewers: 0,
+        scrollDepth: 0,
+        shares: 0,
+        saves: 0,
+        premiumUsers: 0,
       },
       allowNull: false,
     },
@@ -157,5 +234,12 @@ Articles.belongsTo(Channels, {
   onDelete: "CASCADE",
 });
 Channels.hasMany(Articles, { foreignKey: "channelId", as: "articles" });
+
+Verses.belongsTo(Clubs, {
+  foreignKey: "clubId",
+  as: "club",
+  onDelete: "CASCADE",
+});
+Clubs.hasMany(Verses, { foreignKey: "clubId", as: "verses" });
 
 export { Verses, Articles };
