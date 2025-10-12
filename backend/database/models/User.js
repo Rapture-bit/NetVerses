@@ -47,31 +47,8 @@ User.init(
   },
 );
 
-class UserSession extends Model {}
-UserSession.init(
-  {
-    sessionId: {
-      type: DataTypes.STRING(32),
-      primaryKey: true,
-      allowNull: false,
-    },
-    userId: {
-      type: DataTypes.STRING(32),
-      allowNull: false,
-    },
-    expiresAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    modelName: "UserSession",
-  },
-);
-
-class UserProfile extends Model {}
-UserProfile.init(
+class UserProfiles extends Model {}
+UserProfiles.init(
   {
     id: {
       type: DataTypes.STRING(32),
@@ -99,7 +76,7 @@ UserProfile.init(
     profile_picture: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: "https://assets.netverses.com/media/image_placeholder.jpg",
+      defaultValue: "https://cdn.netverses.com/media/image_placeholder.jpg",
       validate: {
         isUrl: true,
       },
@@ -175,7 +152,9 @@ UserProfile.init(
   },
   {
     sequelize,
-    modelName: "UserProfile",
+    modelName: "UserProfiles",
+    tableName: "UserProfiles",
+    freezeTableName: true,
   },
 );
 
@@ -203,6 +182,10 @@ UserToken.init(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+    sessionExpiresAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
     expiresAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -214,13 +197,10 @@ UserToken.init(
   },
 );
 
-User.hasOne(UserProfile, { foreignKey: "id" });
-UserProfile.belongsTo(User, { foreignKey: "id" });
-
-User.hasMany(UserSession, { foreignKey: "userId" });
-UserSession.belongsTo(User, { foreignKey: "userId" });
+User.hasOne(UserProfiles, { foreignKey: "id" });
+UserProfiles.belongsTo(User, { foreignKey: "id" });
 
 User.hasMany(UserToken, { foreignKey: "userId" });
 UserToken.belongsTo(User, { foreignKey: "userId" });
 
-export { User, UserProfile, UserToken, UserSession };
+export { User, UserToken, UserProfiles };

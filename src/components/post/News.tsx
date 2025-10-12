@@ -73,7 +73,7 @@ const News = ({
 
         <div className="flex flex-col space-y-3">
           <div className="flex flex-row gap-3 w-full">
-            <p className="dark:text-white opacity-80 min-w-[300px]">
+            <p className="dark:text-white dark:!opacity-80 text-black opacity-100 min-w-[300px]">
               {description}
             </p>
           </div>

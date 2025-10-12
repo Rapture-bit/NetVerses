@@ -1,12 +1,7 @@
 import { blacklistedCountries } from "../../constants/blacklistedCountries.js";
 
 import { OTP } from "../../database/models/OTP.js";
-import {
-  User,
-  UserProfile,
-  UserSession,
-  UserToken,
-} from "../../database/models/User.js";
+import { User, UserProfiles, UserToken } from "../../database/models/User.js";
 import { createJwtToken } from "../../auth/HandleJWT.js";
 import {
   generateSessionId,
@@ -50,12 +45,12 @@ async function createAccount(res, email, username, password) {
     const userId = user.id;
 
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7);
+    expiresAt.setDate(expiresAt.getDate() + 7); // After 7 days
 
     const accessTokenExpires = new Date();
-    accessTokenExpires.setMinutes(accessTokenExpires.getMinutes() + 15);
+    accessTokenExpires.setMinutes(accessTokenExpires.getMinutes() + 15); // After 15 minutes
 
-    await UserProfile.create({
+    await UserProfiles.create({
       id: userId,
       display_name: username,
       username: username,
@@ -68,11 +63,7 @@ async function createAccount(res, email, username, password) {
       session_id: sessionId,
       userId: userId,
       expiresAt: expiresAt,
-    });
-    await UserSession.create({
-      sessionId: sessionId,
-      userId: userId,
-      expiresAt: expiresAt,
+      sessionExpiresAt: accessTokenExpires,
     });
 
     const generatedAccessToken = createJwtToken({ userId, username });

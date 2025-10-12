@@ -1,4 +1,4 @@
-import { UserProfile } from "../../database/models/User.js";
+import { UserProfiles } from "../../database/models/User.js";
 
 export default async function (req, res) {
   const { username } = req.query;
@@ -20,7 +20,7 @@ export default async function (req, res) {
   }
 
   try {
-    const isUsernameFound = await UserProfile.findOne({
+    const isUsernameFound = await UserProfiles.findOne({
       where: { username },
     });
 

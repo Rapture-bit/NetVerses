@@ -49,7 +49,7 @@ export default function DefaultLayout() {
     document.body.appendChild(script);
 
     const loadingScript = document.createElement("script");
-    loadingScript.src = "https://assets.netverses.com/scripts/ga.js";
+    loadingScript.src = "https://cdn.netverses.com/scripts/ga.js";
     loadingScript.setAttribute("nonce", nonce);
     loadingScript.type = "text/javascript";
     document.body.appendChild(loadingScript);

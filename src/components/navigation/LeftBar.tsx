@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import formatNumber from "@/utils/formatNumber";
 import { getCssVariable } from "@/utils/getCssVariable";
 
+import { useTranslation } from "react-i18next";
+
 export default function LeftBar() {
+  const { t } = useTranslation();
   const [isAuth, setAuth] = useState<boolean>(true); // Change with API data
   const [hideButtons, setHideButtons] = useState<boolean>(false);
   const [leftPosition, setLeftPosition] = useState<string>("8%");
@@ -147,17 +150,17 @@ export default function LeftBar() {
 
             <div className="flex flex-row gap-6 justify-center items-center">
               <button
-                aria-label="Edit Profile"
+                aria-label={t("home.editProfile")}
                 className="rounded-md bg-purple-700 text-white hover:brightness-125 duration-200 transition-all px-2 py-1 text-sm"
               >
-                Edit Profile
+                {t("home.editProfile")}
               </button>
               <button
-                aria-label="Visit Profile"
+                aria-label={t("home.visitProfile")}
                 onClick={() => (window.location.href = "/xenon")}
                 className="rounded-md bg-transparent border-violet-700 border hover:bg-purple-700 duration-200 transition-all px-2 py-1 text-sm"
               >
-                Visit Profile
+                {t("home.visitProfile")}
               </button>
             </div>
           </div>
@@ -166,24 +169,28 @@ export default function LeftBar() {
         <div className="flex flex-col space-y-4 justify-center items-center">
           <div className="relative flex items-center justify-center">
             <button
-              aria-label="Home"
+              aria-label={t("home.leftBar.home")}
               onClick={(e) => (window.location.href = "/")}
               className={`${selectedPage === "Home" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
             >
               <span
                 className={`${selectedPage === "Home" ? "icon-[fluent--home-16-filled]" : "icon-[fluent--home-16-regular]"} w-6 h-6 flex items-center justify-center`}
               ></span>
-              <span className="text-base xl:flex hidden">Home</span>
+              <span className="text-base xl:flex hidden">
+                {t("home.leftBar.home")}
+              </span>
             </button>
           </div>
           <div className="relative flex items-center justify-center">
             <button
-              aria-label="Explore"
+              aria-label={t("home.leftBar.explore")}
               onClick={(e) => (window.location.href = "/explore")}
               className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
             >
               <span className="icon-[material-symbols--search] w-6 h-6 flex items-center justify-center"></span>
-              <span className="text-base xl:flex hidden">Explore</span>
+              <span className="text-base xl:flex hidden">
+                {t("home.leftBar.explore")}
+              </span>
             </button>
           </div>
 
@@ -191,54 +198,60 @@ export default function LeftBar() {
             <>
               <div className="relative flex items-center justify-center">
                 <button
-                  aria-label="Messages"
+                  aria-label={t("home.leftBar.messages")}
                   onClick={(e) => (window.location.href = "/messages")}
                   className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
                 >
                   <span
                     className={`${selectedPage === "Messages" ? "icon-[ic--baseline-email]" : "icon-[ic--outline-email]"} w-6 h-6 flex items-center justify-center`}
                   ></span>
-                  <span className="text-base">Messages</span>
+                  <span className="text-base">
+                    {t("home.leftBar.messages")}
+                  </span>
                 </button>
               </div>
 
               <div className="relative flex items-center justify-center">
                 <button
-                  aria-label="Clubs"
+                  aria-label={t("home.leftBar.clubs")}
                   onClick={(e) => (window.location.href = "/my/clubs")}
                   className={`${selectedPage === "Clubs" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
                 >
                   <span
                     className={`${selectedPage === "Clubs" ? "icon-[mage--globe-fill]" : "icon-[hugeicons--globe-02]"} w-6 h-6 flex items-center justify-center`}
                   ></span>
-                  <span className="text-base">Clubs</span>
+                  <span className="text-base">{t("home.leftBar.clubs")}</span>
                 </button>
               </div>
 
               <div className="relative flex items-center justify-center">
                 <button
-                  aria-label="My Wallet"
+                  aria-label={t("home.leftBar.mywallet")}
                   onClick={(e) => (window.location.href = "/my/wallet")}
                   className={`${selectedPage === "Wallet" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
                 >
                   <span
                     className={`${selectedPage === "Wallet" ? "icon-[si--wallet-fill]" : "icon-[si--wallet-line]"} w-6 h-6 flex items-center justify-center`}
                   ></span>
-                  <span className="text-base">My Wallet</span>
+                  <span className="text-base">
+                    {t("home.leftBar.mywallet")}
+                  </span>
                 </button>
               </div>
             </>
           )}
           <div className="relative flex flex-col gap-3 items-center justify-center">
             <button
-              aria-label="StarPlus"
+              aria-label={t("home.leftBar.starplus")}
               onClick={(e) => (window.location.href = "/starplus")}
               className={`${selectedPage === "StarPlus" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
             >
               <span
                 className={`${selectedPage === "StarPlus" ? "icon-[material-symbols--star]" : "icon-[material-symbols--star-outline]"} w-6 h-6 flex items-center justify-center`}
               ></span>
-              <span className="text-base xl:flex hidden">StarPlus</span>
+              <span className="text-base xl:flex hidden">
+                {t("home.leftBar.starplus")}
+              </span>
             </button>
             <div className="flex flex-row gap-2 mr-auto">
               <span className="text-xs mr-auto">© 2024 NetVerses</span>

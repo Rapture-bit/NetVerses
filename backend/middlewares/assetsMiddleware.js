@@ -29,9 +29,9 @@ export default async function assetsMiddleware(req, res, next) {
   const hostname = req.hostname;
   const fullPath = req.originalUrl.split("?")[0];
 
-  // Check if subdomain is "assets.netverses.com" and path is empty or not found in AssetsRoute
+  // Check if subdomain is "cdn.netverses.com" and path is empty or not found in AssetsRoute
   if (
-    hostname === "assets.netverses.com" &&
+    hostname === "cdn.netverses.com" &&
     (fullPath === "/" ||
       fullPath === "" ||
       !AssetsRoute.find((element) => matchRoute(fullPath, element.urlPath)))

@@ -47,7 +47,7 @@ async function startServer() {
     cors({
       origin: [
         "https://netverses.com",
-        "https://assets.netverses.com",
+        "https://cdn.netverses.com",
         "https://help.netverses.com",
       ],
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -67,7 +67,7 @@ async function startServer() {
             (req, res) => `'nonce-${res.locals.nonce}'`,
             "https://static.cloudflareinsights.com",
             "https://netverses.com:5173",
-            "https://assets.netverses.com",
+            "https://cdn.netverses.com",
             "https://netverses.com",
             "https://www.googletagmanager.com",
             "https://www.google-analytics.com",
@@ -75,14 +75,14 @@ async function startServer() {
           connectSrc: [
             "'self'",
             "https://api.netverses.com",
-            "https://assets.netverses.com",
+            "https://cdn.netverses.com",
             "https://www.google-analytics.com",
           ],
           imgSrc: [
             "'self'",
             "data:",
             "https://netverses.com",
-            "https://assets.netverses.com",
+            "https://cdn.netverses.com",
             "https://www.googletagmanager.com",
           ],
           objectSrc: ["'none'"],

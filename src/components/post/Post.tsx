@@ -7,6 +7,8 @@ import { useHumanDate } from "../others/HumanDate";
 import ImageGallery from "../others/ImageGallery";
 import Boost from "@/components/modal/Menu/Boost";
 
+import { useTranslation } from "react-i18next";
+
 type InteractionCounts = {
   likes: number;
   dislikes: number;
@@ -59,27 +61,27 @@ export default function Post({
   attachments = {
     images: [
       {
-        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
+        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
+        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
+        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
+        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
+        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
       {
-        URL: "https://assets.netverses.com/media/image_placeholder.jpg",
+        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
         comment: "NetVerses's Default Avatar",
       },
     ],
@@ -90,6 +92,7 @@ export default function Post({
   isNSFW,
   comments,
 }: PostProps) {
+  const { t } = useTranslation();
   const timeAgo = useTimeAgo(date);
   const humanReadableDate = useHumanDate(date);
 
@@ -182,7 +185,7 @@ export default function Post({
           href={`/${author}/posts/${id}`}
           className={`mt-3 ${textColor} hover:underline transition-all duration-300`}
         >
-          Show more
+          {t("general.showmore")}
         </a>
         <ImageGallery attachments={attachments} author={author} id={1} />
       </main>

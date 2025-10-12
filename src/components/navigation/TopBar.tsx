@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Tooltip } from "antd";
+import { useTranslation } from "react-i18next";
 
 import { AuthContext } from "@/context/AuthContext";
 
@@ -7,6 +8,7 @@ import SignUpModal from "@/components/modal/SignUp";
 import SignInModal from "@/components/modal/SignIn";
 
 export default function TopBar() {
+  const { t } = useTranslation();
   const { isAuth } = useContext(AuthContext);
   const [isSignInVisible, setSignInVisible] = useState<boolean>(false);
   const [isSignUpVisible, setSignUpVisible] = useState<boolean>(false);
@@ -71,7 +73,7 @@ export default function TopBar() {
               onClick={toggleSignInVisibility}
               className="border border-purple-600 font-medium text-black dark:text-gray-200 hover:text-white py-2 px-5 rounded-md shadow-sm hover:bg-purple-600 transition duration-300 text-sm"
             >
-              Login
+              {t("general.SignInBtn")}
             </button>
             <SignInModal
               visible={isSignInVisible}
@@ -82,7 +84,7 @@ export default function TopBar() {
               onClick={toggleSignUpVisibility}
               className="bg-violet-600 font-medium text-white py-2 px-5 rounded-md shadow-sm hover:bg-violet-500 transition duration-300 text-sm"
             >
-              Register
+              {t("general.RegisterBtn")}
             </button>
             <SignUpModal
               visible={isSignUpVisible}

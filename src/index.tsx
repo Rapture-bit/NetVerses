@@ -20,6 +20,7 @@ import "@/fonts/jost.css";
 import Loading from "@/components/others/Loading";
 import ThemeProvider from "@/context/ThemeContext";
 import AuthProvider from "@/context/AuthContext";
+import LocaleProvider from "@/context/LocaleContext";
 import SubdomainDivider from "@/SubdomainDivider";
 
 import "@/libraries/i18n/i18n";
@@ -140,11 +141,13 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <Suspense fallback={<Loading />}>
-          <SubdomainDivider isAuth={isAuth} />
-        </Suspense>
-      </AuthProvider>
+      <LocaleProvider>
+        <AuthProvider>
+          <Suspense fallback={<Loading />}>
+            <SubdomainDivider isAuth={isAuth} />
+          </Suspense>
+        </AuthProvider>
+      </LocaleProvider>
     </ThemeProvider>
   );
 };

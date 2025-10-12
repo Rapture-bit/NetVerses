@@ -1,4 +1,5 @@
 import React from "react";
+import { t } from "i18next";
 
 interface Props {
   placeholder?: string;
@@ -15,7 +16,7 @@ const SearchBar = ({ placeholder, height, onSearchChange }: Props) => {
     <div className="relative flex-1">
       <input
         type="text"
-        placeholder={placeholder || "Search"}
+        placeholder={placeholder || t("input.search")}
         className={`w-full ${height ? height : "py-1.5"} pl-10 pr-4 rounded-lg border border-gray-500 placeholder-gray-500 focus:outline-none darkerBackgroundColor`}
         onChange={handleSearchChange}
       />

@@ -10,6 +10,8 @@ import type { MenuProps } from "antd/es/menu";
 import { Dropdown, Space, ConfigProvider } from "antd";
 import DownOutlined from "@ant-design/icons";
 
+import { t } from "i18next";
+
 import { getCssVariable } from "@/utils/getCssVariable";
 
 type InteractionCounts = {
@@ -69,7 +71,7 @@ export default function FocusedPost({
           aria-label="Filter by Recent"
           onClick={() => setSelectedFilter("Recent")}
         >
-          Recent
+          {t("home.filterOptions.recent")}
         </button>
       ),
       key: "0",
@@ -80,7 +82,7 @@ export default function FocusedPost({
           aria-label="Filter by Popular"
           onClick={() => setSelectedFilter("Popular")}
         >
-          Popular
+          {t("home.filterOptions.popular")}
         </button>
       ),
       key: "1",

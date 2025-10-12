@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
+import { LocaleContext } from "@/context/LocaleContext";
+
 import Dropdown from "@/components/input/Dropdown";
 import Cookies from "js-cookie";
-
-import { useTranslation } from "react-i18next";
 
 export default function LocaleMenu() {
   const defaultLocale = "en-US";
   const defaultMaxLocales = 9;
 
-  const { t, i18n } = useTranslation();
+  const { changeGlobalLocale } = useContext(LocaleContext);
 
   const [currentLocale, setCurrentLocale] = useState<string>(defaultLocale);
   const [currentLang, setCurrentLang] = useState<string>("English");
@@ -26,7 +26,7 @@ export default function LocaleMenu() {
     { content: "English", locale: "en-US" },
     { content: "ⵜⴰⵎⴰⵣⵉⵖⵜ", locale: "tzm-Latn-DZ" },
     { content: "中文", locale: "zh-CN" },
-    { content: "الدّارجة", locale: "ary-MA" },
+    { content: "Darija", locale: "ary-MA" },
     { content: "العربية", locale: "ar-AR" },
     { content: "Italiano", locale: "it-IT" },
     { content: "German", locale: "de-DE" },
@@ -87,7 +87,7 @@ export default function LocaleMenu() {
     const cookieLocale = Cookies.get("locale") || defaultLocale;
     setCurrentLocale(cookieLocale);
     setCurrentLang(getLangFromLocale(cookieLocale));
-    i18n.changeLanguage(cookieLocale);
+    changeGlobalLocale(cookieLocale);
   }, []);
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export default function LocaleMenu() {
   useEffect(() => {
     const locale = getLocaleFromLang(currentLang);
     if (locale && currentLocale !== locale)
-      setCurrentLocale(locale) && i18n.changeLanguage(locale);
+      setCurrentLocale(locale) && changeGlobalLocale(locale);
   }, [currentLang]);
 
   useLayoutEffect(() => {
@@ -121,7 +121,7 @@ export default function LocaleMenu() {
 
   useLayoutEffect(() => {
     const locale = getLocaleFromLang(currentLang);
-    i18n.changeLanguage(locale);
+    changeGlobalLocale(locale);
   }, [currentLang, currentLocale]);
 
   return (
@@ -138,9 +138,7 @@ export default function LocaleMenu() {
                     : "font-normal"
                 }`}
                 onClick={() => (
-                  setCurrentLocale(loc.locale),
-                  i18n.changeLanguage(loc.locale),
-                  console.log(loc.locale)
+                  setCurrentLocale(loc.locale), changeGlobalLocale(loc.locale)
                 )}
               >
                 {loc.content}

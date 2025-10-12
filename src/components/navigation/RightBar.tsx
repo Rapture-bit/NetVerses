@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function RightBar({ news }) {
+  const { t } = useTranslation();
   const [isAuth, setAuth] = useState<boolean>(true);
   const topNews = news.slice(0, 3);
   const [rightPosition, setRightPosition] = useState("8%");
@@ -56,7 +58,7 @@ export default function RightBar({ news }) {
                 href="/news"
                 className="text-violet-500 hover:underline font-medium jost"
               >
-                View more news
+                {t("home.viewMoreNews")}
               </a>
             </div>
           </div>

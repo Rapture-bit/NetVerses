@@ -4,12 +4,15 @@ import { useState, useLayoutEffect, useEffect } from "react";
 import useDeviceType from "@/hooks/useDeviceType";
 import TextArea from "@/components/input/TextArea";
 
+import { useTranslation } from "react-i18next";
+
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import Media from "@/components/modal/Menu/Media";
 import { getCssVariable } from "@/utils/getCssVariable";
 
 export default function Verse({ isComment }) {
+  const { t } = useTranslation();
   const { deviceType, isTouchScreen } = useDeviceType();
   const [isItalic, setIsItalic] = useState<string>("italic");
   const [avatar, setAvatar] = useState<string>("/images/avatars/default.jpg");
@@ -142,9 +145,7 @@ export default function Verse({ isComment }) {
               verseInputChanged(e, false);
             }}
             placeholder={
-              isComment
-                ? "User's comment here..."
-                : "Share your updates with the universe"
+              isComment ? t("input.comment") : t("input.versesInput")
             }
             className={`!bg-transparent pl-0 overflow-hidden resize-none select-none ${isItalic} border-none outline-none focus:border-none dark:text-white opacity-95 w-full text-lg placeholder:text-gray-500`}
           />

@@ -1,4 +1,4 @@
-import { UserSession, UserProfile, User } from "../database/models/User.js";
+import { UserProfiles, User, UserToken } from "../database/models/User.js";
 import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
@@ -31,9 +31,7 @@ export default async function checkAuth(req) {
       };
     }
 
-    const session = await UserSession.findOne({
-      where: { sessionId: session_id },
-    });
+    const session = await UserToken.findOne({ session_id });
 
     if (!session) {
       console.warn("No session found for session_id:", session_id);
@@ -43,7 +41,7 @@ export default async function checkAuth(req) {
       };
     }
 
-    if (session.expiresAt < new Date()) {
+    if (session.sessionExpiresAt < new Date()) {
       console.warn("Session expired:", session.sessionId);
       return {
         success: false,
@@ -51,7 +49,7 @@ export default async function checkAuth(req) {
       };
     }
 
-    const user = await UserProfile.findOne({ where: { id: payload.userId } });
+    const user = await UserProfiles.findOne({ where: { id: payload.userId } });
     if (!user) {
       return { success: false, message: "User not found." };
     }

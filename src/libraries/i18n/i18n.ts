@@ -9,6 +9,7 @@ import deDE from "./translations/de-DE.json";
 import heIL from "./translations/he-IL.json";
 import arAR from "./translations/ar-AR.json";
 import jaJP from "./translations/ja-JP.json";
+import aryMA from "./translations/ary-MA.json";
 // import other locales similarly...
 
 const resources = {
@@ -20,6 +21,7 @@ const resources = {
   "he-IL": { translation: heIL },
   "ar-AR": { translation: arAR },
   "ja-JP": { translation: jaJP },
+  "ary-MA": { translation: aryMA },
 };
 
 i18n.use(initReactI18next).init({

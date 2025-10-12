@@ -1,10 +1,49 @@
 {
   "general": {
-    "RegisterBtn": "Register",
-    "SignInBtn": "Sign In",
+    "RegisterBtn": "Sign Up",
+    "SignInBtn": "Log In",
     "andLabel": "and",
     "tosLabel": "Terms of Service",
-    "privacyLabel": "Privacy Policy"
+    "privacyLabel": "Privacy Policy",
+    "Next": "Next",
+    "Confirm": "Confirm",
+    "confirmPassword": "Confirm Password",
+    "Email": "Email",
+    "Username": "Username",
+    "Password": "Password",
+    "learnmore": "Learn more",
+    "showmore": "Show more",
+    "got-it": "Got it"
+  },
+  "input": {
+    "versesInput": "Share your updates with the universe",
+    "comment": "User's comment here..."
+  },
+  "home": {
+    "myFeed": "My Feed",
+    "newsLabel": "News",
+    "viewMoreNews": "View more news",
+    "visitProfile": "Visit Profile",
+    "editProfile": "Edit Profile",
+    "Posts": "Posts",
+    "Followers": "Followers",
+    "Following": "Following",
+    "leftBar": {
+      "home": "Home",
+      "explore": "Explore",
+      "messages": "Messages",
+      "clubs": "Clubs",
+      "mywallet": "My Wallet",
+      "starplus": "StarPlus"
+    },
+    "sortLabel": "Sort by: ",
+    "filterOptions": {
+      "recent": "Recent",
+      "popular": "Popular"
+    }
+  },
+  "loading": {
+    "description": "A new realm of social media awaits you, offering an exciting journey into the world of journalism, and receive real-time news as they are happening in your area."
   },
   "welcomePage": {
     "title": "Welcome to NetVerses",
@@ -44,6 +83,48 @@
     "shareNews": {
       "title": "Share News",
       "description": "Spread the word fast! Share news with varying emergency levels quickly and efficiently, ensuring the right information reaches the right people."
+    }
+  },
+  "privacyPage": {
+    "Effective": "Effective:"
+  },
+  "cookiesConsent": {
+    "title": "uses cookies.",
+    "description": "Our website uses cookies and similar tracking technologies to enhance your browsing experience, ensure the functionality of our services, and provide personalized content and recommendations.",
+    "second_description": "Cookies also help us analyze site traffic, understand user behavior, and improve our products and services. To learn more about how we handle your data and your rights, please visit our "
+  },
+  "errors": {
+    "SignUp": {
+      "UserLoggedIn": "Sorry, account registration is not permitted while a user is logged in.",
+      "UnexpectedError": "An error occurred during registration.",
+      "processingError": "An error occurred while processing your request.",
+      "codeVerificationError": "An error occured while verifying the provided code.",
+      "shortInvalidUsername": "Username must be at least 4 characters long and contain only letters, numbers, underscores, or dashes.",
+      "longInvalidUsername": "The username must not exceed 20 characters.",
+      "invalidPassword": "Password must be at least 8 characters long, include two lowercase letters, and one special character.",
+      "unmatchingPasswords": "Passwords must be identical",
+      "emailAvailability": "An error occurred while verifying the availability of the provided email address.",
+      "usernameAvailability": "We have encountered issues while checking username availability.",
+      "emailVerificationIssue": "We have encountered issues while checking the email.",
+      "takenUsername": "Username already taken.",
+      "takenEmail": "Email already taken.",
+      "restrictedRegion": "Sorry, sign-ups from your region are currently restricted.",
+      "authenticationError": "An error occured while verifying authentication."
+    },
+    "maxRateLimited": "Max rate limit reached. Please try again later.",
+    "invalidEmail": "Provided email is invalid."
+  },
+  "SignUp": {
+    "modalTitle": "Registration",
+    "maxAttempts": "Max Attempts",
+    "resendCode": "Resend",
+    "SignUpIntro": "Create an account with NetVerses and begin your journey with us today.",
+    "consentConfirmation": "I agree and consent to the",
+    "codeConfirmation": "To confirm your account, we have sent a One-Time Code to the email address you provided",
+    "enterCode": "Enter your one-time code",
+    "accountCreationSuccessful": {
+      "title": "Account Successfully Created!",
+      "description": "Your account has been successfully created with the chosen username and email address. You will be redirected shortly."
     }
   }
 }

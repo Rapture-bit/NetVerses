@@ -3,6 +3,7 @@ import PrimaryModal from "./Primary";
 import PrimaryInput from "@/components/input/Primary";
 import OTP from "@/components/input/OTP";
 import { ThemeContext } from "@/context/ThemeContext";
+import { useTranslation } from "react-i18next";
 import {
   UserOutlined,
   MailOutlined,
@@ -12,6 +13,7 @@ import {
 import { Button, Checkbox, ConfigProvider } from "antd";
 import debounce from "lodash.debounce";
 import { motion, AnimatePresence } from "framer-motion";
+import { text } from "stream/consumers";
 
 interface SignUpModalProps {
   visible: boolean;
@@ -32,6 +34,7 @@ interface ErrorState {
 }
 
 const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
+  const { t } = useTranslation();
   const { colorProperties } = useContext(ThemeContext);
   const [isNextDisabled, setNextDisabled] = useState<boolean>(true);
   const [currentTab, setTab] = useState<number>(1);
@@ -50,7 +53,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   const [requestID, setRequestID] = useState<string>("");
   const [resendStatus, setResendStatus] = useState<object>({
     onHold: false,
-    label: "Resend",
+    label: t("SignUp.resendCode"),
   });
   const [errorState, setErrorState] = useState<ErrorState>({
     TabOne: {
@@ -108,7 +111,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             ...prevState.TabOne,
             Email: {
               Invalid: true,
-              msg: "Provided email is invalid.",
+              msg: t("errors.invalidEmail"),
             },
           },
         }));
@@ -149,7 +152,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             ...prevState.TabOne,
             Username: {
               Invalid: true,
-              msg: "Username must be at least 4 characters long and contain only letters, numbers, underscores, or dashes.",
+              msg: t("errors.SignUp.shortInvalidUsername"),
             },
           },
         }));
@@ -160,7 +163,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             ...prevState.TabOne,
             Username: {
               Invalid: true,
-              msg: "The username must not exceed 20 characters.",
+              msg: t("errors.SignUp.longInvalidUsername"),
             },
           },
         }));
@@ -206,7 +209,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             ...prevState.TabOne,
             Password: {
               Invalid: true,
-              msg: "Password must be at least 8 characters long, include two lowercase letters, and one special character.",
+              msg: t("errors.SignUp.invalidPassword"),
             },
           },
         }));
@@ -248,7 +251,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             ...prevState.TabOne,
             ConfirmPassword: {
               Invalid: true,
-              msg: "Passwords must be identical.",
+              msg: t("errors.SignUp.unmatchingPasswords"),
             },
           },
         }));
@@ -311,7 +314,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             ...prevState.TabOne,
             Additional: {
               Invalid: true,
-              msg: "Max rate limit reached. Please try again later.",
+              msg: t("errors.maxRateLimited"),
             },
           },
         }));
@@ -324,7 +327,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             ...prevState.TabOne,
             Additional: {
               Invalid: true,
-              msg: "An error occurred while verifying the availability of the provided email address.",
+              msg: t("errors.SignUp.emailAvailability"),
             },
           },
         }));
@@ -338,7 +341,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         ...prevCache,
         [username]: {
           isAvailable,
-          msg: data.isTaken ? "Username is already taken." : "",
+          msg: data.isTaken ? t("errors.SignUp.takenUsername") : "",
         },
       }));
 
@@ -348,7 +351,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           ...prevState.TabOne,
           Username: {
             Invalid: !isAvailable,
-            msg: data.isTaken ? "Username is already taken." : "",
+            msg: data.isTaken ? t("errors.SignUp.takenUsername") : "",
           },
         },
       }));
@@ -360,7 +363,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           ...prevState.TabOne,
           Additional: {
             Invalid: true,
-            msg: "We have encountered issues while checking username availability.",
+            msg: t("errors.SignUp.usernameAvailability"),
           },
         },
       }));
@@ -368,6 +371,14 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   }, [username, usernameCache]);
 
   const refreshPage = () => {
+    window.onbeforeunload = null;
+    window.removeEventListener("beforeunload", preventUnloadHandler);
+
+    function preventUnloadHandler(e) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -406,7 +417,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             ...prevState.TabOne,
             Additional: {
               Invalid: true,
-              msg: "Max rate limit reached. Please try again later.",
+              msg: t("errors.maxRateLimited"),
             },
           },
         }));
@@ -419,7 +430,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             ...prevState.TabOne,
             Additional: {
               Invalid: true,
-              msg: "An error occurred while verifying the availability of the provided email address.",
+              msg: t("errors.SignUp.emailAvailability"),
             },
           },
         }));
@@ -434,7 +445,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         ...prevCache,
         [email]: {
           isAvailable,
-          msg: data.isTaken ? "Email is already used." : "",
+          msg: data.isTaken ? t("errors.SignUp.takenEmail") : "",
         },
       }));
 
@@ -444,7 +455,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           ...prevState.TabOne,
           Email: {
             Invalid: !isAvailable,
-            msg: data.isTaken ? "Email is already used." : "",
+            msg: data.isTaken ? t("errors.SignUp.takenEmail") : "",
           },
         },
       }));
@@ -456,7 +467,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           ...prevState.TabOne,
           Additional: {
             Invalid: true,
-            msg: "We have encountered issues while checking the email.",
+            msg: t("errors.SignUp.emailVerificationIssue"),
           },
         },
       }));
@@ -558,20 +569,17 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         );
 
         if (response.status === 429) {
-          return setError("Max rate limit reached. Please try again later.", 1);
+          return setError(t("errors.maxRateLimited"), 1);
         }
 
         const isBlacklistedResponse = await response.json();
 
         if (!response.ok) {
-          return setError("An error occurred while checking your region.", 1);
+          return setError(t("errors.SignUp.UnexpectedError"), 1);
         }
 
         if (!isBlacklistedResponse.success) {
-          return setError(
-            "Sorry, sign-ups from your region are currently restricted.",
-            1,
-          );
+          return setError(t("errors.SignUp.restrictedRegion"), 1);
         }
 
         const authenticationFetch = await fetch(
@@ -582,24 +590,18 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         );
 
         if (authenticationFetch.status === 429) {
-          return setError("Max rate limit reached. Please try again later.", 1);
+          return setError(t("errors.maxRateLimited"), 1);
         }
 
         if (!authenticationFetch.ok) {
-          return setError(
-            "An error occured while verifying authentication.",
-            1,
-          );
+          return setError(t("errors.SignUp.authenticationError"), 1);
         }
 
         const isAuthenticatedResponse = await authenticationFetch.json();
         const isAuthenticated = isAuthenticatedResponse.isAuthenticated;
 
         if (isAuthenticated) {
-          return setError(
-            "Sorry, account registration is not permitted while a user is logged in.",
-            1,
-          );
+          return setError(t("errors.SignUp.UserLoggedIn"), 1);
         }
 
         const otpRequestFetch = await fetch(
@@ -620,21 +622,35 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         const otpRequestResponse = await otpRequestFetch.json();
 
         if (!otpRequestFetch.ok) {
-          return setError("An error occurred during registration.", 1);
+          return setError(t("errors.SignUp.UnexpectedError"), 1);
         }
 
         if (otpRequestFetch.ok && !otpRequestResponse.success) {
           return setError(
-            otpRequestResponse.message ||
-              "An error occurred during registration.",
+            otpRequestResponse.message || t("errors.SignUp.UnexpectedError"),
             1,
           );
         }
 
         setRequestID(otpRequestResponse.requestId);
+        setResendStatus((prevStatus) => ({
+          ...prevStatus,
+          label: 20,
+          onHold: true,
+        }));
+
+        const countdownInterval = setInterval(() => {
+          setResendStatus((prevStatus) => {
+            if (prevStatus["label"] === 1) {
+              clearInterval(countdownInterval);
+              return { label: t("SignUp.resendCode"), onHold: false };
+            }
+            return { ...prevStatus, label: prevStatus["label"] - 1 };
+          });
+        }, 1000);
         setTab(2);
       } catch (error) {
-        setError("An error occurred while processing your request.", 1);
+        setError(t("errors.SignUp.processingError"), 1);
       }
     } else if (currentTab === 2) {
       try {
@@ -659,13 +675,13 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         const confirmOTPResponse = await confirmOTPFetch.json();
 
         if (!confirmOTPFetch.ok) {
-          return setError("An error occurred during registration.", 2);
+          return setError(t("errors.SignUp.UnexpectedError"), 2);
         }
 
         if (confirmOTPFetch.ok && !confirmOTPResponse.success) {
           setError(
             confirmOTPResponse.message ||
-              "An error occured while verifying the provided code.",
+              t("errors.SignUp.codeVerificationError"),
             2,
           );
           setInterval(() => {
@@ -686,7 +702,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
         setTab(3);
       } catch (error) {
-        setError("An error occurred while verifying the provided code.", 3);
+        setError(t("errors.SignUp.codeVerificationError"), 3);
       }
     }
   }
@@ -704,7 +720,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
       setResendStatus((prevStatus) => {
         if (prevStatus["label"] === 1) {
           clearInterval(countdownInterval);
-          return { label: "Resend", onHold: false };
+          return { label: t("SignUp.resendCode"), onHold: false };
         }
         return { ...prevStatus, label: prevStatus["label"] - 1 };
       });
@@ -734,7 +750,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           ...prevState.TabOne,
           Additional: {
             Invalid: true,
-            msg: "An error occurred while checking your region.",
+            msg: t("errors.SignUp.processingError"),
           },
         },
       }));
@@ -742,17 +758,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
     if (responseResend.max) {
       setResendStatus({
-        label: "Max Attempts",
+        label: t("SignUp.maxAttempts"),
         onHold: true,
       });
-    }
-
-    if (responseResend.success && responseResend.sent) {
-      setResendStatus((prevStatus) => ({
-        ...prevStatus,
-        label: 30,
-        onHold: true,
-      }));
     }
   }
 
@@ -849,23 +857,23 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
       width={512}
       confirmClose={true}
       onClosed={resetTab}
-      title="Registration"
+      title={t("SignUp.modalTitle")}
       open={visible}
       setIsOpen={setIsOpen}
       footer={
         <div className="justify-center items-center text-center">
           {currentTab === 1 && (
             <Button
-              aria-label="Next"
+              aria-label={`${t("general.Next")}`}
               type="primary"
               onClick={toggleTab}
               className={`p-4 ${isNextDisabled ? "!bg-violet-900" : "!bg-violet-700"} !border-violet-900 mt-2 hover:!bg-opacity-85 px-16 rounded-full transition-all duration-300`}
               disabled={isNextDisabled}
             >
               <span
-                className={`font-medium ${isNextDisabled ? "textColor" : "!text-white"} transition-all duration-300`}
+                className={`font-medium text-white transition-all duration-300`}
               >
-                Next
+                {t("general.Next")}
               </span>
             </Button>
           )}
@@ -875,22 +883,22 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                 aria-label={resendStatus["label"]}
                 type="primary"
                 onClick={handleResend}
-                className="p-4 bg-transparent hover:bg-violet-900 !border-violet-900 mt-2 hover:!bg-opacity-85 px-16 rounded-full"
+                className={
+                  "textColor hover:text-white p-4 bg-transparent hover:bg-violet-900 !border-violet-900 mt-2 hover:!bg-opacity-85 px-16 rounded-full"
+                }
                 disabled={resendStatus["onHold"]}
               >
                 <span className="font-medium">{resendStatus["label"]}</span>
               </Button>
 
               <Button
-                aria-label="Confirm"
+                aria-label={`${t("general.Confirm")}`}
                 type="primary"
                 onClick={toggleTab}
                 className={`p-4 ${isNextDisabled ? "!bg-violet-900" : "!bg-violet-700"} !border-violet-900 mt-2 hover:!bg-opacity-85 px-16 rounded-full`}
               >
-                <span
-                  className={`font-medium ${isNextDisabled ? "textColor" : "text-white"}`}
-                >
-                  Confirm
+                <span className={`font-medium text-white`}>
+                  {t("general.Confirm")}
                 </span>
               </Button>
             </div>
@@ -909,10 +917,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             variants={pageVariants}
           >
             <div className="space-y-4 flex flex-col">
-              <span className="text-sm inter">
-                Create an account with NetVerses and begin your journey with us
-                today.
-              </span>
+              <span className="text-sm inter">{t("SignUp.SignUpIntro")}</span>
 
               <form className="space-y-3 flex flex-col">
                 <ConfigProvider
@@ -933,7 +938,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                     <PrimaryInput
                       maxLength={20}
                       type="text"
-                      placeholder="Username"
+                      placeholder={t("general.Username")}
                       ColorSettings={{
                         BorderColor: errorState.TabOne.Username["Invalid"]
                           ? "#EF4444"
@@ -955,7 +960,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                     <PrimaryInput
                       maxLength={64}
                       type="email"
-                      placeholder="Email"
+                      placeholder={t("general.Email")}
                       ColorSettings={{
                         BorderColor: errorState.TabOne.Email["Invalid"]
                           ? "#EF4444"
@@ -983,7 +988,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                             ? colorProperties.borderInputColor
                             : "#1677ff",
                       }}
-                      placeholder="Password"
+                      placeholder={t("general.Password")}
                       type="password"
                       prefix={<LockOutlined className="!mr-1" />}
                       onChange={togglePassword}
@@ -1009,7 +1014,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                             ? colorProperties.borderInputColor
                             : "#1677ff",
                       }}
-                      placeholder="Confirm Password"
+                      placeholder={t("general.confirmPassword")}
                       type="password"
                       prefix={<CheckOutlined className="!mr-1" />}
                       onChange={toggleConfirmPassword}
@@ -1039,23 +1044,23 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                         onChange={toggleAgreementChecked}
                       >
                         <span className="text-sm">
-                          I agree and consent to the{" "}
+                          {t("SignUp.consentConfirmation")}{" "}
                           <a
                             href="/terms"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="!underline hover:text-violet-600"
                           >
-                            Terms of Service
+                            {t("general.tosLabel")}
                           </a>{" "}
-                          and{" "}
+                          {t("general.andLabel")}{" "}
                           <a
                             href="/privacy"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="!underline hover:text-violet-600"
                           >
-                            Privacy Policy
+                            {t("general.privacyLabel")}
                           </a>
                           .
                         </span>
@@ -1083,14 +1088,13 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           >
             <div className="flex flex-col justify-center items-center space-x-3 space-y-4 p-0.5">
               <span>
-                To confirm your account, we have sent a One-Time Code to the
-                email address you provided:{" "}
+                {t("SignUp.codeConfirmation") + ":"}{" "}
                 <b>{email ? email : "name@example.com"}</b>.
               </span>
 
               <div className="w-full max-w-sm text-center">
                 <label className="block text-sm">
-                  Enter your one-time code{" "}
+                  {t("SignUp.enterCode")}{" "}
                 </label>
                 <OTP
                   onOTPChange={checkOTP}
@@ -1119,11 +1123,10 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             <div className="flex flex-col justify-center items-center space-y-4 p-6">
               <span className="icon-[zondicons--checkmark-outline] w-16 h-16 text-green-600" />
               <h2 className="text-xl font-semibold textColor">
-                Account Successfully Created!
+                {t("SignUp.accountCreationSuccessful.title")}
               </h2>
               <p className="text-base dark:text-gray-300 lato text-center">
-                Your account has been successfully created with the chosen
-                username and email address. You will be redirected shortly.
+                {t("SignUp.accountCreationSuccessful.description")}
               </p>
             </div>
           </motion.div>

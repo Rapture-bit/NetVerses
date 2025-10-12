@@ -11,8 +11,10 @@ import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { Dropdown, Space, ConfigProvider } from "antd";
 import PageTitle from "@/components/others/PageTitle";
 import { getCssVariable } from "@/utils/getCssVariable";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+  const { t } = useTranslation();
   const [selectedFilter, setFilter] = useState<string>(
     localStorage.getItem("selectedFilter") || "Popular",
   );
@@ -23,6 +25,7 @@ export default function Home() {
   const [isDropdownOpened, setDropdownOpened] = useState<boolean>(true);
   const [reachedBottom, setReachedBottom] = useState<boolean>(false);
   const [isFeedLoading, setFeedLoading] = useState<boolean>(false);
+  const [switchedFeeds, setSwitchedFeeds] = useState<boolean>(false);
   const [topNews, setTopNews] = useState<object>([
     {
       title: "Breaking News 1",
@@ -306,26 +309,16 @@ export default function Home() {
 
   const items: MenuProps["items"] = [
     {
-      label: (
-        <button
-          aria-label="Filter by Recent"
-          onClick={() => handleFilterChange("Recent")}
-        >
-          Recent
-        </button>
-      ),
       key: "0",
+      label: t("home.filterOptions.recent"),
+      onClick: () => {
+        handleFilterChange("Recent");
+      },
     },
     {
-      label: (
-        <button
-          aria-label="Filter by Popular"
-          onClick={() => handleFilterChange("Popular")}
-        >
-          Popular
-        </button>
-      ),
       key: "1",
+      label: t("home.filterOptions.popular"),
+      onClick: () => handleFilterChange("Popular"),
     },
   ];
 
@@ -339,6 +332,13 @@ export default function Home() {
     });
   }, []);
 
+  useEffect(() => {
+    setSwitchedFeeds(true);
+    setInterval(() => {
+      setSwitchedFeeds(false);
+    }, 2000);
+  }, [selectedFeed]);
+
   return (
     <>
       <PageTitle title="NetVerses ~ Home" />
@@ -349,7 +349,9 @@ export default function Home() {
           <div className="inline-flex items-center justify-between w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 py-2 text-sm font-medium">
             <hr className="flex-1 borderColor border-t mx-2" />
             <div className="gap-2 flex flex-row">
-              <span className="text-sm dark:text-neutral-400">Sort by:</span>
+              <span className="text-sm dark:text-neutral-400">
+                {t("home.sortLabel")}
+              </span>
               <div className="flex flex-row gap-2">
                 <ConfigProvider
                   theme={{
@@ -370,7 +372,9 @@ export default function Home() {
                   >
                     <a href="#" onClick={(e) => e.preventDefault()}>
                       <Space>
-                        {selectedFilter}
+                        {t(
+                          `home.filterOptions.${selectedFilter.toLowerCase()}`,
+                        )}
                         {isDropdownOpened ? <UpOutlined /> : <DownOutlined />}
                       </Space>
                     </a>
@@ -420,10 +424,12 @@ export default function Home() {
                   ))
                 : null)}
         </div>
-        <BottomPageComponent
-          selectedFeed={selectedFeed}
-          bottomReached={reachedBottom}
-        />
+        {!switchedFeeds && (
+          <BottomPageComponent
+            selectedFeed={selectedFeed}
+            bottomReached={reachedBottom}
+          />
+        )}
       </div>
     </>
   );

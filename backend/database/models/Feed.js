@@ -58,7 +58,7 @@ Verses.init(
       defaultValue: [
         {
           assetId: 0,
-          assetURL: "https://assets.netverses.com/media/image_placeholder.jpg",
+          assetURL: "https://cdn.netverses.com/media/image_placeholder.jpg",
           isNSFW: false,
           comment: "Placeholder",
         },
@@ -144,7 +144,7 @@ Articles.init(
       defaultValue: [
         {
           assetId: 0,
-          assetURL: "https://assets.netverses.com/media/image_placeholder.jpg",
+          assetURL: "https://cdn.netverses.com/media/image_placeholder.jpg",
           isNSFW: false,
           comment: "Placeholder",
         },

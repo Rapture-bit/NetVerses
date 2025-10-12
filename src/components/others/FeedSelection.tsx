@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function FeedSelection({ onChange }) {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState(
-    localStorage.getItem("selectedFeed") || "My Feed",
+    localStorage.getItem("selectedFeed") || t("home.myFeed"),
   );
 
   const handleSelectionChange = (newSelection) => {
@@ -28,10 +30,10 @@ export default function FeedSelection({ onChange }) {
         ) : (
           <span className="icon-[material-symbols--person-outline] text-xl"></span>
         )}
-        <span className="text-base">My Feed</span>
+        <span className="text-base">{t("home.myFeed")}</span>
       </button>
       <button
-        aria-label="News"
+        aria-label={t("home.newsLabel")}
         className={`flex gap-2 flex-grow h-full items-center justify-center rounded-r-lg transition-colors duration-300 ${
           selected === "News"
             ? "textColor bg-gray-200 dark:bg-neutral-800 font-medium"
@@ -40,7 +42,7 @@ export default function FeedSelection({ onChange }) {
         onClick={() => handleSelectionChange("News")}
       >
         <span className="icon-[mingcute--news-line] text-xl"></span>
-        <span className="text-base">News</span>
+        <span className="text-base">{t("home.newsLabel")}</span>
       </button>
     </div>
   );

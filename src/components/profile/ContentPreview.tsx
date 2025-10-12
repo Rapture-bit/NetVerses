@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Post from "../post/Post";
 
+import { t } from "i18next";
+
 import type { MenuProps } from "antd/es/menu";
 
 import { Dropdown, ConfigProvider, Space } from "antd";
@@ -118,7 +120,7 @@ const ContentPreview = ({ username }: Props) => {
           aria-label="Filter by Recent"
           onClick={() => setSelectedFilter("Recent")}
         >
-          Recent
+          {t("home.filterOptions.recent")}
         </button>
       ),
       key: "0",
@@ -129,7 +131,7 @@ const ContentPreview = ({ username }: Props) => {
           aria-label="Filter by Popular"
           onClick={() => setSelectedFilter("Popular")}
         >
-          Popular
+          {t("home.filterOptions.popular")}
         </button>
       ),
       key: "1",

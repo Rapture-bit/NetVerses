@@ -1,0 +1,123 @@
+{
+  "general": {
+    "RegisterBtn": "Tsajjal",
+    "SignInBtn": "Dkhl",
+    "andLabel": "w",
+    "tosLabel": "Chorout lkhidma",
+    "privacyLabel": "Siyassat lkhossossiya",
+    "Next": "Suivant",
+    "Confirm": "Taaqid",
+    "confirmPassword": "3awed lmot de passe",
+    "Email": "Email",
+    "Username": "Smya dyal user",
+    "Password": "Mot de passe",
+    "learnmore": "3ref aktar",
+    "showmore": "Nchouf aktar",
+    "got-it": "Fhemt"
+  },
+  "input": {
+    "search": "9alb",
+    "versesInput": "Publier m3ana l akhbar dyalek m3a l3alam",
+    "comment": "Le commentaire dialek hna..."
+  },
+  "home": {
+    "myFeed": "Lfeed dyali",
+    "newsLabel": "Lakhbar",
+    "viewMoreNews": "Zid tchoof akthar akhbar",
+    "visitProfile": "Chouf le profile",
+    "editProfile": "Sayeb le profile",
+    "Posts": "Postes",
+    "Followers": "Les abonnés",
+    "Following": "Following",
+    "leftBar": {
+      "home": "Accueil",
+      "explore": "Explorer",
+      "messages": "Messages",
+      "clubs": "Clubs",
+      "mywallet": "Mon portefeuille",
+      "starplus": "StarPlus"
+    },
+    "sortLabel": "Filtrer b:",
+    "filterOptions": {
+      "recent": "Jdid",
+      "popular": "Mshhour"
+    }
+  },
+  "loading": {
+    "description": "3alam jdida dyal social media kaytsanaak, tajriba zwina f 3alam sahafa, w ttsawal lakhbar f waqt-hom f minta9tak."
+  },
+  "welcomePage": {
+    "title": "Marhba bik f NetVerses",
+    "quote": "“Ghadin nbddlou tariqa li katktachf w tat3aml biha m3a lakhbar.” — CEO dyal NetVerses",
+    "description": "NetVerses hya platform jdida dyalk bach tsharek w tktachf lakhbar. Ila knti sahafi, blogger, wla ghir bghiti tb9a 3la bal, t9dr tnshr w tchouf lakhbar. Ttsawal updates f waqt-hom w koun dayman 3la bal b breaking news.",
+    "termsAgreement": "Ila kmlti, raq qblti 3la"
+  },
+  "features": {
+    "contentAgeVerification": {
+      "title": "Verification dyal 3omr",
+      "description": "Khaliha secure! Content +18 kayb9a m7joub htta ytsdda9 3la l3omr, bach mayb9ach f yed drari sghar."
+    },
+    "advancedPostPrivacy": {
+      "title": "Khosossiya mta9addma dyal posts",
+      "description": "Ikhtar chkoun yshoof! T9dr tkhlli post ghir les followers, clubs privés, wla public."
+    },
+    "livePostTranslation": {
+      "title": "Tarjama live dyal posts",
+      "description": "Tarjam posts automatiquement l ay logha bghiti w tsala f chi sekond bach t3ayet l public mondial."
+    },
+    "summarizeButton": {
+      "title": "Button dyal tlakhis",
+      "description": "B9a dayman 3la bal! Khod résumé s3ib 3la lakhbar dyal lyom wla lbareh, bach tb9a updated 7ta bla net!"
+    },
+    "ephemeralPosts": {
+      "title": "Posts mowa9ata",
+      "description": "Ktbha w nsaha! Post kayt7ayd automatiquement mlli ykml lwa9t li 7dditi."
+    },
+    "postOwnershipTransfer": {
+      "title": "Transfer dyal lmilkiya dyal post",
+      "description": "7awwel lpost dyalk l user akhor b sahla, w howa 3ndo l7a9 yqbl wla yrfd b amane!"
+    },
+    "noSpy": {
+      "title": "NoSpy",
+      "description": "Zid f privacy dyalk b NoSpy, silah sirri dd spy. Khali profil dyalk hidden 3la strangers w b9a mt7kkm!"
+    },
+    "shareNews": {
+      "title": "Share news",
+      "description": "Wssl lakhbar b ser3a! Share lakhbar b different emergency levels bach twssl lma3louma l nass ss7a7."
+    }
+  },
+  "errors": {
+    "SignUp": {
+      "UserLoggedIn": "Smah lina, ma t9drch tsajjal w nta deja logged in.",
+      "UnexpectedError": "Kayn error f waqt tsjil.",
+      "processingError": "Error w9a3 f processing dyal request dialk.",
+      "codeVerificationError": "Error f verification dyal code li 3titi.",
+      "shortInvalidUsername": "Nom d'utilisateur khasso ykoun 4 7orouf au minimum w fih ghir les lettres, chiffres, _ wla -.",
+      "longInvalidUsername": "Nom f'utilisateur ma khassouch yfout 20 char au maximum.",
+      "invalidPassword": "Mot de passe khassou ykoun 8 char au minimum, fih juj small letters, w symbol wahd.",
+      "unmatchingPasswords": "Les mot de passes machi bhal bhal",
+      "emailAvailability": "Error f verification dyal email availability.",
+      "usernameAvailability": "Kaynin mouchkil f verification dyal username.",
+      "emailVerificationIssue": "Kaynin mouchkil f verification dyal email.",
+      "takenUsername": "Username deja makhouda.",
+      "takenEmail": "Email deja makhouda.",
+      "restrictedRegion": "Smah lina, sign-up mn region dyalk makhdama ch d daba.",
+      "authenticationError": "Error f verification dyal authentication."
+    },
+    "maxRateLimited": "Wslti l max attempts. Jarb ba3d.",
+    "invalidEmail": "Email li dkhlti ma chi sahih."
+  },
+  "SignUp": {
+    "modalTitle": "Tsjil",
+    "maxAttempts": "Max Essais",
+    "resendCode": "3awed sft code",
+    "SignUpIntro": "Dir account f NetVerses w bda the journey dialk m3ana lyouma.",
+    "consentConfirmation": "Ana mwaf9(a) 3la",
+    "codeConfirmation": "Bach nconfirmiw account, sftna lik wahd lcode l email li dkhlti",
+    "enterCode": "Dkhl code li wslek",
+    "accountCreationSuccessful": {
+      "title": "Account tder b najah!",
+      "description": "Account dyalk tder b smiya w email li khtarti. Ghadi trja3 l page okhra daba."
+    }
+  }
+}

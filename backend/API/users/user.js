@@ -1,10 +1,10 @@
-import { UserProfile } from "../../database/models/User.js";
+import { UserProfiles } from "../../database/models/User.js";
 
 export default async function (req, res) {
   const { username } = req.params;
 
   try {
-    const user = await UserProfile.findOne({ username });
+    const user = await UserProfiles.findOne({ username });
     if (!user) {
       return res
         .status(200)

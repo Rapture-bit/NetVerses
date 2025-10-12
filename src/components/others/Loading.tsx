@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const Loading = () => {
+  const { t } = useTranslation();
   return (
     <>
       <div className="fixed top-0 bg-violet-600 py-0.5 shadow-md shadow-violet-600 w-full loadingAnimation"></div>
@@ -10,9 +12,7 @@ const Loading = () => {
             Net<span className="text-violet-600">Verses</span>
           </span>
           <p className="mt-2 w-3/4 mx-auto text-lg">
-            A new realm of social media awaits you, offering an exciting journey
-            into the world of journalism, and receive real-time news as they are
-            happening in your area.
+            {t("loading.description")}
           </p>
         </div>
       </div>
