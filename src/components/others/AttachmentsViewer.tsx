@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import ImageFocus from "./ImageFocus";
 import { useState } from "react";
 
-const ImageGallery = ({ attachments, author, id }) => {
+const AttachmentsViewer = ({ attachments, author, id }) => {
   const scrollContainer = useRef(null);
   const [focusedImageDetails, setFocusedImageDetails] = useState({
     comment: "",
@@ -57,4 +57,4 @@ const ImageGallery = ({ attachments, author, id }) => {
   );
 };
 
-export default ImageGallery;
+export default AttachmentsViewer;

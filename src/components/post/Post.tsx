@@ -4,7 +4,7 @@ import formatNumber from "@/utils/formatNumber";
 import formatDate from "@/utils/formatDate";
 import { useTimeAgo } from "@/components/others/TimeAgo";
 import { useHumanDate } from "../others/HumanDate";
-import ImageGallery from "../others/ImageGallery";
+import AttachmentsViewer from "../others/AttachmentsViewer";
 import Boost from "@/components/modal/Menu/Boost";
 
 import { useTranslation } from "react-i18next";
@@ -187,7 +187,7 @@ export default function Post({
         >
           {t("general.showmore")}
         </a>
-        <ImageGallery attachments={attachments} author={author} id={1} />
+        <AttachmentsViewer attachments={attachments} author={author} id={1} />
       </main>
       <footer className="flex flex-col space-y-3">
         <div className="flex flex-row justify-between items-center">
