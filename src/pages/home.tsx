@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import BottomBar from "@/components/navigation/BottomBar";
 import Verse from "@/components/post/Verse";
 import Post from "@/components/post/Post";
-import News from "@/components/post/News";
+import Articles from "@/components/post/Articles";
 import TodaySummary from "@/components/others/TodaySummary";
 import FeedSelection from "@/components/others/FeedSelection";
 import BottomPageComponent from "@/components/post/BottomPageComponent";
@@ -10,11 +10,13 @@ import type { MenuProps } from "antd/es/menu";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { Dropdown, Space, ConfigProvider } from "antd";
 import PageTitle from "@/components/others/PageTitle";
-import { getCssVariable } from "@/utils/getCssVariable";
 import { useTranslation } from "react-i18next";
+
+import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Home() {
   const { t } = useTranslation();
+  const { colorProperties } = useContext(ThemeContext);
   const [selectedFilter, setFilter] = useState<string>(
     localStorage.getItem("selectedFilter") || "Popular",
   );
@@ -26,7 +28,7 @@ export default function Home() {
   const [reachedBottom, setReachedBottom] = useState<boolean>(false);
   const [isFeedLoading, setFeedLoading] = useState<boolean>(false);
   const [switchedFeeds, setSwitchedFeeds] = useState<boolean>(false);
-  const [topNews, setTopNews] = useState<object>([
+  const [topArticles, setTopArticles] = useState<object>([
     {
       title: "Breaking News 1",
       description: "This is the description for breaking news 1.",
@@ -43,7 +45,7 @@ export default function Home() {
       category: "Health",
     },
   ]); // API
-  const [newsData, setNewsData] = useState<object[]>([
+  const [articlesData, setArticlesData] = useState<object[]>([
     {
       id: 1842121242719629177,
       type: "long",
@@ -106,7 +108,7 @@ export default function Home() {
       },
     },
   ]);
-  const [postsData, setPostsData] = useState<object[]>([
+  const [versesData, setVersesData] = useState<object[]>([
     {
       id: 1842124855719629177,
       type: "default",
@@ -240,8 +242,9 @@ export default function Home() {
     },
   ]); // API
 
-  const [filteredPosts, setFilteredPosts] = useState<object[]>(postsData);
-  const [filteredNews, setFilteredNews] = useState<object[]>(newsData);
+  const [filteredVerses, setFilteredVerses] = useState<object[]>(versesData);
+  const [filteredArticles, setFilteredArticles] =
+    useState<object[]>(articlesData);
 
   useEffect(() => {
     const loadData = () => {
@@ -257,7 +260,7 @@ export default function Home() {
       let filtered = [];
 
       if (selectedFilter === "Popular") {
-        const data = selectedFeed === "MyFeed" ? postsData : newsData;
+        const data = selectedFeed === "MyFeed" ? versesData : articlesData;
 
         filtered = data
           .filter(
@@ -280,18 +283,18 @@ export default function Home() {
             return b.interactions.boosts - a.interactions.boosts;
           });
       } else if (selectedFilter === "Recent") {
-        const data = selectedFeed === "MyFeed" ? postsData : newsData;
+        const data = selectedFeed === "MyFeed" ? versesData : articlesData;
         filtered = data.sort(
           (a: any, b: any) =>
             new Date(b.date).getTime() - new Date(a.date).getTime(),
         );
       }
 
-      setFilteredPosts(filtered);
+      setFilteredVerses(filtered);
     };
 
     filterPosts();
-  }, [selectedFilter, selectedFeed, postsData, newsData]);
+  }, [selectedFilter, selectedFeed, versesData, articlesData]);
 
   const handleFilterChange = (filter: string) => {
     setFilter(filter);
@@ -346,69 +349,71 @@ export default function Home() {
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">
           <FeedSelection onChange={handleFeedChange} />
-          <div className="inline-flex items-center justify-between w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 py-2 text-sm font-medium">
-            <hr className="flex-1 borderColor border-t mx-2" />
-            <div className="gap-2 flex flex-row">
-              <span className="text-sm dark:text-neutral-400">
-                {t("home.sortLabel")}
-              </span>
-              <div className="flex flex-row gap-2">
-                <ConfigProvider
-                  theme={{
-                    token: {
-                      colorBgBase: getCssVariable("--darker-background-color"),
-                      colorText: getCssVariable("--text-color"),
-                    },
-                  }}
-                >
-                  <Dropdown
-                    menu={{ items }}
-                    className="text-sm font-bold"
-                    trigger={["click"]}
-                    placement="bottom"
-                    onOpenChange={(open) => {
-                      setDropdownOpened(open);
+          {selectedFeed !== "Articles" && <Verse isComment={false} />}
+          {selectedFeed !== "Articles" && (
+            <div className="inline-flex items-center justify-between w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 py-2 text-sm font-medium">
+              <hr className="flex-1 borderColor border-t mx-2" />
+              <div className="gap-2 flex flex-row">
+                <span className="text-sm dark:text-neutral-400">
+                  {t("home.sortLabel")}
+                </span>
+                <div className="flex flex-row gap-2">
+                  <ConfigProvider
+                    theme={{
+                      token: {
+                        colorBgBase: colorProperties.darkerBackgroundColor,
+                        colorText: colorProperties.textColor,
+                      },
                     }}
                   >
-                    <a href="#" onClick={(e) => e.preventDefault()}>
-                      <Space>
-                        {t(
-                          `home.filterOptions.${selectedFilter.toLowerCase()}`,
-                        )}
-                        {isDropdownOpened ? <UpOutlined /> : <DownOutlined />}
-                      </Space>
-                    </a>
-                  </Dropdown>
-                </ConfigProvider>
+                    <Dropdown
+                      menu={{ items }}
+                      className="text-sm font-bold"
+                      trigger={["click"]}
+                      placement="bottom"
+                      onOpenChange={(open) => {
+                        setDropdownOpened(open);
+                      }}
+                    >
+                      <a href="#" onClick={(e) => e.preventDefault()}>
+                        <Space>
+                          {t(
+                            `home.filterOptions.${selectedFilter.toLowerCase()}`,
+                          )}
+                          {isDropdownOpened ? <UpOutlined /> : <DownOutlined />}
+                        </Space>
+                      </a>
+                    </Dropdown>
+                  </ConfigProvider>
+                </div>
               </div>
             </div>
-          </div>
-          {selectedFeed !== "News" && <Verse isComment={false} />}
+          )}
           {(isLoading || isFeedLoading) && (
             <span className="icon-[eos-icons--loading] w-7 h-7 text-purple-600"></span>
           )}
-          {!isLoading && !isFeedLoading && selectedFeed === "News" && (
+          {!isLoading && !isFeedLoading && selectedFeed === "Articles" && (
             <TodaySummary />
           )}
           {!isLoading &&
             !isFeedLoading &&
-            (selectedFeed === "News"
-              ? filteredNews.map((news, index) => (
-                  <News
-                    id={news.id}
-                    type={news.type}
+            (selectedFeed === "Articles"
+              ? filteredArticles.map((articles, index) => (
+                  <Articles
+                    id={articles.id}
+                    type={articles.type}
                     key={index}
-                    title={news.title}
-                    date={news.date}
-                    description={news.description}
-                    channel={news.channel}
-                    interactions={news.interactions}
-                    isNSFW={news.isNSFW}
-                    emergencySettings={news.emergencySettings}
+                    title={articles.title}
+                    date={articles.date}
+                    description={articles.description}
+                    channel={articles.channel}
+                    interactions={articles.interactions}
+                    isNSFW={articles.isNSFW}
+                    emergencySettings={articles.emergencySettings}
                   />
                 ))
               : selectedFeed === "MyFeed"
-                ? filteredPosts.map((post, index) => (
+                ? filteredVerses.map((post, index) => (
                     <Post
                       id={post.id}
                       type={post.type}

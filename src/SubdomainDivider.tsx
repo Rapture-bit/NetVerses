@@ -28,6 +28,8 @@ export default function SubdomainDivider({ isAuth }) {
     return null;
   }
 
+  isAuth = true;
+
   return (
     <>
       {subdomain === "help" ? (

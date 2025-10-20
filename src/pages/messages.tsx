@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
+import { ThemeContext } from "@/context/ThemeContext";
 import SearchBar from "@/components/input/SearchBar";
 import BottomBar from "@/components/navigation/BottomBar";
 import FriendMessage from "@/components/messages/FriendMessage";
-import TextArea from "@/components/input/TextArea";
+
+import FriendProfile from "@/components/navigation/FriendProfile";
+import FriendActivity from "@/components/navigation/FriendActivity";
+import FriendMenu from "@/components/navigation/FriendMenu";
+import SecondFriendMenu from "@/components/navigation/SecondFriendMenu";
 
 import { Tooltip } from "antd";
 
@@ -24,11 +29,12 @@ function toggleBack() {
 
 export default function Messages() {
   const [IsOptionsSelected, setOptionsSelected] = useState<boolean>(false);
-  const [textColor, setTextColor] = useState<string>("");
+  const { colorProperties } = useContext(ThemeContext);
 
   const [selectedFriendDetails, setSelectedFriendDetails] = useState<Object[]>({
-    username: "Xenon", // USERNAME
+    username: "Rapture_TY", // Friend's Username
     pfp: "/images/avatars/default.jpg", // PFP
+    inCall: true,
     messages: [
       {
         sender: "Xenon",
@@ -135,29 +141,6 @@ export default function Messages() {
     setFriendsFilter(value);
   };
 
-  const getCssVariable = (variable) => {
-    const root = document.documentElement;
-    return getComputedStyle(root).getPropertyValue(variable).trim();
-  };
-
-  useLayoutEffect(() => {
-    const updateColors = () => {
-      setTextColor(getCssVariable("--text-color"));
-    };
-
-    updateColors();
-
-    const observer = new MutationObserver(updateColors);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-mode"],
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   useEffect(() => {
     const now = new Date();
 
@@ -225,11 +208,6 @@ export default function Messages() {
                   </button>
                 </Tooltip>
               </div>
-              <SearchBar
-                height="py-1"
-                placeholder="Search friends"
-                onSearchChange={handleSearchChange}
-              />
               <div className="flex flex-row gap-3">
                 <button
                   onClick={() => setFilter("All")}
@@ -278,128 +256,196 @@ export default function Messages() {
               </div>
             </div>
           </div>
-          <div className="flex-col hidden justify-between md:flex p-4 rounded-lg w-full gap-3 darkerBackgroundColor">
-            {selectedFriendDetails["username"].trim() === "" ? (
-              <div className="flex flex-col gap-3 justify-center items-center">
-                <span className="icon-[bi--stars] w-20 h-20 textColor transition-transform duration-200 hover:scale-110"></span>
-                <span className="font-medium select-none textColor text-lg sm:text-xl text-center">
-                  No messages yet; it's as clean as a clear night!
-                </span>
-              </div>
-            ) : (
-              <>
-                <div className="flex flex-row border-b border-gray-400 pb-2.5 gap-2 justify-between items-center w-full">
-                  <div className="flex flex-row gap-2 items-center">
-                    <img
-                      id="pfp"
-                      src={selectedFriendDetails["pfp"]}
-                      className="w-8 h-8 rounded-full"
-                      alt=""
-                    />
-                    <div className="flex flex-row items-center gap-0.5">
-                      <span className="select-none font-normal text-lg   roboto">
+          <div className="flex-col w-full space-y-3 hidden md:flex lg:flex">
+            <div className="darkerBackgroundColor w-full p-3 rounded-lg md:flex justify-between hidden">
+              <div className="flex flex-row gap-2 justify-between items-center w-full">
+                <div className="flex flex-row gap-3 items-center">
+                  <img
+                    id="pfp"
+                    src={selectedFriendDetails["pfp"]}
+                    className="w-9 h-9 rounded-full"
+                    alt=""
+                  />
+                  <div className="flex flex-row items-center gap-1">
+                    <Tooltip
+                      title={selectedFriendDetails["username"]}
+                      placement="bottom"
+                      mouseLeaveDelay={0}
+                    >
+                      <span className="select-none font-normal hover:underline cursor-pointer text-base inter">
                         {selectedFriendDetails["username"]}
                       </span>
-                      <div className="flex flex-row">
-                        <Tooltip
-                          title="End-to-end encryption enabled"
-                          placement="bottom"
-                        >
-                          <button className="flex items-center justify-center p-1">
-                            <span className="icon-[material-symbols--lock-outline] w-4 h-4" />
-                          </button>
-                        </Tooltip>
-                        <Tooltip title="Family Member" placement="bottom">
-                          <button className="flex items-center justify-center p-1">
-                            <span className="icon-[uis--house-user] w-4 h-4"></span>
-                          </button>
-                        </Tooltip>
-                      </div>
+                    </Tooltip>
+                    <div className="flex flex-row">
+                      <Tooltip
+                        title="End-to-end encrypted"
+                        mouseLeaveDelay={0}
+                        placement="bottom"
+                      >
+                        <button className="flex items-center justify-center p-1">
+                          <span className="icon-[material-symbols--lock-outline] w-[1.25rem] h-[1.25rem]" />
+                        </button>
+                      </Tooltip>
+                      <Tooltip
+                        title="Family Member"
+                        mouseLeaveDelay={0}
+                        placement="bottom"
+                      >
+                        <button className="flex items-center justify-center p-1">
+                          <span className="icon-[uis--house-user] w-[1.25rem] h-[1.25rem]"></span>
+                        </button>
+                      </Tooltip>
                     </div>
                   </div>
-                  <div className="flex flex-row gap-3">
-                    <Tooltip placement="bottom" title="Save Chat">
-                      <button>
-                        <span className="icon-[ri--save-line] w-5 h-5"></span>
+                </div>
+                <div className="flex flex-row gap-3 items-center">
+                  {selectedFriendDetails["inCall"] && (
+                    <Tooltip
+                      title="End Call"
+                      mouseLeaveDelay={0}
+                      placement="bottom"
+                    >
+                      <button className="flex items-center justify-center p-1 hover:text-red-600 transition-colors duration-200 transform hover:scale-110">
+                        <span className="icon-[material-symbols--call-end] w-[1.4rem] h-[1.4rem]"></span>
                       </button>
                     </Tooltip>
-                    <Tooltip placement="bottom" title="Options">
-                      <button onClick={() => setOptionsSelected(true)}>
-                        <span className="icon-[ph--dots-three-vertical] w-5 h-5"></span>
+                  )}
+
+                  {!selectedFriendDetails["inCall"] && (
+                    <Tooltip
+                      title="Call"
+                      mouseLeaveDelay={0}
+                      placement="bottom"
+                    >
+                      <button className="flex items-center justify-center p-1">
+                        <span className="icon-[ic--round-call] w-[1.4rem] h-[1.4rem]" />
                       </button>
                     </Tooltip>
-                  </div>
-                </div>
+                  )}
 
-                <div className="flex flex-col flex-grow overflow-y-auto">
-                  {selectedFriendDetails.messages.map((msg, index) => {
-                    const isSender = msg.sender === "Rapture_TY";
-                    return (
-                      <div
-                        key={index}
-                        className={`flex flex-row items-center w-full mb-2 ${isSender ? "justify-end" : "justify-start"}`}
-                      >
-                        {isSender && (
-                          <span className="text-sm font-normal mr-2 select-none">
-                            You
-                          </span>
-                        )}
-                        <div
-                          className={`flex rounded-md py-2 px-3 ${
-                            isSender
-                              ? "bg-purple-700"
-                              : textColor === "#c0c0c0"
-                                ? "bg-neutral-700"
-                                : "bg-neutral-600"
-                          } text-white items-start gap-3`}
-                        >
-                          <span>{msg.message}</span>
-                        </div>
-                        {!isSender && (
-                          <button className="flex ml-2 items-center justify-center">
-                            <span className="icon-[fluent--emoji-add-16-regular] hover:text-neutral-300 text-neutral-400 transition-colors duration-300 w-4 h-4"></span>
-                          </button>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="flex flex-row items-center gap-3">
-                  <Tooltip title="Add Emoji" placement="bottom">
+                  <Tooltip
+                    title="Search DMs"
+                    mouseLeaveDelay={0}
+                    placement="bottom"
+                  >
                     <button className="flex items-center justify-center p-1">
-                      <span className="icon-[iconoir--emoji] w-6 h-6"></span>
+                      <span className="icon-[material-symbols--search] w-[1.4rem] h-[1.4rem]" />
                     </button>
                   </Tooltip>
-
-                  <input
-                    type="text"
-                    placeholder="Type your message here"
-                    className="focus:border-purple-600 duration-300 transition-color flex-grow py-1 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none border-b border-gray-400 focus:border-t-0 focus:border-l-0 focus:border-r-0"
-                  />
-
-                  <div className="flex flex-row items-center gap-5">
-                    <Tooltip title="Attachments" placement="bottom">
-                      <button className="flex items-center justify-center transition-transform duration-200 transform hover:-translate-y-1">
-                        <span className="icon-[lsicon--attachments-filled] w-6 h-6"></span>
-                      </button>
-                    </Tooltip>
-
-                    <Tooltip title="Gifts" placement="bottom">
-                      <button className="flex items-center justify-center transition-transform duration-200 transform hover:-translate-y-1">
-                        <span className="icon-[ri--gift-line] w-6 h-6"></span>
-                      </button>
-                    </Tooltip>
-
-                    <Tooltip title="Send Money" placement="bottom">
-                      <button className="flex items-center justify-center1 transition-transform duration-200 transform hover:-translate-y-1">
-                        <span className="icon-[hugeicons--money-send-02] w-6 h-6"></span>
-                      </button>
-                    </Tooltip>
-                  </div>
                 </div>
-              </>
+              </div>
+            </div>
+            {selectedFriendDetails["inCall"] && (
+              <div className="bg-green-700 w-full p-3 rounded-lg md:flex justify-between hidden">
+                <div className="flex flex-row text-white space-x-2">
+                  <span className="icon-[ic--round-call] w-[1.4rem] h-[1.4rem]" />
+                  <span className="select-none">In Call</span>
+                </div>
+              </div>
             )}
+            <div className="darkerBackgroundColor flex flex-col gap-3 w-full p-4 rounded-lg md:flex justify-between h-screen">
+              {selectedFriendDetails["messages"].length === 0 ? (
+                <div className="flex flex-col gap-3 justify-center items-center">
+                  <span className="icon-[bi--stars] w-20 h-20 textColor transition-transform duration-200 hover:scale-110"></span>
+                  <span className="font-medium select-none textColor text-lg sm:text-xl text-center">
+                    No messages yet; it's as clean as a clear night sky!
+                  </span>
+                </div>
+              ) : (
+                <>
+                  <div className="flex flex-col flex-grow overflow-y-auto">
+                    {selectedFriendDetails.messages.map((msg, index) => {
+                      const isSender = msg.sender === "Rapture_TY";
+                      return (
+                        <div
+                          key={index}
+                          className={`flex flex-row items-center w-full mb-2 ${isSender ? "justify-end" : "justify-start"}`}
+                        >
+                          {isSender && (
+                            <span className="text-sm font-normal mr-2 select-none">
+                              You
+                            </span>
+                          )}
+                          <div
+                            className={`flex rounded-md py-2 px-3 ${
+                              isSender
+                                ? "bg-purple-700"
+                                : colorProperties.textColor === "#c0c0c0"
+                                  ? "bg-neutral-700"
+                                  : "bg-neutral-600"
+                            } text-white items-start gap-3`}
+                          >
+                            <span>{msg.message}</span>
+                          </div>
+                          {!isSender && (
+                            <Tooltip
+                              placement="bottom"
+                              mouseLeaveDelay={0}
+                              title="Add Emoji"
+                            >
+                              <button className="flex ml-2 items-center justify-center">
+                                <span className="icon-[fluent--emoji-add-16-regular] hover:text-neutral-300 text-neutral-400 transition-colors duration-300 w-4 h-4"></span>
+                              </button>
+                            </Tooltip>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="flex flex-row items-center gap-3">
+                    <Tooltip
+                      title="Add Emoji"
+                      mouseLeaveDelay={0}
+                      placement="bottom"
+                    >
+                      <button className="flex items-center justify-center p-1">
+                        <span className="icon-[iconoir--emoji] w-6 h-6"></span>
+                      </button>
+                    </Tooltip>
+
+                    <textarea
+                      style={{ height: `35px` }}
+                      placeholder="Type your message here"
+                      className="focus:border-purple-600 resize-none duration-300 transition-colors flex-grow py-1 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none border-b border-gray-400 focus:border-t-0 focus:border-l-0 focus:border-r-0"
+                    />
+
+                    <div className="flex flex-row items-center gap-5">
+                      <Tooltip title="Attachments" placement="bottom">
+                        <button className="flex items-center justify-center transition-transform duration-200 transform hover:-translate-y-1">
+                          <span className="icon-[lsicon--attachments-filled] w-6 h-6"></span>
+                        </button>
+                      </Tooltip>
+
+                      <Tooltip title="Gifts" placement="bottom">
+                        <button className="flex items-center opacity-75 justify-center transition-transform duration-200 transform hover:-translate-y-1">
+                          <span className="icon-[ri--gift-line] w-6 h-6"></span>
+                        </button>
+                      </Tooltip>
+
+                      <Tooltip title="Send Money" placement="bottom">
+                        <button className="flex items-center justify-center1 transition-transform duration-200 transform hover:-translate-y-1">
+                          <span className="icon-[hugeicons--money-send-02] w-6 h-6"></span>
+                        </button>
+                      </Tooltip>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="hidden xl:flex space-y-3 flex-col w-1/3">
+            <FriendProfile username={selectedFriendDetails["username"]} />
+            <FriendActivity user={selectedFriendDetails["username"]} />
+            <FriendMenu user={selectedFriendDetails["username"]} />
+            <SecondFriendMenu user={selectedFriendDetails["username"]} />
+            <div className="w-full flex flex-row justify-center items-center p-2 darkerBackgroundColor rounded-lg">
+              <button className="text-sm dark:hover:text-white hover:text-black transition duration-200">
+                View Profile
+              </button>
+            </div>
+            <span className="text-xs">© NetVerses</span>
           </div>
         </div>
       </div>

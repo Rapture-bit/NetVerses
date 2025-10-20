@@ -17,6 +17,66 @@ export default async function (req, res) {
     }
 
     if (access_token && session_id) {
+      const session = await UserToken.findOne({ session_id });
+      if (session) {
+        if (session.sessionExpiresAt < new Date()) {
+          const generatedSessionId = generateSessionId();
+          const refreshToken = generateRefreshToken();
+
+          const accessTokenExpires = new Date();
+          accessTokenExpires.setMinutes(accessTokenExpires.getMinutes() + 15); // After 15 minutes
+
+          const refreshTokenExpires = new Date();
+          refreshTokenExpires.setDate(refreshTokenExpires.getDate() + 7); // After 7 days
+
+          const userId = session.userId;
+          const profileUser = await UserProfiles.findOne({
+            where: { id: userId },
+          });
+          const username = profileUser.getDataValue("username");
+          const accessToken = createJwtToken({ userId, username });
+
+          await tokenData.destroy();
+          await UserToken.create({
+            refresh_token: refreshToken,
+            session_id: generatedSessionId,
+            userId: userId,
+            expiresAt: refreshTokenExpires,
+            sessionExpiresAt: accessTokenExpires,
+          });
+
+          res.cookie("access_token", accessToken, {
+            httpOnly: true,
+            secure: true,
+            expires: accessTokenExpires,
+            domain: ".netverses.com",
+            sameSite: "Strict",
+            signed: true,
+          });
+
+          res.cookie("refresh_token", refreshToken, {
+            httpOnly: true,
+            secure: true,
+            expires: refreshTokenExpires,
+            domain: ".netverses.com",
+            sameSite: "Strict",
+            signed: true,
+          });
+
+          res.cookie("session_id", generatedSessionId, {
+            httpOnly: true,
+            secure: true,
+            domain: ".netverses.com",
+            sameSite: "Strict",
+            signed: true,
+          });
+
+          return res.status(200).json({
+            success: true,
+            message: "User was successfully authenticated.",
+          });
+        }
+      }
       return res.status(200).json({
         success: false,
         message: "User already authenticated.",

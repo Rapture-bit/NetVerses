@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect, useEffect, useContext } from "react";
 import { Outlet } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import CookiesNotification from "@/components/modal/BottomMenu/CookiesNotification";
+import CookiesConsent from "@/components/modal/BottomMenu/CookiesConsent";
 import TopBar from "@/components/navigation/TopBar";
 import LeftBar from "@/components/navigation/LeftBar";
 import RightBar from "@/components/navigation/RightBar";
@@ -17,10 +17,14 @@ export default function DefaultLayout() {
   const [cookiesVisibility, setCookiesVisibility] = useState<boolean | null>(
     null,
   );
-  const [consentValue, setConsentValue] = useState<boolean>(false);
+  const [consentedToCookies, setConsentedToCookies] = useState<String[]>([]);
   const [nonce, setNonce] = useState<string | null>(null);
 
-  const [topNews, setTopNews] = useState<object[]>([
+  const findElement = (cookieName: string): boolean => {
+    return consentedToCookies.includes(cookieName);
+  };
+
+  const [topArticles, setTopArticles] = useState<object[]>([
     {
       title: "Breaking News 1",
       description: "This is the description for breaking news 1.",
@@ -68,21 +72,50 @@ export default function DefaultLayout() {
   }, []);
 
   useEffect(() => {
-    if (consentValue) {
-      if (nonce) {
-        Cookies.set("consentToCookies", "true", { expires: 365, path: "/" });
-        loadGA();
+    if (Cookies.get("cookiesConsent")) {
+      const consentData = JSON.parse(Cookies.get("cookiesConsent"));
+      const hasAdvertisingConsent =
+        consentData.preferences.advertising === true;
+
+      if (hasAdvertisingConsent) {
+        return loadGA();
       }
     }
-  }, [consentValue, nonce]);
+
+    const allCookies = Cookies.get();
+    console.log(allCookies);
+    Object.keys(allCookies).forEach((key) => {
+      if (key.startsWith("_ga")) {
+        console.log("Found1");
+        Cookies.remove(key);
+      }
+    });
+  }, [consentedToCookies, nonce]);
 
   useEffect(() => {
-    if (!Cookies.get("consentToCookies")) {
+    if (!Cookies.get("cookiesConsent")) {
       setCookiesVisibility(true);
     } else {
-      if (nonce) {
-        loadGA();
+      const consentData = JSON.parse(Cookies.get("cookiesConsent"));
+      const hasFunctionalConsent = consentData.preferences.functional === true;
+      const hasAdvertisingConsent =
+        consentData.preferences.advertising === true;
+      if (hasAdvertisingConsent) {
+        console.log("Advertising consent found");
+        setCookiesVisibility(false);
+        return loadGA();
       }
+
+      const allCookies = Cookies.get();
+      console.log(allCookies);
+
+      Object.keys(allCookies).forEach((key) => {
+        if (key.startsWith("_ga")) {
+          console.log("Found!");
+          Cookies.remove(key);
+        }
+      });
+
       setCookiesVisibility(false);
     }
   }, [nonce]);
@@ -95,13 +128,12 @@ export default function DefaultLayout() {
         <LeftBar />
       )}
       {isAuth && currentPage !== "/privacy" && currentPage !== "/messages" && (
-        <RightBar news={topNews} />
+        <RightBar articles={topArticles} />
       )}
       {currentPage !== "/privacy" && (
-        <CookiesNotification
+        <CookiesConsent
           showNotif={cookiesVisibility}
-          agreedWithCookies={consentValue}
-          setAgreedWithCookies={setConsentValue}
+          setConsentedTo={setConsentedToCookies}
           setNotifVisibility={setCookiesVisibility}
         />
       )}

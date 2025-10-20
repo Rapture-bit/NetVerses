@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 import Post from "../post/Post";
 
 import { t } from "i18next";
@@ -7,8 +8,6 @@ import type { MenuProps } from "antd/es/menu";
 
 import { Dropdown, ConfigProvider, Space } from "antd";
 import DownOutlined from "@ant-design/icons";
-
-import { getCssVariable } from "@/utils/getCssVariable";
 
 interface Props {
   username: string;
@@ -242,8 +241,8 @@ const ContentPreview = ({ username }: Props) => {
               <ConfigProvider
                 theme={{
                   token: {
-                    colorBgBase: getCssVariable("--darker-background-color"),
-                    colorText: getCssVariable("--text-color"),
+                    colorBgBase: ThemeContext.darkerBackgroundColor,
+                    colorText: ThemeContext.textColor,
                   },
                 }}
               >

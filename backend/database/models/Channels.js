@@ -1,6 +1,6 @@
-import { User } from "./User";
+import { User } from "./User.js";
 import { Model, DataTypes } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "../config/database.js";
 import { randomUUID } from "crypto";
 
 function generateNonHyphenUUID() {
@@ -61,6 +61,16 @@ Channels.init(
       allowNull: false,
       primaryKey: true,
     },
+    regions: {
+      type: DataTypes.JSON,
+      defaultValue: {},
+      allowNull: false,
+    },
+    genres: {
+      type: DataTypes.JSON,
+      defaultValue: {},
+      allowNull: false,
+    },
     channelType: {
       type: DataTypes.ENUM("public", "private"),
       defaultValue: "public",
@@ -94,6 +104,10 @@ Channels.init(
     },
     ownerId: {
       type: DataTypes.STRING(32),
+      allowNull: false,
+    },
+    vanityURLName: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     defaultLocale: {
@@ -161,7 +175,7 @@ User.belongsToMany(Channels, {
   through: ChannelSubscribers,
   foreignKey: "userId",
   otherKey: "channelId",
-  as: "subscriptions",
+  as: "channelSubscriptions",
   onDelete: "CASCADE",
 });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { emojiMap } from "@/constants/emojiMap";
 
 interface Props {
@@ -17,6 +17,7 @@ export default function TextArea({
   ...props
 }: Props) {
   const [text, setText] = useState<string>("");
+  const textAreaRef = useRef(null);
 
   useEffect(() => {
     if (addText) {
@@ -30,24 +31,12 @@ export default function TextArea({
     });
   };
 
-  const formatText = (text: string) => {
-    text = text.replace(/__([^_]+?)__/g, "<u>$1</u>");
-    text = text.replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>");
-    text = text.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, "<em>$1</em>");
-    text = text.replace(/~~([^~]+?)~~/g, "<del>$1</del>");
-    text = text.replace(/```(.*?)```/g, "<pre><code>$1</code></pre>");
-    text = text.replace(/`(.*?)`/g, "<code>$1</code>");
-
-    return text;
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
     e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight}px`;
     const updatedText = replaceEmojiNames(inputValue);
-    const formattedText = formatText(updatedText);
-    setText(formattedText);
+    setText(updatedText);
 
     if (onChange) {
       onChange(e);

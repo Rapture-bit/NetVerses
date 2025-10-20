@@ -1,5 +1,6 @@
 import sequelize from "./config/database.js";
 import { User, UserProfiles, UserToken } from "./models/User.js";
+import { Verses, Articles } from "./models/Feed.js";
 import { OTP } from "./models/OTP.js";
 
 async function syncDatabase() {

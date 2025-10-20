@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function RightBar({ news }) {
+export default function RightBar({ articles }) {
   const { t } = useTranslation();
   const [isAuth, setAuth] = useState<boolean>(true);
-  const topNews = news.slice(0, 3);
+  const topArticles = articles.slice(0, 3);
   const [rightPosition, setRightPosition] = useState("8%");
 
   const updatePosition = () => {
@@ -38,24 +38,24 @@ export default function RightBar({ news }) {
         }}
       >
         <div className="flex flex-col space-y-4 justify-center items-center">
-          {topNews.map((newsItem, index) => (
+          {topArticles.map((articlesItem, index) => (
             <div
               key={index}
               className="relative flex flex-col p-5 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-4"
             >
-              <h2 className="text-xl font-bold mb-2">{newsItem.title}</h2>
+              <h2 className="text-xl font-bold mb-2">{articlesItem.title}</h2>
               <p className="dark:text-white text-gray-700 mb-2">
-                {newsItem.description}
+                {articlesItem.description}
               </p>
               <span className="bg-gradient-to-r select-none from-violet-300 to-violet-200 text-violet-900 py-1 px-3 rounded-full text-sm font-medium shadow-md">
-                {newsItem.category}
+                {articlesItem.category}
               </span>
             </div>
           ))}
           <div className="relative flex items-center justify-center p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3">
             <div className="flex flex-row gap-3 items-center">
               <a
-                href="/news"
+                href="/articles"
                 className="text-violet-500 hover:underline font-medium jost"
               >
                 {t("home.viewMoreNews")}

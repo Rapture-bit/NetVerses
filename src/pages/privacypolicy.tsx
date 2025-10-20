@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
+
+import { ThemeContext } from "@/context/ThemeContext";
 import PageTitle from "@/components/others/PageTitle";
 import Footer from "@/components/navigation/Footer";
 import DocTab from "@/components/others/document/DocTab";
@@ -20,6 +22,7 @@ export default function PrivacyPage() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
   const [colorTheme, setColorTheme] = useState<string>("");
+  const { colorProperties } = useContext(ThemeContext);
 
   const [Tabs, setTabs] = useState<Tab[]>([
     {
@@ -166,12 +169,7 @@ export default function PrivacyPage() {
   }
 
   useLayoutEffect(() => {
-    const getCssVariable = (variable: string) => {
-      const root = document.documentElement;
-      return getComputedStyle(root).getPropertyValue(variable).trim();
-    };
-
-    setColorTheme(getCssVariable("--text-color"));
+    setColorTheme(colorProperties.textColor);
   }, []);
 
   return (

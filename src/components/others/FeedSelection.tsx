@@ -33,16 +33,16 @@ export default function FeedSelection({ onChange }) {
         <span className="text-base">{t("home.myFeed")}</span>
       </button>
       <button
-        aria-label={t("home.newsLabel")}
+        aria-label={t("home.articlesLabel")}
         className={`flex gap-2 flex-grow h-full items-center justify-center rounded-r-lg transition-colors duration-300 ${
-          selected === "News"
+          selected === "Articles"
             ? "textColor bg-gray-200 dark:bg-neutral-800 font-medium"
             : "dark:text-gray-400 hover:text-gray-600 hover:bg-gray-200 hover:dark:text-gray-300 hover:dark:bg-neutral-800"
         }`}
-        onClick={() => handleSelectionChange("News")}
+        onClick={() => handleSelectionChange("Articles")}
       >
         <span className="icon-[mingcute--news-line] text-xl"></span>
-        <span className="text-base">{t("home.newsLabel")}</span>
+        <span className="text-base">{t("home.articlesLabel")}</span>
       </button>
     </div>
   );

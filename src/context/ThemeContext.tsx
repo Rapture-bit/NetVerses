@@ -32,6 +32,8 @@ const ThemeProvider = ({ children }) => {
   const [backgroundColor, setBackgroundColor] = useState<string>("");
   const [primaryColor, setPrimaryColor] = useState<string>("");
   const [borderInputColor, setBorderInputColor] = useState<string>("");
+  const [darkerBackgroundColor, setDarkerBackgroundColor] =
+    useState<string>("");
   const [colorProperties, setColorProperties] =
     useState<ColorPropertiesElement>(defaultColors);
 
@@ -44,6 +46,7 @@ const ThemeProvider = ({ children }) => {
     const updateColors = () => {
       setTextColor(getCssVariable("--text-color"));
       setBackgroundColor(getCssVariable("--background-color"));
+      setDarkerBackgroundColor(getCssVariable("--darker-background-color"));
       setBorderInputColor(getCssVariable("--border-input-color"));
       setPrimaryColor(getCssVariable("--primary-color"));
     };
@@ -65,6 +68,7 @@ const ThemeProvider = ({ children }) => {
     setColorProperties({
       textColor: textColor,
       backgroundColor: backgroundColor,
+      darkerBackgroundColor: darkerBackgroundColor,
       primaryColor: primaryColor,
       borderInputColor: borderInputColor,
     });

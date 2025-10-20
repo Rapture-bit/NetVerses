@@ -78,7 +78,7 @@ export default function Boost({ visible, setIsOpen }) {
                 type="primary"
                 aria-label="Dismiss"
                 onClick={() => setIsOpen(false)}
-                className="p-2 bg-transparent hover:bg-violet-900 !border-violet-900 mt-2 hover:!bg-opacity-85 px-8 rounded-full"
+                className="textColor hover:text-white p-2 bg-transparent hover:bg-violet-900 !border-violet-900 mt-2 hover:!bg-opacity-85 px-8 rounded-full"
               >
                 Dismiss
               </Button>

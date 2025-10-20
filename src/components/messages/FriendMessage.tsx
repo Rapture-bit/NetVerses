@@ -27,7 +27,7 @@ const FriendMessage = ({
   return (
     <button
       id="friend"
-      className={`flex items-center w-full py-1.5 px-4 ${isSelected ? (colorProperties.textColor === "#c0c0c0" ? "bg-neutral-700" : "bg-neutral-300") : "bg-transparent"} ${colorProperties.textColor === "#c0c0c0" ? "hover:bg-neutral-700" : "hover:bg-neutral-300"} transition-all duration-200`}
+      className={`flex items-center w-full py-1.5 px-4 ${isSelected ? (colorProperties.textColor === "#c0c0c0" ? "bg-[#303030]" : "bg-neutral-300") : "bg-transparent"} ${colorProperties.textColor === "#c0c0c0" ? "hover:bg-[#303030]" : "hover:bg-neutral-300"} transition-all duration-200`}
       onClick={() => {
         onSelected(author);
       }}

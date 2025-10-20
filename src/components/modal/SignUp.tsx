@@ -50,6 +50,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   const [Empty, setEmpty] = useState<boolean>();
   const [OTPValue, setOTPValue] = useState<string>("");
   const [OTPMaxLength, setOTPMaxLength] = useState<number>(5);
+  const [isNoConfirmationDialog, setNoConfirmationDialog] =
+    useState<boolean>(false);
   const [requestID, setRequestID] = useState<string>("");
   const [resendStatus, setResendStatus] = useState<object>({
     onHold: false,
@@ -371,13 +373,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   }, [username, usernameCache]);
 
   const refreshPage = () => {
-    window.onbeforeunload = null;
-    window.removeEventListener("beforeunload", preventUnloadHandler);
-
-    function preventUnloadHandler(e) {
-      e.preventDefault();
-      e.returnValue = "";
-    }
+    setNoConfirmationDialog(true);
 
     setTimeout(() => {
       window.location.reload();
@@ -858,6 +854,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
       confirmClose={true}
       onClosed={resetTab}
       title={t("SignUp.modalTitle")}
+      noConfirmationDialog={isNoConfirmationDialog}
       open={visible}
       setIsOpen={setIsOpen}
       footer={

@@ -17,10 +17,12 @@ const SearchBar = ({ placeholder, height, onSearchChange }: Props) => {
       <input
         type="text"
         placeholder={placeholder || t("input.search")}
-        className={`w-full ${height ? height : "py-1.5"} pl-10 pr-4 rounded-lg border border-gray-500 placeholder-gray-500 focus:outline-none darkerBackgroundColor`}
+        className={`w-full ${
+          height ? height : "py-2"
+        } pl-10 pr-4 rounded-lg border border-gray-500 placeholder-gray-500 
+    bg-transparent focus:border-violet-600 focus:outline-none darkerBackgroundColor transition-colors duration-200`}
         onChange={handleSearchChange}
       />
-      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[ic--sharp-search] w-5 h-5 text-gray-500"></span>
     </div>
   );
 };

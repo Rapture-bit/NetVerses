@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
 import formatDate from "@/utils/formatDate";
@@ -10,9 +10,9 @@ import type { MenuProps } from "antd/es/menu";
 import { Dropdown, Space, ConfigProvider } from "antd";
 import DownOutlined from "@ant-design/icons";
 
-import { t } from "i18next";
+import { ThemeContext } from "@/context/ThemeContext";
 
-import { getCssVariable } from "@/utils/getCssVariable";
+import { t } from "i18next";
 
 type InteractionCounts = {
   likes: number;
@@ -63,6 +63,7 @@ export default function FocusedPost({
   const humanReadableDate = useHumanDate(date);
   const [selectedFilter, setSelectedFilter] = useState<string>("Popular");
   const [filteredComments, setFilteredComments] = useState<object[]>(comments);
+  const { colorProperties } = useContext(ThemeContext);
 
   const items: MenuProps["items"] = [
     {
@@ -304,8 +305,8 @@ export default function FocusedPost({
             <ConfigProvider
               theme={{
                 token: {
-                  colorBgBase: getCssVariable("--darker-background-color"),
-                  colorText: getCssVariable("--text-color"),
+                  colorBgBase: ThemeContext.darkerBackgroundColor,
+                  colorText: ThemeContext.textColor,
                 },
               }}
             >

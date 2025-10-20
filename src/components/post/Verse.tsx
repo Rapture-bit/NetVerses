@@ -1,18 +1,16 @@
 import React from "react";
 import { Tooltip } from "antd";
-import { useState, useLayoutEffect, useEffect } from "react";
+import { useState, useLayoutEffect, useContext } from "react";
+
 import useDeviceType from "@/hooks/useDeviceType";
 import TextArea from "@/components/input/TextArea";
+import { ThemeContext } from "@/context/ThemeContext";
 
 import { useTranslation } from "react-i18next";
 
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-import Media from "@/components/modal/Menu/Media";
-import { getCssVariable } from "@/utils/getCssVariable";
-
 export default function Verse({ isComment }) {
   const { t } = useTranslation();
+  const { colorProperties } = useContext(ThemeContext);
   const { deviceType, isTouchScreen } = useDeviceType();
   const [isItalic, setIsItalic] = useState<string>("italic");
   const [avatar, setAvatar] = useState<string>("/images/avatars/default.jpg");
@@ -24,73 +22,16 @@ export default function Verse({ isComment }) {
   const [isMediaMenuOpen, setMediaMenuOpen] = useState<boolean>(false);
   const [isEmojiMenuOpen, setEmojiMenuOpen] = useState<boolean>(false);
 
-  document.onclick = (e: MouseEvent) => {
-    const target = e.target as Element | null;
-
-    if (isEmojiMenuOpen) {
-      if (
-        target &&
-        target["localName"] != "em-emoji-picker" &&
-        target["className"] !=
-          "icon-[mdi--emoji-outline] block w-4 h-4 lg:w-5 lg:h-5" &&
-        !target.closest("em-emoji-picker") &&
-        !target.closest(".icon-[mdi--emoji-outline].block")
-      ) {
-        setEmojiMenuOpen(false);
-      }
-    } else if (isMediaMenuOpen) {
-      if (
-        target &&
-        target["id"] != "mediaMenu" &&
-        target["className"] !=
-          "icon-[fluent-mdl2--media-add] block w-4 h-4 lg:w-5 lg:h-5" &&
-        !target.closest("#mediaMenu") &&
-        !target.closest(".icon-[fluent-mdl2--media-add].block")
-      ) {
-        setMediaMenuOpen(false);
-      }
-    }
-  };
-
-  function verseInputChanged(e, isEmoji) {
+  function verseInputChanged(e) {
     var input;
-    if (isEmoji) {
-      const sym = e.unified.split("_");
-      const codeArray = [];
-      sym.forEach((element) => codeArray.push("0x" + element));
-      var emoji = String.fromCodePoint(...codeArray);
-      input = emoji.trim();
-    } else {
-      input = e.target.value.trim();
-    }
+    input = e.target.value.trim();
 
     setIsItalic(input ? "not-italic" : "italic");
-    if (!isEmojiMenuOpen) setEmojiMenuOpen(false);
   }
-
-  function toggleMediaMenu() {
-    setMediaMenuOpen((prev) => !prev);
-    setEmojiMenuOpen(false);
-  }
-
-  function toggleEmojiMenu() {
-    setEmojiMenuOpen((prev) => !prev);
-    setMediaMenuOpen(false);
-  }
-
-  const addEmoji = (e) => {
-    const sym = e.unified.split("_");
-    const codeArray = [];
-    sym.forEach((element) => codeArray.push("0x" + element));
-    var emoji = String.fromCodePoint(...codeArray);
-    setTextAdded(emoji);
-    verseInputChanged(e, true);
-    setEmojiMenuOpen(false);
-  };
 
   useLayoutEffect(() => {
     const updateColors = () => {
-      setTextColor(getCssVariable("--text-color"));
+      setTextColor(colorProperties.textColor);
     };
 
     updateColors();
@@ -103,18 +44,6 @@ export default function Verse({ isComment }) {
 
     return () => {
       observer.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setEmojiMenuOpen(false);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -142,7 +71,7 @@ export default function Verse({ isComment }) {
             minHeight={43}
             addText={textAdded}
             onChange={(e) => {
-              verseInputChanged(e, false);
+              verseInputChanged(e);
             }}
             placeholder={
               isComment ? t("input.comment") : t("input.versesInput")
@@ -162,9 +91,6 @@ export default function Verse({ isComment }) {
           >
             <button
               aria-label="Add Emoji"
-              onClick={() => {
-                toggleEmojiMenu();
-              }}
               className="transition-transform duration-300 ease-in-out transform hover:rotate-12 hover:text-pink-500"
             >
               <span className="icon-[mdi--emoji-outline] block w-4 h-4 lg:w-5 lg:h-5"></span>
@@ -176,9 +102,7 @@ export default function Verse({ isComment }) {
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4 pointer-events-none"
             }`}
-          >
-            {isMediaMenuOpen && <Media />}
-          </div>
+          ></div>
 
           <div
             className={`absolute top-[100%] z-50 -translate-x-10 transition-all duration-500 ease-in-out transform ${
@@ -186,18 +110,7 @@ export default function Verse({ isComment }) {
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4 pointer-events-none"
             }`}
-          >
-            {isEmojiMenuOpen && (
-              <Picker
-                data={data}
-                emojiSize={20}
-                emojiButtonSize={30}
-                onEmojiSelect={addEmoji}
-                maxFrequentRows={0}
-                theme={textColor === "#c0c0c0" ? "dark" : "light"}
-              />
-            )}
-          </div>
+          ></div>
 
           <Tooltip
             mouseLeaveDelay={0}
@@ -207,7 +120,6 @@ export default function Verse({ isComment }) {
           >
             <button
               aria-label="Add Media"
-              onClick={() => toggleMediaMenu()}
               className="transition-transform duration-300 ease-in-out transform hover:rotate-12 hover:text-green-500"
             >
               <span className="icon-[fluent-mdl2--media-add] block w-4 h-4 lg:w-5 lg:h-5"></span>

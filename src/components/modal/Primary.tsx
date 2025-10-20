@@ -4,6 +4,7 @@ import { ThemeContext } from "@/context/ThemeContext";
 
 interface PrimaryModalProps {
   confirmClose: boolean;
+  noConfirmationDialog: boolean;
   open: boolean;
   title: string;
   children: React.ReactNode;
@@ -15,6 +16,7 @@ interface PrimaryModalProps {
 
 const PrimaryModal: React.FC<PrimaryModalProps> = ({
   confirmClose,
+  noConfirmationDialog,
   footer,
   open,
   title,
@@ -27,24 +29,29 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
   const [showConfirmClose, setShowConfirmClose] = useState<boolean>(false);
   const [modalClosed, setModalClosed] = useState<boolean>(false);
 
+  const handleBeforeUnload = (e) => {
+    if (confirmClose && !modalClosed && open) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  };
+
   useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      if (confirmClose && !modalClosed && open) {
-        e.preventDefault();
-        e.returnValue = "";
-      }
-    };
+    if (noConfirmationDialog) {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    }
+  }, [noConfirmationDialog]);
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
+  useEffect(() => {
+    if (!noConfirmationDialog) {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    } else {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    }
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [confirmClose, modalClosed, open]);
-
-  const toggleConfirmClose = () => {
-    setShowConfirmClose((prev) => !prev);
-  };
 
   const handleCancel = () => {
     if (confirmClose) {
@@ -92,7 +99,7 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
         }}
       >
         <Modal
-          onCancel={toggleConfirmClose}
+          onCancel={handleCancel}
           title={title}
           open={open}
           destroyOnClose={true}

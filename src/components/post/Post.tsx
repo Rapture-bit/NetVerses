@@ -97,17 +97,17 @@ export default function Post({
   const humanReadableDate = useHumanDate(date);
 
   const [isBoostMenuVisible, setBoostMenuVisible] = useState<boolean>(false);
-  const [colorPreference, setColorPreference] = useState<string>(
+  const [localColorPreference, setLocalColorPreference] = useState<string>(
     colorProfile ? colorProfile : "purple",
   );
   const [textColor, setTextColor] = useState<string>(
-    `text-${colorPreference}-500`,
+    `text-${localColorPreference}-500`,
   );
   const [borderColor, setBorderColor] = useState<string>(
-    `border-${colorPreference}-600`,
+    `border-${localColorPreference}-600`,
   );
   const [shadowColor, setShadowColor] = useState<string>(
-    `shadow-${colorPreference}-600`,
+    `shadow-${localColorPreference}-600`,
   );
 
   const toggleBoost = () => {
@@ -115,10 +115,10 @@ export default function Post({
   };
 
   useEffect(() => {
-    setTextColor(`text-${colorPreference}-500`);
-    setBorderColor(`border-${colorPreference}-600`);
-    setShadowColor(`shadow-${colorPreference}-600`);
-  }, [colorPreference]);
+    setTextColor(`text-${localColorPreference}-500`);
+    setBorderColor(`border-${localColorPreference}-600`);
+    setShadowColor(`shadow-${localColorPreference}-600`);
+  }, [localColorPreference]);
 
   return (
     <div
@@ -148,7 +148,7 @@ export default function Post({
             <div className="flex flex-col space-y-1">
               <div className="flex items-center gap-2">
                 <a
-                  href={author}
+                  href={author.toLowerCase()}
                   className="text-black dark:text-white hover:underline font-medium"
                 >
                   {author}
@@ -162,7 +162,7 @@ export default function Post({
             </div>
           </div>
         </div>
-        {(type === "Blog" || type === "News") && title && (
+        {(type === "Blog" || type === "Articles") && title && (
           <div>
             <h1 className="flex items-center dark:text-white text-black text-lg font-semibold jost">
               {title}
@@ -300,15 +300,22 @@ export default function Post({
                 <div className="flex flex-row justify-between">
                   <p>{comment.text}</p>
                   <div className="flex flex-row gap-3">
-                    <button
-                      className="dark:text-white text-black hover:underline mt-2 self-start"
-                      aria-label="Reply"
+                    <Tooltip
+                      mouseLeaveDelay={0}
+                      title="Reply"
+                      placement="bottom"
+                      arrow={false}
                     >
-                      <span
-                        className="icon-[material-symbols--reply] textColor w-4 h-4"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
+                      <button
+                        className="dark:text-white text-black hover:underline mt-2 self-start"
+                        aria-label="Reply"
+                      >
+                        <span
+                          className="icon-[material-symbols--reply] textColor w-4 h-4"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                    </Tooltip>
                   </div>
                 </div>
               </div>

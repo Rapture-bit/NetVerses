@@ -27,7 +27,7 @@ type Attachments = {
   videos?: videos[];
 };
 
-type NewsProps = {
+type ArticlesProps = {
   id: number;
   type?: string;
   title: string;
@@ -46,7 +46,7 @@ type EmergencySettings = {
   excludingMember?: string;
 };
 
-const News = ({
+const Articles = ({
   channel,
   date,
   type = "default",
@@ -54,7 +54,7 @@ const News = ({
   title,
   id,
   emergencySettings,
-}: NewsProps) => {
+}: ArticlesProps) => {
   const isEmergency = type === "emergency";
   const isLong = type === "long";
   const isShort = type === "short";
@@ -103,4 +103,4 @@ const News = ({
   );
 };
 
-export default News;
+export default Articles;

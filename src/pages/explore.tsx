@@ -25,7 +25,7 @@ const Explore = () => {
               <div className="relative flex-1">
                 <SearchBar aria-label="Search" />
                 <span
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[ic--sharp-search] w-5 h-5 text-gray-500"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 icon-[ic--sharp-search] w-[1.35rem] h-[1.35rem] text-gray-400"
                   aria-hidden="true"
                 ></span>
               </div>

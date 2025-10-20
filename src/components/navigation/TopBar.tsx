@@ -43,7 +43,7 @@ export default function TopBar() {
                 <span className="sr-only">Notifications</span>
               </button>
             </Tooltip>
-            <Tooltip placement="bottom" title="Notifications">
+            <Tooltip placement="bottom" title="Messages">
               <button aria-label="Messages" className="flex items-center p-1">
                 <span className="icon-[mingcute--message-2-line] w-6 h-6 text-gray-600 hover:text-gray-800 dark:text-neutral-200 dark:hover:text-white transition-all duration-300"></span>
                 <span className="sr-only">Messages</span>

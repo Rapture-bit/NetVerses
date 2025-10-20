@@ -170,7 +170,7 @@ const ProfilePreview = ({ username }) => {
               <div key={label} className="flex flex-col items-center">
                 <a
                   href={link}
-                  className="text-base font-bold hover:underline"
+                  className="text-base text-black dark:text-white font-bold hover:underline"
                   aria-label={`View ${formatNumber(count)} ${label}`}
                 >
                   {formatNumber(count)}

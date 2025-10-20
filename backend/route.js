@@ -51,6 +51,16 @@ const route = {
       },
     },
     {
+      name: "Retrieve Feed",
+      path: "/feed/retrieve",
+      allowedMethods: ["GET"],
+      functionFile: "../API/feed/get-feed.js",
+      authRequired: false,
+      rateLimit: {
+        max: 10000000000000,
+      },
+    },
+    {
       name: "Check Username",
       path: "/users/check-username",
       allowedMethods: ["GET"],

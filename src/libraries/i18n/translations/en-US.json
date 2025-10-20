@@ -17,12 +17,13 @@
   },
   "input": {
     "versesInput": "Share your updates with the universe",
-    "comment": "User's comment here..."
+    "comment": "User's comment here...",
+    "search": "Search"
   },
   "home": {
     "myFeed": "My Feed",
-    "newsLabel": "News",
-    "viewMoreNews": "View more news",
+    "articlesLabel": "Articles",
+    "viewMoreNews": "View more articles",
     "visitProfile": "Visit Profile",
     "editProfile": "Edit Profile",
     "Posts": "Posts",

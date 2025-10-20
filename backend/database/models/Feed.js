@@ -1,8 +1,8 @@
-import { Channels } from "./Channels";
-import { Clubs } from "./Clubs";
-import { User } from "./User";
+import { Channels } from "./Channels.js";
+import { Clubs } from "./Clubs.js";
+import { User } from "./User.js";
 import { Model, DataTypes } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "../config/database.js";
 import { randomUUID } from "crypto";
 
 function generateNonHyphenUUID() {
@@ -17,6 +17,11 @@ Verses.init(
       defaultValue: generateNonHyphenUUID,
       allowNull: false,
       primaryKey: true,
+    },
+    type: {
+      type: DataTypes.ENUM(["default", "Blog"]),
+      defaultValue: "default",
+      allowNull: false,
     },
     authorId: {
       type: DataTypes.STRING(32),
@@ -40,20 +45,28 @@ Verses.init(
         genres: [], // By algorithm (default) or manually
       },
     },
+    aiGenerated: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    }, // AI content detected
+    consentForAI: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    }, // User's consent on the usage of AI
     content: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
     title: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     hashtags: {
       type: DataTypes.JSON,
       defaultValue: [],
       allowNull: false,
     },
-    assets: {
+    attachments: {
       type: DataTypes.JSON,
       defaultValue: [
         {
@@ -139,7 +152,7 @@ Articles.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    assets: {
+    attachments: {
       type: DataTypes.JSON,
       defaultValue: [
         {
@@ -241,5 +254,6 @@ Verses.belongsTo(Clubs, {
   onDelete: "CASCADE",
 });
 Clubs.hasMany(Verses, { foreignKey: "clubId", as: "verses" });
+Clubs.hasMany(Articles, { foreignKey: "clubId", as: "articles" });
 
 export { Verses, Articles };

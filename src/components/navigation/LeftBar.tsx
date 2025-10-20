@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import formatNumber from "@/utils/formatNumber";
-import { getCssVariable } from "@/utils/getCssVariable";
+import { Tooltip } from "antd";
 
+import formatNumber from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
 
 export default function LeftBar() {
@@ -9,6 +9,7 @@ export default function LeftBar() {
   const [isAuth, setAuth] = useState<boolean>(true); // Change with API data
   const [hideButtons, setHideButtons] = useState<boolean>(false);
   const [leftPosition, setLeftPosition] = useState<string>("8%");
+  const [Job, setJob] = useState<string>("Entrepreneur");
   const [description, setDescription] =
     useState<string>(`Proud chairman of NetVerses™, empowering connections and shaping the
     future of digital social platforms.`);
@@ -18,6 +19,14 @@ export default function LeftBar() {
   const [username, setUsername] = useState<string>("Xenon");
   const [avatar, setAvatar] = useState<string>("/images/avatars/default.jpg");
   const [selectedPage, setSelectedPage] = useState<string>("");
+  const [profileColor, setProfileColor] = useState<string>("blue"); // To be updated with API
+  const [profileColors, setProfileColors] = useState<Object>({
+    bannerGradient: `from-${profileColor}-700`,
+    background: `bg-${profileColor}-800`,
+    hoverBackground: `hover:bg-${profileColor}-800`,
+    borderColor: `border-${profileColor}-800`,
+    textColor: `text-${profileColor}-500`,
+  });
 
   const updatePosition = () => {
     const windowHeight = window.innerHeight;
@@ -87,7 +96,9 @@ export default function LeftBar() {
         }}
       >
         <div className="relative">
-          <div className="bg-gradient-to-b from-violet-700 to-transparent h-20 w-full absolute top-0 left-0 rounded-t-lg">
+          <div
+            className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-20 w-full absolute top-0 left-0 rounded-t-lg`}
+          >
             <a
               href={`/${username}`}
               className="absolute z-10 mt-7 ml-4 w-16 h-16"
@@ -110,7 +121,32 @@ export default function LeftBar() {
             </a>
           </div>
 
-          <div className="flex flex-col space-y-6 justify-center items-center py-5 px-7 rounded-lg darkerBackgroundColor text-center pt-28">
+          <div className="flex flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor text-center pt-28">
+            <div className="flex flex-col gap-1">
+              <div className="inline-flex items-center gap-1">
+                <a
+                  href={`/${username.toLowerCase()}`}
+                  className="text-xl hover:underline font-semibold dark:text-white transition-colors duration-300 leading-none"
+                >
+                  {username}
+                </a>
+                <Tooltip placement="bottom" title="Official Profile">
+                  <span
+                    className={`icon-[material-symbols--verified-outline-rounded] ${profileColors.textColor} w-4 h-4 mt-1`}
+                    aria-label="Verified"
+                  ></span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="inline-flex items-center gap-1">
+                  <span
+                    className={`font-semibold ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
+                  >
+                    {Job}
+                  </span>
+                </div>
+              </div>
+            </div>
             <div className="flex flex-row justify-center gap-8">
               <div className="flex flex-col items-center">
                 <a
@@ -147,22 +183,6 @@ export default function LeftBar() {
             <p className="description text-sm text-left w-full whitespace-normal break-words">
               {description}
             </p>
-
-            <div className="flex flex-row gap-6 justify-center items-center">
-              <button
-                aria-label={t("home.editProfile")}
-                className="rounded-md bg-purple-700 text-white hover:brightness-125 duration-200 transition-all px-2 py-1 text-sm"
-              >
-                {t("home.editProfile")}
-              </button>
-              <button
-                aria-label={t("home.visitProfile")}
-                onClick={() => (window.location.href = "/xenon")}
-                className="rounded-md bg-transparent border-violet-700 border hover:bg-purple-700 duration-200 transition-all px-2 py-1 text-sm"
-              >
-                {t("home.visitProfile")}
-              </button>
-            </div>
           </div>
         </div>
 
