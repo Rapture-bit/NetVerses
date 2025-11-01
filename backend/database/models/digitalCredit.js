@@ -1,7 +1,8 @@
 import { User } from "./User";
 
 import sequelize from "../config/database";
-import { DataTypes, Model } from "sequelize";
+import pkg from "sequelize";
+const { Model, DataTypes, Sequelize } = pkg;
 
 class DigitalCredit extends Model {}
 DigitalCredit.init(

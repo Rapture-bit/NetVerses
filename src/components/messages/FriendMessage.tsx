@@ -1,12 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 
+import { Tooltip } from "antd";
+
 interface Props {
   last_message?: string;
   isUnread: boolean;
   onSelected: (author: string) => void;
   isSelected: boolean;
   author: string;
+  calling: boolean;
 }
 
 const FriendMessage = ({
@@ -15,6 +18,7 @@ const FriendMessage = ({
   onSelected,
   isSelected,
   author,
+  calling,
 }: Props) => {
   const [username, setUsername] = useState<string>(author);
   const [pfp, setPfp] = useState<string>("/images/avatars/default.jpg");
@@ -27,7 +31,7 @@ const FriendMessage = ({
   return (
     <button
       id="friend"
-      className={`flex items-center w-full py-1.5 px-4 ${isSelected ? (colorProperties.textColor === "#c0c0c0" ? "bg-[#303030]" : "bg-neutral-300") : "bg-transparent"} ${colorProperties.textColor === "#c0c0c0" ? "hover:bg-[#303030]" : "hover:bg-neutral-300"} transition-all duration-200`}
+      className={`flex items-center w-full py-1.5 px-4 ${!calling ? (isSelected ? (colorProperties.textColor === "#c0c0c0" ? "bg-[#303030]" : "bg-neutral-300") : "bg-transparent") : "bg-green-800"} ${!calling ? (colorProperties.textColor === "#c0c0c0" ? "hover:bg-[#303030]" : "hover:bg-neutral-300") : "text-white"} transition-all duration-200`}
       onClick={() => {
         onSelected(author);
       }}
@@ -40,7 +44,7 @@ const FriendMessage = ({
           <img
             id="pfp"
             src={pfp}
-            className="w-12 h-12 rounded-full"
+            className={`w-12 h-12 rounded-full ${calling ? "animate-pulse" : "animate-none"}`}
             alt={`${username}'s profile`}
           />
           <div className="flex flex-col text-start justify-start ml-0 gap-1 text-sm roboto">
@@ -48,13 +52,30 @@ const FriendMessage = ({
               {username}
             </span>
             <span
-              className={`text-sm ${colorProperties.textColor === "#c0c0c0" ? "text-neutral-400" : "text-neutral-600"} roboto`}
+              className={`text-sm ${!calling ? (colorProperties.textColor === "#c0c0c0" ? "text-neutral-400" : "text-neutral-600") : "text-white"} roboto`}
             >
               {last_message || "No messages yet."}{" "}
             </span>
           </div>
         </div>
-        {isUnread && <div className="bg-purple-700 rounded-full p-1" />}
+        {isUnread && !calling && (
+          <div className="bg-purple-700 rounded-full p-1" />
+        )}
+        {calling && (
+          <div className="flex flex-row space-x-2">
+            <Tooltip title="Answer Call" mouseLeaveDelay={0} placement="bottom">
+              <button className="flex items-center justify-center p-1 bg-white text-green-600 rounded-full shadow-md hover:bg-green-100 transition-all duration-200 transform hover:scale-110">
+                <span className="icon-[ic--round-call] w-[1.4rem] h-[1.4rem]" />
+              </button>
+            </Tooltip>
+
+            <Tooltip title="Reject Call" mouseLeaveDelay={0} placement="bottom">
+              <button className="flex items-center justify-center p-1 bg-white text-red-600 rounded-full shadow-md hover:bg-red-100 transition-all duration-200 transform hover:scale-110">
+                <span className="icon-[material-symbols--call-end] w-[1.4rem] h-[1.4rem]" />
+              </button>
+            </Tooltip>
+          </div>
+        )}
       </div>
     </button>
   );

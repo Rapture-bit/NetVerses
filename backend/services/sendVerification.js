@@ -98,7 +98,7 @@ export default async function sendVerification(
               </table>
               <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
                 <span style="font-size: 12px; color: #000001">
-                © 2024 NetVerses. All rights reserved.
+                © 2025 NetVerses. All rights reserved.
               </span>
                 <span style="font-size: 12px; color: #000001;">NetVerses® is a registered trademark of NetVerses, Inc.</span>
               </div>
@@ -197,7 +197,7 @@ export default async function sendVerification(
             </table>
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <span style="font-size: 12px; color: #000001">
-              © 2024 NetVerses. All rights reserved.
+              © 2025 NetVerses. All rights reserved.
             </span>
               <span style="font-size: 12px; color: #000001;">NetVerses® is a registered trademark of NetVerses, Inc.</span>
             </div>

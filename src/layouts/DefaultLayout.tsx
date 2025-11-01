@@ -1,46 +1,57 @@
-import React, { useState, useLayoutEffect, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useRef,
+  useLayoutEffect,
+  useEffect,
+  useContext,
+} from "react";
 import { Outlet } from "react-router-dom";
 import Cookies from "js-cookie";
+
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+
+import AnimationPlayer from "@/components/others/AnimationPlayer";
 
 import CookiesConsent from "@/components/modal/BottomMenu/CookiesConsent";
 import TopBar from "@/components/navigation/TopBar";
 import LeftBar from "@/components/navigation/LeftBar";
 import RightBar from "@/components/navigation/RightBar";
 
-import { AuthContext } from "@/context/AuthContext";
+import Loading from "@/components/others/Loading";
+
+import { AnimateContext } from "@/context/AnimateContext";
+import { UserContext } from "@/context/UserContext";
 
 const GA_TRACKING_ID = "G-EDV3RGP46V"; // [!] GA_TRACKING_ID
 
 export default function DefaultLayout() {
-  const { isAuth } = useContext(AuthContext);
+  const { userCache, updateCache } = useContext(UserContext);
+  const { animSrc, setCurrentRef } = useContext(AnimateContext);
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [animationSrc, setAnimationSrc] = useState<string | null>(null);
+  const dotLottieRef = useRef(null);
+
   const [currentPage, setCurrentPage] = useState<string>("");
   const [cookiesVisibility, setCookiesVisibility] = useState<boolean | null>(
     null,
   );
   const [consentedToCookies, setConsentedToCookies] = useState<String[]>([]);
   const [nonce, setNonce] = useState<string | null>(null);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    setAnimationSrc(animSrc);
+    console.log(animSrc);
+  }, [animSrc]);
+
+  useEffect(() => {
+    setCurrentRef(dotLottieRef?.current);
+  }, [dotLottieRef]);
 
   const findElement = (cookieName: string): boolean => {
     return consentedToCookies.includes(cookieName);
   };
-
-  const [topArticles, setTopArticles] = useState<object[]>([
-    {
-      title: "Breaking News 1",
-      description: "This is the description for breaking news 1.",
-      category: "Business",
-    },
-    {
-      title: "Breaking News 2",
-      description: "This is the description for breaking news 2.",
-      category: "Technology",
-    },
-    {
-      title: "Breaking News 3",
-      description: "This is the description for breaking news 3.",
-      category: "Health",
-    },
-  ]);
 
   const loadGA = () => {
     if (!nonce) return;
@@ -101,7 +112,6 @@ export default function DefaultLayout() {
       const hasAdvertisingConsent =
         consentData.preferences.advertising === true;
       if (hasAdvertisingConsent) {
-        console.log("Advertising consent found");
         setCookiesVisibility(false);
         return loadGA();
       }
@@ -120,24 +130,67 @@ export default function DefaultLayout() {
     }
   }, [nonce]);
 
+  useEffect(() => {
+    let userDetails;
+
+    userDetails = {
+      success: true,
+      user: null,
+    };
+
+    userDetails.user = userCache;
+    if (!userDetails?.user) return;
+
+    const profileData = {
+      profile: {
+        username: userDetails.user.username,
+        profile_picture: userDetails.user.profile_picture,
+        banner: userDetails.user.banner,
+        career: userDetails.user.career,
+        isVerified: userDetails.user.isVerified,
+        bio: userDetails.user.bio,
+      },
+      analytics: {
+        followers: userDetails.user.followers,
+        following: userDetails.user.following,
+      },
+      userPreferences: {
+        profileColor: userDetails.user.colorPreference,
+      },
+    };
+
+    setUserData(profileData);
+  }, [userCache]);
+
   return (
     <>
-      {isAuth && <TopBar />}
-      {!isAuth && currentPage !== "/" && <TopBar />}
-      {isAuth && currentPage !== "/privacy" && currentPage !== "/messages" && (
-        <LeftBar />
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {userCache !== null && <TopBar />}
+          {userCache == null && currentPage !== "/" && <TopBar />}
+          {userCache !== null &&
+            currentPage !== "/privacy" &&
+            currentPage !== "/messages" && <LeftBar userData={userData} />}
+          {userCache !== null &&
+            currentPage !== "/privacy" &&
+            currentPage !== "/messages" && <RightBar />}
+          {currentPage !== "/privacy" && (
+            <CookiesConsent
+              showNotif={cookiesVisibility}
+              setConsentedTo={setConsentedToCookies}
+              setNotifVisibility={setCookiesVisibility}
+            />
+          )}
+          <div className="relative min-h-screen">
+            <AnimationPlayer />
+            <div className="relative">
+              <Outlet />
+            </div>
+          </div>
+        </>
       )}
-      {isAuth && currentPage !== "/privacy" && currentPage !== "/messages" && (
-        <RightBar articles={topArticles} />
-      )}
-      {currentPage !== "/privacy" && (
-        <CookiesConsent
-          showNotif={cookiesVisibility}
-          setConsentedTo={setConsentedToCookies}
-          setNotifVisibility={setCookiesVisibility}
-        />
-      )}
-      <Outlet />
     </>
   );
 }

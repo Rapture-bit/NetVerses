@@ -3,6 +3,7 @@ import PrimaryModal from "./Primary";
 import PrimaryInput from "@/components/input/Primary";
 import OTP from "@/components/input/OTP";
 import { ThemeContext } from "@/context/ThemeContext";
+import { UserContext } from "@/context/UserContext";
 import { useTranslation } from "react-i18next";
 import {
   UserOutlined,
@@ -35,6 +36,7 @@ interface ErrorState {
 
 const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   const { t } = useTranslation();
+  const { userCache, updateCache } = useContext(UserContext);
   const { colorProperties } = useContext(ThemeContext);
   const [isNextDisabled, setNextDisabled] = useState<boolean>(true);
   const [currentTab, setTab] = useState<number>(1);
@@ -49,7 +51,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   const [usernameCache, setUsernameCache] = useState<Object>({});
   const [Empty, setEmpty] = useState<boolean>();
   const [OTPValue, setOTPValue] = useState<string>("");
-  const [OTPMaxLength, setOTPMaxLength] = useState<number>(5);
+  const [OTPMaxLength, _] = useState<number>(5);
   const [isNoConfirmationDialog, setNoConfirmationDialog] =
     useState<boolean>(false);
   const [requestID, setRequestID] = useState<string>("");
@@ -100,6 +102,36 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
       opacity: 0,
       transition: { duration: 0.1 },
     },
+  };
+
+  const verifyIsBlacklisted = async (setError) => {
+    const response = await fetch("https://api.netverses.com/v1/check-country", {
+      method: "GET",
+    });
+
+    if (response.status === 429) {
+      return setError(t("errors.maxRateLimited"), 1);
+    }
+
+    const isBlacklistedResponse = await response.json();
+
+    if (!response.ok) {
+      return setError(t("errors.SignUp.UnexpectedError"), 1);
+    }
+
+    if (!isBlacklistedResponse.success) {
+      return setError(t("errors.SignUp.restrictedRegion"), 1);
+    }
+  };
+
+  const checkUserAuthentication = async (setError) => {
+    try {
+      if (userCache !== null) {
+        return setError(t("errors.SignUp.UserLoggedIn"), 1);
+      }
+    } catch (e) {
+      return setError(t("errors.SignUp.authenticationError"), 1);
+    }
   };
 
   const validateEmail = async (email) => {
@@ -557,48 +589,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
     if (currentTab === 1) {
       try {
-        const response = await fetch(
-          "https://api.netverses.com/v1/check-country",
-          {
-            method: "GET",
-          },
-        );
-
-        if (response.status === 429) {
-          return setError(t("errors.maxRateLimited"), 1);
-        }
-
-        const isBlacklistedResponse = await response.json();
-
-        if (!response.ok) {
-          return setError(t("errors.SignUp.UnexpectedError"), 1);
-        }
-
-        if (!isBlacklistedResponse.success) {
-          return setError(t("errors.SignUp.restrictedRegion"), 1);
-        }
-
-        const authenticationFetch = await fetch(
-          "https://api.netverses.com/v1/auth/status",
-          {
-            method: "POST",
-          },
-        );
-
-        if (authenticationFetch.status === 429) {
-          return setError(t("errors.maxRateLimited"), 1);
-        }
-
-        if (!authenticationFetch.ok) {
-          return setError(t("errors.SignUp.authenticationError"), 1);
-        }
-
-        const isAuthenticatedResponse = await authenticationFetch.json();
-        const isAuthenticated = isAuthenticatedResponse.isAuthenticated;
-
-        if (isAuthenticated) {
-          return setError(t("errors.SignUp.UserLoggedIn"), 1);
-        }
+        verifyIsBlacklisted(setError);
+        checkUserAuthentication(setError);
 
         const otpRequestFetch = await fetch(
           "https://api.netverses.com/v1/otp/request",

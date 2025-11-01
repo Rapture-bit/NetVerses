@@ -9,23 +9,6 @@ const ProfilePage = () => {
   const [availableUsernames, setAvailableUsernames] = useState<string[]>([
     "xenon",
   ]); // Update with API data
-  const [topNews, setTopNews] = useState<object[]>([
-    {
-      title: "Breaking News 1",
-      description: "This is the description for breaking news 1.",
-      category: "Business",
-    },
-    {
-      title: "Breaking News 2",
-      description: "This is the description for breaking news 2.",
-      category: "Technology",
-    },
-    {
-      title: "Breaking News 3",
-      description: "This is the description for breaking news 3.",
-      category: "Health",
-    },
-  ]);
 
   const [username, setUsername] = useState<string>("");
   const [isAvailable, setIsAvailable] = useState<boolean>(false);

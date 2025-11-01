@@ -6,24 +6,6 @@ import FocusedPost from "@/components/post/FocusedPost";
 
 import PageTitle from "@/components/others/PageTitle";
 
-const topNews = [
-  {
-    title: "Breaking News 1",
-    description: "This is the description for breaking news 1.",
-    category: "Business",
-  },
-  {
-    title: "Breaking News 2",
-    description: "This is the description for breaking news 2.",
-    category: "Technology",
-  },
-  {
-    title: "Breaking News 3",
-    description: "This is the description for breaking news 3.",
-    category: "Health",
-  },
-];
-
 export default function PostsPage() {
   const { id } = useParams();
   const [postData, setPostData] = useState(null);

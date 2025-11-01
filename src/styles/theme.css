@@ -58,6 +58,58 @@ html {
   background-color: var(--purple-dark);
 }
 
+@keyframes glowPurplePulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 10px rgba(128, 0, 255, 0.5),
+      0 0 20px rgba(128, 0, 255, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(128, 0, 255, 0.7),
+      0 0 40px rgba(128, 0, 255, 0.5);
+  }
+}
+
+@keyframes glowRedPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 10px rgba(153, 27, 27, 0.5),
+      0 0 20px rgba(153, 27, 27, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(153, 27, 27, 0.7),
+      0 0 40px rgba(153, 27, 27, 0.5);
+  }
+}
+
+.glow-purple-shadow {
+  animation: glowPurplePulse 2s infinite ease-in-out;
+}
+
+.glow-red-shadow {
+  animation: glowRedPulse 2s infinite ease-in-out;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    height: 6px;
+    opacity: 0.5;
+  }
+  50% {
+    height: 14px;
+    opacity: 1;
+  }
+}
+
+textarea {
+  transition: height 0.15s ease-in-out;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: var(--background-color-dark);

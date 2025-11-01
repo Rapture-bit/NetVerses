@@ -32,7 +32,7 @@ export default function PrivacyPage() {
         `A Privacy Policy is a legal document that outlines how an 
         organization collects, uses, stores, and manages personal 
         information from its users or customers. In this context, 
-        NetVerses operates as part of the Xenon Corporation ecosystem, 
+        NetVerses operates as part of the corporation ecosystem, 
         meaning that the practices described in this Privacy Policy 
         apply to all entities within our network.`,
         `This document explains how we collect, use, share, and 

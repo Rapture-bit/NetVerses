@@ -1,8 +1,6 @@
-import React, { useState, useEffect, Suspense, useLayoutEffect } from "react";
+import React, { useState, Suspense, useEffect, useLayoutEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
-
-import Cookies from "js-cookie";
 
 import "@/styles/tailwind.css";
 import "@/styles/theme.css";
@@ -18,10 +16,14 @@ import "@/fonts/rubik.css";
 import "@/fonts/jost.css";
 
 import Loading from "@/components/others/Loading";
+
 import ThemeProvider from "@/context/ThemeContext";
-import AuthProvider from "@/context/AuthContext";
+import UserProvider from "@/context/UserContext";
 import LocaleProvider from "@/context/LocaleContext";
+import AnimateProvider from "@/context/AnimateContext";
 import SubdomainDivider from "@/SubdomainDivider";
+
+import AnimationPlayer from "./components/others/AnimationPlayer";
 
 import "@/libraries/i18n/i18n";
 
@@ -142,11 +144,13 @@ const App = () => {
   return (
     <ThemeProvider>
       <LocaleProvider>
-        <AuthProvider>
-          <Suspense fallback={<Loading />}>
-            <SubdomainDivider isAuth={isAuth} />
-          </Suspense>
-        </AuthProvider>
+        <UserProvider>
+          <AnimateProvider>
+            <Suspense fallback={<Loading />}>
+              <SubdomainDivider />
+            </Suspense>
+          </AnimateProvider>
+        </UserProvider>
       </LocaleProvider>
     </ThemeProvider>
   );

@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Tooltip } from "antd";
-
 import formatNumber from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
 
-export default function LeftBar() {
+export default function LeftBar({ userData }) {
   const { t } = useTranslation();
-  const [isAuth, setAuth] = useState<boolean>(true); // Change with API data
   const [hideButtons, setHideButtons] = useState<boolean>(false);
   const [leftPosition, setLeftPosition] = useState<string>("8%");
-  const [Job, setJob] = useState<string>("Entrepreneur");
-  const [description, setDescription] =
-    useState<string>(`Proud chairman of NetVerses™, empowering connections and shaping the
-    future of digital social platforms.`);
-  const [posts, setPosts] = useState<number>(300);
-  const [followers, setFollowers] = useState<number>(20000);
-  const [following, setFollowing] = useState<number>(3500);
-  const [username, setUsername] = useState<string>("Xenon");
+  const [isLoaded, setLoaded] = useState<boolean>(false);
+
+  const [Job, setJob] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [posts, setPosts] = useState<number>(0);
+  const [followers, setFollowers] = useState<number>(0);
+  const [following, setFollowing] = useState<number>(0);
+  const [username, setUsername] = useState<string>("");
   const [avatar, setAvatar] = useState<string>("/images/avatars/default.jpg");
   const [selectedPage, setSelectedPage] = useState<string>("");
-  const [profileColor, setProfileColor] = useState<string>("blue"); // To be updated with API
+  const [profileColor, setProfileColor] = useState<string>("purple");
   const [profileColors, setProfileColors] = useState<Object>({
     bannerGradient: `from-${profileColor}-700`,
     background: `bg-${profileColor}-800`,
@@ -28,259 +26,339 @@ export default function LeftBar() {
     textColor: `text-${profileColor}-500`,
   });
 
+  const [socialLinks, setSocialLinks] = useState([
+    {
+      href: "/",
+      icon: "prime--twitter",
+      name: "Twitter",
+      color: "text-blue-500",
+    },
+    {
+      href: "/",
+      icon: "devicon--linkedin",
+      name: "LinkedIn",
+      color: "text-blue-700",
+    },
+    {
+      href: "/",
+      icon: "logos--discord-icon",
+      name: "Discord",
+      color: "text-indigo-500",
+    },
+    {
+      href: "/",
+      icon: "skill-icons--instagram",
+      name: "Instagram",
+      color: "text-pink-500",
+    },
+    {
+      href: "/",
+      icon: "akar-icons--globe",
+      name: "Personal Website",
+      color: "dark:text-white text-black",
+    },
+  ]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!userData) setLoaded(false);
+      else setLoaded(true);
+    }, 1 * 1000);
+  }, [userData]);
+
+  useEffect(() => {
+    if (!userData) return;
+    setUsername(userData.profile.username);
+    setAvatar(userData.profile.profile_picture);
+    setJob(userData.profile.career);
+    setDescription(userData.profile.bio);
+    setFollowers(userData.analytics.followers);
+    setFollowing(userData.analytics.following);
+    setProfileColor(userData.userPreferences.profileColor);
+  }, [userData]);
+
+  useEffect(() => {
+    setProfileColors({
+      bannerGradient: `from-${profileColor}-700`,
+      background: `bg-${profileColor}-800`,
+      hoverBackground: `hover:bg-${profileColor}-800`,
+      borderColor: `border-${profileColor}-800`,
+      textColor: `text-${profileColor}-500`,
+    });
+  }, [profileColor]);
+
   const updatePosition = () => {
     const windowHeight = window.innerHeight;
-
-    if (windowHeight < 740) {
-      setLeftPosition("6%");
-    } else if (windowHeight >= 700 && windowHeight < 900) {
-      setLeftPosition("7%");
-    } else {
-      setLeftPosition("8%");
-    }
+    if (windowHeight < 740) setLeftPosition("6%");
+    else if (windowHeight >= 700 && windowHeight < 900) setLeftPosition("7%");
+    else setLeftPosition("8%");
   };
 
   useEffect(() => {
     updatePosition();
-
     window.addEventListener("resize", updatePosition);
-
-    return () => {
-      window.removeEventListener("resize", updatePosition);
-    };
+    return () => window.removeEventListener("resize", updatePosition);
   }, []);
 
   useEffect(() => {
-    const checkHeight = () => {
-      if (window.innerHeight < 900) {
-        setHideButtons(true);
-      } else {
-        setHideButtons(false);
-      }
-    };
-
+    const checkHeight = () => setHideButtons(window.innerHeight < 900);
     window.addEventListener("resize", checkHeight);
     checkHeight();
-
-    return () => {
-      window.removeEventListener("resize", checkHeight);
-    };
+    return () => window.removeEventListener("resize", checkHeight);
   }, []);
 
   useEffect(() => {
-    if (window.location.pathname === "/") {
-      setSelectedPage("Home");
-    } else if (window.location.pathname === "/messages") {
-      setSelectedPage("Messages");
-    } else if (window.location.pathname === "/my/clubs") {
-      setSelectedPage("Clubs");
-    } else if (window.location.pathname === "/explore") {
-      setSelectedPage("Explore");
-    } else if (window.location.pathname === "/starplus") {
-      setSelectedPage("StarPlus");
-    } else if (window.location.pathname === "/my/vault") {
-      setSelectedPage("Vault");
-    } else if (window.location.pathname === "/my/family") {
-      setSelectedPage("Family");
-    } else {
-      setSelectedPage("");
-    }
+    const path = window.location.pathname;
+    if (path === "/") setSelectedPage("Home");
+    else if (path === "/messages") setSelectedPage("Messages");
+    else if (path === "/my/clubs") setSelectedPage("Clubs");
+    else if (path === "/explore") setSelectedPage("Explore");
+    else if (path === "/starplus") setSelectedPage("StarPlus");
+    else setSelectedPage("");
   }, [window.location]);
 
-  if (isAuth) {
-    return (
-      <nav
-        className="fixed xl:flex hidden top-14 xl:top-20 h-[90vh] w-[16vw] min-w-[200px] max-w-[300px] p-4 roboto dark:text-white text-black flex-col items-center space-y-6 z-40 transition-all duration-200"
-        style={{
-          left: leftPosition,
-        }}
-      >
-        <div className="relative">
-          <div
-            className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-20 w-full absolute top-0 left-0 rounded-t-lg`}
-          >
+  return (
+    <nav
+      className="fixed xl:flex hidden top-14 xl:top-20 h-[90vh] w-[16vw] min-w-[200px] max-w-[300px] p-4 roboto dark:text-white text-black flex-col items-center space-y-6 z-10 transition-all duration-200"
+      style={{ left: leftPosition }}
+    >
+      <div className="relative">
+        <div
+          className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-20 w-full absolute top-0 left-0 rounded-t-lg`}
+        >
+          {isLoaded ? (
             <a
               href={`/${username}`}
-              className="absolute z-10 mt-7 ml-4 w-16 h-16"
+              className="absolute z-10 mt-7 ml-4 w-16 h-16 rounded-full overflow-hidden"
               aria-label={`Profile of ${username}`}
-              style={{
-                display: "block",
-                width: "4.3rem",
-                height: "4.3rem",
-                borderRadius: "50%",
-                overflow: "hidden",
-              }}
             >
               <div
-                className="w-full ml-1 h-full bg-cover rounded-full overflow-hidden"
+                className="w-full h-full bg-cover rounded-full"
                 style={{
                   backgroundImage: `url(${avatar})`,
                   backgroundPosition: "center",
                 }}
               ></div>
             </a>
-          </div>
-
-          <div className="flex flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor text-center pt-28">
-            <div className="flex flex-col gap-1">
-              <div className="inline-flex items-center gap-1">
-                <a
-                  href={`/${username.toLowerCase()}`}
-                  className="text-xl hover:underline font-semibold dark:text-white transition-colors duration-300 leading-none"
-                >
-                  {username}
-                </a>
-                <Tooltip placement="bottom" title="Official Profile">
-                  <span
-                    className={`icon-[material-symbols--verified-outline-rounded] ${profileColors.textColor} w-4 h-4 mt-1`}
-                    aria-label="Verified"
-                  ></span>
-                </Tooltip>
-              </div>
-              <div className="flex flex-col gap-1">
-                <div className="inline-flex items-center gap-1">
-                  <span
-                    className={`font-semibold ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
-                  >
-                    {Job}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-row justify-center gap-8">
-              <div className="flex flex-col items-center">
-                <a
-                  href="/my/posts"
-                  className="text-lg font-bold hover:underline"
-                  aria-label={`View ${formatNumber(posts)} posts`}
-                >
-                  {formatNumber(posts)}
-                </a>
-                <span className="text-xs textColor">Posts</span>{" "}
-              </div>
-              <div className="flex flex-col items-center">
-                <a
-                  href="/my/followers"
-                  className="text-lg font-bold hover:underline"
-                  aria-label={`View ${formatNumber(followers)} followers`}
-                >
-                  {formatNumber(followers)}
-                </a>
-                <span className="text-xs textColor">Followers</span>{" "}
-              </div>
-              <div className="flex flex-col items-center">
-                <a
-                  href="/my/following"
-                  className="text-lg font-bold hover:underline"
-                  aria-label={`View ${formatNumber(following)} following`}
-                >
-                  {formatNumber(following)}
-                </a>
-                <span className="text-xs textColor">Following</span>{" "}
-              </div>
-            </div>
-
-            <p className="description text-sm text-left w-full whitespace-normal break-words">
-              {description}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex flex-col space-y-4 justify-center items-center">
-          <div className="relative flex items-center justify-center">
-            <button
-              aria-label={t("home.leftBar.home")}
-              onClick={(e) => (window.location.href = "/")}
-              className={`${selectedPage === "Home" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-            >
-              <span
-                className={`${selectedPage === "Home" ? "icon-[fluent--home-16-filled]" : "icon-[fluent--home-16-regular]"} w-6 h-6 flex items-center justify-center`}
-              ></span>
-              <span className="text-base xl:flex hidden">
-                {t("home.leftBar.home")}
-              </span>
-            </button>
-          </div>
-          <div className="relative flex items-center justify-center">
-            <button
-              aria-label={t("home.leftBar.explore")}
-              onClick={(e) => (window.location.href = "/explore")}
-              className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-            >
-              <span className="icon-[material-symbols--search] w-6 h-6 flex items-center justify-center"></span>
-              <span className="text-base xl:flex hidden">
-                {t("home.leftBar.explore")}
-              </span>
-            </button>
-          </div>
-
-          {!hideButtons && (
-            <>
-              <div className="relative flex items-center justify-center">
-                <button
-                  aria-label={t("home.leftBar.messages")}
-                  onClick={(e) => (window.location.href = "/messages")}
-                  className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-                >
-                  <span
-                    className={`${selectedPage === "Messages" ? "icon-[ic--baseline-email]" : "icon-[ic--outline-email]"} w-6 h-6 flex items-center justify-center`}
-                  ></span>
-                  <span className="text-base">
-                    {t("home.leftBar.messages")}
-                  </span>
-                </button>
-              </div>
-
-              <div className="relative flex items-center justify-center">
-                <button
-                  aria-label={t("home.leftBar.clubs")}
-                  onClick={(e) => (window.location.href = "/my/clubs")}
-                  className={`${selectedPage === "Clubs" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-                >
-                  <span
-                    className={`${selectedPage === "Clubs" ? "icon-[mage--globe-fill]" : "icon-[hugeicons--globe-02]"} w-6 h-6 flex items-center justify-center`}
-                  ></span>
-                  <span className="text-base">{t("home.leftBar.clubs")}</span>
-                </button>
-              </div>
-
-              <div className="relative flex items-center justify-center">
-                <button
-                  aria-label={t("home.leftBar.mywallet")}
-                  onClick={(e) => (window.location.href = "/my/wallet")}
-                  className={`${selectedPage === "Wallet" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-                >
-                  <span
-                    className={`${selectedPage === "Wallet" ? "icon-[si--wallet-fill]" : "icon-[si--wallet-line]"} w-6 h-6 flex items-center justify-center`}
-                  ></span>
-                  <span className="text-base">
-                    {t("home.leftBar.mywallet")}
-                  </span>
-                </button>
-              </div>
-            </>
+          ) : (
+            <div className="absolute z-10 mt-7 ml-4 w-16 h-16 rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
           )}
-          <div className="relative flex flex-col gap-3 items-center justify-center">
+
+          <Tooltip placement="bottom" title="Edit Profile" mouseLeaveDelay={0}>
             <button
-              aria-label={t("home.leftBar.starplus")}
-              onClick={(e) => (window.location.href = "/starplus")}
-              className={`${selectedPage === "StarPlus" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+              className="absolute top-2 right-2 z-20 transition-colors inline-flex flex-shrink-0"
+              aria-label="Edit Banner"
             >
-              <span
-                className={`${selectedPage === "StarPlus" ? "icon-[material-symbols--star]" : "icon-[material-symbols--star-outline]"} w-6 h-6 flex items-center justify-center`}
-              ></span>
-              <span className="text-base xl:flex hidden">
-                {t("home.leftBar.starplus")}
-              </span>
+              <span className="icon-[flowbite--edit-outline] text-[#c0c0c0] hover:text-white transition-all duration-300 text-xl"></span>
             </button>
-            <div className="flex flex-row gap-2 mr-auto">
-              <span className="text-xs mr-auto">© 2024 NetVerses</span>
+          </Tooltip>
+        </div>
+
+        <div className="flex flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor text-center pt-28">
+          <div className="flex flex-col gap-1">
+            <div className="inline-flex items-center gap-1">
+              {isLoaded ? (
+                <div className="flex items-center space-x-2">
+                  <a
+                    href={`/${username.toLowerCase()}`}
+                    className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none hover:underline"
+                  >
+                    {username}
+                  </a>
+
+                  <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
+                    <Tooltip placement="bottom" title="Official Profile">
+                      <span
+                        className="icon-[ic--baseline-verified] w-4 h-4 text-yellow-400 cursor-pointer flex-shrink-0"
+                        aria-label="Verified"
+                      ></span>
+                    </Tooltip>
+
+                    <Tooltip placement="bottom" title="Early Creator">
+                      <span className="icon-[material-symbols--diamond-rounded] w-4 h-4 text-blue-500 cursor-pointer flex-shrink-0"></span>
+                    </Tooltip>
+
+                    <Tooltip placement="bottom" title="Business Account">
+                      <span
+                        className="icon-[material-symbols--store-outline] w-4 h-4 text-violet-500 cursor-pointer flex-shrink-0"
+                        style={{ color: profileColors.storeColor }}
+                      ></span>
+                    </Tooltip>
+                  </div>
+                </div>
+              ) : (
+                <div className="h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+              )}
+            </div>
+            <div className="flex flex-col gap-1">
+              {isLoaded ? (
+                <>
+                  <div className="flex-row space-x-1 inline-flex">
+                    <span
+                      className={`icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem] ${profileColors.textColor}`}
+                    ></span>
+                    <span
+                      className={`font-medium ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
+                    >
+                      Entrepreneur
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <div className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+              )}
             </div>
           </div>
+
+          {isLoaded ? (
+            <p className="description text-sm text-left w-full whitespace-normal break-words">
+              Proud chairman of NetVerses™, empowering connections and shaping
+              the future of digital social platforms.
+            </p>
+          ) : (
+            <div className="flex flex-col gap-2 mt-2">
+              <div className="h-3 w-full bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+              <div className="h-3 w-5/6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+            </div>
+          )}
+
+          {isLoaded ? (
+            <div className="flex justify-start gap-4 mt-3">
+              {socialLinks.map(({ href, icon, name, color }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center transition-all transform hover:scale-110"
+                >
+                  <span className={`${color} icon-[${icon}] w-6 h-6`}></span>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2 mt-2">
+              <div className="h-3 w-full bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+              <div className="h-3 w-5/6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+            </div>
+          )}
+
+          <div className="border-t border-neutral-300 dark:border-neutral-700 my-3"></div>
+
+          <div className="flex flex-row justify-center gap-8">
+            {[
+              { value: followers, label: "Followers" },
+              { value: following, label: "Following" },
+              { value: posts, label: "Posts" },
+            ].map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center">
+                {isLoaded ? (
+                  <>
+                    <a href="#" className="text-lg font-bold hover:underline">
+                      {formatNumber(item.value)}
+                    </a>
+                    <span className="text-xs textColor">{item.label}</span>
+                  </>
+                ) : (
+                  <>
+                    <div className="h-5 w-10 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                    <div className="h-3 w-10 bg-gray-300 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      </nav>
-    );
-  } else {
-    return null;
-  }
+      </div>
+
+      <div className="flex flex-col space-y-4 justify-center items-center">
+        <div className="relative flex items-center justify-center">
+          <button
+            aria-label={t("home.leftBar.home")}
+            onClick={(e) => (window.location.href = "/")}
+            className={`${selectedPage === "Home" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+          >
+            <span
+              className={`${selectedPage === "Home" ? "icon-[fluent--home-16-filled]" : "icon-[fluent--home-16-regular]"} w-6 h-6 flex items-center justify-center`}
+            ></span>
+            <span className="text-base xl:flex hidden">
+              {t("home.leftBar.home")}
+            </span>
+          </button>
+        </div>
+        <div className="relative flex items-center justify-center">
+          <button
+            aria-label={t("home.leftBar.explore")}
+            onClick={(e) => (window.location.href = "/explore")}
+            className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+          >
+            <span className="icon-[material-symbols--search] w-6 h-6 flex items-center justify-center"></span>
+            <span className="text-base xl:flex hidden">
+              {t("home.leftBar.explore")}
+            </span>
+          </button>
+        </div>
+
+        {!hideButtons && (
+          <>
+            <div className="relative flex items-center justify-center">
+              <button
+                aria-label={t("home.leftBar.messages")}
+                onClick={(e) => (window.location.href = "/messages")}
+                className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+              >
+                <span
+                  className={`${selectedPage === "Messages" ? "icon-[ic--baseline-email]" : "icon-[ic--outline-email]"} w-6 h-6 flex items-center justify-center`}
+                ></span>
+                <span className="text-base">{t("home.leftBar.messages")}</span>
+              </button>
+            </div>
+
+            <div className="relative flex items-center justify-center">
+              <button
+                aria-label={t("home.leftBar.clubs")}
+                onClick={(e) => (window.location.href = "/my/clubs")}
+                className={`${selectedPage === "Clubs" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+              >
+                <span
+                  className={`${selectedPage === "Clubs" ? "icon-[mage--globe-fill]" : "icon-[hugeicons--globe-02]"} w-6 h-6 flex items-center justify-center`}
+                ></span>
+                <span className="text-base">{t("home.leftBar.clubs")}</span>
+              </button>
+            </div>
+
+            <div className="relative flex items-center justify-center">
+              <button
+                aria-label={t("home.leftBar.mywallet")}
+                onClick={(e) => (window.location.href = "/my/wallet")}
+                className={`${selectedPage === "Wallet" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+              >
+                <span
+                  className={`${selectedPage === "Wallet" ? "icon-[si--wallet-fill]" : "icon-[si--wallet-line]"} w-6 h-6 flex items-center justify-center`}
+                ></span>
+                <span className="text-base">{t("home.leftBar.mywallet")}</span>
+              </button>
+            </div>
+          </>
+        )}
+        <div className="relative flex flex-col gap-3 items-center justify-center">
+          <button
+            aria-label={t("home.leftBar.starplus")}
+            onClick={(e) => (window.location.href = "/starplus")}
+            className={`${selectedPage === "StarPlus" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+          >
+            <span
+              className={`${selectedPage === "StarPlus" ? "icon-[material-symbols--star]" : "icon-[material-symbols--star-outline]"} w-6 h-6 flex items-center justify-center`}
+            ></span>
+            <span className="text-base xl:flex hidden">
+              {t("home.leftBar.starplus")}
+            </span>
+          </button>
+          <div className="flex flex-row gap-2 mr-auto">
+            <span className="text-xs mr-auto">© 2025 NetVerses</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
 }

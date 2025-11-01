@@ -1,7 +1,8 @@
 import { User } from "./User";
 
 import sequelize from "../config/database";
-import { DataTypes, Model } from "sequelize";
+import pkg from "sequelize";
+const { Model, DataTypes, Sequelize } = pkg;
 
 class DigitalReputation extends Model {}
 DigitalReputation.init(

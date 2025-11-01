@@ -110,7 +110,7 @@
       "takenUsername": "Username already taken.",
       "takenEmail": "Email already taken.",
       "restrictedRegion": "Sorry, sign-ups from your region are currently restricted.",
-      "authenticationError": "An error occured while verifying authentication."
+      "authenticationError": "The authentication process is currently closed. Please come back later!"
     },
     "maxRateLimited": "Max rate limit reached. Please try again later.",
     "invalidEmail": "Provided email is invalid."

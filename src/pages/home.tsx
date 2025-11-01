@@ -28,23 +28,6 @@ export default function Home() {
   const [reachedBottom, setReachedBottom] = useState<boolean>(false);
   const [isFeedLoading, setFeedLoading] = useState<boolean>(false);
   const [switchedFeeds, setSwitchedFeeds] = useState<boolean>(false);
-  const [topArticles, setTopArticles] = useState<object>([
-    {
-      title: "Breaking News 1",
-      description: "This is the description for breaking news 1.",
-      category: "Business",
-    },
-    {
-      title: "Breaking News 2",
-      description: "This is the description for breaking news 2.",
-      category: "Technology",
-    },
-    {
-      title: "Breaking News 3",
-      description: "This is the description for breaking news 3.",
-      category: "Health",
-    },
-  ]); // API
   const [articlesData, setArticlesData] = useState<object[]>([
     {
       id: 1842121242719629177,

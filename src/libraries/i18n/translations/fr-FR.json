@@ -4,46 +4,128 @@
     "SignInBtn": "Se connecter",
     "andLabel": "et",
     "tosLabel": "Conditions d'utilisation",
-    "privacyLabel": "Politique de confidentialité"
+    "privacyLabel": "Politique de confidentialité",
+    "Next": "Suivant",
+    "Confirm": "Confirmer",
+    "confirmPassword": "Confirmer le mot de passe",
+    "Email": "E-mail",
+    "Username": "Nom d'utilisateur",
+    "Password": "Mot de passe",
+    "learnmore": "En savoir plus",
+    "showmore": "Afficher plus",
+    "got-it": "Compris"
+  },
+  "input": {
+    "versesInput": "Partagez vos actualités avec l'univers",
+    "comment": "Commentaire de l'utilisateur ici...",
+    "search": "Rechercher"
+  },
+  "home": {
+    "myFeed": "Mon fil d’actualité",
+    "articlesLabel": "Articles",
+    "viewMoreNews": "Voir plus d’articles",
+    "visitProfile": "Voir le profil",
+    "editProfile": "Modifier le profil",
+    "Posts": "Publications",
+    "Followers": "Abonnés",
+    "Following": "Abonnements",
+    "leftBar": {
+      "home": "Accueil",
+      "explore": "Explorer",
+      "messages": "Messages",
+      "clubs": "Clubs",
+      "mywallet": "Mon portefeuille",
+      "starplus": "StarPlus"
+    },
+    "sortLabel": "Trier par : ",
+    "filterOptions": {
+      "recent": "Récent",
+      "popular": "Populaire"
+    }
+  },
+  "loading": {
+    "description": "Un nouveau royaume des réseaux sociaux vous attend, vous offrant un voyage passionnant dans le monde du journalisme et recevez les actualités en temps réel dès qu’elles se produisent dans votre région."
   },
   "welcomePage": {
-    "title": "Bienvenue à NetVerses",
-    "quote": "« Transformer la manière dont vous découvrez et interagissez avec l'actualité. » — PDG de NetVerses",
-    "description": "NetVerses est votre nouvelle plateforme pour partager et découvrir les actualités. Que vous soyez journaliste, blogueur ou simplement intéressé par le suivi des dernières informations, vous pouvez publier et consulter les nouvelles gratuitement. Recevez des mises à jour en temps réel et soyez informé des actualités de dernière minute dès qu'elles se produisent.",
+    "title": "Bienvenue sur NetVerses",
+    "quote": "« Transformer la manière dont vous découvrez et interagissez avec l’information. » — PDG de NetVerses",
+    "description": "NetVerses est votre nouvelle plateforme pour partager et découvrir les actualités. Que vous soyez journaliste, blogueur ou simplement curieux de rester informé, vous pouvez publier et consulter les nouvelles gratuitement. Recevez des mises à jour en temps réel et soyez informé des dernières actualités au moment où elles surviennent.",
     "termsAgreement": "En continuant, vous acceptez nos"
   },
   "features": {
     "contentAgeVerification": {
-      "title": "Vérification de l'âge du contenu",
-      "description": "Restez sûr et sécurisé! Le contenu NSFW est bloqué derrière une vérification d'identité 18+, garantissant qu'il reste hors de portée des mineurs."
+      "title": "Vérification d’âge du contenu",
+      "description": "Gardez tout sûr et sécurisé ! Le contenu NSFW est verrouillé derrière une vérification d’identité 18+, garantissant qu’il reste inaccessible aux mineurs."
     },
     "advancedPostPrivacy": {
       "title": "Confidentialité avancée des publications",
-      "description": "Choisissez votre audience! Définissez vos publications comme visibles uniquement pour vos abonnés, clubs personnalisés ou partagez-les avec le public."
+      "description": "Choisissez votre audience ! Rendez vos publications visibles uniquement pour vos abonnés, vos clubs personnalisés ou partagez-les avec le public."
     },
     "livePostTranslation": {
-      "title": "Traduction automatique des publications",
-      "description": "Traduisez automatiquement vos publications dans n'importe quelle langue de votre choix et connectez-vous facilement avec un public mondial."
+      "title": "Traduction en direct des publications",
+      "description": "Traduisez automatiquement les publications dans la langue de votre choix et connectez-vous facilement à un public mondial."
     },
     "summarizeButton": {
-      "title": "Bouton Résumé",
-      "description": "Restez informé à tout moment et en tout lieu! Obtenez un résumé rapide des actualités d'aujourd'hui ou d'hier, pour rester toujours à jour même hors ligne!"
+      "title": "Bouton Résumer",
+      "description": "Restez informé à tout moment ! Obtenez un résumé rapide des actualités d’aujourd’hui ou même d’hier, pour toujours être à jour, même hors ligne !"
     },
     "ephemeralPosts": {
       "title": "Publications éphémères",
-      "description": "Programmez et oubliez! Avec la suppression automatique, vos publications disparaissent après le temps que vous avez choisi."
+      "description": "Publiez et oubliez ! Grâce à la suppression automatique, vos publications disparaissent après la durée que vous avez choisie."
     },
     "postOwnershipTransfer": {
-      "title": "Transfert de propriété des publications",
-      "description": "Transférez facilement la propriété de vos publications à un autre utilisateur, qui peut accepter ou refuser en toute sécurité!"
+      "title": "Transfert de propriété de publication",
+      "description": "Transférez facilement la propriété de votre publication à un autre utilisateur, qui pourra accepter ou refuser en toute sécurité !"
     },
     "noSpy": {
       "title": "NoSpy",
-      "description": "Débloquez la confidentialité ultime avec NoSpy, votre arme secrète contre les espions. Gardez votre profil sécurisé et invisible aux inconnus, pour vous connecter en toute confiance et garder le contrôle!"
+      "description": "Débloquez la confidentialité ultime avec la fonctionnalité NoSpy, votre arme secrète contre les espions. Gardez votre profil sécurisé et invisible aux étrangers, afin de vous connecter en toute confiance et garder le contrôle !"
     },
     "shareNews": {
-      "title": "Partager des actualités",
-      "description": "Diffusez l'information rapidement! Partagez des nouvelles avec différents niveaux d'urgence de manière efficace, pour que les bonnes informations atteignent les bonnes personnes."
+      "title": "Partager des nouvelles",
+      "description": "Diffusez rapidement ! Partagez les actualités avec différents niveaux d’urgence, pour que les bonnes informations atteignent les bonnes personnes."
+    }
+  },
+  "privacyPage": {
+    "Effective": "En vigueur le :"
+  },
+  "cookiesConsent": {
+    "title": "utilise des cookies.",
+    "description": "Notre site web utilise des cookies et des technologies de suivi similaires pour améliorer votre expérience de navigation, assurer le bon fonctionnement de nos services et proposer du contenu et des recommandations personnalisés.",
+    "second_description": "Les cookies nous aident également à analyser le trafic du site, à comprendre le comportement des utilisateurs et à améliorer nos produits et services. Pour en savoir plus sur la manière dont nous traitons vos données et vos droits, veuillez consulter notre "
+  },
+  "errors": {
+    "SignUp": {
+      "UserLoggedIn": "Désolé, l'inscription d'un nouveau compte n'est pas autorisée lorsqu'un utilisateur est déjà connecté.",
+      "UnexpectedError": "Une erreur s'est produite lors de l'inscription.",
+      "processingError": "Une erreur s'est produite lors du traitement de votre demande.",
+      "codeVerificationError": "Une erreur s'est produite lors de la vérification du code fourni.",
+      "shortInvalidUsername": "Le nom d'utilisateur doit comporter au moins 4 caractères et contenir uniquement des lettres, chiffres, tirets ou tirets bas.",
+      "longInvalidUsername": "Le nom d'utilisateur ne doit pas dépasser 20 caractères.",
+      "invalidPassword": "Le mot de passe doit comporter au moins 8 caractères, inclure deux lettres minuscules et un caractère spécial.",
+      "unmatchingPasswords": "Les mots de passe doivent être identiques.",
+      "emailAvailability": "Une erreur s'est produite lors de la vérification de la disponibilité de l'adresse e-mail.",
+      "usernameAvailability": "Nous avons rencontré des problèmes lors de la vérification de la disponibilité du nom d'utilisateur.",
+      "emailVerificationIssue": "Nous avons rencontré des problèmes lors de la vérification de l'adresse e-mail.",
+      "takenUsername": "Nom d'utilisateur déjà pris.",
+      "takenEmail": "Adresse e-mail déjà utilisée.",
+      "restrictedRegion": "Désolé, les inscriptions depuis votre région sont actuellement restreintes.",
+      "authenticationError": "Le processus d'authentification est actuellement fermé. Veuillez revenir plus tard !"
+    },
+    "maxRateLimited": "Limite de tentatives atteinte. Veuillez réessayer plus tard.",
+    "invalidEmail": "L'adresse e-mail fournie est invalide."
+  },
+  "SignUp": {
+    "modalTitle": "Inscription",
+    "maxAttempts": "Tentatives maximales",
+    "resendCode": "Renvoyer",
+    "SignUpIntro": "Créez un compte sur NetVerses et commencez votre aventure avec nous dès aujourd’hui.",
+    "consentConfirmation": "J’accepte et je consens aux",
+    "codeConfirmation": "Pour confirmer votre compte, nous avons envoyé un code unique à l’adresse e-mail que vous avez fournie",
+    "enterCode": "Entrez votre code unique",
+    "accountCreationSuccessful": {
+      "title": "Compte créé avec succès !",
+      "description": "Votre compte a été créé avec succès avec le nom d’utilisateur et l’adresse e-mail choisis. Vous serez redirigé sous peu."
     }
   }
 }

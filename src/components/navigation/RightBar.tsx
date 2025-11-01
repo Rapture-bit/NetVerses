@@ -1,11 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function RightBar({ articles }) {
+export default function RightBar() {
   const { t } = useTranslation();
   const [isAuth, setAuth] = useState<boolean>(true);
-  const topArticles = articles.slice(0, 3);
+  const [allArticles, setAllArticles] = useState<object[]>([
+    {
+      title: "Breaking News 1",
+      description: "This is the description for breaking news 1.",
+      category: "Business",
+    },
+    {
+      title: "Breaking News 2",
+      description: "This is the description for breaking news 2.",
+      category: "Technology",
+    },
+    {
+      title: "Breaking News 3",
+      description: "This is the description for breaking news 3.",
+      category: "Health",
+    },
+  ]);
+  const [topArticles, setTopArticles] = useState<Object[]>([]);
   const [rightPosition, setRightPosition] = useState("8%");
+  const [isInputFocused, setInputFocused] = useState<boolean>(false);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    setTopArticles(allArticles.slice(0, 3));
+  }, [allArticles]);
 
   const updatePosition = () => {
     const windowHeight = window.innerHeight;
@@ -17,6 +41,14 @@ export default function RightBar({ articles }) {
     } else {
       setRightPosition("8%");
     }
+  };
+
+  const onFocus = () => {
+    setInputFocused(true);
+  };
+
+  const onBlur = () => {
+    setInputFocused(false);
   };
 
   useEffect(() => {
@@ -32,12 +64,44 @@ export default function RightBar({ articles }) {
   if (isAuth) {
     return (
       <nav
-        className="fixed xl:flex hidden top-14 xl:top-20 h-[90vh] w-[16vw] min-w-[200px] max-w-[300px] p-4 roboto dark:text-white text-black flex-col items-center space-y-6 z-40 transition-all duration-300"
+        className="fixed xl:flex hidden top-14 xl:top-20 h-[90vh] w-[16vw] min-w-[200px] max-w-[300px] p-4 roboto dark:text-white text-black flex-col items-center space-y-6 z-10 transition-all duration-300"
         style={{
           right: rightPosition,
         }}
       >
         <div className="flex flex-col space-y-4 justify-center items-center">
+          <div
+            className={`
+    relative flex items-center justify-center px-4 py-2 
+    transition-all duration-300 
+    xl:w-64 w-full 
+    border rounded-2xl 
+    ${isInputFocused ? "border-purple-700 shadow-[0_0_10px_rgba(147,51,234,0.4)]" : "border-[#3b3b3b]"} 
+    darkerBackgroundColor
+  `}
+          >
+            <div className="flex items-center w-full gap-2 text-sm text-neutral-400 focus-within:text-white">
+              <span className="icon-[si--search-line] w-4 h-4 flex-shrink-0 transition-colors duration-300" />
+              <input
+                onFocus={onFocus}
+                onBlur={onBlur}
+                type="text"
+                placeholder="Search..."
+                className="w-full bg-transparent outline-none placeholder-neutral-500 text-white text-sm"
+              />
+              {isInputFocused && (
+                <button
+                  onClick={() => {
+                    /* clear input logic */
+                  }}
+                  className="text-neutral-500 hover:text-neutral-300 transition-colors"
+                >
+                  <span className="icon-[mdi--close] w-4 h-4 translate-y-0.5"></span>
+                </button>
+              )}
+            </div>
+          </div>
+
           {topArticles.map((articlesItem, index) => (
             <div
               key={index}

@@ -81,20 +81,10 @@ const route = {
       },
     },
     {
-      name: "Authentication Status",
-      path: "/auth/status",
-      allowedMethods: ["*"],
-      functionFile: "../API/auth/status.js",
-      authRequired: false,
-      rateLimit: {
-        max: 100000000000,
-      },
-    },
-    {
       name: "Check Country",
       path: "/check-country",
       allowedMethods: ["GET"],
-      functionFile: "../API/checkCountry.js",
+      functionFile: "../API/checkRegion.js",
       authRequired: false,
       rateLimit: {
         max: 25,
@@ -107,7 +97,7 @@ const route = {
       functionFile: "../API/users/self.js",
       authRequired: true,
       rateLimit: {
-        max: 20,
+        max: 10000,
       },
     },
     {

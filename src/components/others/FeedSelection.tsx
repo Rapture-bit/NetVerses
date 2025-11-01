@@ -41,7 +41,11 @@ export default function FeedSelection({ onChange }) {
         }`}
         onClick={() => handleSelectionChange("Articles")}
       >
-        <span className="icon-[mingcute--news-line] text-xl"></span>
+        {selected === "Articles" ? (
+          <span className="icon-[ion--newspaper] text-xl"></span>
+        ) : (
+          <span className="icon-[ion--newspaper-outline] text-xl"></span>
+        )}
         <span className="text-base">{t("home.articlesLabel")}</span>
       </button>
     </div>

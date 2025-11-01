@@ -2,14 +2,14 @@ import React, { useState, useContext } from "react";
 import { Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
 
-import { AuthContext } from "@/context/AuthContext";
+import { UserContext } from "@/context/UserContext";
 
 import SignUpModal from "@/components/modal/SignUp";
 import SignInModal from "@/components/modal/SignIn";
 
 export default function TopBar() {
   const { t } = useTranslation();
-  const { isAuth } = useContext(AuthContext);
+  const { userCache, updateCache } = useContext(UserContext);
   const [isSignInVisible, setSignInVisible] = useState<boolean>(false);
   const [isSignUpVisible, setSignUpVisible] = useState<boolean>(false);
 
@@ -22,7 +22,12 @@ export default function TopBar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 w-full darkerBackgroundColor border-b-2 border-purple-800 text-white px-4 md:px-10 py-3 z-50">
+    <nav
+      className={`fixed top-0 left-0 right-0 w-full darkerBackgroundColor border-b-2 border-purple-800 text-white px-4 md:px-10 py-3 z-50`}
+      style={{
+        boxShadow: "0 4px 15px rgba(128, 0, 255, 0.5)",
+      }}
+    >
       <div className="flex flex-row justify-between items-center space-x-3 font-semibold">
         <a
           href="/"
@@ -32,23 +37,8 @@ export default function TopBar() {
           <span className="text-purple-600">Verses</span>
         </a>
 
-        {isAuth && (
+        {userCache !== null && (
           <div className="flex flex-row gap-5 justify-center items-center">
-            <Tooltip placement="bottom" title="Notifications">
-              <button
-                aria-label="Notifications"
-                className="flex items-center p-1"
-              >
-                <span className="icon-[mdi--bell-outline] w-6 h-6 text-gray-600 hover:text-gray-800 dark:text-neutral-200 dark:hover:text-white transition-all duration-300"></span>
-                <span className="sr-only">Notifications</span>
-              </button>
-            </Tooltip>
-            <Tooltip placement="bottom" title="Messages">
-              <button aria-label="Messages" className="flex items-center p-1">
-                <span className="icon-[mingcute--message-2-line] w-6 h-6 text-gray-600 hover:text-gray-800 dark:text-neutral-200 dark:hover:text-white transition-all duration-300"></span>
-                <span className="sr-only">Messages</span>
-              </button>
-            </Tooltip>
             <Tooltip placement="bottom" title="Profile">
               <button aria-label="Profile">
                 <div className="rounded-full flex flex-row gap-3 justify-center items-center">
@@ -66,7 +56,7 @@ export default function TopBar() {
           </div>
         )}
 
-        {!isAuth && (
+        {userCache === null && (
           <div className="flex flex-row gap-5">
             <button
               aria-label="Login"

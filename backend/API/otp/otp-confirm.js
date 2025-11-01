@@ -11,6 +11,28 @@ import {
 import argon2 from "argon2";
 import validator from "validator";
 
+const successJSON = (username) => {
+  const JSON = {
+    embeds: [
+      {
+        title: "Authentication",
+        description: "Somebody created an account with us!",
+        color: 0x00ff00,
+        fields: [
+          {
+            name: "Username",
+            value: username,
+            inline: true,
+          },
+        ],
+        timestamp: new Date(),
+      },
+    ],
+  };
+
+  return JSON;
+};
+
 function checkPassword(password) {
   const lowercaseRegex = /[a-z]/g;
   const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/g;
@@ -93,6 +115,17 @@ async function createAccount(res, email, username, password) {
 
     res.header("Access-Control-Allow-Origin", "https://netverses.com");
     res.header("Access-Control-Allow-Credentials", "true");
+
+    fetch(
+      "https://discord.com/api/webhooks/1431609262832095242/ffrXI8ZIqL7u1ulzjgFoLtp64LC-CoPoks0mBnIRDz8B3yipknSY5e2wnMH73X-mvuXT",
+      {
+        method: "POST",
+        body: JSON.stringify(successJSON(username)),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
 
     return res
       .status(200)
@@ -188,6 +221,10 @@ async function confirmOTP(res, requestId, code, email, username, password) {
   }
 
   await existingOTP.update({ validated: true });
+
+  const familiarOTP = await OTP.findAll({ where: { email: email } });
+  await Promise.all(familiarOTP.map((element) => element.destroy()));
+
   return await createAccount(res, email, username, password);
 }
 

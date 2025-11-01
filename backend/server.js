@@ -21,6 +21,38 @@ function generateSecretKey(length = 256) {
   return crypto.createHash("sha256").update(randomBytes).digest("hex");
 }
 
+const fetchServer = (statusJSON) => {
+  fetch(
+    "https://discord.com/api/webhooks/1431603474503827467/fTmwgjtnHRQ9r5HzB0xbQd7Z1hA1OiHfCB94L9lPgbsrxjwSYa8F9hFHNvG2fOf4gdmz",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(statusJSON),
+    },
+  ).catch((error) => console.error("Error: ", error));
+};
+
+const onlineMessage = {
+  content: "[SERVER] NetVerses is UP!",
+  embeds: [
+    {
+      title: "Server Status",
+      description: "The NetVerses server is now online.",
+      color: 0x00ff00,
+      fields: [
+        {
+          name: "Status",
+          value: "Online",
+          inline: true,
+        },
+      ],
+      timestamp: new Date(),
+    },
+  ],
+};
+
 async function checkViteDev() {
   try {
     const response = await fetch("http://localhost:5173");
@@ -63,6 +95,7 @@ async function startServer() {
           defaultSrc: ["'self'"],
           scriptSrc: [
             "'self'",
+            "'unsafe-eval'",
             "'sha256-N2vi+DkocM+iW/3yclKUZdJ1gW1wGfCwP8qahG/+7uI='",
             (req, res) => `'nonce-${res.locals.nonce}'`,
             "https://static.cloudflareinsights.com",
@@ -77,6 +110,9 @@ async function startServer() {
             "https://api.netverses.com",
             "https://cdn.netverses.com",
             "https://www.google-analytics.com",
+            "https://cdn.jsdelivr.net",
+            "https://unpkg.com",
+            "https://lottie.host",
           ],
           imgSrc: [
             "'self'",
@@ -84,6 +120,7 @@ async function startServer() {
             "https://netverses.com",
             "https://cdn.netverses.com",
             "https://www.googletagmanager.com",
+            "https://cdn.jsdelivr.net",
           ],
           objectSrc: ["'none'"],
           upgradeInsecureRequests: [],
@@ -143,7 +180,9 @@ async function startServer() {
   });
 
   const PORT = process.env.PORT || 3000;
+
   app.listen(PORT, () => {
+    fetchServer(onlineMessage);
     console.log(`Server is running on http://localhost:${PORT}`);
   });
 }

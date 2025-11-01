@@ -33,10 +33,11 @@ type videos = {
   comment?: string;
 };
 
-type Attachments = {
-  images: images[];
-  videos?: videos[];
-};
+interface Attachments {
+  id: string;
+  URL: string;
+  comment?: string;
+}
 
 type PostProps = {
   id: number;
@@ -45,7 +46,7 @@ type PostProps = {
   description: string;
   author: string;
   interactions: InteractionCounts;
-  attachments?: Attachments;
+  attachments?: Attachments[];
   comments: Comment[];
   isNSFW: boolean;
   date: string;
@@ -58,34 +59,38 @@ export default function Post({
   description,
   type = "default",
   colorProfile,
-  attachments = {
-    images: [
-      {
-        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-        comment: "NetVerses's Default Avatar",
-      },
-      {
-        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-        comment: "NetVerses's Default Avatar",
-      },
-      {
-        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-        comment: "NetVerses's Default Avatar",
-      },
-      {
-        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-        comment: "NetVerses's Default Avatar",
-      },
-      {
-        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-        comment: "NetVerses's Default Avatar",
-      },
-      {
-        URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-        comment: "NetVerses's Default Avatar",
-      },
-    ],
-  },
+  attachments = [
+    {
+      id: "f47ac10b58cc4372a5670e02b2c3d479",
+      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      comment: "NetVerses's Default Avatar",
+    },
+    {
+      id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
+      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      comment: "NetVerses's Default Avatar",
+    },
+    {
+      id: "a9b8c7d6e5f4123a4b5c6d7e8f9a0b1c",
+      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      comment: "NetVerses's Default Avatar",
+    },
+    {
+      id: "1f2e3d4c5b6a7980f1e2d3c4b5a6f7e8",
+      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      comment: "NetVerses's Default Avatar",
+    },
+    {
+      id: "c3d4e5f6a7b8910c2d3e4f5a6b7c8d9e",
+      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      comment: "NetVerses's Default Avatar",
+    },
+    {
+      id: "0a1b2c3d4e5f6789a0b1c2d3e4f5a6b7",
+      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      comment: "NetVerses's Default Avatar",
+    },
+  ],
   date,
   author,
   interactions,
