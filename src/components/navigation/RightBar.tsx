@@ -80,21 +80,21 @@ export default function RightBar() {
     darkerBackgroundColor
   `}
           >
-            <div className="flex items-center w-full gap-2 text-sm text-neutral-400 focus-within:text-white">
+            <div className="flex items-center w-full gap-2 text-sm text-neutral-700 dark:text-neutral-400 focus-within:text-black dark:focus-within:text-white">
               <span className="icon-[si--search-line] w-4 h-4 flex-shrink-0 transition-colors duration-300" />
               <input
                 onFocus={onFocus}
                 onBlur={onBlur}
                 type="text"
                 placeholder="Search..."
-                className="w-full bg-transparent outline-none placeholder-neutral-500 text-white text-sm"
+                className="w-full bg-transparent outline-none placeholder-neutral-500 text-black dark:text-white text-sm"
               />
               {isInputFocused && (
                 <button
                   onClick={() => {
                     /* clear input logic */
                   }}
-                  className="text-neutral-500 hover:text-neutral-300 transition-colors"
+                  className="text-neutral-500 dark:hover:text-neutral-300 hover:text-neutral-600 transition-colors"
                 >
                   <span className="icon-[mdi--close] w-4 h-4 translate-y-0.5"></span>
                 </button>
@@ -102,17 +102,17 @@ export default function RightBar() {
             </div>
           </div>
 
-          {topArticles.map((articlesItem, index) => (
+          {topArticles.map((articleItem, index) => (
             <div
               key={index}
               className="relative flex flex-col p-5 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-4"
             >
-              <h2 className="text-xl font-bold mb-2">{articlesItem.title}</h2>
+              <h2 className="text-xl font-bold mb-2">{articleItem.title}</h2>
               <p className="dark:text-white text-gray-700 mb-2">
-                {articlesItem.description}
+                {articleItem.description}
               </p>
               <span className="bg-gradient-to-r select-none from-violet-300 to-violet-200 text-violet-900 py-1 px-3 rounded-full text-sm font-medium shadow-md">
-                {articlesItem.category}
+                {articleItem.category}
               </span>
             </div>
           ))}

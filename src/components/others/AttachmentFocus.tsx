@@ -5,7 +5,7 @@ import { Tooltip } from "antd";
 
 interface AttachmentDetails {
   comment: string;
-  src: string;
+  src: string | undefined;
 }
 
 interface Attachment {
@@ -16,72 +16,60 @@ interface Attachment {
 }
 
 type Props = {
-  attachmentId: string;
+  attachmentIndex: number;
   onClose: () => void;
   attachments: Attachment[];
 };
 
-const AttachmentFocus = ({ attachmentId, attachments, onClose }: Props) => {
+const pageVariants = {
+  initial: { opacity: 0, scale: 0.95 },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    transition: { duration: 0.2, ease: "easeIn" },
+  },
+};
+
+const AttachmentFocus = ({ attachmentIndex, attachments, onClose }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState<number>(-1);
 
-  const [currentId, setCurrentId] = useState<string>("");
-  const [nextIndex, setNextIndex] = useState<number>(0);
+  useEffect(() => {
+    if (attachmentIndex === -1) return;
 
-  const findAttachmentFromId = (id) => {
-    let attachment;
+    console.log(attachmentIndex);
+    setCurrentIndex(attachmentIndex);
+  }, [attachmentIndex]);
 
-    attachments.some((element) => {
-      if (element.id === id) {
-        attachment = element;
-        return true;
-      } else {
-        return false;
-      }
-    });
-
-    return attachment;
+  const findAttachmentFromIndex = () => {
+    console.log(attachments[currentIndex], attachments, currentIndex);
+    console.log(attachments[currentIndex]);
+    return attachments[currentIndex];
   };
 
-  useEffect(() => {
-    setCurrentId(attachmentId);
-    console.log(currentId, attachmentId);
-    console.log(findAttachmentFromId(attachmentId));
-  }, [attachmentId]);
-
-  useEffect(() => {
-    console.log(currentId);
-    console.log(findAttachmentFromId(currentId));
-  }, [currentId]);
-
-  useEffect(() => {
-    if (nextIndex === 0) {
-      setCurrentId(currentId);
-    }
-  }, [currentId, attachments]);
+  const currentAttachment = findAttachmentFromIndex();
 
   const onNext = () => {
-    setNextIndex(nextIndex + 1);
-  };
-  const onPrevious = () => {
-    setNextIndex(nextIndex - 1);
+    const nextIndex = currentIndex + 1;
+    if (nextIndex >= attachments.length) {
+      return;
+    }
+    setCurrentIndex(nextIndex);
   };
 
-  const pageVariants = {
-    initial: { opacity: 0, scale: 0.95 },
-    animate: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.95,
-      transition: { duration: 0.2, ease: "easeIn" },
-    },
+  const onPrevious = () => {
+    const previousIndex = currentIndex - 1;
+    if (previousIndex < 0) return;
+    setCurrentIndex(previousIndex);
   };
 
   useEffect(() => {
-    if (attachmentId) {
+    if (currentAttachment) {
       setIsOpen(true);
       document.body.style.overflow = "hidden";
     } else {
@@ -90,7 +78,7 @@ const AttachmentFocus = ({ attachmentId, attachments, onClose }: Props) => {
     }
 
     const handleKeyUp = (event: KeyboardEvent) => {
-      if (event.key === "Escape" || event.keyCode === 27) {
+      if (event.key === "Escape") {
         closeModal();
       }
     };
@@ -100,7 +88,7 @@ const AttachmentFocus = ({ attachmentId, attachments, onClose }: Props) => {
       document.removeEventListener("keyup", handleKeyUp);
       document.body.style.overflow = "auto";
     };
-  }, [attachmentId]);
+  }, [currentAttachment]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -121,32 +109,34 @@ const AttachmentFocus = ({ attachmentId, attachments, onClose }: Props) => {
           onClick={closeModal}
         >
           <div className="flex flex-row justify-center items-center space-x-4">
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Previous"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                className="p-0 bg-transparent border-none flex items-center justify-center"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  console.log("Left arrow clicked");
-                }}
+            {currentIndex !== 0 && (
+              <Tooltip
+                mouseLeaveDelay={0}
+                title="Previous"
+                placement="bottom"
+                arrow={false}
               >
-                <span className="icon-[tabler--arrow-left] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
-              </button>
-            </Tooltip>
+                <button
+                  className="p-0 bg-transparent border-none flex items-center justify-center"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onPrevious();
+                  }}
+                >
+                  <span className="icon-[tabler--arrow-left] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
+                </button>
+              </Tooltip>
+            )}
 
             <div
               className="duration-300 transition-all"
               onClick={(e) => e.stopPropagation()}
             >
-              {true && (
+              {currentAttachment?.type === "img" && (
                 <motion.img
-                  key={findAttachmentFromId(attachmentId).id}
+                  key={currentAttachment?.id}
                   className="max-w-full max-h-80 rounded-lg shadow-lg"
-                  src={findAttachmentFromId(attachmentId).attachmentDetails.src}
+                  src={currentAttachment?.attachmentDetails.src}
                   alt="Focused"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -154,11 +144,11 @@ const AttachmentFocus = ({ attachmentId, attachments, onClose }: Props) => {
                   transition={{ duration: 0.3 }}
                 />
               )}
-              {false && (
+              {currentAttachment?.type === "vid" && (
                 <motion.video
-                  key={findAttachmentFromId(attachmentId).id}
+                  key={currentAttachment?.id}
                   className="max-w-full max-h-80 rounded-lg shadow-lg"
-                  src={findAttachmentFromId(attachmentId).attachmentDetails.src}
+                  src={currentAttachment?.attachmentDetails.src}
                   alt="Focused"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -166,34 +156,36 @@ const AttachmentFocus = ({ attachmentId, attachments, onClose }: Props) => {
                   transition={{ duration: 0.3 }}
                 />
               )}
-              {findAttachmentFromId(attachmentId).attachmentDetails.comment && (
+              {currentAttachment?.attachmentDetails.comment && (
                 <motion.span
                   className="text-white mt-2 block text-center"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.3 }}
                 >
-                  {findAttachmentFromId(attachmentId).attachmentDetails.comment}
+                  {currentAttachment?.attachmentDetails.comment}
                 </motion.span>
               )}
             </div>
 
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Next"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                className="p-0 bg-transparent border-none flex items-center justify-center"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  console.log("Right arrow clicked");
-                }}
+            {currentIndex !== attachments.length - 1 && (
+              <Tooltip
+                mouseLeaveDelay={0}
+                title="Next"
+                placement="bottom"
+                arrow={false}
               >
-                <span className="icon-[tabler--arrow-right] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
-              </button>
-            </Tooltip>
+                <button
+                  className="p-0 bg-transparent border-none flex items-center justify-center"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onNext();
+                  }}
+                >
+                  <span className="icon-[tabler--arrow-right] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
+                </button>
+              </Tooltip>
+            )}
           </div>
         </motion.div>
       )}

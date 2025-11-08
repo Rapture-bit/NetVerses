@@ -104,104 +104,63 @@ export default function Verse({ isComment }) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between space-x-4">
-          <div className="flex space-x-3 sm:space-x-5">
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Emoji"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Add Emoji"
-                className="transition-transform duration-300 ease-in-out transform hover:rotate-12 hover:text-pink-500"
+        <div className="flex items-center justify-between mt-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {[
+              {
+                title: "Emoji",
+                icon: "mdi--emoji-outline",
+                hover: "hover:text-yellow-500",
+              },
+              {
+                title: "Add Media",
+                icon: "fluent-mdl2--media-add",
+                hover: "hover:text-green-500",
+              },
+              {
+                title: "Ephemeral Post",
+                icon: "ph--hourglass-bold",
+                hover: "hover:text-red-500",
+              },
+              {
+                title: "Change Visibility",
+                icon: "material-symbols--public",
+                hover: "hover:text-blue-500",
+              },
+              {
+                title: "Advanced",
+                icon: "fluent--options-16-regular",
+                hover: "hover:text-orange-500",
+              },
+            ].map((btn, i) => (
+              <Tooltip
+                key={i}
+                title={btn.title}
+                mouseLeaveDelay={0}
+                placement="bottom"
+                arrow={false}
               >
-                <span className="icon-[mdi--emoji-outline] block w-4 h-4 lg:w-5 lg:h-5"></span>
-              </button>
-            </Tooltip>
-            <div
-              className={`absolute top-[100%] z-50 ml-10 transition-all duration-500 ease-in-out transform ${
-                isMediaMenuOpen
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4 pointer-events-none"
-              }`}
-            ></div>
-
-            <div
-              className={`absolute top-[100%] z-50 -translate-x-10 transition-all duration-500 ease-in-out transform ${
-                isEmojiMenuOpen
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4 pointer-events-none"
-              }`}
-            ></div>
-
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Add Media"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Add Media"
-                className="transition-transform duration-300 ease-in-out transform hover:rotate-12 hover:text-green-500"
-              >
-                <span className="icon-[fluent-mdl2--media-add] block w-4 h-4 lg:w-5 lg:h-5"></span>
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Ephemeral Post"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Ephemeral Post"
-                onClick={() => setEmojiMenuOpen(false)} // Change
-                className="transition-transform duration-300 ease-in-out transform hover:rotate-12 hover:text-red-500"
-              >
-                <span className="icon-[ph--hourglass-bold] block w-4 h-4 lg:w-5 lg:h-5"></span>
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Change Visibility"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Change Visibility"
-                onClick={() => setEmojiMenuOpen(false)} // Change
-                className="transition-transform duration-300 ease-in-out transform hover:rotate-12 hover:text-blue-500"
-              >
-                <span className="icon-[material-symbols--public] block w-4 h-4 lg:w-5 lg:h-5"></span>
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Advanced"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Advanced"
-                onClick={() => setEmojiMenuOpen(false)} // Change
-                className="transition-transform duration-300 ease-in-out transform hover:rotate-12 dark:hover:text-orange-400"
-              >
-                <span className="icon-[fluent--options-16-regular] block w-4 h-4 lg:w-5 lg:h-5"></span>
-              </button>
-            </Tooltip>
+                <button
+                  aria-label={btn.title}
+                  className={`relative p-2 rounded-xl bg-transparent hover:bg-[var(--button-hover-bg,#f3f3f3)] dark:hover:bg-neutral-800 text-gray-500 dark:text-gray-300 transition-all duration-300 ease-in-out transform hover:-translate-y-[1px] active:scale-95 ${btn.hover}`}
+                >
+                  <span
+                    className={`icon-[${btn.icon}] block w-5 h-5 sm:w-5 sm:h-5`}
+                  ></span>
+                </button>
+              </Tooltip>
+            ))}
           </div>
 
           <button
             aria-label="Verse"
             onClick={onVerse}
-            className="relative ml-auto border border-violet-600 text-violet-500 hover:text-white rounded-lg py-2 px-7 overflow-hidden transition-all duration-300 group"
+            className="relative ml-auto border border-violet-600 text-violet-500 hover:text-white rounded-xl py-2 px-6 overflow-hidden transition-all duration-300 group font-medium"
           >
-            <span className="absolute inset-0 bg-violet-600 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
-            <span className="relative">Verse</span>
+            <span className="absolute inset-0 bg-violet-600 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 rounded-xl"></span>
+            <span className="relative z-10">
+              {isComment ? "Comment" : "Verse"}
+            </span>
           </button>
         </div>
       </div>

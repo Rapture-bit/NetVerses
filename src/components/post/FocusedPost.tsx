@@ -3,7 +3,7 @@ import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
 import formatDate from "@/utils/formatDate";
 import { useTimeAgo } from "@/components/others/TimeAgo";
-import { useHumanDate } from "../others/HumanDate";
+import { useHumanDate } from "../others/HumanReadableDate";
 import Verse from "./Verse";
 import Comment from "./Comment";
 import type { MenuProps } from "antd/es/menu";

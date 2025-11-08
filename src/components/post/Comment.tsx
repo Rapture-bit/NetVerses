@@ -3,7 +3,7 @@ import { Tooltip } from "antd";
 import { useState } from "react";
 import formatNumber from "@/utils/formatNumber";
 import { useTimeAgo } from "@/components/others/TimeAgo";
-import { useHumanDate } from "../others/HumanDate";
+import { useHumanDate } from "../others/HumanReadableDate";
 
 type InteractionCounts = {
   likes: number;
@@ -45,9 +45,12 @@ export default function Comment({
           </div>
           <div className="flex flex-col space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-black dark:text-white font-medium">
+              <a
+                href={`/${author}`}
+                className="text-black hover:underline dark:text-white font-medium"
+              >
                 {author}
-              </span>
+              </a>
             </div>
             <Tooltip mouseLeaveDelay={0} title={humanReadableDate}>
               <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline">

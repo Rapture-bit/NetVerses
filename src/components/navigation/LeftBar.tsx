@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+
+import { AnimatePresence, motion } from "framer-motion";
+
 import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
@@ -26,35 +29,63 @@ export default function LeftBar({ userData }) {
     textColor: `text-${profileColor}-500`,
   });
 
+  const [hoverArray, setHoverArray] = useState([
+    {
+      platform: "Twitter",
+      isHover: false,
+    },
+    {
+      platform: "Instagram",
+      isHover: false,
+    },
+    {
+      platform: "LinkedIn",
+      isHover: false,
+    },
+    {
+      platform: "Discord",
+      isHover: false,
+    },
+    {
+      platform: "Personal Website",
+      isHover: false,
+    },
+  ]);
+
   const [socialLinks, setSocialLinks] = useState([
     {
       href: "/",
       icon: "prime--twitter",
-      name: "Twitter",
+      platform: "Twitter",
+      user: "@xenon",
       color: "text-blue-500",
     },
     {
       href: "/",
       icon: "devicon--linkedin",
-      name: "LinkedIn",
+      platform: "LinkedIn",
+      user: "@xenon",
       color: "text-blue-700",
     },
     {
       href: "/",
       icon: "logos--discord-icon",
-      name: "Discord",
+      platform: "Discord",
+      user: "@quantarion_1",
       color: "text-indigo-500",
     },
     {
       href: "/",
       icon: "skill-icons--instagram",
-      name: "Instagram",
+      platform: "Instagram",
+      user: "@xenon_official",
       color: "text-pink-500",
     },
     {
       href: "/",
       icon: "akar-icons--globe",
-      name: "Personal Website",
+      platform: "Personal Website",
+      user: "netverses.com",
       color: "dark:text-white text-black",
     },
   ]);
@@ -110,12 +141,27 @@ export default function LeftBar({ userData }) {
   useEffect(() => {
     const path = window.location.pathname;
     if (path === "/") setSelectedPage("Home");
-    else if (path === "/messages") setSelectedPage("Messages");
+    else if (path === "/my/messages") setSelectedPage("Messages");
     else if (path === "/my/clubs") setSelectedPage("Clubs");
     else if (path === "/explore") setSelectedPage("Explore");
     else if (path === "/starplus") setSelectedPage("StarPlus");
     else setSelectedPage("");
   }, [window.location]);
+
+  const toggleArrayHover = (mouseIn: boolean, platform: string) => {
+    const array = hoverArray.find((element) => element.platform === platform);
+    if (!array) return;
+
+    let newArray = hoverArray.filter((item) => item.platform !== platform);
+    array.isHover = mouseIn;
+
+    newArray.push(array);
+    if (!newArray) return;
+
+    console.log(array, newArray);
+
+    setHoverArray(newArray);
+  };
 
   return (
     <nav
@@ -224,15 +270,40 @@ export default function LeftBar({ userData }) {
 
           {isLoaded ? (
             <div className="flex justify-start gap-4 mt-3">
-              {socialLinks.map(({ href, icon, name, color }) => (
+              {socialLinks.map(({ href, icon, platform, user, color }) => (
                 <a
-                  key={name}
+                  onMouseEnter={() => {
+                    toggleArrayHover(true, platform);
+                  }}
+                  onMouseLeave={() => {
+                    toggleArrayHover(false, platform);
+                  }}
+                  key={platform}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center transition-all transform hover:scale-110"
+                  className="flex items-center justify-center"
                 >
                   <span className={`${color} icon-[${icon}] w-6 h-6`}></span>
+                  <AnimatePresence>
+                    {hoverArray.find((element) => element.platform === platform)
+                      ?.isHover && (
+                      <motion.div
+                        className="absolute textColor darkerBackgroundColor border borderColor text-sm px-2 py-1 rounded-md mt-2 shadow-lg text-center pointer-events-none"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 35 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 25,
+                          duration: 0.3,
+                        }}
+                      >
+                        {user}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </a>
               ))}
             </div>
@@ -304,7 +375,7 @@ export default function LeftBar({ userData }) {
             <div className="relative flex items-center justify-center">
               <button
                 aria-label={t("home.leftBar.messages")}
-                onClick={(e) => (window.location.href = "/messages")}
+                onClick={(e) => (window.location.href = "/my/messages")}
                 className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
               >
                 <span
@@ -341,7 +412,7 @@ export default function LeftBar({ userData }) {
             </div>
           </>
         )}
-        <div className="relative flex flex-col gap-3 items-center justify-center">
+        <div className="flex flex-col space-y-4 w-full items-center justify-center">
           <button
             aria-label={t("home.leftBar.starplus")}
             onClick={(e) => (window.location.href = "/starplus")}

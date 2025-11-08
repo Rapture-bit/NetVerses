@@ -8,8 +8,8 @@ function generateNonHyphenUUID() {
   return randomUUID().replace(/-/g, "");
 }
 
-class ClubSubscriptionPlans extends Model {}
-ClubSubscriptionPlans.init(
+class ClubSubscriptionPlan extends Model {}
+ClubSubscriptionPlan.init(
   {
     id: {
       type: DataTypes.STRING(32),
@@ -24,8 +24,12 @@ ClubSubscriptionPlans.init(
       type: DataTypes.ENUM("basic", "premium"),
       allowNull: false,
     },
-    price: {
+    monthly_pricing: {
       type: DataTypes.DECIMAL(10, 2),
+      validate: {
+        min: 2,
+        max: 40,
+      },
       allowNull: false,
     },
     currency: {
@@ -33,11 +37,11 @@ ClubSubscriptionPlans.init(
       defaultValue: "USD",
     },
   },
-  { sequelize, modelName: "ClubSubscriptionPlans" },
+  { sequelize, modelName: "ClubSubscriptionPlan" },
 );
 
-class ClubSubscribers extends Model {}
-ClubSubscribers.init(
+class ClubSubscriber extends Model {}
+ClubSubscriber.init(
   {
     clubId: {
       type: DataTypes.STRING(32),
@@ -71,7 +75,7 @@ ClubSubscribers.init(
   },
   {
     sequelize,
-    modelName: "ClubsSubscribers",
+    modelName: "ClubsSubscriber",
     timestamps: true,
     indexes: [
       { fields: ["clubId"] },
@@ -81,8 +85,8 @@ ClubSubscribers.init(
   },
 );
 
-class Clubs extends Model {}
-Clubs.init(
+class Club extends Model {}
+Club.init(
   {
     id: {
       type: DataTypes.STRING(32),
@@ -136,35 +140,35 @@ Clubs.init(
   },
   {
     sequelize,
-    modelName: "Clubs",
+    modelName: "Club",
     timestamps: true,
     paranoid: true,
   },
 );
 
-Clubs.hasMany(ClubSubscriptionPlans, {
+Club.hasMany(ClubSubscriptionPlan, {
   foreignKey: "clubId",
   as: "plans",
   onDelete: "CASCADE",
 });
-ClubSubscriptionPlans.belongsTo(Clubs, { foreignKey: "clubId" });
+ClubSubscriptionPlan.belongsTo(Club, { foreignKey: "clubId" });
 
-Clubs.belongsToMany(User, {
-  through: ClubSubscribers,
+Club.belongsToMany(User, {
+  through: ClubSubscriber,
   foreignKey: "clubId",
   otherKey: "userId",
   as: "subscribers",
   onDelete: "CASCADE",
 });
 
-User.belongsToMany(Clubs, {
-  through: ClubSubscribers,
+User.belongsToMany(Club, {
+  through: ClubSubscriber,
   foreignKey: "userId",
   otherKey: "clubId",
   as: "subscriptions",
   onDelete: "CASCADE",
 });
 
-Clubs.belongsTo(User, { foreignKey: "ownerId", as: "owner" });
+Club.belongsTo(User, { foreignKey: "ownerId", as: "owner" });
 
-export { Clubs, ClubSubscriptionPlans, ClubSubscribers };
+export { Club, ClubSubscriptionPlan, ClubSubscriber };

@@ -3,7 +3,7 @@ import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
 import formatDate from "@/utils/formatDate";
 import { useTimeAgo } from "@/components/others/TimeAgo";
-import { useHumanDate } from "../others/HumanDate";
+import { useHumanDate } from "../others/HumanReadableDate";
 import AttachmentsViewer from "../others/AttachmentsViewer";
 import Boost from "@/components/modal/Menu/Boost";
 
@@ -59,38 +59,7 @@ export default function Post({
   description,
   type = "default",
   colorProfile,
-  attachments = [
-    {
-      id: "f47ac10b58cc4372a5670e02b2c3d479",
-      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      comment: "NetVerses's Default Avatar",
-    },
-    {
-      id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
-      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      comment: "NetVerses's Default Avatar",
-    },
-    {
-      id: "a9b8c7d6e5f4123a4b5c6d7e8f9a0b1c",
-      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      comment: "NetVerses's Default Avatar",
-    },
-    {
-      id: "1f2e3d4c5b6a7980f1e2d3c4b5a6f7e8",
-      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      comment: "NetVerses's Default Avatar",
-    },
-    {
-      id: "c3d4e5f6a7b8910c2d3e4f5a6b7c8d9e",
-      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      comment: "NetVerses's Default Avatar",
-    },
-    {
-      id: "0a1b2c3d4e5f6789a0b1c2d3e4f5a6b7",
-      URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      comment: "NetVerses's Default Avatar",
-    },
-  ],
+  attachments,
   date,
   author,
   interactions,
@@ -101,6 +70,7 @@ export default function Post({
   const timeAgo = useTimeAgo(date);
   const humanReadableDate = useHumanDate(date);
 
+  const [localUser, setLocalUser] = useState<string>("");
   const [isBoostMenuVisible, setBoostMenuVisible] = useState<boolean>(false);
   const [localColorPreference, setLocalColorPreference] = useState<string>(
     colorProfile ? colorProfile : "purple",
@@ -126,39 +96,27 @@ export default function Post({
   }, [localColorPreference]);
 
   return (
-    <div
-      className={`flex flex-col space-y-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor`}
-    >
-      <header className="flex flex-col items-start space-y-3">
-        <div className="flex flex-row justify-between items-center w-full">
-          <div className="flex flex-row items-center gap-3">
+    <div className="flex flex-col space-y-5 p-5 sm:p-6 rounded-xl mx-auto w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor transition-all duration-300 hover:shadow-lg hover:scale-[1.01]">
+      <header className="flex flex-col space-y-3">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-3">
             <a
               href={author}
-              style={{
-                display: "block",
-                width: "2.4rem",
-                height: "2.4rem",
-                borderRadius: "50%",
-                overflow: "hidden",
-              }}
+              className="w-12 h-12 rounded-full overflow-hidden block border-2 border-gray-700 hover:border-gray-500 transition-all duration-200"
             >
-              <div className="relative inline-block">
-                <img
-                  src="/images/avatars/default.jpg"
-                  className="rounded-full w-10 h-10"
-                  alt="Avatar"
-                />
-              </div>
+              <img
+                src="/images/avatars/default.jpg"
+                className="w-full h-full object-cover"
+                alt="Avatar"
+              />
             </a>
-            <div className="flex flex-col space-y-1">
-              <div className="flex items-center gap-2">
-                <a
-                  href={author.toLowerCase()}
-                  className="text-black dark:text-white hover:underline font-medium"
-                >
-                  {author}
-                </a>
-              </div>
+            <div className="flex flex-col">
+              <a
+                href={author.toLowerCase()}
+                className="font-medium text-black dark:text-white hover:underline"
+              >
+                {author}
+              </a>
               <Tooltip mouseLeaveDelay={0} title={humanReadableDate}>
                 <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline">
                   {timeAgo}
@@ -168,160 +126,150 @@ export default function Post({
           </div>
         </div>
         {(type === "Blog" || type === "Articles") && title && (
-          <div>
-            <h1 className="flex items-center dark:text-white text-black text-lg font-semibold jost">
-              {title}
-              {isNSFW && (
-                <span className="ml-2 text-xs bg-red-600 text-white rounded-lg px-2 py-1">
-                  NSFW
-                </span>
-              )}
-            </h1>
-          </div>
+          <h1 className="text-lg font-semibold text-black dark:text-white flex items-center gap-2">
+            {title}
+            {isNSFW && (
+              <span className="text-xs bg-red-600 text-white rounded-full px-2 py-1 font-semibold">
+                NSFW
+              </span>
+            )}
+          </h1>
         )}
       </header>
+
       <main>
         <p
-          className={`dark:text-white text-black transition-all duration-300 ${isNSFW ? "blur hover:blur-0" : "blur-0"}`}
+          className={`text-black dark:text-white transition-all duration-300 ${isNSFW ? "blur-sm hover:blur-0" : ""}`}
         >
           {description}
         </p>
         <a
           href={`/${author}/posts/${id}`}
-          className={`mt-3 ${textColor} hover:underline transition-all duration-300`}
+          className={`mt-3 inline-block ${textColor} hover:underline font-medium`}
         >
           {t("general.showmore")}
         </a>
-        <AttachmentsViewer attachments={attachments} author={author} id={1} />
+        {attachments && attachments?.length !== 0 && (
+          <AttachmentsViewer attachments={attachments} author={author} id={1} />
+        )}
       </main>
+
       <footer className="flex flex-col space-y-3">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-row gap-5">
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Like"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Like"
-                className="flex items-center gap-2 hover:text-blue-500 transition-colors duration-300"
-              >
-                <span className="icon-[mdi--like-outline] w-4 h-4"></span>
-                <span>{formatNumber(interactions.likes)}</span>
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Dislike"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Dislike"
-                className="flex items-center gap-2 hover:text-red-500 transition-colors duration-300"
-              >
-                <span className="icon-[mdi--dislike-outline] w-4 h-4"></span>
-                <span>{formatNumber(interactions.dislikes)}</span>
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Comment"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Comment"
-                onClick={() =>
-                  (window.location.href = `/${author}/posts/${id}`)
-                }
-                className="flex items-center gap-2 hover:text-cyan-500 transition-colors duration-300"
-              >
-                <span className="icon-[majesticons--comment-line] w-4 h-4"></span>
-                <span>{formatNumber(interactions.comments)}</span>
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              mouseLeaveDelay={0}
-              onClick={toggleBoost}
-              title="Boost"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Boost"
-                className="flex items-center gap-2 hover:text-orange-500 transition-colors duration-300"
-              >
-                <span className="icon-[material-symbols--speed-outline] w-4 h-4"></span>
-                <span>{formatNumber(interactions.boosts)}</span>
-              </button>
-            </Tooltip>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-4">
+            {["Like", "Dislike", "Comment", "Boost"].map((action, i) => {
+              const icons = {
+                Like: "mdi--like-outline",
+                Dislike: "mdi--dislike-outline",
+                Comment: "majesticons--comment-line",
+                Boost: "material-symbols--speed-outline",
+              };
+              const colors = {
+                Like: "hover:text-blue-600",
+                Dislike: "hover:text-red-500",
+                Comment: "hover:text-cyan-500",
+                Boost: "hover:text-orange-500",
+              };
+              const counts = {
+                Like: interactions.likes,
+                Dislike: interactions.dislikes,
+                Comment: interactions.comments,
+                Boost: interactions.boosts,
+              };
+              return (
+                <Tooltip
+                  key={i}
+                  mouseLeaveDelay={0}
+                  title={action}
+                  placement="bottom"
+                  arrow={false}
+                >
+                  <button
+                    aria-label={action}
+                    onClick={action === "Boost" ? toggleBoost : undefined}
+                    className={`flex items-center gap-1.5 ${colors[action]} transition-all duration-300 px-2 py-1 rounded-md hover:bg-[#dddddd] dark:hover:bg-[#1d1d1d]`}
+                  >
+                    <span className={`icon-[${icons[action]}] w-4 h-4`} />
+                    <span>{formatNumber(counts[action])}</span>
+                  </button>
+                </Tooltip>
+              );
+            })}
           </div>
-          <div className="flex items-center gap-3">
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="Translate"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="Translate"
-                className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-colors duration-300"
-              >
-                <span className="icon-[material-symbols--translate] w-4 h-4"></span>
-              </button>
-            </Tooltip>
 
-            <Tooltip
-              mouseLeaveDelay={0}
-              title="More"
-              placement="bottom"
-              arrow={false}
-            >
-              <button
-                aria-label="See More"
-                className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-colors duration-300"
+          <div className="flex gap-3">
+            {true && (
+              <Tooltip
+                mouseLeaveDelay={0}
+                title={"Transfer Ownership"}
+                placement="bottom"
+                arrow={false}
               >
-                <span className="icon-[mingcute--more-2-fill] w-4 h-4"></span>
-              </button>
-            </Tooltip>
+                <button
+                  aria-label={"Transfer Ownership"}
+                  className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-all duration-300 p-1 rounded hover:bg-[#dddddd] dark:hover:bg-[#1d1d1d]"
+                >
+                  <span className="icon-[mingcute--transfer-line] w-4 h-4" />
+                </button>
+              </Tooltip>
+            )}
+            {["Translate", "More"].map((action, i) => {
+              const icons = {
+                Translate: "material-symbols--translate",
+                More: "mingcute--more-2-fill",
+              };
+              return (
+                <Tooltip
+                  key={i}
+                  mouseLeaveDelay={0}
+                  title={action}
+                  placement="bottom"
+                  arrow={false}
+                >
+                  <button
+                    aria-label={action}
+                    className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-all duration-300 p-1 rounded hover:bg-[#dddddd] dark:hover:bg-[#1d1d1d]"
+                  >
+                    <span className={`icon-[${icons[action]}] w-4 h-4`} />
+                  </button>
+                </Tooltip>
+              );
+            })}
           </div>
         </div>
-        <div className="space-y-3">
+
+        <div className="flex flex-col space-y-3">
           {comments.length > 0 ? (
             comments.slice(0, 3).map((comment, index) => (
               <div
                 key={index}
-                className="flex flex-col space-y-1 border-t border-gray-200 dark:border-gray-700 pt-3"
-                style={{ marginLeft: `${index * 15}px` }}
+                className="flex flex-col items-start space-y-1 border-t border-gray-700 pt-3 pl-3 rounded transition-all duration-200"
+                style={{ marginLeft: `${index * 10}px` }}
               >
-                <span className="font-medium text-black dark:text-white">
+                <a
+                  href={`/${comment.author}`}
+                  className="font-medium hover:underline text-black dark:text-white"
+                >
                   {comment.author}
-                </span>
-                <div className="flex flex-row justify-between">
+                </a>
+                <div className="flex justify-between items-start w-full">
                   <p>{comment.text}</p>
-                  <div className="flex flex-row gap-3">
-                    <Tooltip
-                      mouseLeaveDelay={0}
-                      title="Reply"
-                      placement="bottom"
-                      arrow={false}
+                  <Tooltip
+                    mouseLeaveDelay={0}
+                    title="Reply"
+                    placement="bottom"
+                    arrow={false}
+                  >
+                    <button
+                      className="dark:text-white text-black hover:underline"
+                      aria-label="Reply"
                     >
-                      <button
-                        className="dark:text-white text-black hover:underline mt-2 self-start"
-                        aria-label="Reply"
-                      >
-                        <span
-                          className="icon-[material-symbols--reply] textColor w-4 h-4"
-                          aria-hidden="true"
-                        ></span>
-                      </button>
-                    </Tooltip>
-                  </div>
+                      <span
+                        className="icon-[material-symbols--reply] textColor w-4 h-4"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </Tooltip>
                 </div>
               </div>
             ))
@@ -331,13 +279,14 @@ export default function Post({
           {comments.length > 3 && (
             <a
               href={`/${author}/posts/${id}`}
-              className={`${textColor} hover:underline mt-2`}
+              className={`${textColor} hover:underline mt-2 font-medium self-start`}
             >
               View more comments ({comments.length - 3})
             </a>
           )}
         </div>
       </footer>
+
       <Boost visible={isBoostMenuVisible} setIsOpen={setBoostMenuVisible} />
     </div>
   );

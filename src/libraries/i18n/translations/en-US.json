@@ -54,8 +54,8 @@
   },
   "features": {
     "contentAgeVerification": {
-      "title": "Content Age Verification",
-      "description": "Keep it safe and secure! NSFW content is locked behind 18+ ID verification, ensuring it stays out of reach for minors."
+      "title": "Smart Age Check",
+      "description": "Our service estimates your age from inquiries and behavior, without requiring selfies or IDs. Your answers are never stored."
     },
     "advancedPostPrivacy": {
       "title": "Advanced Post Privacy",

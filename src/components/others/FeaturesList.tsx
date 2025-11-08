@@ -2,7 +2,7 @@ import React from "react";
 import Feature from "./Feature";
 import { useTranslation } from "react-i18next";
 
-export default function FeatureList() {
+export default function FeaturesList() {
   const { t } = useTranslation();
 
   return (

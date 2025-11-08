@@ -12,6 +12,8 @@ import DocumentationLayout from "@/layouts/DocumentationLayout";
 
 import { UserContext } from "@/context/UserContext";
 
+import Loading from "@/components/others/Loading";
+
 const LandingPage = React.lazy(() => import("@/pages/landingpage"));
 const ClubsPage = React.lazy(() => import("@/pages/my/clubs"));
 const PostsPage = React.lazy(() => import("@/pages/postpage"));
@@ -28,7 +30,9 @@ const HelpLandingPage = React.lazy(() => import("@/subdomains/help/landing"));
 export default function SubdomainDivider() {
   const { updateCache } = useContext(UserContext);
 
-  const [userCache, setUserCache] = useState<string | null>();
+  const [userCache, setUserCache] = useState<string | null | undefined>(
+    undefined,
+  );
   const [subdomain, setSubdomain] = useState<string | null>(null);
 
   useLayoutEffect(() => {
@@ -62,23 +66,55 @@ export default function SubdomainDivider() {
           <Route element={<DefaultLayout />}>
             <Route
               path="/"
-              element={userCache !== null ? <Home /> : <LandingPage />}
+              element={
+                userCache === undefined ? (
+                  <Loading />
+                ) : userCache !== null ? (
+                  <Home />
+                ) : (
+                  <LandingPage />
+                )
+              }
             />
             <Route path="/starplus" element={<StarPlus />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/:username/posts/:id" element={<PostsPage />} />
             <Route path="/:username" element={<ProfilePage />} />
             <Route
-              path="/messages"
-              element={userCache !== null ? <Messages /> : <PageNotFound />}
+              path="/my/messages"
+              element={
+                userCache === undefined ? (
+                  <Loading />
+                ) : userCache !== null ? (
+                  <Messages />
+                ) : (
+                  <PageNotFound />
+                )
+              }
             />
             <Route
               path="/explore"
-              element={userCache !== null ? <ExplorePage /> : <PageNotFound />}
+              element={
+                userCache === undefined ? (
+                  <Loading />
+                ) : userCache !== null ? (
+                  <ExplorePage />
+                ) : (
+                  <PageNotFound />
+                )
+              }
             />
             <Route
               path="/my/*"
-              element={userCache !== null ? <ClubsPage /> : <PageNotFound />}
+              element={
+                userCache === undefined ? (
+                  <Loading />
+                ) : userCache !== null ? (
+                  <ClubsPage />
+                ) : (
+                  <PageNotFound />
+                )
+              }
             />
             <Route path="*" element={<PageNotFound />} />
           </Route>

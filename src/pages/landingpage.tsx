@@ -3,7 +3,7 @@ import Navi18n from "@/libraries/Navi18n";
 
 import SignUpModal from "@/components/modal/SignUp";
 import SignInModal from "@/components/modal/SignIn";
-import FeatureList from "@/components/others/FeatureList";
+import FeaturesList from "@/components/others/FeaturesList";
 import PageTitle from "@/components/others/PageTitle";
 import LocaleMenu from "@/components/modal/BottomMenu/LocaleMenu";
 import { useTranslation } from "react-i18next";
@@ -80,7 +80,7 @@ export default function Page() {
           </p>
         </div>
 
-        <FeatureList />
+        <FeaturesList />
         <LocaleMenu />
       </div>
     </>

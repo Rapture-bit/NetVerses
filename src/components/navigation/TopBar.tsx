@@ -46,7 +46,7 @@ export default function TopBar() {
                     Xenon
                   </span>
                   <img
-                    src={"/"}
+                    src={"/images/avatars/default.jpg"}
                     className="rounded-full w-8 h-8"
                     alt="Profile"
                   />

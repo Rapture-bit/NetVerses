@@ -8,8 +8,8 @@ function generateNonHyphenUUID() {
   return randomUUID().replace(/-/g, "");
 }
 
-class ChannelSubscribers extends Model {}
-ChannelSubscribers.init(
+class ChannelSubscriber extends Model {}
+ChannelSubscriber.init(
   {
     channelId: {
       type: DataTypes.STRING(32),
@@ -43,7 +43,7 @@ ChannelSubscribers.init(
   },
   {
     sequelize,
-    modelName: "ChannelSubscribers",
+    modelName: "ChannelSubscriber",
     timestamps: true,
     indexes: [
       { fields: ["channelId"] },
@@ -53,8 +53,8 @@ ChannelSubscribers.init(
   },
 );
 
-class Channels extends Model {}
-Channels.init(
+class Channel extends Model {}
+Channel.init(
   {
     id: {
       type: DataTypes.STRING(32),
@@ -122,15 +122,15 @@ Channels.init(
   },
   {
     sequelize,
-    modelName: "Channels",
+    modelName: "Channel",
     timestamps: true,
     paranoid: true,
     indexes: [{ fields: ["ownerId"] }],
   },
 );
 
-class SubscriptionPlans extends Model {}
-SubscriptionPlans.init(
+class SubscriptionPlan extends Model {}
+SubscriptionPlan.init(
   {
     id: {
       type: DataTypes.STRING(32),
@@ -145,7 +145,7 @@ SubscriptionPlans.init(
       type: DataTypes.ENUM("basic", "premium", "premium_plus"),
       allowNull: false,
     },
-    price: {
+    monthly_pricing: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
@@ -154,32 +154,32 @@ SubscriptionPlans.init(
       defaultValue: "USD",
     },
   },
-  { sequelize, modelName: "SubscriptionPlans" },
+  { sequelize, modelName: "SubscriptionPlan" },
 );
 
-Channels.hasMany(SubscriptionPlans, {
+Channel.hasMany(SubscriptionPlan, {
   foreignKey: "channelId",
   as: "plans",
   onDelete: "CASCADE",
 });
-SubscriptionPlans.belongsTo(Channels, { foreignKey: "channelId" });
+SubscriptionPlan.belongsTo(Channel, { foreignKey: "channelId" });
 
-Channels.belongsToMany(User, {
-  through: ChannelSubscribers,
+Channel.belongsToMany(User, {
+  through: ChannelSubscriber,
   foreignKey: "channelId",
   otherKey: "userId",
   as: "subscribers",
   onDelete: "CASCADE",
 });
 
-User.belongsToMany(Channels, {
-  through: ChannelSubscribers,
+User.belongsToMany(Channel, {
+  through: ChannelSubscriber,
   foreignKey: "userId",
   otherKey: "channelId",
   as: "channelSubscriptions",
   onDelete: "CASCADE",
 });
 
-Channels.belongsTo(User, { foreignKey: "ownerId", as: "owner" });
+Channel.belongsTo(User, { foreignKey: "ownerId", as: "owner" });
 
-export { Channels, ChannelSubscribers, SubscriptionPlans };
+export { Channel, ChannelSubscriber, SubscriptionPlan };

@@ -1,5 +1,5 @@
-import { Channels } from "./Channels.js";
-import { Clubs } from "./Clubs.js";
+import { Channel } from "./Channels.js";
+import { Club } from "./Clubs.js";
 import { User } from "./User.js";
 import pkg from "sequelize";
 const { Model, DataTypes, Sequelize } = pkg;
@@ -10,8 +10,8 @@ function generateNonHyphenUUID() {
   return randomUUID().replace(/-/g, "");
 }
 
-class Verses extends Model {}
-Verses.init(
+class Verse extends Model {}
+Verse.init(
   {
     id: {
       type: DataTypes.STRING(32),
@@ -107,7 +107,7 @@ Verses.init(
   },
   {
     sequelize,
-    modelName: "Verses",
+    modelName: "Verse",
     timestamps: true,
     paranoid: true,
     validate: {
@@ -123,8 +123,8 @@ Verses.init(
   },
 );
 
-class Articles extends Model {}
-Articles.init(
+class Article extends Model {}
+Article.init(
   {
     id: {
       type: DataTypes.STRING(32),
@@ -220,7 +220,7 @@ Articles.init(
   },
   {
     sequelize,
-    modelName: "Articles",
+    modelName: "Article",
     timestamps: true,
     paranoid: true,
     validate: {
@@ -236,25 +236,25 @@ Articles.init(
   },
 );
 
-Verses.belongsTo(User, {
+Verse.belongsTo(User, {
   foreignKey: "authorId",
   onDelete: "CASCADE",
 });
-User.hasMany(Verses, { foreignKey: "authorId" });
+User.hasMany(Verse, { foreignKey: "authorId" });
 
-Articles.belongsTo(Channels, {
+Article.belongsTo(Channel, {
   foreignKey: "channelId",
   as: "channel",
   onDelete: "CASCADE",
 });
-Channels.hasMany(Articles, { foreignKey: "channelId", as: "articles" });
+Channel.hasMany(Article, { foreignKey: "channelId", as: "articles" });
 
-Verses.belongsTo(Clubs, {
+Verse.belongsTo(Club, {
   foreignKey: "clubId",
   as: "club",
   onDelete: "CASCADE",
 });
-Clubs.hasMany(Verses, { foreignKey: "clubId", as: "verses" });
-Clubs.hasMany(Articles, { foreignKey: "clubId", as: "articles" });
+Club.hasMany(Verse, { foreignKey: "clubId", as: "verses" });
+Club.hasMany(Article, { foreignKey: "clubId", as: "articles" });
 
-export { Verses, Articles };
+export { Verse, Article };

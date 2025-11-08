@@ -46,7 +46,7 @@ export default function PrivacyPage() {
         {
           title: "Personal Information",
           content: [
-            `We only collect personal information that you voluntarily provide, such as a username, email address, and contact details, when you sign up or interact with specific features of NetVerses. We never ask for sensitive personal information unless it is essential to the service we provide. You control what personal data you share with us, and we keep it secure.`,
+            `We only collect personal information that you voluntarily provide, such as a username, email address, contact details, birthdate, phone number, and profession, when you sign up or interact with specific features of NetVerses. We never ask for sensitive personal information unless it is essential to the service we provide. You control what personal data you share with us, and we keep it secure.`,
           ],
         },
         {

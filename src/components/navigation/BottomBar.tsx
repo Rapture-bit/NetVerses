@@ -46,7 +46,7 @@ export default function BottomBar() {
           <span className="text-xs">Home</span>
         </button>
         <button
-          onClick={() => (window.location.href = "/messages")}
+          onClick={() => (window.location.href = "/my/messages")}
           aria-label="Messages"
           className="flex flex-col justify-center items-center gap-1 p-1"
         >

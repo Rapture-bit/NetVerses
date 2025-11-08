@@ -398,12 +398,16 @@ export default function Messages() {
             >
               <div className="flex flex-row gap-2 justify-between items-center w-full">
                 <div className="flex flex-row gap-3 items-center">
-                  <img
-                    id="pfp"
-                    src={selectedFriendDetails["pfp"]}
-                    className="w-9 h-9 rounded-full"
-                    alt=""
-                  />
+                  <div className="relative w-9 h-9">
+                    <img
+                      id="pfp"
+                      src={selectedFriendDetails["pfp"]}
+                      className="w-9 h-9 rounded-full"
+                      alt=""
+                    />
+                    <span className="absolute bottom-0 right-0 block w-3 h-3 bg-violet-800 rounded-full"></span>
+                  </div>
+
                   <div className="flex flex-row items-center gap-1">
                     <Tooltip
                       title={selectedFriendDetails["username"]}
@@ -672,19 +676,31 @@ export default function Messages() {
                     </div>
 
                     <div className="flex flex-row items-center gap-4">
-                      <Tooltip title="Attachments" mouseLeaveDelay={0} placement="bottom">
+                      <Tooltip
+                        title="Attachments"
+                        mouseLeaveDelay={0}
+                        placement="bottom"
+                      >
                         <button className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-200 dark:bg-neutral-700 text-gray-800 dark:text-white shadow hover:scale-110 transition-transform duration-200">
                           <span className="icon-[ic--baseline-attachment] w-6 h-6"></span>
                         </button>
                       </Tooltip>
 
-                      <Tooltip title="Gifts" mouseLeaveDelay={0} placement="bottom">
+                      <Tooltip
+                        title="Gifts"
+                        mouseLeaveDelay={0}
+                        placement="bottom"
+                      >
                         <button className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-200 dark:bg-neutral-700 text-gray-800 dark:text-white shadow opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-200">
                           <span className="icon-[bxs--gift] w-6 h-6"></span>
                         </button>
                       </Tooltip>
 
-                      <Tooltip title="Send Money" mouseLeaveDelay={0} placement="bottom">
+                      <Tooltip
+                        title="Send Money"
+                        mouseLeaveDelay={0}
+                        placement="bottom"
+                      >
                         <button className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-200 dark:bg-neutral-700 text-gray-800 dark:text-white shadow hover:scale-110 transition-transform duration-200">
                           <span className="icon-[hugeicons--money-send-02] w-6 h-6"></span>
                         </button>
@@ -692,7 +708,11 @@ export default function Messages() {
 
                       <div className="w-px h-6 bg-gray-400 dark:bg-gray-600"></div>
 
-                      <Tooltip title="Send" mouseLeaveDelay={0} placement="bottom">
+                      <Tooltip
+                        title="Send"
+                        mouseLeaveDelay={0}
+                        placement="bottom"
+                      >
                         <button className="flex items-center justify-center w-10 h-10 rounded-md bg-purple-600 text-white shadow hover:bg-purple-700 hover:scale-110 transition-all duration-200">
                           <span className="icon-[fluent--send-16-filled] w-6 h-6"></span>
                         </button>

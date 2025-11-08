@@ -36,6 +36,36 @@ export default function Home() {
       description:
         "Artificial Intelligence (AI) is rapidly changing industries across the globe. From healthcare to finance, AI is revolutionizing how businesses operate and how we interact with technology. In healthcare, AI-driven tools are now able to analyze medical data and even assist in diagnosing diseases with greater precision than ever before. Meanwhile, in the finance industry, AI is helping to predict market trends, automate trades, and improve risk management strategies. However, with all the benefits AI brings, there are also concerns about its impact on jobs, privacy, and security. As AI continues to evolve, governments and organizations must consider the ethical implications and regulatory measures necessary to ensure its responsible use.",
       date: "2024-09-16T05:30:00Z",
+      factChecked: true,
+      signedParties: [
+        {
+          affiliation_name: "Nebula Dynamics",
+          verified: true,
+          signed_date: "July 8th, 2026",
+          affiliation_link: "clubs/nebuladynamics",
+        },
+        {
+          affiliation_name: "Quantum Forge",
+          verified: true,
+          signed_date: "July 8th, 2026",
+
+          affiliation_link: "clubs/quantumforge",
+        },
+        {
+          affiliation_name: "Stellar Nexus",
+          verified: true,
+          signed_date: "July 8th, 2026",
+
+          affiliation_link: "clubs/stellarnexus",
+        },
+        {
+          affiliation_name: "Stellar Nexus",
+          verified: true,
+          signed_date: "July 8th, 2026",
+
+          affiliation_link: "clubs/stellarnexus",
+        },
+      ],
       channel: "Xenon",
       interactions: {
         views: 1500,
@@ -100,9 +130,6 @@ export default function Home() {
         "Explore the new platform where news meets innovation. Stay updated with the latest trends and join the conversation.",
       author: "Xenon",
       date: "2024-09-16T05:30:00Z",
-      emergencySettings: {
-        emergencyLevel: 3,
-      },
       interactions: {
         likes: 120,
         dislikes: 8,
@@ -110,6 +137,7 @@ export default function Home() {
         boosts: 50,
         comments: 2000,
       },
+      attachments: [],
       comments: [
         { author: "TechEnthusiast", text: "This is exciting news!" },
         { author: "TechEnthusiast", text: "This is exciting news!" },
@@ -135,6 +163,7 @@ export default function Home() {
         boosts: 35,
         comments: 18,
       },
+      attachments: [],
       comments: [
         { author: "FeatureFan", text: "Loving the personalized feeds!" },
       ],
@@ -155,6 +184,7 @@ export default function Home() {
         boosts: 25,
         comments: 15,
       },
+      attachments: [],
       comments: [
         { author: "PowerUser", text: "These tips are really helpful!" },
       ],
@@ -175,6 +205,7 @@ export default function Home() {
         boosts: 40,
         comments: 20,
       },
+      attachments: [],
       comments: [
         { author: "UpdateFollower", text: "Can’t wait for the new features!" },
       ],
@@ -195,6 +226,7 @@ export default function Home() {
         boosts: 45,
         comments: 30,
       },
+      attachments: [],
       comments: [
         { author: "PrivacyAdvocate", text: "Good to know my data is secure." },
       ],
@@ -215,6 +247,7 @@ export default function Home() {
         boosts: 55,
         comments: 28,
       },
+      attachments: [],
       comments: [
         {
           author: "FutureReader",
@@ -381,18 +414,20 @@ export default function Home() {
           {!isLoading &&
             !isFeedLoading &&
             (selectedFeed === "Articles"
-              ? filteredArticles.map((articles, index) => (
+              ? filteredArticles.map((article, index) => (
                   <Articles
-                    id={articles.id}
-                    type={articles.type}
+                    id={article.id}
+                    type={article.type}
                     key={index}
-                    title={articles.title}
-                    date={articles.date}
-                    description={articles.description}
-                    channel={articles.channel}
-                    interactions={articles.interactions}
-                    isNSFW={articles.isNSFW}
-                    emergencySettings={articles.emergencySettings}
+                    title={article.title}
+                    signedParties={article.signedParties}
+                    date={article.date}
+                    description={article.description}
+                    channel={article.channel}
+                    factChecked={article.factChecked}
+                    interactions={article.interactions}
+                    isNSFW={article.isNSFW}
+                    emergencySettings={article.emergencySettings}
                   />
                 ))
               : selectedFeed === "MyFeed"
@@ -406,6 +441,7 @@ export default function Home() {
                       description={post.description}
                       author={post.author}
                       interactions={post.interactions}
+                      attachments={post.attachments}
                       isNSFW={post.isNSFW}
                       comments={post.comments}
                     />

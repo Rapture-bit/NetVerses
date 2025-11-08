@@ -77,7 +77,7 @@ const route = {
       functionFile: "../API/auth/login.js",
       authRequired: false,
       rateLimit: {
-        max: 4,
+        max: 10,
       },
     },
     {

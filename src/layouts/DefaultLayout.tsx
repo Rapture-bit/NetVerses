@@ -16,6 +16,7 @@ import CookiesConsent from "@/components/modal/BottomMenu/CookiesConsent";
 import TopBar from "@/components/navigation/TopBar";
 import LeftBar from "@/components/navigation/LeftBar";
 import RightBar from "@/components/navigation/RightBar";
+import PortableChat from "@/components/navigation/PortableChat";
 
 import Loading from "@/components/others/Loading";
 
@@ -172,10 +173,13 @@ export default function DefaultLayout() {
           {userCache == null && currentPage !== "/" && <TopBar />}
           {userCache !== null &&
             currentPage !== "/privacy" &&
-            currentPage !== "/messages" && <LeftBar userData={userData} />}
+            currentPage !== "/my/messages" && <LeftBar userData={userData} />}
+          {userCache !== null &&
+            currentPage !== "/my/messages" &&
+            currentPage !== "/privacy" && <PortableChat />}
           {userCache !== null &&
             currentPage !== "/privacy" &&
-            currentPage !== "/messages" && <RightBar />}
+            currentPage !== "/my/messages" && <RightBar />}
           {currentPage !== "/privacy" && (
             <CookiesConsent
               showNotif={cookiesVisibility}

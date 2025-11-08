@@ -19,25 +19,25 @@ export default function FriendProfile({ username }) {
   const [socialLinks, setSocialLinks] = useState([
     {
       href: "/",
-      icon: "prime--twitter",
+      iconClass: "icon-[prime--twitter]",
       name: "Twitter",
       color: "text-blue-500",
     },
     {
       href: "/",
-      icon: "devicon--linkedin",
+      iconClass: "icon-[devicon--linkedin]",
       name: "LinkedIn",
       color: "text-blue-700",
     },
     {
       href: "/",
-      icon: "logos--discord-icon",
+      iconClass: "icon-[logos--discord-icon]",
       name: "Discord",
       color: "text-indigo-500",
     },
     {
       href: "/",
-      icon: "skill-icons--instagram",
+      iconClass: "icon-[skill-icons--instagram]",
       name: "Instagram",
       color: "text-pink-500",
     },
@@ -95,17 +95,12 @@ export default function FriendProfile({ username }) {
           </div>
         </div>
 
-        <div className="flex items-center gap-1 text-sm text-gray-400 mt-1">
-          <span className="icon-[tabler--clock] w-4 h-4"></span>
-          <p>Timezone: UTC+1</p>
-        </div>
-
         <p className="description text-sm text-left w-full whitespace-normal break-words">
           {friendBio}
         </p>
 
         <div className="flex justify-start gap-4 mt-3">
-          {socialLinks.map(({ href, icon, name, color }) => (
+          {socialLinks.map(({ href, iconClass, name, color }) => (
             <Tooltip key={name} title={name} placement="bottom">
               <a
                 href={href}
@@ -113,7 +108,7 @@ export default function FriendProfile({ username }) {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center transition-all transform hover:scale-110"
               >
-                <span className={`${color} icon-[${icon}] w-6 h-6`} />
+                <span className={`${color} ${iconClass} w-6 h-6`} />
               </a>
             </Tooltip>
           ))}

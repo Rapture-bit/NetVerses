@@ -17,6 +17,7 @@ export default function TextArea({
   ...props
 }: Props) {
   const [text, setText] = useState<string>("");
+  const [maxChars, setMaxChars] = useState<number>(500);
   const textAreaRef = useRef(null);
 
   useEffect(() => {

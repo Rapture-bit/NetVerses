@@ -12,7 +12,7 @@ const TodaySummary = (props: Props) => {
 
   return (
     <>
-      <div className="flex flex-col bg-violet-800 p-4 rounded-lg mx-auto sm:mx-0 w-full sm:w-3/4 lg:w-2/3 xl:w-1/2">
+      <div className="flex flex-col bg-violet-700 p-4 rounded-lg mx-auto sm:mx-0 w-full sm:w-3/4 lg:w-2/3 xl:w-1/2">
         <div className="flex items-center justify-between gap-3 text-white">
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-3">

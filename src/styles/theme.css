@@ -156,6 +156,10 @@ textarea {
   --purple: var(--purple-dark);
 }
 
+* {
+  text-underline-offset: 4px;
+}
+
 ::selection {
   background-color: var(--selection-color);
   color: var(--selection-text-color);

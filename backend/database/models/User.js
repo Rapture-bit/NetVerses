@@ -48,8 +48,8 @@ User.init(
   },
 );
 
-class UserProfiles extends Model {}
-UserProfiles.init(
+class UserProfile extends Model {}
+UserProfile.init(
   {
     id: {
       type: DataTypes.STRING(32),
@@ -153,8 +153,8 @@ UserProfiles.init(
   },
   {
     sequelize,
-    modelName: "UserProfiles",
-    tableName: "UserProfiles",
+    modelName: "UserProfile",
+    tableName: "UserProfile",
     freezeTableName: true,
   },
 );
@@ -198,10 +198,10 @@ UserToken.init(
   },
 );
 
-User.hasOne(UserProfiles, { foreignKey: "id" });
-UserProfiles.belongsTo(User, { foreignKey: "id" });
+User.hasOne(UserProfile, { foreignKey: "id" });
+UserProfile.belongsTo(User, { foreignKey: "id" });
 
 User.hasMany(UserToken, { foreignKey: "userId" });
 UserToken.belongsTo(User, { foreignKey: "userId" });
 
-export { User, UserToken, UserProfiles };
+export { User, UserToken, UserProfile };

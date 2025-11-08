@@ -6,6 +6,7 @@ import { createJwtToken } from "../../auth/HandleJWT.js";
 import {
   generateSessionId,
   generateRefreshToken,
+  generateCSRFToken,
 } from "../../auth/detailsGenerator.js";
 
 import argon2 from "argon2";
@@ -80,6 +81,8 @@ async function createAccount(res, email, username, password) {
 
     const refreshToken = generateRefreshToken();
     const sessionId = generateSessionId();
+    const csrfToken = generateCSRFToken();
+
     await UserToken.create({
       refresh_token: refreshToken,
       session_id: sessionId,
@@ -127,9 +130,11 @@ async function createAccount(res, email, username, password) {
       },
     );
 
-    return res
-      .status(200)
-      .json({ success: true, message: "Account successfully created." });
+    return res.status(200).json({
+      success: true,
+      csrfToken,
+      message: "Account successfully created.",
+    });
   } catch (e) {
     console.error(e);
     return res

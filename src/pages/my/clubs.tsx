@@ -34,7 +34,7 @@ const Clubs = () => {
                 <span className="icon-[eva--arrow-back-outline] w-5 h-5"></span>
               </button>
             </Tooltip>
-            <span className="font-semibold">Clubs</span>
+            <span className="font-medium">Clubs</span>
           </div>
         </div>
       </div>

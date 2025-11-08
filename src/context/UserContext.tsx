@@ -37,7 +37,6 @@ const UserProvider = ({ children }) => {
 
   const updateCache = async () => {
     const now = Date.now();
-    console.log(userCache);
     if (userCache !== null && cacheExpirationDate && now < cacheExpirationDate)
       return;
 

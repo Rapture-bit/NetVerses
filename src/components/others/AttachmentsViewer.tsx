@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import AttachmentFocus from "./AttachmentFocus";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { Tooltip } from "antd";
 
@@ -35,6 +36,7 @@ const AttachmentsViewer = ({ attachments, author, id }) => {
     Array<{}>
   >({
     id: "",
+    index: null,
   });
   const [attachmentsType, setAttachmentsType] = useState<Object[]>([]);
   const [imageAttachmentTypes, setImageAttachmentTypes] = useState<Object[]>(
@@ -44,13 +46,8 @@ const AttachmentsViewer = ({ attachments, author, id }) => {
     [],
   );
 
-  const findAttachmentFromId = (id) => {
-    const foundElement = attachmentsType.find((element) => {
-      element.id === id;
-    });
-
-    return foundElement;
-  };
+  const [currentScrollWidth, setScrollWidth] = useState<number>(0);
+  const [maxScrollWidth, setMaxScrollWidth] = useState<number>(1000);
 
   const compareSrc = (element, srcUrl): boolean => {
     let elementLength: number = element.length;
@@ -72,6 +69,24 @@ const AttachmentsViewer = ({ attachments, author, id }) => {
 
     return valid;
   };
+
+  useEffect(() => {
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      setMaxScrollWidth(
+        scrollContainer?.current?.scrollWidth -
+          scrollContainer?.current.clientWidth,
+      );
+      setScrollWidth(scrollContainer?.current?.scrollLeft);
+    };
+
+    scrollContainer.current.addEventListener("scroll", handleScroll);
+
+    return () => {
+      scrollContainer?.current?.removeEventListener("scroll", handleScroll);
+    };
+  }, [currentScrollWidth]);
 
   useEffect(() => {
     const typesObject = [];
@@ -143,14 +158,37 @@ const AttachmentsViewer = ({ attachments, author, id }) => {
     setImageAttachmentTypes(imageTypesObject);
   }, [attachments]);
 
-  const setAttachmentToFocus = (id: string | null) => {
+  const findIndexFromAttachmentId = (attachmentId: string) => {
+    if (!attachmentId) return;
+
+    const attachmentIndex = attachments.findIndex((element) => {
+      if (element.id === attachmentId) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    if (attachmentIndex !== -1) {
+      console.log(attachmentIndex);
+      return attachmentIndex;
+    } else {
+      return null;
+    }
+  };
+
+  const setAttachmentToFocus = (id: string, index: number | null) => {
     setFocusedAttachmentDetails({
       id,
+      index,
     });
   };
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    setAttachmentToFocus(e.currentTarget.id);
+    setAttachmentToFocus(
+      e.currentTarget.id,
+      findIndexFromAttachmentId(e.currentTarget.id),
+    );
   };
 
   const scroll = (direction: "left" | "right") => {
@@ -168,34 +206,42 @@ const AttachmentsViewer = ({ attachments, author, id }) => {
       <AttachmentFocus
         onClose={() => setFocusedAttachmentDetails({ id: null })}
         attachments={attachmentsType}
-        attachmentId={focusedAttachmentDetails.id}
+        attachmentIndex={focusedAttachmentDetails.index}
       />
 
       <div className="relative mt-3">
-        <Tooltip
-          mouseLeaveDelay={0}
-          title="Previous"
-          placement="bottom"
-          arrow={false}
-        >
-          <button
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
-            onClick={() => scroll("left")}
-          >
-            <span className="icon-[tabler--arrow-left] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
-          </button>
-        </Tooltip>
+        <AnimatePresence>
+          {currentScrollWidth > 0 && (
+            <Tooltip
+              mouseLeaveDelay={0}
+              title="Previous"
+              placement="bottom"
+              arrow={false}
+            >
+              <motion.button
+                initial={{ opacity: 0, x: -20, y: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
+                onClick={() => scroll("left")}
+              >
+                <span className="icon-[tabler--arrow-left] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
+              </motion.button>
+            </Tooltip>
+          )}
+        </AnimatePresence>
 
         <div
           ref={scrollContainer}
-          className="flex gap-3 overflow-x-scroll scrollbar-hidden scroll-smooth"
+          className="flex items-center gap-3 overflow-x-scroll scrollbar-hidden scroll-smooth py-2"
         >
           {imageAttachmentTypes.map((attachment, index) => (
             <img
               crossOrigin="anonymous"
               key={index}
               onClick={handleClick}
-              className="rounded-lg cursor-pointer hover:brightness-90 duration-300 transition-all w-1/3 shrink-0"
+              className="rounded-lg cursor-pointer hover:brightness-90 duration-300 transition-all w-64 h-40 object-cover flex-shrink-0"
               id={attachment.id}
               title={attachment.attachmentDetails.comment}
               src={attachment.attachmentDetails.src}
@@ -207,34 +253,40 @@ const AttachmentsViewer = ({ attachments, author, id }) => {
               crossOrigin="anonymous"
               onClick={handleClick}
               key={index}
-              className="rounded-lg cursor-pointer hover:brightness-90 duration-300 transition-all w-1/3 shrink-0"
+              className="rounded-lg cursor-pointer hover:brightness-90 duration-300 transition-all w-64 h-40 object-cover flex-shrink-0"
               id={attachment.id}
               title={attachment.attachmentDetails.comment}
-              width="320"
-              height="240"
               controls
             >
               <source
                 src={attachment.attachmentDetails.src}
-                type={attachment.videoType}
+                type={`video/${attachment.videoType}`}
               />
             </video>
           ))}
         </div>
 
-        <Tooltip
-          mouseLeaveDelay={0}
-          title="Next"
-          placement="bottom"
-          arrow={false}
-        >
-          <button
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
-            onClick={() => scroll("right")}
-          >
-            <span className="icon-[tabler--arrow-right] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
-          </button>
-        </Tooltip>
+        <AnimatePresence>
+          {currentScrollWidth < maxScrollWidth && (
+            <Tooltip
+              mouseLeaveDelay={0}
+              title="Next"
+              placement="bottom"
+              arrow={false}
+            >
+              <motion.button
+                initial={{ opacity: 0, x: 20, y: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20, y: -20 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
+                onClick={() => scroll("right")}
+              >
+                <span className="icon-[tabler--arrow-right] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
+              </motion.button>
+            </Tooltip>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
