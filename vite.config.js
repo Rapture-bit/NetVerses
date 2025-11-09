@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => ({
     port: 5173,
     strictPort: true,
     https: false,
+    historyApiFallback: true,
   },
   resolve: {
     alias: {

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
 import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
@@ -65,6 +66,8 @@ export default function FocusedPost({
   const [filteredComments, setFilteredComments] = useState<object[]>(comments);
   const { colorProperties } = useContext(ThemeContext);
 
+  const navigate = useNavigate();
+
   const items: MenuProps["items"] = [
     {
       label: (
@@ -94,12 +97,12 @@ export default function FocusedPost({
     if (window.history.length > 1) {
       const previousUrl = document.referrer;
       if (previousUrl.startsWith(window.location.origin)) {
-        window.history.back();
+        navigate(-1);
       } else {
-        window.location.href = "/";
+        navigate("/");
       }
     } else {
-      window.location.href = "/";
+      navigate("/");
     }
   }
 

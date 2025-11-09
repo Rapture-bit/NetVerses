@@ -63,6 +63,7 @@ export default function Boost({ visible, setIsOpen }) {
           onClosed={resetTab}
           title="Boost"
           open={visible}
+          noConfirmationDialog={true}
           setIsOpen={setIsOpen}
           footer={
             <div className="flex flex-row gap-3">

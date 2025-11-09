@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -118,12 +119,12 @@ export default function RightBar() {
           ))}
           <div className="relative flex items-center justify-center p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3">
             <div className="flex flex-row gap-3 items-center">
-              <a
-                href="/articles"
+              <Link
+                to="/articles"
                 className="text-violet-500 hover:underline font-medium jost"
               >
                 {t("home.viewMoreNews")}
-              </a>
+              </Link>
             </div>
           </div>
         </div>

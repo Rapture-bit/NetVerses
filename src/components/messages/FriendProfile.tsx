@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import { Tooltip } from "antd";
 
@@ -48,8 +49,8 @@ export default function FriendProfile({ username }) {
       <div
         className={`bg-gradient-to-b ${friendProfileColors.bannerGradient} to-transparent h-20 w-full absolute top-0 left-0 rounded-t-lg`}
       >
-        <a
-          href={`/${friendUsername}`}
+        <Link
+          to={`/${friendUsername}`}
           className="absolute z-10 mt-7 ml-5 w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 hover:border-white/30 transition-all duration-300"
           aria-label={`Profile of ${friendUsername}`}
         >
@@ -57,7 +58,7 @@ export default function FriendProfile({ username }) {
             className="w-full h-full bg-cover bg-center"
             style={{ backgroundImage: `url(${friendAvatar})` }}
           ></div>
-        </a>
+        </Link>
       </div>
 
       <div className="flex flex-col space-y-3 py-5 max-h-full px-7 rounded-lg darkerBackgroundColor text-center pt-28">
@@ -102,14 +103,14 @@ export default function FriendProfile({ username }) {
         <div className="flex justify-start gap-4 mt-3">
           {socialLinks.map(({ href, iconClass, name, color }) => (
             <Tooltip key={name} title={name} placement="bottom">
-              <a
-                href={href}
+              <Link
+                to={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center transition-all transform hover:scale-110"
               >
                 <span className={`${color} ${iconClass} w-6 h-6`} />
-              </a>
+              </Link>
             </Tooltip>
           ))}
         </div>

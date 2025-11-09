@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import PageTitle from "@/components/others/PageTitle";
 import BottomBar from "@/components/navigation/BottomBar";
@@ -5,16 +6,13 @@ import BottomBar from "@/components/navigation/BottomBar";
 import { Tooltip } from "antd";
 
 const Clubs = () => {
+  const navigate = useNavigate();
+
   function toggleBack() {
     if (window.history.length > 1) {
-      const previousUrl = document.referrer;
-      if (previousUrl.startsWith(window.location.origin)) {
-        window.history.back();
-      } else {
-        window.location.href = "/";
-      }
+      navigate(-1);
     } else {
-      window.location.href = "/";
+      navigate("/");
     }
   }
 

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import PageTitle from "@/components/others/PageTitle";
 import BottomBar from "@/components/navigation/BottomBar";
@@ -6,6 +7,7 @@ import ProfilePreview from "@/components/profile/ProfilePreview";
 import ContentPreview from "@/components/profile/ContentPreview";
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
   const [availableUsernames, setAvailableUsernames] = useState<string[]>([
     "xenon",
   ]); // Update with API data
@@ -33,12 +35,12 @@ const ProfilePage = () => {
     if (window.history.length > 1) {
       const previousUrl = document.referrer;
       if (previousUrl.startsWith(window.location.origin)) {
-        window.history.back();
+        navigate(-1);
       } else {
-        window.location.href = "/";
+        navigate("/");
       }
     } else {
-      window.location.href = "/";
+      navigate("/");
     }
   }
 

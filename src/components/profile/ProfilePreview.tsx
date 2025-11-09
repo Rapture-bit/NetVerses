@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React, { useState, useLayoutEffect } from "react";
 import formatNumber from "@/utils/formatNumber";
 
@@ -58,8 +59,8 @@ const ProfilePreview = ({ username }) => {
         <div
           className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-36 w-full relative top-0 left-0 rounded-t-lg`}
         >
-          <a
-            href={`/${username}`}
+          <Link
+            to={`/${username}`}
             className="absolute z-10 mt-20 ml-4 w-24 h-24"
             aria-label={`Profile of ${username}`}
             style={{
@@ -77,7 +78,7 @@ const ProfilePreview = ({ username }) => {
                 backgroundPosition: "center",
               }}
             ></div>
-          </a>
+          </Link>
 
           {self && (
             <button
@@ -189,15 +190,15 @@ const ProfilePreview = ({ username }) => {
 
           <div className="flex justify-start gap-4 mt-3">
             {socialLinks.map(({ href, icon, name, color }) => (
-              <a
+              <Link
                 key={name}
-                href={href}
+                to={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center transition-all transform hover:scale-110"
               >
                 <span className={`${color} icon-[${icon}] w-6 h-6`} />
-              </a>
+              </Link>
             ))}
           </div>
 

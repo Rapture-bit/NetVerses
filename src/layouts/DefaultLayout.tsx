@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import React, {
   useState,
   useRef,
@@ -26,6 +27,8 @@ import { UserContext } from "@/context/UserContext";
 const GA_TRACKING_ID = "G-EDV3RGP46V"; // [!] GA_TRACKING_ID
 
 export default function DefaultLayout() {
+  const location = useLocation();
+
   const { userCache, updateCache } = useContext(UserContext);
   const { animSrc, setCurrentRef } = useContext(AnimateContext);
 
@@ -72,8 +75,8 @@ export default function DefaultLayout() {
   };
 
   useLayoutEffect(() => {
-    setCurrentPage(window.location.pathname);
-  }, []);
+    setCurrentPage(location.pathname);
+  }, [location]);
 
   useEffect(() => {
     if ((document as any).querySelector(`meta[name="csp-nonce"]`)) {

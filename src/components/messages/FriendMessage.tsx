@@ -8,6 +8,7 @@ interface Props {
   isUnread: boolean;
   onSelected: (author: string) => void;
   isSelected: boolean;
+  imageSize?: string;
   author: string;
   calling: boolean;
 }
@@ -15,6 +16,7 @@ interface Props {
 const FriendMessage = ({
   last_message,
   isUnread,
+  imageSize,
   onSelected,
   isSelected,
   author,
@@ -44,10 +46,10 @@ const FriendMessage = ({
           <img
             id="pfp"
             src={pfp}
-            className={`w-12 h-12 rounded-full ${calling ? "animate-pulse" : "animate-none"}`}
+            className={`${imageSize === "small" ? "w-11 h-11" : "w-12 h-12"} rounded-full ${calling ? "animate-pulse" : "animate-none"}`}
             alt={`${username}'s profile`}
           />
-          <div className="flex flex-col text-start justify-start ml-0 gap-1 text-sm roboto">
+          <div className="flex flex-col text-start justify-start ml-0 gap-0.5 text-sm roboto">
             <span className="text-base roboto" id="username">
               {username}
             </span>

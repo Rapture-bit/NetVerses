@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React from "react";
 import { Tooltip } from "antd";
 import { useState } from "react";
@@ -45,12 +46,12 @@ export default function Comment({
           </div>
           <div className="flex flex-col space-y-1">
             <div className="flex items-center gap-2">
-              <a
-                href={`/${author}`}
+              <Link
+                to={`/${author}`}
                 className="text-black hover:underline dark:text-white font-medium"
               >
                 {author}
-              </a>
+              </Link>
             </div>
             <Tooltip mouseLeaveDelay={0} title={humanReadableDate}>
               <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline">

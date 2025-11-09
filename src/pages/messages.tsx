@@ -1,3 +1,4 @@
+import { useNavigate, Link } from "react-router-dom";
 import React, {
   useState,
   useLayoutEffect,
@@ -20,19 +21,6 @@ import { Tooltip } from "antd";
 
 import PageTitle from "@/components/others/PageTitle";
 
-function toggleBack() {
-  if (window.history.length > 1) {
-    const previousUrl = document.referrer;
-    if (previousUrl.startsWith(window.location.origin)) {
-      window.history.back();
-    } else {
-      window.location.href = "/";
-    }
-  } else {
-    window.location.href = "/";
-  }
-}
-
 export default function Messages() {
   const messageEndRef = useRef<HTMLDivElement>(null);
   const messageRefs = useRef<{ [key: string]: HTMLSpanElement | null }>({});
@@ -40,6 +28,20 @@ export default function Messages() {
     [key: string]: number;
   }>({});
 
+  function toggleBack() {
+    if (window.history.length > 1) {
+      const previousUrl = document.referrer;
+      if (previousUrl.startsWith(window.location.origin)) {
+        navigate(-1);
+      } else {
+        navigate("/");
+      }
+    } else {
+      navigate("/");
+    }
+  }
+
+  const navigate = useNavigate();
   const { colorProperties } = useContext(ThemeContext);
 
   const [windowSize, setWindowSize] = useState({
@@ -730,12 +732,12 @@ export default function Messages() {
             <FriendMenu user={selectedFriendDetails["username"]} />
             <SecondFriendMenu user={selectedFriendDetails["username"]} />
             <div className="w-full flex flex-row justify-center items-center p-2 darkerBackgroundColor rounded-lg">
-              <a
-                href={`/${selectedFriendDetails["username"]}`}
+              <Link
+                to={`/${selectedFriendDetails["username"]}`}
                 className="text-sm dark:hover:text-white hover:text-black transition duration-200"
               >
                 View Profile
-              </a>
+              </Link>
             </div>
             <span className="text-xs">© 2025 NetVerses</span>
           </div>

@@ -1,4 +1,4 @@
-import { UserToken, UserProfiles } from "../../database/models/User.js";
+import { UserToken, UserProfile } from "../../database/models/User.js";
 import { createJwtToken } from "../../auth/HandleJWT.js";
 import {
   generateSessionId,
@@ -30,7 +30,7 @@ export default async function (req, res) {
           refreshTokenExpires.setDate(refreshTokenExpires.getDate() + 7); // After 7 days
 
           const userId = session.userId;
-          const profileUser = await UserProfiles.findOne({
+          const profileUser = await UserProfile.findOne({
             where: { id: userId },
           });
           const username = profileUser.getDataValue("username");
@@ -115,7 +115,7 @@ export default async function (req, res) {
     }
 
     const userId = tokenData.userId;
-    const profileUser = await UserProfiles.findOne({ where: { id: userId } });
+    const profileUser = await UserProfile.findOne({ where: { id: userId } });
     const username = profileUser.getDataValue("username");
 
     const accessTokenExpires = new Date();

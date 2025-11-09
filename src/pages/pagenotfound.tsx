@@ -1,8 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import PageTitle from "@/components/others/PageTitle";
 import Footer from "@/components/navigation/Footer";
 
 export default function PageNotFound() {
+  const navigate = useNavigate()
+
   const [notFoundDescriptions] = useState([
     "Oops! It seems the page you're looking for has been spaghettified by a cosmic black hole. Try checking the URL or head back to the previous page.",
     "404 Error: This page has vanished into the void. Please check the URL or return to the previous page.",
@@ -40,12 +43,12 @@ export default function PageNotFound() {
             if (window.history.length > 1) {
               const previousUrl = document.referrer;
               if (previousUrl.startsWith(window.location.origin)) {
-                window.history.back();
+                navigate(-1)
               } else {
-                window.location.href = "/";
+                navigate("/")
               }
             } else {
-              window.location.href = "/";
+              navigate("/")
             }
           }}
           className="relative overflow-hidden bg-transparent textColor hover:text-white border-purple-800 border-b-2 py-2 px-6 md:py-1.5 md:px-8 text-white transition-all duration-300 before:absolute before:top-0 before:right-0 before:bottom-0 before:left-full before:bg-purple-800 before:transition-all before:duration-300 hover:before:left-0"

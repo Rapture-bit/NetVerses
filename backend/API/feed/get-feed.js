@@ -1,5 +1,5 @@
 import checkAuth from "../../auth/checkAuth.js";
-import { Verses, Articles } from "../../database/models/Feed.js";
+import { Verse, Article } from "../../database/models/Feed.js";
 
 export default async function (req, res) {
   try {
@@ -25,11 +25,11 @@ export default async function (req, res) {
       });
     }
 
-    const queriedVerses = await Verses.findAndCountAll({
+    const queriedVerses = await Verse.findAndCountAll({
       limit: amount,
       offset: 0,
     });
-    const queriedArticles = await Articles.findAndCountAll({
+    const queriedArticles = await Article.findAndCountAll({
       limit: amount,
       offset: 0,
     });

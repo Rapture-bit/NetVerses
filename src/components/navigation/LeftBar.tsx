@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useLocation, Link } from "react-router-dom";
 
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { Tooltip } from "antd";
@@ -28,6 +30,9 @@ export default function LeftBar({ userData }) {
     borderColor: `border-${profileColor}-800`,
     textColor: `text-${profileColor}-500`,
   });
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [hoverArray, setHoverArray] = useState([
     {
@@ -139,14 +144,14 @@ export default function LeftBar({ userData }) {
   }, []);
 
   useEffect(() => {
-    const path = window.location.pathname;
+    const path = location.pathname;
     if (path === "/") setSelectedPage("Home");
     else if (path === "/my/messages") setSelectedPage("Messages");
     else if (path === "/my/clubs") setSelectedPage("Clubs");
     else if (path === "/explore") setSelectedPage("Explore");
     else if (path === "/starplus") setSelectedPage("StarPlus");
     else setSelectedPage("");
-  }, [window.location]);
+  }, [location]);
 
   const toggleArrayHover = (mouseIn: boolean, platform: string) => {
     const array = hoverArray.find((element) => element.platform === platform);
@@ -173,8 +178,8 @@ export default function LeftBar({ userData }) {
           className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-20 w-full absolute top-0 left-0 rounded-t-lg`}
         >
           {isLoaded ? (
-            <a
-              href={`/${username}`}
+            <Link
+              to={`/${username}`}
               className="absolute z-10 mt-7 ml-4 w-16 h-16 rounded-full overflow-hidden"
               aria-label={`Profile of ${username}`}
             >
@@ -185,7 +190,7 @@ export default function LeftBar({ userData }) {
                   backgroundPosition: "center",
                 }}
               ></div>
-            </a>
+            </Link>
           ) : (
             <div className="absolute z-10 mt-7 ml-4 w-16 h-16 rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
           )}
@@ -205,12 +210,12 @@ export default function LeftBar({ userData }) {
             <div className="inline-flex items-center gap-1">
               {isLoaded ? (
                 <div className="flex items-center space-x-2">
-                  <a
-                    href={`/${username.toLowerCase()}`}
+                  <Link
+                    to={`/${username.toLowerCase()}`}
                     className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none hover:underline"
                   >
                     {username}
-                  </a>
+                  </Link>
 
                   <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
                     <Tooltip placement="bottom" title="Official Profile">
@@ -325,9 +330,9 @@ export default function LeftBar({ userData }) {
               <div key={idx} className="flex flex-col items-center">
                 {isLoaded ? (
                   <>
-                    <a href="#" className="text-lg font-bold hover:underline">
+                    <Link to="#" className="text-lg font-bold hover:underline">
                       {formatNumber(item.value)}
-                    </a>
+                    </Link>
                     <span className="text-xs textColor">{item.label}</span>
                   </>
                 ) : (
@@ -346,7 +351,7 @@ export default function LeftBar({ userData }) {
         <div className="relative flex items-center justify-center">
           <button
             aria-label={t("home.leftBar.home")}
-            onClick={(e) => (window.location.href = "/")}
+            onClick={(e) => navigate("/")}
             className={`${selectedPage === "Home" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
           >
             <span
@@ -360,7 +365,7 @@ export default function LeftBar({ userData }) {
         <div className="relative flex items-center justify-center">
           <button
             aria-label={t("home.leftBar.explore")}
-            onClick={(e) => (window.location.href = "/explore")}
+            onClick={(e) => navigate("/explore")}
             className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
           >
             <span className="icon-[material-symbols--search] w-6 h-6 flex items-center justify-center"></span>
@@ -375,7 +380,7 @@ export default function LeftBar({ userData }) {
             <div className="relative flex items-center justify-center">
               <button
                 aria-label={t("home.leftBar.messages")}
-                onClick={(e) => (window.location.href = "/my/messages")}
+                onClick={(e) => navigate("/my/messages")}
                 className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
               >
                 <span
@@ -388,7 +393,7 @@ export default function LeftBar({ userData }) {
             <div className="relative flex items-center justify-center">
               <button
                 aria-label={t("home.leftBar.clubs")}
-                onClick={(e) => (window.location.href = "/my/clubs")}
+                onClick={(e) => navigate("/my/clubs")}
                 className={`${selectedPage === "Clubs" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
               >
                 <span
@@ -401,7 +406,7 @@ export default function LeftBar({ userData }) {
             <div className="relative flex items-center justify-center">
               <button
                 aria-label={t("home.leftBar.mywallet")}
-                onClick={(e) => (window.location.href = "/my/wallet")}
+                onClick={(e) => navigate("/my/wallet")}
                 className={`${selectedPage === "Wallet" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
               >
                 <span
@@ -415,7 +420,7 @@ export default function LeftBar({ userData }) {
         <div className="flex flex-col space-y-4 w-full items-center justify-center">
           <button
             aria-label={t("home.leftBar.starplus")}
-            onClick={(e) => (window.location.href = "/starplus")}
+            onClick={(e) => navigate("/starplus")}
             className={`${selectedPage === "StarPlus" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
           >
             <span

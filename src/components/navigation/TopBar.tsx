@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React, { useState, useContext } from "react";
 import { Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
@@ -29,13 +30,13 @@ export default function TopBar() {
       }}
     >
       <div className="flex flex-row justify-between items-center space-x-3 font-semibold">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="flex items-center text-xl md:text-2xl select-none"
         >
           <span className="dark:text-gray-200 text-black">Net</span>
           <span className="text-purple-600">Verses</span>
-        </a>
+        </Link>
 
         {userCache !== null && (
           <div className="flex flex-row gap-5 justify-center items-center">

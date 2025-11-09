@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import useDeviceType from "@/hooks/useDeviceType";
 
@@ -5,6 +6,8 @@ export default function BottomBar() {
   const { deviceType, isTouchScreen } = useDeviceType();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +41,7 @@ export default function BottomBar() {
     >
       <div className="flex flex-row mobile-s:gap-3 mobile-m:gap-6 mobile-l:gap-8 tablet:hidden justify-center items-center text-center">
         <button
-          onClick={() => (window.location.href = "/")}
+          onClick={() => navigate("/")}
           aria-label="Home"
           className="flex flex-col justify-center items-center gap-1 p-1"
         >
@@ -46,7 +49,7 @@ export default function BottomBar() {
           <span className="text-xs">Home</span>
         </button>
         <button
-          onClick={() => (window.location.href = "/my/messages")}
+          onClick={() => navigate("/my/messages")}
           aria-label="Messages"
           className="flex flex-col justify-center items-center gap-1 p-1"
         >
@@ -54,14 +57,14 @@ export default function BottomBar() {
           <span className="text-xs">Messages</span>
         </button>
         <button
-          onClick={() => (window.location.href = "/verse")}
+          onClick={() => navigate("/verse")}
           aria-label="Send"
           className="rounded-full bg-violet-700 p-3 flex justify-center items-center"
         >
           <span className="icon-[mingcute--send-line] text-white w-6 h-6"></span>
         </button>
         <button
-          onClick={() => (window.location.href = "/starplus")}
+          onClick={() => navigate("/starplus")}
           aria-label="StarPlus"
           className="flex flex-col justify-center items-center gap-1 p-1"
         >
@@ -69,7 +72,7 @@ export default function BottomBar() {
           <span className="text-xs">StarPlus</span>
         </button>
         <button
-          onClick={() => (window.location.href = "/xenon")}
+          onClick={() => navigate("/xenon")}
           aria-label="Profile"
           className="flex flex-col justify-center items-center gap-1 p-1"
         >

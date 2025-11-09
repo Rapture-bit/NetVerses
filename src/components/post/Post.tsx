@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
@@ -100,8 +101,8 @@ export default function Post({
       <header className="flex flex-col space-y-3">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3">
-            <a
-              href={author}
+            <Link
+              to={author}
               className="w-12 h-12 rounded-full overflow-hidden block border-2 border-gray-700 hover:border-gray-500 transition-all duration-200"
             >
               <img
@@ -109,14 +110,14 @@ export default function Post({
                 className="w-full h-full object-cover"
                 alt="Avatar"
               />
-            </a>
+            </Link>
             <div className="flex flex-col">
-              <a
-                href={author.toLowerCase()}
+              <Link
+                to={author.toLowerCase()}
                 className="font-medium text-black dark:text-white hover:underline"
               >
                 {author}
-              </a>
+              </Link>
               <Tooltip mouseLeaveDelay={0} title={humanReadableDate}>
                 <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline">
                   {timeAgo}
@@ -143,12 +144,12 @@ export default function Post({
         >
           {description}
         </p>
-        <a
-          href={`/${author}/posts/${id}`}
+        <Link
+          to={`/${author}/posts/${id}`}
           className={`mt-3 inline-block ${textColor} hover:underline font-medium`}
         >
           {t("general.showmore")}
-        </a>
+        </Link>
         {attachments && attachments?.length !== 0 && (
           <AttachmentsViewer attachments={attachments} author={author} id={1} />
         )}
@@ -246,12 +247,12 @@ export default function Post({
                 className="flex flex-col items-start space-y-1 border-t border-gray-700 pt-3 pl-3 rounded transition-all duration-200"
                 style={{ marginLeft: `${index * 10}px` }}
               >
-                <a
-                  href={`/${comment.author}`}
+                <Link
+                  to={`/${comment.author}`}
                   className="font-medium hover:underline text-black dark:text-white"
                 >
                   {comment.author}
-                </a>
+                </Link>
                 <div className="flex justify-between items-start w-full">
                   <p>{comment.text}</p>
                   <Tooltip
@@ -277,12 +278,12 @@ export default function Post({
             <p className="text-gray-500 dark:text-gray-400">No comments yet.</p>
           )}
           {comments.length > 3 && (
-            <a
-              href={`/${author}/posts/${id}`}
+            <Link
+              to={`/${author}/posts/${id}`}
               className={`${textColor} hover:underline mt-2 font-medium self-start`}
             >
               View more comments ({comments.length - 3})
-            </a>
+            </Link>
           )}
         </div>
       </footer>

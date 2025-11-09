@@ -405,7 +405,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   }, [username, usernameCache]);
 
   const refreshPage = () => {
-    setNoConfirmationDialog(true);
+    window.onbeforeunload = null;
 
     setTimeout(() => {
       window.location.reload();

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Tooltip } from "antd";
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 
@@ -27,6 +28,34 @@ export default function Verse({ isComment }) {
 
   const [isMediaMenuOpen, setMediaMenuOpen] = useState<boolean>(false);
   const [isEmojiMenuOpen, setEmojiMenuOpen] = useState<boolean>(false);
+
+  const buttons = [
+    {
+      title: "Emoji",
+      iconClass: "icon-[mdi--emoji-outline]",
+      hover: "hover:text-yellow-500",
+    },
+    {
+      title: "Add Media",
+      iconClass: "icon-[fluent-mdl2--media-add]",
+      hover: "hover:text-green-500",
+    },
+    {
+      title: "Ephemeral Post",
+      iconClass: "icon-[ph--hourglass-bold]",
+      hover: "hover:text-red-500",
+    },
+    {
+      title: "Change Visibility",
+      iconClass: "icon-[material-symbols--public]",
+      hover: "hover:text-blue-500",
+    },
+    {
+      title: "Advanced",
+      iconClass: "icon-[fluent--options-16-regular]",
+      hover: "hover:text-orange-500",
+    },
+  ];
 
   useEffect(() => {
     if (loaded && currentRef) {
@@ -77,8 +106,8 @@ export default function Verse({ isComment }) {
     <>
       <div className="relative flex flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
         <div className="flex items-start space-x-4">
-          <a
-            href={`/${username}`}
+          <Link
+            to={`/${username}`}
             className="flex-shrink-0 hover:opacity-85 duration-300 transition-all"
           >
             <img
@@ -87,7 +116,7 @@ export default function Verse({ isComment }) {
               alt="User Avatar"
               draggable="false"
             />
-          </a>
+          </Link>
 
           <div className="flex-1 mt-1.5">
             <TextArea
@@ -106,33 +135,7 @@ export default function Verse({ isComment }) {
 
         <div className="flex items-center justify-between mt-3">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            {[
-              {
-                title: "Emoji",
-                icon: "mdi--emoji-outline",
-                hover: "hover:text-yellow-500",
-              },
-              {
-                title: "Add Media",
-                icon: "fluent-mdl2--media-add",
-                hover: "hover:text-green-500",
-              },
-              {
-                title: "Ephemeral Post",
-                icon: "ph--hourglass-bold",
-                hover: "hover:text-red-500",
-              },
-              {
-                title: "Change Visibility",
-                icon: "material-symbols--public",
-                hover: "hover:text-blue-500",
-              },
-              {
-                title: "Advanced",
-                icon: "fluent--options-16-regular",
-                hover: "hover:text-orange-500",
-              },
-            ].map((btn, i) => (
+            {buttons.map((btn, i) => (
               <Tooltip
                 key={i}
                 title={btn.title}
@@ -145,7 +148,7 @@ export default function Verse({ isComment }) {
                   className={`relative p-2 rounded-xl bg-transparent hover:bg-[var(--button-hover-bg,#f3f3f3)] dark:hover:bg-neutral-800 text-gray-500 dark:text-gray-300 transition-all duration-300 ease-in-out transform hover:-translate-y-[1px] active:scale-95 ${btn.hover}`}
                 >
                   <span
-                    className={`icon-[${btn.icon}] block w-5 h-5 sm:w-5 sm:h-5`}
+                    className={`${btn.iconClass} block w-5 h-5 sm:w-5 sm:h-5`}
                   ></span>
                 </button>
               </Tooltip>

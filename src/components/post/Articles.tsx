@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useHumanDate } from "../others/HumanReadableDate";
 import { useTimeAgo } from "@/components/others/TimeAgo";
@@ -130,16 +131,12 @@ const Articles = ({
           </p>
 
           <span className="inline">
-            <a
-              href={`/channels/${channel}/${id.toString()}`}
+            <Link
+              to={`/channels/${channel}/${id.toString()}`}
               className={`${textColor} hover:underline font-medium`}
             >
               Read more
-            </a>
-          </span>
-
-          <span className="bg-gradient-to-r select-none from-violet-300 to-violet-200 text-violet-900 py-1 px-3 w-1/4 rounded-full text-sm font-medium shadow-md">
-            Technology
+            </Link>
           </span>
         </div>
 
@@ -168,21 +165,21 @@ const Articles = ({
                         key={index}
                         className="flex darkerBackgroundColor transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:bg-opacity-90 rounded-lg px-3 py-3 items-center space-x-2"
                       >
-                        <a href={affiliation_link}>
+                        <Link to={affiliation_link}>
                           <img
                             src="/images/avatars/default.jpg"
                             className="rounded-full w-10 h-10 select-none"
                             alt={`${affiliation_name} Avatar`}
                           />
-                        </a>
+                        </Link>
                         <div className="flex flex-col">
                           <div className="inline-flex items-center space-x-1.5">
-                            <a
-                              href={affiliation_link}
+                            <Link
+                              to={affiliation_link}
                               className="font-semibold hover:underline underline-offset-4 transition-colors duration-200"
                             >
                               {affiliation_name}
-                            </a>
+                            </Link>
                             {verified && (
                               <Tooltip
                                 placement="bottom"
@@ -250,19 +247,19 @@ const Articles = ({
 
           <div className="flex items-center justify-between flex-row">
             <div className="flex flex-row items-center gap-2">
-              <a href={`channels/${channel}`}>
+              <Link to={`channels/${channel}`}>
                 <img
                   className="rounded-full w-7 h-7 select-none"
                   src="/images/avatars/default.jpg"
                   alt={`${channel} Avatar`}
                 />
-              </a>
-              <a
-                href={`channels/${channel}`}
+              </Link>
+              <Link
+                to={`channels/${channel}`}
                 className="font-medium text-base hover:underline underline-offset-4 transition-colors duration-200"
               >
                 {channel}
-              </a>
+              </Link>
               <Tooltip mouseLeaveDelay={0} title={humanReadableDate}>
                 <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline">
                   {timeAgo}

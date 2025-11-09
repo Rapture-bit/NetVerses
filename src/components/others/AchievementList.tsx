@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React from "react";
 
 interface Achievement {
@@ -36,12 +37,12 @@ const AchievementList: React.FC<AchievementListProps> = ({ achievements }) => {
       ))}
       {achievementsArray.length > 1 && (
         <li>
-          <a
-            href="/my/achievements"
+          <Link
+            to="/my/achievements"
             className="text-violet-500 dark:text-violet-500"
           >
             Show more
-          </a>
+          </Link>
         </li>
       )}
     </ul>
