@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactDOM from "react-dom";
 
 import { Tooltip } from "antd";
 
@@ -8,6 +9,21 @@ interface AttachmentDetails {
   src: string | undefined;
 }
 
+interface Attachments {
+  id: string;
+  URL: string;
+  comment?: string;
+}
+
+type InteractionCounts = {
+  likes: number;
+  dislikes: number;
+  views: number;
+  boosts: number;
+  comments: number;
+  [key: string]: number;
+};
+
 interface Attachment {
   id: string;
   type: string | null;
@@ -15,10 +31,25 @@ interface Attachment {
   attachmentDetails: AttachmentDetails;
 }
 
+type PostProps = {
+  id: number;
+  type?: string;
+  title?: string;
+  description: string;
+  author: string;
+  interactions: InteractionCounts;
+  attachments?: Attachments[];
+  comments: Comment[];
+  isNSFW: boolean;
+  date: string;
+  colorProfile?: string;
+};
+
 type Props = {
   attachmentIndex: number;
   onClose: () => void;
   attachments: Attachment[];
+  postDetails: PostProps;
 };
 
 const pageVariants = {
@@ -35,9 +66,16 @@ const pageVariants = {
   },
 };
 
-const AttachmentFocus = ({ attachmentIndex, attachments, onClose }: Props) => {
+const AttachmentFocus = ({
+  attachmentIndex,
+  attachments,
+  postDetails,
+  onClose,
+}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
+
+  // postDetails (for comments, author [name, logo], interactions, and etc)
 
   useEffect(() => {
     if (attachmentIndex === -1) return;
@@ -96,12 +134,12 @@ const AttachmentFocus = ({ attachmentIndex, attachments, onClose }: Props) => {
     document.body.style.overflow = "auto";
   };
 
-  return (
+  return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpen && (
         <motion.div
           key="image-focus"
-          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 backdrop-blur-sm flex justify-center items-center z-[1000]"
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 backdrop-blur-sm flex justify-center items-center z-[999]"
           initial="initial"
           animate="animate"
           exit="exit"
@@ -156,6 +194,7 @@ const AttachmentFocus = ({ attachmentIndex, attachments, onClose }: Props) => {
                   transition={{ duration: 0.3 }}
                 />
               )}
+              {currentAttachment?.type === "model" && <span>Model</span>}
               {currentAttachment?.attachmentDetails.comment && (
                 <motion.span
                   className="text-white mt-2 block text-center"
@@ -189,7 +228,8 @@ const AttachmentFocus = ({ attachmentIndex, attachments, onClose }: Props) => {
           </div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };
 

@@ -30,7 +30,7 @@ const videoTypes = [
   "3gp",
 ];
 
-const AttachmentsViewer = ({ attachments, author, id }) => {
+const AttachmentsViewer = ({ attachments, postDetails }) => {
   const scrollContainer = useRef<HTMLDivElement>(null);
   const [focusedAttachmentDetails, setFocusedAttachmentDetails] = useState<
     Array<{}>
@@ -205,6 +205,7 @@ const AttachmentsViewer = ({ attachments, author, id }) => {
     <>
       <AttachmentFocus
         onClose={() => setFocusedAttachmentDetails({ id: null })}
+        postDetails={postDetails}
         attachments={attachmentsType}
         attachmentIndex={focusedAttachmentDetails.index}
       />

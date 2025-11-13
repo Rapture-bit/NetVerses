@@ -21,7 +21,6 @@ const Home = React.lazy(() => import("@/pages/home"));
 const PageNotFound = React.lazy(() => import("@/pages/pagenotfound"));
 const PrivacyPage = React.lazy(() => import("@/pages/privacypolicy"));
 const Messages = React.lazy(() => import("@/pages/messages"));
-const StarPlus = React.lazy(() => import("@/pages/starplus"));
 const ProfilePage = React.lazy(() => import("@/pages/profilepage"));
 const ExplorePage = React.lazy(() => import("@/pages/explore"));
 
@@ -76,7 +75,6 @@ export default function SubdomainDivider() {
                 )
               }
             />
-            <Route path="/starplus" element={<StarPlus />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/:username/posts/:id" element={<PostsPage />} />
             <Route path="/:username" element={<ProfilePage />} />

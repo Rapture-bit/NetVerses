@@ -151,7 +151,19 @@ export default function Post({
           {t("general.showmore")}
         </Link>
         {attachments && attachments?.length !== 0 && (
-          <AttachmentsViewer attachments={attachments} author={author} id={1} />
+          <AttachmentsViewer
+            attachments={attachments}
+            postDetails={{
+              date,
+              author,
+              interactions,
+              isNSFW,
+              comments,
+              title,
+              type,
+              postId: id,
+            }}
+          />
         )}
       </main>
 

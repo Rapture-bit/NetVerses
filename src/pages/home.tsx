@@ -247,7 +247,18 @@ export default function Home() {
         boosts: 55,
         comments: 28,
       },
-      attachments: [],
+      attachments: [
+        {
+          id: "f47ac10b58cc4372a5670e02b2c3d479",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+        {
+          id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+      ],
       comments: [
         {
           author: "FutureReader",
