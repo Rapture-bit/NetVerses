@@ -37,7 +37,7 @@ interface SignedParty {
   signed_date: string;
 }
 
-type ArticlesProps = {
+export type ArticlesProps = {
   id: number;
   type?: string;
   factChecked?: boolean;
@@ -183,7 +183,7 @@ const Articles = ({
                             {verified && (
                               <Tooltip
                                 placement="bottom"
-                                title="Official Profile"
+                                title="Official Member"
                               >
                                 <span
                                   className="icon-[ic--baseline-verified] w-4 h-4 text-yellow-400 cursor-pointer align-middle"

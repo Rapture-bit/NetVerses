@@ -1,28 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactDOM from "react-dom";
-
 import { Tooltip } from "antd";
 
 interface AttachmentDetails {
   comment: string;
   src: string | undefined;
 }
-
-interface Attachments {
-  id: string;
-  URL: string;
-  comment?: string;
-}
-
-type InteractionCounts = {
-  likes: number;
-  dislikes: number;
-  views: number;
-  boosts: number;
-  comments: number;
-  [key: string]: number;
-};
 
 interface Attachment {
   id: string;
@@ -31,25 +15,10 @@ interface Attachment {
   attachmentDetails: AttachmentDetails;
 }
 
-type PostProps = {
-  id: number;
-  type?: string;
-  title?: string;
-  description: string;
-  author: string;
-  interactions: InteractionCounts;
-  attachments?: Attachments[];
-  comments: Comment[];
-  isNSFW: boolean;
-  date: string;
-  colorProfile?: string;
-};
-
 type Props = {
   attachmentIndex: number;
   onClose: () => void;
   attachments: Attachment[];
-  postDetails: PostProps;
 };
 
 const pageVariants = {
@@ -66,45 +35,31 @@ const pageVariants = {
   },
 };
 
-const AttachmentFocus = ({
-  attachmentIndex,
-  attachments,
-  postDetails,
-  onClose,
-}: Props) => {
+const AttachmentFocus = ({ attachmentIndex, attachments, onClose }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
-
-  // postDetails (for comments, author [name, logo], interactions, and etc)
+  const [direction, setDirection] = useState<number>(0); // -1 = left, 1 = right
 
   useEffect(() => {
     if (attachmentIndex === -1) return;
-
-    console.log(attachmentIndex);
     setCurrentIndex(attachmentIndex);
   }, [attachmentIndex]);
 
-  const findAttachmentFromIndex = () => {
-    console.log(attachments[currentIndex], attachments, currentIndex);
-    console.log(attachments[currentIndex]);
-    return attachments[currentIndex];
-  };
-
-  const currentAttachment = findAttachmentFromIndex();
-
   const onNext = () => {
-    const nextIndex = currentIndex + 1;
-    if (nextIndex >= attachments.length) {
-      return;
+    if (currentIndex < attachments.length - 1) {
+      setDirection(1);
+      setCurrentIndex(currentIndex + 1);
     }
-    setCurrentIndex(nextIndex);
   };
 
   const onPrevious = () => {
-    const previousIndex = currentIndex - 1;
-    if (previousIndex < 0) return;
-    setCurrentIndex(previousIndex);
+    if (currentIndex > 0) {
+      setDirection(-1);
+      setCurrentIndex(currentIndex - 1);
+    }
   };
+
+  const currentAttachment = attachments[currentIndex];
 
   useEffect(() => {
     if (currentAttachment) {
@@ -134,9 +89,21 @@ const AttachmentFocus = ({
     document.body.style.overflow = "auto";
   };
 
+  const glideVariants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 300 : -300,
+      opacity: 0,
+    }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir: number) => ({
+      x: dir < 0 ? 300 : -300,
+      opacity: 0,
+    }),
+  };
+
   return ReactDOM.createPortal(
-    <AnimatePresence>
-      {isOpen && (
+    <AnimatePresence initial={false} custom={direction}>
+      {isOpen && currentAttachment && (
         <motion.div
           key="image-focus"
           className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 backdrop-blur-sm flex justify-center items-center z-[999]"
@@ -146,7 +113,8 @@ const AttachmentFocus = ({
           variants={pageVariants}
           onClick={closeModal}
         >
-          <div className="flex flex-row justify-center items-center space-x-4">
+          <div className="flex flex-row justify-center items-center space-x-4 relative">
+            {/* Previous Button */}
             {currentIndex !== 0 && (
               <Tooltip
                 mouseLeaveDelay={0}
@@ -155,7 +123,10 @@ const AttachmentFocus = ({
                 arrow={false}
               >
                 <button
-                  className="p-0 bg-transparent border-none flex items-center justify-center"
+                  className="
+        absolute top-1/2 -left-5 -translate-y-1/2
+        p-0 bg-transparent border-none flex items-center justify-center z-20
+      "
                   onClick={(e) => {
                     e.stopPropagation();
                     onPrevious();
@@ -166,45 +137,52 @@ const AttachmentFocus = ({
               </Tooltip>
             )}
 
-            <div
-              className="duration-300 transition-all"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {currentAttachment?.type === "img" && (
-                <motion.img
-                  key={currentAttachment?.id}
-                  className="max-w-full max-h-80 rounded-lg shadow-lg"
-                  src={currentAttachment?.attachmentDetails.src}
-                  alt="Focused"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                />
-              )}
-              {currentAttachment?.type === "vid" && (
-                <motion.video
-                  key={currentAttachment?.id}
-                  className="max-w-full max-h-80 rounded-lg shadow-lg"
-                  src={currentAttachment?.attachmentDetails.src}
-                  alt="Focused"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                />
-              )}
-              {currentAttachment?.type === "model" && <span>Model</span>}
-              {currentAttachment?.attachmentDetails.comment && (
-                <motion.span
-                  className="text-white mt-2 block text-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.3 }}
+            {/* Attachment */}
+            <div className="flex flex-col" onClick={(e) => e.stopPropagation()}>
+              <AnimatePresence initial={false} custom={direction} mode="wait">
+                <motion.div
+                  key={currentAttachment.id}
+                  custom={direction}
+                  variants={glideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.4, ease: "easeInOut" }} // slower glide
                 >
-                  {currentAttachment?.attachmentDetails.comment}
-                </motion.span>
-              )}
+                  {currentAttachment.type === "img" && (
+                    <img
+                      src={currentAttachment.attachmentDetails.src}
+                      alt="Focused"
+                      className="w-[90vw] max-w-[500px]
+          sm:w-[70vw] sm:max-w-[600px]
+          md:w-[60vw] md:max-w-[700px]
+          lg:w-[50vw] lg:max-w-[800px]
+          xl:w-[40vw] xl:max-w-[900px]
+          max-h-[70vh] 
+          object-contain"
+                    />
+                  )}
+                  {currentAttachment.type === "vid" && (
+                    <video
+                      src={currentAttachment.attachmentDetails.src}
+                      className="
+          w-[90vw] max-w-[500px]
+          sm:w-[70vw] sm:max-w-[600px]
+          md:w-[60vw] md:max-w-[700px]
+          lg:w-[50vw] lg:max-w-[800px]
+          xl:w-[40vw] xl:max-w-[900px]
+          max-h-[70vh]
+          object-contain"
+                      controls
+                    />
+                  )}
+                  {currentAttachment.attachmentDetails.comment && (
+                    <span className="text-white mt-2 block text-center">
+                      {currentAttachment.attachmentDetails.comment}
+                    </span>
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {currentIndex !== attachments.length - 1 && (
@@ -215,7 +193,10 @@ const AttachmentFocus = ({
                 arrow={false}
               >
                 <button
-                  className="p-0 bg-transparent border-none flex items-center justify-center"
+                  className="
+        absolute top-1/2 -right-8 -translate-y-1/2
+        p-0 bg-transparent border-none flex items-center justify-center z-20
+      "
                   onClick={(e) => {
                     e.stopPropagation();
                     onNext();
@@ -225,6 +206,15 @@ const AttachmentFocus = ({
                 </button>
               </Tooltip>
             )}
+
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="darkerBackgroundColor fixed top-4 right-4 w-1/4 max-w-[250px] p-2 rounded-md z-50"
+            >
+              <div className="flex flex-row justify-between">
+                <span className="text-white font-bold">Xenon</span>
+              </div>
+            </div>
           </div>
         </motion.div>
       )}

@@ -17,7 +17,7 @@ export default function FeedSelection({ onChange }) {
   return (
     <div
       id="feed-selection"
-      className="select-none flex darkerBackgroundColor w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 h-14 rounded-lg z-30"
+      className="select-none flex border border-neutral-700 darkerBackgroundColor w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 h-14 rounded-lg z-30"
     >
       <button
         aria-label="MyFeed"

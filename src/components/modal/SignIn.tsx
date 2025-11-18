@@ -5,7 +5,7 @@ import PrimaryModal from "./Primary";
 import PrimaryInput from "@/components/input/Primary";
 import OTP from "@/components/input/OTP";
 
-import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Checkbox, ConfigProvider } from "antd";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -16,7 +16,7 @@ interface SignInModalProps {
 
 interface ErrorState {
   TabOne: {
-    Email: Object;
+    Identifier: Object;
     Additional: Object;
   };
   TabTwo: {
@@ -27,14 +27,14 @@ interface ErrorState {
 const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
   const [currentTab, setTab] = useState<number>(1);
   const [isNextDisabled, setNextDisabled] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
+  const [identifier, setIdentifier] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const { colorProperties } = useContext(ThemeContext);
 
   const [errorState, setErrorState] = useState<ErrorState>({
     TabOne: {
-      Email: {
+      Identifier: {
         Invalid: false,
         msg: "",
       },
@@ -65,8 +65,8 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
     },
   };
 
-  const toggleEmail = (e) => {
-    setEmail(e.target.value);
+  const toggleIdentifier = (e) => {
+    setIdentifier(e.target.value);
   };
 
   const togglePassword = (e) => {
@@ -129,57 +129,17 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
   }
 
   const resetTab = () => {
-    setEmail("");
+    setIdentifier("");
     setPassword("");
     setTab(1);
   };
 
-  const validateEmail = async (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-    if (email) {
-      if (!emailRegex.test(email)) {
-        setNextDisabled(true);
-        setErrorState((prevState) => ({
-          ...prevState,
-          TabOne: {
-            ...prevState.TabOne,
-            Email: {
-              Invalid: true,
-              msg: "Provide a valid email.",
-            },
-          },
-        }));
-      } else {
-        setErrorState((prevState) => ({
-          ...prevState,
-          TabOne: {
-            ...prevState.TabOne,
-            Email: {
-              Invalid: false,
-              msg: "",
-            },
-          },
-        }));
-      }
-    } else {
-      setErrorState((prevState) => ({
-        ...prevState,
-        TabOne: {
-          ...prevState.TabOne,
-          Email: {
-            Invalid: false,
-            msg: "",
-          },
-        },
-      }));
-    }
-  };
+  const validateIdentifier = (identifier) => {};
 
   useEffect(() => {
-    setNextDisabled(email === "" || password === "");
-    validateEmail(email);
-  }, [email, password]);
+    setNextDisabled(identifier === "" || password === "");
+    validateIdentifier(identifier);
+  }, [identifier, password]);
 
   return (
     <PrimaryModal
@@ -257,19 +217,19 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
                 >
                   <div className="flex flex-col space-y-1">
                     <PrimaryInput
-                      maxLength={64}
-                      type={"email"}
-                      placeholder="Email"
+                      maxLength={100}
+                      type="text"
+                      placeholder="Email / Username"
                       ColorSettings={{
-                        BorderColor: errorState.TabOne.Email["Invalid"]
+                        BorderColor: errorState.TabOne.Identifier["Invalid"]
                           ? "#EF4444"
                           : colorProperties.borderInputColor,
                       }}
-                      prefix={<MailOutlined className="!mr-1" />}
-                      onChange={toggleEmail}
+                      prefix={<UserOutlined className="!mr-1" />}
+                      onChange={toggleIdentifier}
                       errorMessage={
-                        errorState.TabOne.Email["Invalid"]
-                          ? errorState.TabOne.Email["msg"]
+                        errorState.TabOne.Identifier["Invalid"]
+                          ? errorState.TabOne.Identifier["msg"]
                           : ""
                       }
                     />
@@ -292,7 +252,7 @@ const SignInModal: React.FC<SignInModalProps> = ({ visible, setIsOpen }) => {
                     <div>
                       <a
                         href="/recover-password"
-                        className="text-violet-400 underline hover:text-violet-400 transition-all duration-300"
+                        className="text-violet-600 underline hover:text-violet-700 hover:underline transition-all duration-300"
                       >
                         Recover Password
                       </a>

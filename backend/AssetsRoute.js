@@ -6,6 +6,12 @@ const AssetsRoute = [
     filePath: "/images/default/placeholder.jpg",
   },
   {
+    name: "Soviet Banner",
+    type: "server",
+    urlPath: "/media/uploads/banners/soviet_banner.jpg",
+    filePath: "/images/uploads/soviet_banner.jpg",
+  },
+  {
     name: "Image",
     type: "server",
     urlPath: "/media/image_1.jpg",

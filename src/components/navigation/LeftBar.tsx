@@ -1,12 +1,20 @@
 import { useLocation, Link } from "react-router-dom";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
+
+interface profileColors {
+  bannerGradient: string;
+  background: string;
+  hoverBackground: string;
+  borderColor: string;
+  textColor: string;
+}
 
 export default function LeftBar({ userData }) {
   const { t } = useTranslation();
@@ -23,7 +31,7 @@ export default function LeftBar({ userData }) {
   const [avatar, setAvatar] = useState<string>("/images/avatars/default.jpg");
   const [selectedPage, setSelectedPage] = useState<string>("");
   const [profileColor, setProfileColor] = useState<string>("purple");
-  const [profileColors, setProfileColors] = useState<Object>({
+  const [profileColors, setProfileColors] = useState<profileColors>({
     bannerGradient: `from-${profileColor}-700`,
     background: `bg-${profileColor}-800`,
     hoverBackground: `hover:bg-${profileColor}-800`,
@@ -148,6 +156,7 @@ export default function LeftBar({ userData }) {
     if (path === "/") setSelectedPage("Home");
     else if (path === "/my/messages") setSelectedPage("Messages");
     else if (path === "/my/clubs") setSelectedPage("Clubs");
+    else if (path === "/my/settings") setSelectedPage("Settings");
     else if (path === "/explore") setSelectedPage("Explore");
     else if (path === "/starplus") setSelectedPage("StarPlus");
     else setSelectedPage("");
@@ -205,7 +214,7 @@ export default function LeftBar({ userData }) {
           </Tooltip>
         </div>
 
-        <div className="flex flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor text-center pt-28">
+        <div className="flex border border-neutral-700 flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor text-center pt-28">
           <div className="flex flex-col gap-1">
             <div className="inline-flex items-center gap-1">
               {isLoaded ? (
@@ -218,7 +227,7 @@ export default function LeftBar({ userData }) {
                   </Link>
 
                   <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
-                    <Tooltip placement="bottom" title="Official Profile">
+                    <Tooltip placement="bottom" title="Official Member">
                       <span
                         className="icon-[ic--baseline-verified] w-4 h-4 text-yellow-400 cursor-pointer flex-shrink-0"
                         aria-label="Verified"
@@ -230,10 +239,7 @@ export default function LeftBar({ userData }) {
                     </Tooltip>
 
                     <Tooltip placement="bottom" title="Business Account">
-                      <span
-                        className="icon-[material-symbols--store-outline] w-4 h-4 text-violet-500 cursor-pointer flex-shrink-0"
-                        style={{ color: profileColors.storeColor }}
-                      ></span>
+                      <span className="icon-[material-symbols--store-outline] w-4 h-4 text-violet-500 cursor-pointer flex-shrink-0"></span>
                     </Tooltip>
                   </div>
                 </div>
@@ -352,7 +358,7 @@ export default function LeftBar({ userData }) {
           <button
             aria-label={t("home.leftBar.home")}
             onClick={(e) => navigate("/")}
-            className={`${selectedPage === "Home" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+            className={`${selectedPage === "Home" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
           >
             <span
               className={`${selectedPage === "Home" ? "icon-[fluent--home-16-filled]" : "icon-[fluent--home-16-regular]"} w-6 h-6 flex items-center justify-center`}
@@ -366,9 +372,11 @@ export default function LeftBar({ userData }) {
           <button
             aria-label={t("home.leftBar.explore")}
             onClick={(e) => navigate("/explore")}
-            className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+            className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
           >
-            <span className="icon-[material-symbols--search] w-6 h-6 flex items-center justify-center"></span>
+            <span
+              className={`${selectedPage === "Explore" ? "icon-[mingcute--search-fill]" : "icon-[mingcute--search-line]"} w-6 h-6 flex items-center justify-center`}
+            ></span>
             <span className="text-base xl:flex hidden">
               {t("home.leftBar.explore")}
             </span>
@@ -381,7 +389,7 @@ export default function LeftBar({ userData }) {
               <button
                 aria-label={t("home.leftBar.messages")}
                 onClick={(e) => navigate("/my/messages")}
-                className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
               >
                 <span
                   className={`${selectedPage === "Messages" ? "icon-[ic--baseline-email]" : "icon-[ic--outline-email]"} w-6 h-6 flex items-center justify-center`}
@@ -394,7 +402,7 @@ export default function LeftBar({ userData }) {
               <button
                 aria-label={t("home.leftBar.clubs")}
                 onClick={(e) => navigate("/my/clubs")}
-                className={`${selectedPage === "Clubs" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                className={`${selectedPage === "Clubs" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
               >
                 <span
                   className={`${selectedPage === "Clubs" ? "icon-[mage--globe-fill]" : "icon-[hugeicons--globe-02]"} w-6 h-6 flex items-center justify-center`}
@@ -405,14 +413,14 @@ export default function LeftBar({ userData }) {
 
             <div className="relative flex items-center justify-center">
               <button
-                aria-label={t("home.leftBar.mywallet")}
-                onClick={(e) => navigate("/my/wallet")}
-                className={`${selectedPage === "Wallet" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                aria-label={t("home.leftBar.settings")}
+                onClick={(e) => navigate("/my/settings")}
+                className={`${selectedPage === "Settings" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
               >
                 <span
-                  className={`${selectedPage === "Wallet" ? "icon-[si--wallet-fill]" : "icon-[si--wallet-line]"} w-6 h-6 flex items-center justify-center`}
+                  className={`${selectedPage === "Settings" ? "icon-[fluent--settings-28-filled]" : "icon-[fluent--settings-28-regular]"} w-6 h-6 flex items-center justify-center`}
                 ></span>
-                <span className="text-base">{t("home.leftBar.mywallet")}</span>
+                <span className="text-base">{t("home.leftBar.settings")}</span>
               </button>
             </div>
           </>
@@ -421,7 +429,7 @@ export default function LeftBar({ userData }) {
           <button
             aria-label={t("home.leftBar.starplus")}
             onClick={(e) => navigate("/starplus")}
-            className={`${selectedPage === "StarPlus" ? "dark:brightness-125 brightness-95 font-medium" : ""} p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+            className={`${selectedPage === "StarPlus" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
           >
             <span
               className={`${selectedPage === "StarPlus" ? "icon-[material-symbols--star]" : "icon-[material-symbols--star-outline]"} w-6 h-6 flex items-center justify-center`}

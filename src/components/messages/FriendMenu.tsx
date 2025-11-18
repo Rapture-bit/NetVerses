@@ -3,7 +3,7 @@ import { Tooltip } from "antd";
 
 export default function FriendMenu({ user }) {
   return (
-    <div className="flex flex-row darkerBackgroundColor rounded-lg justify-between divide-x dark:divide-[#313131] divide-[#a8a8a8]">
+    <div className="flex border border-neutral-700 flex-row darkerBackgroundColor rounded-lg justify-between divide-x dark:divide-[#313131] divide-[#a8a8a8]">
       <Tooltip
         placement="bottom"
         title="Invite user to family"

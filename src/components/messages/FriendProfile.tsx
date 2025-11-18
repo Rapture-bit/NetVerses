@@ -61,7 +61,7 @@ export default function FriendProfile({ username }) {
         </Link>
       </div>
 
-      <div className="flex flex-col space-y-3 py-5 max-h-full px-7 rounded-lg darkerBackgroundColor text-center pt-28">
+      <div className="flex flex-col border border-neutral-700 space-y-3 py-5 max-h-full px-7 rounded-lg darkerBackgroundColor text-center pt-28">
         <div className="flex flex-col gap-1">
           <div className="inline-flex items-center gap-1">
             <span className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none">
@@ -69,7 +69,7 @@ export default function FriendProfile({ username }) {
             </span>
 
             <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
-              <Tooltip placement="bottom" title="Official Profile">
+              <Tooltip placement="bottom" title="Official Member">
                 <span
                   className="icon-[ic--baseline-verified] w-4 h-4 text-yellow-400 cursor-pointer flex-shrink-0"
                   aria-label="Verified"

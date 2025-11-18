@@ -172,8 +172,8 @@ export default function DefaultLayout() {
         <Loading />
       ) : (
         <>
-          {userCache !== null && <TopBar />}
-          {userCache == null && currentPage !== "/" && <TopBar />}
+          {userCache !== null && !loading && <TopBar />}
+          {userCache == null && !loading && currentPage !== "/" && <TopBar />}
           {userCache !== null &&
             currentPage !== "/privacy" &&
             currentPage !== "/my/messages" && <LeftBar userData={userData} />}

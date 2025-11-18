@@ -1,6 +1,17 @@
 import { Link } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+
+interface ArticleItem {
+  title: string;
+  description: string;
+  category: string;
+}
+
+interface focusedComponentsProps {
+  resetButton: boolean;
+  searchInput: boolean;
+}
 
 export default function RightBar() {
   const { t } = useTranslation();
@@ -24,9 +35,23 @@ export default function RightBar() {
   ]);
   const [topArticles, setTopArticles] = useState<Object[]>([]);
   const [rightPosition, setRightPosition] = useState("8%");
-  const [isInputFocused, setInputFocused] = useState<boolean>(false);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [isInputFocused, setInputFocused] = useState<boolean>(false);
+  const [focusedComponents, setFocusedComponents] =
+    useState<focusedComponentsProps>({
+      resetButton: false,
+      searchInput: false,
+    });
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    if (focusedComponents.resetButton || focusedComponents.searchInput) {
+      setInputFocused(true);
+    } else {
+      setInputFocused(false);
+    }
+  }, [focusedComponents]);
 
   useEffect(() => {
     setTopArticles(allArticles.slice(0, 3));
@@ -44,12 +69,8 @@ export default function RightBar() {
     }
   };
 
-  const onFocus = () => {
-    setInputFocused(true);
-  };
-
-  const onBlur = () => {
-    setInputFocused(false);
+  const onSearchInput = (inputValue) => {
+    setSearchTerm(inputValue);
   };
 
   useEffect(() => {
@@ -76,7 +97,7 @@ export default function RightBar() {
     relative flex items-center justify-center px-4 py-2 
     transition-all duration-300 
     xl:w-64 w-full 
-    border rounded-2xl 
+    border rounded-lg
     ${isInputFocused ? "border-purple-700 shadow-[0_0_10px_rgba(147,51,234,0.4)]" : "border-[#3b3b3b]"} 
     darkerBackgroundColor
   `}
@@ -84,17 +105,27 @@ export default function RightBar() {
             <div className="flex items-center w-full gap-2 text-sm text-neutral-700 dark:text-neutral-400 focus-within:text-black dark:focus-within:text-white">
               <span className="icon-[si--search-line] w-4 h-4 flex-shrink-0 transition-colors duration-300" />
               <input
-                onFocus={onFocus}
-                onBlur={onBlur}
+                onInput={(e) => onSearchInput(e.currentTarget.value)}
+                onFocus={() => {
+                  setFocusedComponents((prevState) => ({
+                    ...prevState,
+                    searchInput: true,
+                  }));
+                }}
+                onBlur={() => {
+                  setFocusedComponents((prevState) => ({
+                    ...prevState,
+                    searchInput: false,
+                  }));
+                }}
                 type="text"
+                value={searchTerm}
                 placeholder="Search..."
                 className="w-full bg-transparent outline-none placeholder-neutral-500 text-black dark:text-white text-sm"
               />
-              {isInputFocused && (
+              {searchTerm && (
                 <button
-                  onClick={() => {
-                    /* clear input logic */
-                  }}
+                  onClick={() => setSearchTerm("")}
                   className="text-neutral-500 dark:hover:text-neutral-300 hover:text-neutral-600 transition-colors"
                 >
                   <span className="icon-[mdi--close] w-4 h-4 translate-y-0.5"></span>
@@ -103,10 +134,18 @@ export default function RightBar() {
             </div>
           </div>
 
-          {topArticles.map((articleItem, index) => (
+          {searchTerm && isInputFocused && (
+            <div className="absolute z-[999] darkerBackgroundColor rounded-md p-3 border-neutral-700 border flex flex-col space-y-3">
+              <button></button>
+            </div>
+          )}
+
+          <div className="bg-neutral-700 px-3 w-full rounded-full py-[0.03rem]"></div>
+
+          {topArticles.map((articleItem: ArticleItem, index) => (
             <div
               key={index}
-              className="relative flex flex-col p-5 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-4"
+              className="relative flex flex-col p-5 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-4 border border-neutral-700"
             >
               <h2 className="text-xl font-bold mb-2">{articleItem.title}</h2>
               <p className="dark:text-white text-gray-700 mb-2">
@@ -117,7 +156,7 @@ export default function RightBar() {
               </span>
             </div>
           ))}
-          <div className="relative flex items-center justify-center p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3">
+          <div className="relative flex items-center justify-center p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border border-neutral-700">
             <div className="flex flex-row gap-3 items-center">
               <Link
                 to="/articles"

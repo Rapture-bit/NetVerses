@@ -11,7 +11,7 @@ import { AnimateContext } from "@/context/AnimateContext";
 import { useTranslation } from "react-i18next";
 
 const TEST_ANIM =
-  "https://lottie.host/9155cd48-8ec3-4220-ba3b-75a6f4032ec2/tqJAFT9u9U.lottie";
+  "https://lottie.host/79c83346-aa45-47d0-80b9-c9f5b90b8ee6/UdXjIq2lTO.lottie";
 
 export default function Verse({ isComment }) {
   const { t } = useTranslation();
@@ -104,7 +104,7 @@ export default function Verse({ isComment }) {
 
   return (
     <>
-      <div className="relative flex flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+      <div className="relative flex flex-col p-4 sm:pl-5 border border-neutral-700 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
         <div className="flex items-start space-x-4">
           <Link
             to={`/${username}`}

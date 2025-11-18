@@ -3,7 +3,7 @@ import { Tooltip } from "antd";
 
 export default function SecondFriendMenu({ user }) {
   return (
-    <div className="flex flex-row darkerBackgroundColor rounded-lg overflow-hidden">
+    <div className="flex flex-row border border-neutral-700 darkerBackgroundColor rounded-lg overflow-hidden">
       <Tooltip placement="bottom" title="Report this user" mouseLeaveDelay={0}>
         <button className="flex flex-col items-center justify-center flex-1 p-3 hover:bg-red-800/10 active:scale-95 transition-all duration-300">
           <span className="icon-[material-symbols--report-outline-rounded] text-red-800 h-8 w-8"></span>

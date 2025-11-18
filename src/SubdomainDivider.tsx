@@ -16,6 +16,7 @@ import Loading from "@/components/others/Loading";
 
 const LandingPage = React.lazy(() => import("@/pages/landingpage"));
 const ClubsPage = React.lazy(() => import("@/pages/my/clubs"));
+const SettingsPage = React.lazy(() => import("@/pages/my/settings"));
 const PostsPage = React.lazy(() => import("@/pages/postpage"));
 const Home = React.lazy(() => import("@/pages/home"));
 const PageNotFound = React.lazy(() => import("@/pages/pagenotfound"));
@@ -29,7 +30,7 @@ const HelpLandingPage = React.lazy(() => import("@/subdomains/help/landing"));
 export default function SubdomainDivider() {
   const { updateCache } = useContext(UserContext);
 
-  const [userCache, setUserCache] = useState<string | null | undefined>(
+  const [userCache, setUserCache] = useState<Object[] | null | undefined>(
     undefined,
   );
   const [subdomain, setSubdomain] = useState<string | null>(null);
@@ -103,12 +104,24 @@ export default function SubdomainDivider() {
               }
             />
             <Route
-              path="/my/*"
+              path="/my/clubs"
               element={
                 userCache === undefined ? (
                   <Loading />
                 ) : userCache !== null ? (
                   <ClubsPage />
+                ) : (
+                  <PageNotFound />
+                )
+              }
+            />
+            <Route
+              path="/my/settings"
+              element={
+                userCache === undefined ? (
+                  <Loading />
+                ) : userCache !== null ? (
+                  <SettingsPage />
                 ) : (
                   <PageNotFound />
                 )

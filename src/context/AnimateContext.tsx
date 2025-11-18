@@ -1,7 +1,19 @@
 import React, { createContext, useState } from "react";
 
-export const AnimateContext = createContext();
+interface refProps {
+  play: Function;
+}
 
+interface UserContextType {
+  animSrc: string;
+  currentRef: refProps;
+  loaded: boolean;
+  setCurrentRef: (key: string) => void;
+  setAnimSrc: (key: string) => void;
+  setLoaded: (key: boolean) => void;
+}
+
+export const AnimateContext = createContext<UserContextType | null>(null);
 export default function AnimateProvider({ children }) {
   const [animSrc, setAnimSrc] = useState(null);
   const [currentRef, setCurrentRef] = useState(null);

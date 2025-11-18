@@ -52,7 +52,7 @@ async function hashPassword(password) {
   return await argon2.hash(password);
 }
 
-async function createAccount(res, email, username, password) {
+async function createAccount(res, email, username, password, rememberMe) {
   try {
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
@@ -68,7 +68,9 @@ async function createAccount(res, email, username, password) {
     const userId = user.id;
 
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7); // After 7 days
+    expiresAt.setDate(
+      rememberMe ? expiresAt.getDate() + 30 : expiresAt.getDate() + 7,
+    ); // After 7 days
 
     const accessTokenExpires = new Date();
     accessTokenExpires.setMinutes(accessTokenExpires.getMinutes() + 15); // After 15 minutes
@@ -86,6 +88,7 @@ async function createAccount(res, email, username, password) {
     await UserToken.create({
       refresh_token: refreshToken,
       session_id: sessionId,
+      csrf_token: csrfToken,
       userId: userId,
       expiresAt: expiresAt,
       sessionExpiresAt: accessTokenExpires,
@@ -107,6 +110,11 @@ async function createAccount(res, email, username, password) {
       domain: ".netverses.com",
       sameSite: "Strict",
       signed: true,
+    });
+    res.cookie("csrf_token", csrfToken, {
+      httpOnly: false,
+      sameSite: "Strict",
+      secure: true,
     });
     res.cookie("session_id", sessionId, {
       httpOnly: true,
@@ -132,7 +140,8 @@ async function createAccount(res, email, username, password) {
 
     return res.status(200).json({
       success: true,
-      csrfToken,
+      access_token: generatedAccessToken,
+      access_expiresAt: accessTokenExpires,
       message: "Account successfully created.",
     });
   } catch (e) {
@@ -178,7 +187,15 @@ async function isBlacklisted(res, ip) {
   }
 }
 
-async function confirmOTP(res, requestId, code, email, username, password) {
+async function confirmOTP(
+  res,
+  requestId,
+  code,
+  email,
+  username,
+  password,
+  rememberMe,
+) {
   const existingOTP = await OTP.findOne({
     where: { requestId: requestId, email: email },
   });
@@ -196,7 +213,7 @@ async function confirmOTP(res, requestId, code, email, username, password) {
   const now = new Date();
 
   if (existingOTP.getDataValue("validated") === true) {
-    return await createAccount(res, email, username, password);
+    return await createAccount(res, email, username, password, rememberMe);
   }
 
   if (now >= expiryDate) {
@@ -244,7 +261,7 @@ export default async function (req, res) {
   const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
   await isBlacklisted(res, ip);
 
-  const { email, password, username, code, requestId } = req.body;
+  const { email, password, username, code, requestId, rememberMe } = req.body;
   if (!email || !validator.isEmail(email)) {
     return res.status(200).json({
       success: false,
@@ -294,5 +311,13 @@ export default async function (req, res) {
     });
   }
 
-  return await confirmOTP(res, requestId, code, email, username, password);
+  return await confirmOTP(
+    res,
+    requestId,
+    code,
+    email,
+    username,
+    password,
+    rememberMe,
+  );
 }

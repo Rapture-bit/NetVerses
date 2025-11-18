@@ -1,28 +1,195 @@
-import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-import PageTitle from "@/components/others/PageTitle";
-import BottomBar from "@/components/navigation/BottomBar";
+import { useState, useRef } from "react";
 
+import { Link } from "react-router-dom";
 import { Tooltip } from "antd";
 
-const Clubs = () => {
-  const navigate = useNavigate();
+import ClubCard from "@/components/ClubCard";
+import ChannelCard from "@/components/ChannelCard";
 
-  function toggleBack() {
-    if (window.history.length > 1) {
-      navigate(-1);
-    } else {
-      navigate("/");
-    }
-  }
+import PageTitle from "@/components/others/PageTitle";
+
+export default function ClubsPage({ toggleBack }) {
+  const [channels, setChannels] = useState([
+    {
+      name: "Global Horizon News",
+      genres: ["General"],
+      leading_journalist: "Xenon",
+      description: "Hello.",
+      bannerAlt: "Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "123456789",
+    },
+
+    {
+      name: "Cosmic Pulse",
+      genres: ["Science", "Space"],
+      leading_journalist: "Dr. Vega",
+      description: "Exploring the universe, one mystery at a time.",
+      bannerAlt: "Space Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "456321987",
+    },
+
+    {
+      name: "MetroBeat Live",
+      genres: ["Local", "Politics"],
+      leading_journalist: "Amina Othman",
+      description: "The heart of the city, the pulse of the people.",
+      bannerAlt: "City Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "998877665",
+    },
+
+    {
+      name: "TechNova Daily",
+      genres: ["Technology"],
+      leading_journalist: "Ethan Sparks",
+      description: "Your daily guide into the future of innovation.",
+      bannerAlt: "Tech Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "112233445",
+    },
+
+    {
+      name: "WorldSport Network",
+      genres: ["Sports"],
+      leading_journalist: "Carlos Mendes",
+      description: "Live scores, global games, and nonstop excitement.",
+      bannerAlt: "Sports Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "889900112",
+    },
+
+    {
+      name: "Heritage Lens",
+      genres: ["Culture", "History"],
+      leading_journalist: "Sofia Darwish",
+      description: "Bringing the past to life through powerful storytelling.",
+      bannerAlt: "History Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "774411229",
+    },
+
+    {
+      name: "EcoSphere 24",
+      genres: ["Environment"],
+      leading_journalist: "Leo Sun",
+      description: "Updates and insights on our changing planet.",
+      bannerAlt: "Nature Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "556677889",
+    },
+
+    {
+      name: "MarketMind TV",
+      genres: ["Business", "Economy"],
+      leading_journalist: "Helena Brooks",
+      description: "Tracking the numbers shaping tomorrow.",
+      bannerAlt: "Finance Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "145632789",
+    },
+
+    {
+      name: "CineWave Network",
+      genres: ["Entertainment", "Movies"],
+      leading_journalist: "Max Renner",
+      description: "Your front-row seat to all things cinema.",
+      bannerAlt: "Cinema Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "202122232",
+    },
+
+    {
+      name: "HealthLine Now",
+      genres: ["Health"],
+      leading_journalist: "Dr. Layla Morgan",
+      description:
+        "Well-being news, medical breakthroughs, and expert guidance.",
+      bannerAlt: "Health Banner",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      channelId: "900112233",
+    },
+  ]);
+  const [clubs, setClubs] = useState([
+    {
+      name: "Socialist Union Party",
+      badges: ["Politics"],
+      members_count: 200,
+      clubId: "1234567890",
+      description:
+        "We work to empower citizens, strengthen public services, and ensure that every member of society can live with dignity and opportunity.",
+      bannerUrl:
+        "https://cdn.netverses.com/media/uploads/banners/soviet_banner.jpg",
+      logoUrl: "", // Smaller devices
+    },
+    {
+      name: "Technocracy Alliance",
+      badges: ["Politics"],
+      members_count: 200,
+      clubId: "1234567890",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      logoUrl: "", // Smaller devices
+    },
+    {
+      name: "Divided's Epic Community",
+      badges: ["Community"],
+      clubId: "1234567890",
+      members_count: 200,
+      description: "This is a cool community.",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      logoUrl: "", // Smaller devices
+    },
+    {
+      name: "Socialist Party Union",
+      badges: ["Politics"],
+      clubId: "1234567890",
+      members_count: 200,
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      logoUrl: "", // Smaller devices
+    },
+    {
+      name: "Socialist Party Union",
+      badges: ["Politics"],
+      clubId: "1234567890",
+      members_count: 200,
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      logoUrl: "", // Smaller devices
+    },
+    {
+      name: "Socialist Party Union",
+      badges: ["Politics"],
+      clubId: "1234567890",
+      members_count: 200,
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      logoUrl: "", // Smaller devices
+    },
+    {
+      name: "Socialist Party Union",
+      badges: ["Politics"],
+      clubId: "1234567890",
+      members_count: 200,
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
+      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+      logoUrl: "", // Smaller devices
+    },
+  ]);
 
   return (
     <>
       <PageTitle title="NetVerses ~ Clubs" />
-      <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">
-          <div className="flex flex-row justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-1/2 darkerBackgroundColor">
+          <div className="flex flex-row border border-neutral-700 justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-1/2 darkerBackgroundColor">
             <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
               <button
                 aria-label="Go Back"
@@ -34,10 +201,83 @@ const Clubs = () => {
             </Tooltip>
             <span className="font-medium">Clubs</span>
           </div>
+
+          <div className="flex flex-col w-1/2 gap-10 relative">
+            <div className="flex flex-col">
+              <div className="flex flex-row justify-between items-center w-full">
+                <span className="font-semibold text-base sm:text-lg">
+                  Discover
+                </span>
+                <Link to={"/my/clubs/search"}>
+                  <div className="inline-flex text-sm text-violet-500 hover:underline items-center gap-1">
+                    <span>Learn more</span>
+                    <span className="icon-[tabler--arrow-right] w-4 h-4"></span>
+                  </div>
+                </Link>
+              </div>
+
+              <div className="relative w-full">
+                <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#1F1F1F] from-[#cfcfcf] to-transparent z-10"></div>
+
+                <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
+                  {clubs.map((element, index) => (
+                    <ClubCard
+                      key={index}
+                      name={element.name}
+                      badges={element.badges}
+                      clubId={element.clubId}
+                      members_count={element.members_count}
+                      description={element.description}
+                      bannerUrl={element.bannerUrl}
+                      logoUrl={element.logoUrl}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <hr className="border-neutral-700 my-0.5" />
+
+            <div className="flex flex-col">
+              <div className="flex flex-row justify-between items-center w-full">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="font-semibold text-base sm:text-lg">
+                    Channels
+                  </span>
+                  <span className="px-1.5 py-0.5 mb-0.5 rounded-md select-none bg-red-600 text-xs font-medium text-white">
+                    NEW
+                  </span>
+                </div>
+                <Link to={"/my/clubs/search"}>
+                  <div className="inline-flex text-sm text-violet-500 hover:underline items-center gap-1">
+                    <span>Learn more</span>
+                    <span className="icon-[tabler--arrow-right] w-4 h-4"></span>
+                  </div>
+                </Link>
+              </div>
+
+              <div className="relative w-full">
+                <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#1F1F1F] from-[#cfcfcf] to-transparent z-10"></div>
+
+                <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
+                  {channels.map((element, index) => (
+                    <ChannelCard
+                      name={element.name}
+                      genres={element.genres}
+                      leading_journalist={element.leading_journalist}
+                      description={element.description}
+                      bannerUrl={element.bannerUrl}
+                      bannerAlt="Banner"
+                      channelId={element.channelId}
+                      key={index}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
   );
-};
-
-export default Clubs;
+}

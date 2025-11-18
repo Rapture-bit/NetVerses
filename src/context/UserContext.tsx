@@ -22,7 +22,8 @@ interface User {
 }
 
 interface UserContextType {
-  returnDetails: () => User | null;
+  userCache: Record<string, any>;
+  updateCache: () => Promise<Object[]>;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(

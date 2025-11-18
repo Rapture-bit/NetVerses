@@ -21,6 +21,33 @@ import { Tooltip } from "antd";
 
 import PageTitle from "@/components/others/PageTitle";
 
+interface messagesProp {
+  sender: string;
+  messageId: string;
+  recipient: string;
+  message: string;
+  timestamp: string;
+  attachemnt?: string;
+}
+
+interface filteredFriendsMessageProp {
+  Author: string;
+  LastMessage: string;
+  Unread: boolean;
+}
+
+interface Call {
+  username: string;
+  callTime: Date;
+  answered: boolean;
+}
+
+interface friendDetailsProp {
+  username: string;
+  pfp: string;
+  messages: messagesProp[];
+}
+
 export default function Messages() {
   const messageEndRef = useRef<HTMLDivElement>(null);
   const messageRefs = useRef<{ [key: string]: HTMLSpanElement | null }>({});
@@ -49,48 +76,49 @@ export default function Messages() {
     height: window.innerHeight,
   });
   const [isFriendTyping, setFriendTyping] = useState<boolean>(true);
-  const [Calls, setCalls] = useState<Object[]>([
+  const [Calls, setCalls] = useState<Call[]>([
     {
       username: "Rapture_TY",
       callTime: new Date(Date.now()),
       answered: false,
     },
   ]);
-  const [selectedFriendDetails, setSelectedFriendDetails] = useState<Object[]>({
-    username: "Blitz_Jay", // Friend's Username
-    pfp: "/images/avatars/default.jpg", // PFP
-    messages: [
-      {
-        sender: "Xenon",
-        messageId: "eeee57d9-a02d-4950-b8b2-38eea6a34d99",
-        recipient: "Blitz_Jay",
-        message:
-          "Hey! I just wanted to check in and see if you managed to finish the project we talked about last week. I know we set some pretty tight deadlines, so I completely understand if you’re still working on it or if you ran into any issues along the way. I’m eager to see what you’ve done so far, and if you need any help or want to go over some parts together, I’m happy to jump in. Let me know how things are going!",
-        timestamp: "2024-10-24T09:30:00Z",
-      },
-      {
-        sender: "Blitz_Jay",
-        messageId: "6f133bb1-6106-402a-bf96-a1c3a4f3ca08",
-        recipient: "Xenon",
-        message: "Yes, I just sent it over to you. What do you think?",
-        timestamp: "2024-10-24T09:31:00Z",
-      },
-      {
-        sender: "Xenon",
-        messageId: "0b711fa5-0fc4-4819-8929-43f6d11a7cb8",
-        recipient: "Blitz_Jay",
-        message: "I think it's great! Just a few minor adjustments.",
-        timestamp: "2024-10-24T09:32:00Z",
-      },
-      {
-        sender: "Blitz_Jay",
-        messageId: "4a9bb4da-ca71-49ab-8b4a-341ae1cfa4eb",
-        recipient: "Xenon",
-        message: "Sure, let me know what needs to be changed.",
-        timestamp: "2024-10-24T09:33:00Z",
-      },
-    ],
-  }); // API
+  const [selectedFriendDetails, setSelectedFriendDetails] =
+    useState<friendDetailsProp>({
+      username: "Blitz_Jay", // Friend's Username
+      pfp: "/images/avatars/default.jpg", // PFP
+      messages: [
+        {
+          sender: "Xenon",
+          messageId: "eeee57d9-a02d-4950-b8b2-38eea6a34d99",
+          recipient: "Blitz_Jay",
+          message:
+            "Hey! I just wanted to check in and see if you managed to finish the project we talked about last week. I know we set some pretty tight deadlines, so I completely understand if you’re still working on it or if you ran into any issues along the way. I’m eager to see what you’ve done so far, and if you need any help or want to go over some parts together, I’m happy to jump in. Let me know how things are going!",
+          timestamp: "2024-10-24T09:30:00Z",
+        },
+        {
+          sender: "Blitz_Jay",
+          messageId: "6f133bb1-6106-402a-bf96-a1c3a4f3ca08",
+          recipient: "Xenon",
+          message: "Yes, I just sent it over to you. What do you think?",
+          timestamp: "2024-10-24T09:31:00Z",
+        },
+        {
+          sender: "Xenon",
+          messageId: "0b711fa5-0fc4-4819-8929-43f6d11a7cb8",
+          recipient: "Blitz_Jay",
+          message: "I think it's great! Just a few minor adjustments.",
+          timestamp: "2024-10-24T09:32:00Z",
+        },
+        {
+          sender: "Blitz_Jay",
+          messageId: "4a9bb4da-ca71-49ab-8b4a-341ae1cfa4eb",
+          recipient: "Xenon",
+          message: "Sure, let me know what needs to be changed.",
+          timestamp: "2024-10-24T09:33:00Z",
+        },
+      ],
+    }); // API
   const [friendsMessages, setFriendsMessages] = useState<Object[]>([
     {
       Author: "Xenon",
@@ -173,15 +201,8 @@ export default function Messages() {
   const startCall = (recipients) => {};
   const endCall = (callId) => {};
 
-  const findFriendCall = (recipientUsername) => {
-    const found = Calls.find(
-      (element) => element.username == recipientUsername,
-    );
-    if (found) {
-      return found;
-    } else {
-      return false;
-    }
+  const findFriendCall = (recipientUsername: string): Call | null => {
+    return Calls.find((c) => c.username === recipientUsername) || null;
   };
 
   useEffect(() => {
@@ -310,7 +331,7 @@ export default function Messages() {
       <BottomBar />
 
       <div className="flex flex-col gap-3 justify-start items-center w-full h-screen pt-24 bg-fixed bg-cover bg-center sm:px-9">
-        <div className="flex flex-row justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-full darkerBackgroundColor">
+        <div className="flex flex-row border border-neutral-700 justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-full darkerBackgroundColor">
           <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
             <button
               aria-label="Go Back"
@@ -325,7 +346,7 @@ export default function Messages() {
 
         <div className="flex flex-row gap-3 w-full min-h-screen md:min-h-0 md:h-5/6">
           <div
-            className={`flex flex-col p-0 ${windowSize.width < 860 ? "w-full" : "w-1/3"} rounded-lg darkerBackgroundColor`}
+            className={`flex flex-col border border-neutral-700 p-0 ${windowSize.width < 860 ? "w-full" : "w-1/3"} rounded-lg darkerBackgroundColor`}
           >
             <div className="flex flex-col gap-3 p-4">
               <div className="flex flex-row justify-between">
@@ -372,31 +393,33 @@ export default function Messages() {
                 className="flex flex-col rounded-b-lg overflow-y-auto h-full absolute top-0 left-0 right-0 bottom-0"
                 id="messages_container"
               >
-                {filteredFriendsMessages.map((filteredFriendsMessage) => (
-                  <FriendMessage
-                    key={filteredFriendsMessage.Author}
-                    author={filteredFriendsMessage.Author}
-                    last_message={filteredFriendsMessage.LastMessage}
-                    calling={
-                      findFriendCall(filteredFriendsMessage.Author)
-                        ?.answered === false
-                    }
-                    isSelected={
-                      selectedFriendDetails["username"] ===
-                      filteredFriendsMessage.Author
-                    }
-                    onSelected={handleUserSelection}
-                    isUnread={filteredFriendsMessage.Unread}
-                  />
-                ))}
+                {filteredFriendsMessages.map(
+                  (filteredFriendsMessage: filteredFriendsMessageProp) => (
+                    <FriendMessage
+                      key={filteredFriendsMessage.Author}
+                      author={filteredFriendsMessage.Author}
+                      last_message={filteredFriendsMessage.LastMessage}
+                      calling={
+                        findFriendCall(filteredFriendsMessage.Author)
+                          ?.answered === false
+                      }
+                      isSelected={
+                        selectedFriendDetails["username"] ===
+                        filteredFriendsMessage.Author
+                      }
+                      onSelected={handleUserSelection}
+                      isUnread={filteredFriendsMessage.Unread}
+                    />
+                  ),
+                )}
               </div>
             </div>
           </div>
           <div
-            className={`flex-col ${windowSize.width < 860 ? "hidden" : "flex"} w-full space-y-3`}
+            className={`flex-col  ${windowSize.width < 860 ? "hidden" : "flex"} w-full space-y-3`}
           >
             <div
-              className={`${findFriendCall(selectedFriendDetails["username"])?.answered && windowSize.width <= 970 ? "bg-green-700 text-white" : "darkerBackgroundColor"} w-full p-3 rounded-lg md:flex justify-between hidden`}
+              className={`${findFriendCall(selectedFriendDetails["username"])?.answered && windowSize.width <= 970 ? "bg-green-700 text-white" : "darkerBackgroundColor"} w-full p-3 border border-neutral-700 rounded-lg md:flex justify-between hidden`}
             >
               <div className="flex flex-row gap-2 justify-between items-center w-full">
                 <div className="flex flex-row gap-3 items-center">
@@ -457,7 +480,7 @@ export default function Messages() {
                   )}
 
                   {!findFriendCall(selectedFriendDetails["username"])
-                    ?.answred && (
+                    ?.answered && (
                     <Tooltip
                       title="Call"
                       mouseLeaveDelay={0}
@@ -508,7 +531,7 @@ export default function Messages() {
                   </div>
                 </div>
               )}
-            <div className="darkerBackgroundColor overflow-y-auto overflow-x-hidden flex flex-col gap-3 w-full p-4 rounded-lg md:flex justify-between h-screen">
+            <div className="darkerBackgroundColor border border-neutral-700 overflow-y-auto overflow-x-hidden flex flex-col gap-3 w-full p-4 rounded-lg md:flex justify-between h-screen">
               {selectedFriendDetails["messages"].length === 0 ? (
                 <div className="flex flex-col gap-3 justify-center items-center">
                   <span className="icon-[bi--stars] w-20 h-20 textColor transition-transform duration-200 hover:scale-110"></span>
@@ -731,7 +754,7 @@ export default function Messages() {
             <FriendActivity user={selectedFriendDetails["username"]} />
             <FriendMenu user={selectedFriendDetails["username"]} />
             <SecondFriendMenu user={selectedFriendDetails["username"]} />
-            <div className="w-full flex flex-row justify-center items-center p-2 darkerBackgroundColor rounded-lg">
+            <div className="w-full border border-neutral-700 flex flex-row justify-center items-center p-2 darkerBackgroundColor rounded-lg">
               <Link
                 to={`/${selectedFriendDetails["username"]}`}
                 className="text-sm dark:hover:text-white hover:text-black transition duration-200"

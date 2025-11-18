@@ -179,7 +179,7 @@ const ContentPreview = ({ username }: Props) => {
 
   return (
     <>
-      <div className="relative flex flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+      <div className="relative flex border border-neutral-700 flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
         <div className="flex overflow-x-auto scrollbar-hide px-4 gap-5 justify-between items-center">
           <button
             aria-label="Access Posts"
@@ -220,14 +220,6 @@ const ContentPreview = ({ username }: Props) => {
           >
             <span className="icon-[hugeicons--globe-02] w-5 h-5 mr-2"></span>
             <span className="font-semibold">Clubs</span>
-          </button>
-          <button
-            aria-label="Access Emergencies"
-            onClick={() => setSelectedContent("Emergencies")}
-            className={`flex items-center ${selectedContent === "Emergencies" ? "dark:text-white text-black" : "dark:text-neutral-400 text-neutral-600"} hover:dark:text-white hover:text-black transition-colors duration-200`}
-          >
-            <span className="icon-[ph--siren] w-5 h-5 mr-2"></span>
-            <span className="font-semibold">Emergencies</span>
           </button>
         </div>
       </div>

@@ -54,7 +54,7 @@ const ProfilePreview = ({ username }) => {
   ]);
 
   return (
-    <div className="relative flex flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+    <div className="relative border border-neutral-700 flex flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
       <div className="relative flex flex-col rounded-md">
         <div
           className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-36 w-full relative top-0 left-0 rounded-t-lg`}
@@ -156,7 +156,7 @@ const ProfilePreview = ({ username }) => {
               </span>
 
               <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
-                <Tooltip placement="bottom" title="Official Profile">
+                <Tooltip placement="bottom" title="Official Member">
                   <span
                     className="icon-[ic--baseline-verified] w-4 h-4 text-yellow-400 cursor-pointer flex-shrink-0"
                     aria-label="Verified"

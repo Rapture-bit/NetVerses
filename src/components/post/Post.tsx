@@ -40,7 +40,7 @@ interface Attachments {
   comment?: string;
 }
 
-type PostProps = {
+export type PostProps = {
   id: number;
   type?: string;
   title?: string;
@@ -51,6 +51,7 @@ type PostProps = {
   comments: Comment[];
   isNSFW: boolean;
   date: string;
+  isAIGenerated: boolean;
   colorProfile?: string;
 };
 
@@ -60,6 +61,7 @@ export default function Post({
   description,
   type = "default",
   colorProfile,
+  isAIGenerated = true,
   attachments,
   date,
   author,
@@ -97,7 +99,7 @@ export default function Post({
   }, [localColorPreference]);
 
   return (
-    <div className="flex flex-col space-y-5 p-5 sm:p-6 rounded-xl mx-auto w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor transition-all duration-300 hover:shadow-lg hover:scale-[1.01]">
+    <div className="flex border border-neutral-700 flex-col space-y-5 p-5 sm:p-6 rounded-xl mx-auto w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor transition-all duration-300 hover:shadow-lg hover:scale-[1.01]">
       <header className="flex flex-col space-y-3">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3">
@@ -130,7 +132,7 @@ export default function Post({
           <h1 className="text-lg font-semibold text-black dark:text-white flex items-center gap-2">
             {title}
             {isNSFW && (
-              <span className="text-xs bg-red-600 text-white rounded-full px-2 py-1 font-semibold">
+              <span className="text-xs bg-red-600 select-none text-white rounded-full px-2 py-1 font-semibold">
                 NSFW
               </span>
             )}
@@ -140,16 +142,38 @@ export default function Post({
 
       <main>
         <p
-          className={`text-black dark:text-white transition-all duration-300 ${isNSFW ? "blur-sm hover:blur-0" : ""}`}
+          className={`text-black dark:text-white transition-all duration-300 ${
+            isNSFW ? "blur-sm hover:blur-0" : ""
+          }`}
         >
           {description}
         </p>
-        <Link
-          to={`/${author}/posts/${id}`}
-          className={`mt-3 inline-block ${textColor} hover:underline font-medium`}
-        >
-          {t("general.showmore")}
-        </Link>
+
+        {isAIGenerated && (
+          <div className="mt-2">
+            <span className="inline-block text-xs select-none bg-yellow-400 text-black font-semibold rounded-full px-2 py-1">
+              AI-generated
+            </span>
+            <div className={`mt-2`}>
+              <Link
+                to={`/${author}/posts/${id}`}
+                className={`inline-block ${textColor} hover:underline font-medium`}
+              >
+                {t("general.showmore")}
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {!isAIGenerated && (
+          <Link
+            to={`/${author}/posts/${id}`}
+            className={`mt-3 inline-block ${textColor} hover:underline font-medium`}
+          >
+            {t("general.showmore")}
+          </Link>
+        )}
+
         {attachments && attachments?.length !== 0 && (
           <AttachmentsViewer
             attachments={attachments}
@@ -178,7 +202,7 @@ export default function Post({
                 Boost: "material-symbols--speed-outline",
               };
               const colors = {
-                Like: "hover:text-blue-600",
+                Like: "hover:text-blue-500",
                 Dislike: "hover:text-red-500",
                 Comment: "hover:text-cyan-500",
                 Boost: "hover:text-orange-500",

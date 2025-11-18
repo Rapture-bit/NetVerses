@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import BottomBar from "@/components/navigation/BottomBar";
 import Verse from "@/components/post/Verse";
-import Post from "@/components/post/Post";
-import Articles from "@/components/post/Articles";
+import Post, { PostProps } from "@/components/post/Post";
+import Articles, { ArticlesProps } from "@/components/post/Articles";
 import TodaySummary from "@/components/others/TodaySummary";
 import FeedSelection from "@/components/others/FeedSelection";
 import BottomPageComponent from "@/components/post/BottomPageComponent";
@@ -425,7 +425,7 @@ export default function Home() {
           {!isLoading &&
             !isFeedLoading &&
             (selectedFeed === "Articles"
-              ? filteredArticles.map((article, index) => (
+              ? filteredArticles.map((article: ArticlesProps, index) => (
                   <Articles
                     id={article.id}
                     type={article.type}
@@ -442,7 +442,7 @@ export default function Home() {
                   />
                 ))
               : selectedFeed === "MyFeed"
-                ? filteredVerses.map((post, index) => (
+                ? filteredVerses.map((post: PostProps, index) => (
                     <Post
                       id={post.id}
                       type={post.type}

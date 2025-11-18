@@ -13,12 +13,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types", "node_modules/@types"],
     "paths": {
-      "@/*": ["src/*"],
-      "*": ["node_modules/*"]
+      "@/*": ["src/*"]
     }
   },
-  "include": ["node_modules/vite/client.d.ts", "**/*", "src/context/.tsx"],
-  "exclude": ["node_modules", "dist", "**/*.js"]
+  "include": ["src", "vite-env.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }

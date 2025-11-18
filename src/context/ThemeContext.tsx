@@ -6,10 +6,11 @@ import React, {
 } from "react";
 
 interface ColorPropertiesElement {
-  TextColor: string;
-  BackgroundColor: string;
-  PrimaryColor: string;
-  BorderInputColor: string;
+  textColor: string;
+  backgroundColor: string;
+  darkerBackgroundColor?: string;
+  primaryColor: string;
+  borderInputColor: string;
 }
 
 interface ThemeContextType {
@@ -21,10 +22,10 @@ export const ThemeContext = createContext<ThemeContextType | undefined>(
 );
 
 const defaultColors = {
-  TextColor: "#000000",
-  BackgroundColor: "#ffffff",
-  PrimaryColor: "#1890ff",
-  BorderInputColor: "#d9d9d9",
+  textColor: "#000000",
+  backgroundColor: "#ffffff",
+  primaryColor: "#1890ff",
+  borderInputColor: "#d9d9d9",
 };
 
 const ThemeProvider = ({ children }) => {

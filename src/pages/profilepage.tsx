@@ -46,12 +46,12 @@ const ProfilePage = () => {
 
   return (
     <>
-      <PageTitle title="NetVerses ~ Profile" />
+      <PageTitle title={`NetVerses ~ ${username}'s Profile`} />
       <BottomBar />
       <div
         className={`flex flex-col gap-3 ${isAvailable ? "justify-start" : "justify-center"} items-center w-full h-full pt-24 bg-fixed bg-cover bg-center`}
       >
-        <div className="relative flex flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+        <div className="relative flex border border-neutral-700 flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
           <div className="flex flex-row justify-between items-center">
             <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
               <button
@@ -88,7 +88,7 @@ const ProfilePage = () => {
             <ContentPreview username={username} />
           </>
         ) : (
-          <div className="justify-center items-center text-center flex flex-col gap-3">
+          <div className="justify-center items-center mt-5 text-center flex flex-col gap-3">
             <span className="icon-[hugeicons--unavailable] w-12 h-12 hover:scale-110 duration-300 transition-all"></span>
             <span>This page is unavailable.</span>
           </div>
