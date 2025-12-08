@@ -10,10 +10,15 @@ import { AnimateContext } from "@/context/AnimateContext";
 
 import { useTranslation } from "react-i18next";
 
+interface VerseProps {
+  id?: string;
+  isComment: boolean;
+}
+
 const TEST_ANIM =
   "https://lottie.host/79c83346-aa45-47d0-80b9-c9f5b90b8ee6/UdXjIq2lTO.lottie";
 
-export default function Verse({ isComment }) {
+export default function Verse({ id, isComment }: VerseProps) {
   const { t } = useTranslation();
   const { colorProperties } = useContext(ThemeContext);
   const { setAnimSrc, animSrc, loaded, setLoaded, currentRef } =
@@ -133,7 +138,7 @@ export default function Verse({ isComment }) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between mt-3">
+        <div id={id} className="flex items-center justify-between mt-3">
           <div className="flex items-center space-x-2 sm:space-x-3">
             {buttons.map((btn, i) => (
               <Tooltip

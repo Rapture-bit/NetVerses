@@ -143,7 +143,7 @@ const Articles = ({
         <div className="flex flex-col space-y-4">
           {signedParties && signedParties.length > 0 && (
             <div className="flex flex-col space-y-3 font-medium text-sm">
-              <TooltipHelp title="Hello!">
+              <TooltipHelp title="Parties who signed this article">
                 <span className="textColor select-none uppercase tracking-wide text-xs">
                   Signed By
                 </span>
@@ -220,7 +220,7 @@ const Articles = ({
 
           <div id="questionnaire" className="flex flex-col gap-2 mt-4">
             <TooltipHelp title="Inquiries are used to learn more about users and to provide personalized recommendations, while avoiding the collection of personal data">
-              <span className="textColor select-none uppercase tracking-wide text-xs">
+              <span className="textColor select-none font-medium uppercase tracking-wide text-xs">
                 Inquiries
               </span>
             </TooltipHelp>

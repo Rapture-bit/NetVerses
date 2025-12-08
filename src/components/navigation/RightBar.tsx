@@ -2,38 +2,17 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-interface ArticleItem {
-  title: string;
-  description: string;
-  category: string;
-}
+import RadioCard from "@/components/RadioCard";
 
 interface focusedComponentsProps {
   resetButton: boolean;
   searchInput: boolean;
 }
 
+// TO BE RENOVATED (Tumblr-like) //
 export default function RightBar() {
   const { t } = useTranslation();
   const [isAuth, setAuth] = useState<boolean>(true);
-  const [allArticles, setAllArticles] = useState<object[]>([
-    {
-      title: "Breaking News 1",
-      description: "This is the description for breaking news 1.",
-      category: "Business",
-    },
-    {
-      title: "Breaking News 2",
-      description: "This is the description for breaking news 2.",
-      category: "Technology",
-    },
-    {
-      title: "Breaking News 3",
-      description: "This is the description for breaking news 3.",
-      category: "Health",
-    },
-  ]);
-  const [topArticles, setTopArticles] = useState<Object[]>([]);
   const [rightPosition, setRightPosition] = useState("8%");
 
   const [isInputFocused, setInputFocused] = useState<boolean>(false);
@@ -52,10 +31,6 @@ export default function RightBar() {
       setInputFocused(false);
     }
   }, [focusedComponents]);
-
-  useEffect(() => {
-    setTopArticles(allArticles.slice(0, 3));
-  }, [allArticles]);
 
   const updatePosition = () => {
     const windowHeight = window.innerHeight;
@@ -120,7 +95,7 @@ export default function RightBar() {
                 }}
                 type="text"
                 value={searchTerm}
-                placeholder="Search..."
+                placeholder="Search"
                 className="w-full bg-transparent outline-none placeholder-neutral-500 text-black dark:text-white text-sm"
               />
               {searchTerm && (
@@ -135,34 +110,66 @@ export default function RightBar() {
           </div>
 
           {searchTerm && isInputFocused && (
-            <div className="absolute z-[999] darkerBackgroundColor rounded-md p-3 border-neutral-700 border flex flex-col space-y-3">
-              <button></button>
+            <div className="absolute xl:w-64 z-[999] darkerBackgroundColor rounded-md py-1 border-purple-700 shadow-[0_0_10px_rgba(147,51,234,0.4)] border space-y-3">
+              <div className="flex flex-col">
+                <button>Searching for {searchTerm}</button>
+              </div>
             </div>
           )}
 
           <div className="bg-neutral-700 px-3 w-full rounded-full py-[0.03rem]"></div>
 
-          {topArticles.map((articleItem: ArticleItem, index) => (
-            <div
-              key={index}
-              className="relative flex flex-col p-5 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-4 border border-neutral-700"
-            >
-              <h2 className="text-xl font-bold mb-2">{articleItem.title}</h2>
-              <p className="dark:text-white text-gray-700 mb-2">
-                {articleItem.description}
-              </p>
-              <span className="bg-gradient-to-r select-none from-violet-300 to-violet-200 text-violet-900 py-1 px-3 rounded-full text-sm font-medium shadow-md">
-                {articleItem.category}
-              </span>
+          <div className="relative flex items-center justify-start p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border border-neutral-700">
+            <span className="font-semibold text-base textColor">
+              Radio Broadcasts
+            </span>
+          </div>
+
+          <div className="relative flex items-center justify-start transition-all duration-300 xl:w-64">
+            <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#1F1F1F] from-[#cfcfcf] to-transparent z-10"></div>
+
+            <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
+              <RadioCard
+                playingStatus="paused"
+                radioName="Radio Name"
+                id={"123456789"}
+                genre="News"
+              />
+              <RadioCard
+                playingStatus="paused"
+                radioName="Radio Name"
+                id={"987658321"}
+                genre="Music"
+              />
+              <RadioCard
+                radioName="Radio Name"
+                playingStatus="paused"
+                setPlayingStatus={() => 0}
+                id={"112345778"}
+                genre="Sports"
+              />
+              <RadioCard
+                playingStatus="paused"
+                radioName="Radio Name"
+                id={"123556789"}
+                genre="Talk"
+              />
             </div>
-          ))}
+          </div>
+
+          <div className="relative flex items-center justify-start p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border border-neutral-700">
+            <span className="font-semibold text-base textColor">
+              Local Articles
+            </span>
+          </div>
+
           <div className="relative flex items-center justify-center p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border border-neutral-700">
             <div className="flex flex-row gap-3 items-center">
               <Link
                 to="/articles"
                 className="text-violet-500 hover:underline font-medium jost"
               >
-                {t("home.viewMoreNews")}
+                {t("home.viewMoreArticles")}
               </Link>
             </div>
           </div>

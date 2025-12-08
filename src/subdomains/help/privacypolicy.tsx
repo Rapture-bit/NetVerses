@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 
+import TopBar from "@/components/navigation/TopBar";
 import { ThemeContext } from "@/context/ThemeContext";
 import PageTitle from "@/components/others/PageTitle";
 import Footer from "@/components/navigation/Footer";
@@ -174,6 +175,7 @@ export default function PrivacyPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <TopBar />
       <PageTitle title="NetVerses ~ Privacy Policy" />
       <div className="relative flex-grow pt-20 md:pt-24 pb-20 md:pb-24 flex flex-col items-center justify-center text-center space-y-4 md:space-y-5 px-4 md:px-10">
         {activeTab === 0 && (
@@ -226,7 +228,7 @@ export default function PrivacyPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 2, ease: "easeInOut" }}
         >
-          <div className="absolute bottom-1 left-1/2 -translate-x-1/2">
+          <div className="absolute -translate-y-6 left-1/2 -translate-x-1/2 z-50">
             <button onClick={handleScroll} className="text-purple-600 text-xl">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

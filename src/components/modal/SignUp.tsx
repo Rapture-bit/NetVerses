@@ -15,6 +15,7 @@ import { Button, Checkbox, ConfigProvider } from "antd";
 import debounce from "lodash.debounce";
 import { motion, AnimatePresence } from "framer-motion";
 import { text } from "stream/consumers";
+import EmailChange from "./EmailChange";
 
 interface SignUpModalProps {
   visible: boolean;
@@ -49,9 +50,14 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   const [AgreementChecked, setAgreementChecked] = useState<string>("");
   const [emailCache, setEmailCache] = useState<Object>({});
   const [usernameCache, setUsernameCache] = useState<Object>({});
+  const [emailChangeMenuVisibility, setEmailChangeMenuVisibility] =
+    useState<boolean>(false);
   const [Empty, setEmpty] = useState<boolean>();
   const [OTPValue, setOTPValue] = useState<string>("");
   const [OTPMaxLength, _] = useState<number>(5);
+  const [timeSent, setTimeSent] = useState<Date>();
+  const [emailChangeAttempt, setEmailChangeAttempt] = useState<number>(0);
+  const [countdownLabel, setCountdownLabel] = useState<number>(0);
   const [isNoConfirmationDialog, setNoConfirmationDialog] =
     useState<boolean>(false);
   const [requestID, setRequestID] = useState<string>("");
@@ -1067,6 +1073,23 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
           </motion.div>
         )}
 
+        {emailChangeMenuVisibility && emailChangeAttempt !== 2 && (
+          <EmailChange
+            visible={emailChangeMenuVisibility}
+            countdownLabel={countdownLabel}
+            setCountdownLabel={setCountdownLabel}
+            attempt={emailChangeAttempt}
+            setAttempt={setEmailChangeAttempt}
+            emailStates={{ email, setEmail, emailCache }}
+            username={username}
+            setRequestID={setRequestID}
+            errorState={errorState}
+            timeSent={timeSent}
+            setTimeSent={setTimeSent}
+            setVisible={setEmailChangeMenuVisibility}
+          />
+        )}
+
         {currentTab === 2 && (
           <motion.div
             key="tab2"
@@ -1076,10 +1099,23 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
             variants={pageVariants}
           >
             <div className="flex flex-col justify-center items-center space-x-3 space-y-4 p-0.5">
-              <span>
-                {t("SignUp.codeConfirmation") + ":"}{" "}
-                <b>{email ? email : "name@example.com"}</b>.
-              </span>
+              <div className="flex flex-col">
+                <span>
+                  {t("SignUp.codeConfirmation") + ":"}{" "}
+                  <b>{email ? email : "name@example.com"}</b>
+                </span>
+
+                {emailChangeAttempt !== 2 && (
+                  <a
+                    onClick={() => {
+                      setEmailChangeMenuVisibility(true);
+                    }}
+                    className="!text-violet-700 hover:underline w-fit"
+                  >
+                    Change email
+                  </a>
+                )}
+              </div>
 
               <div className="w-full max-w-sm text-center">
                 <label className="block text-sm">

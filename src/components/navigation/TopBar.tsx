@@ -31,7 +31,7 @@ export default function TopBar() {
     >
       <div className="flex flex-row justify-between items-center space-x-3 font-semibold">
         <Link
-          to="/"
+          to="https://netverses.com/"
           className="flex items-center text-xl md:text-2xl select-none"
         >
           <span className="dark:text-gray-200 text-black">Net</span>

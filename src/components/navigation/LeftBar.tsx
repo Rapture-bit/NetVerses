@@ -229,17 +229,21 @@ export default function LeftBar({ userData }) {
                   <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
                     <Tooltip placement="bottom" title="Official Member">
                       <span
-                        className="icon-[ic--baseline-verified] w-4 h-4 text-yellow-400 cursor-pointer flex-shrink-0"
+                        className="icon-[ic--baseline-verified] w-4 h-4 text-[#facc15] cursor-pointer flex-shrink-0"
                         aria-label="Verified"
                       ></span>
                     </Tooltip>
 
                     <Tooltip placement="bottom" title="Early Creator">
-                      <span className="icon-[material-symbols--diamond-rounded] w-4 h-4 text-blue-500 cursor-pointer flex-shrink-0"></span>
+                      <span className="icon-[material-symbols--diamond-rounded] w-4 h-4 text-[#3b82f6] cursor-pointer flex-shrink-0"></span>
                     </Tooltip>
 
                     <Tooltip placement="bottom" title="Business Account">
-                      <span className="icon-[material-symbols--store-outline] w-4 h-4 text-violet-500 cursor-pointer flex-shrink-0"></span>
+                      <span className="icon-[material-symbols--store-outline] w-4 h-4 text-[#a855f7] cursor-pointer flex-shrink-0"></span>
+                    </Tooltip>
+
+                    <Tooltip placement="bottom" title="StarPlus Member">
+                      <span className="icon-[material-symbols--star-rounded] w-4 h-4 text-[#bb4bff] cursor-pointer flex-shrink-0"></span>
                     </Tooltip>
                   </div>
                 </div>
@@ -438,6 +442,22 @@ export default function LeftBar({ userData }) {
               {t("home.leftBar.starplus")}
             </span>
           </button>
+
+          {hideButtons && (
+            <div className="relative flex items-center justify-center">
+              <button
+                aria-label={"More"}
+                onClick={(e) => navigate("/explore")}
+                className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+              >
+                <span
+                  className={`icon-[material-symbols--more-up] w-6 h-6 flex items-center justify-center`}
+                ></span>
+                <span className="text-base xl:flex hidden">More</span>
+              </button>
+            </div>
+          )}
+
           <div className="flex flex-row gap-2 mr-auto">
             <span className="text-xs mr-auto">© 2025 NetVerses</span>
           </div>

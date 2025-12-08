@@ -43,7 +43,7 @@ const UserProvider = ({ children }) => {
 
     try {
       const fetchAPI = await fetch("https://api.netverses.com/v1/self", {
-        method: "POST",
+        method: "GET",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",

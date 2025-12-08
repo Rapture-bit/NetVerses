@@ -1,11 +1,11 @@
 export default async function (req, res) {
   try {
-    const { username, password } = req?.body;
+    const { identifier, password } = req?.body;
 
-    if (!username || !password) {
+    if (!identifier || !password) {
       return res.status(200).json({
         success: false,
-        message: "Username or password was not provided.",
+        message: "Identifier or password was not provided.",
       });
     }
   } catch (e) {

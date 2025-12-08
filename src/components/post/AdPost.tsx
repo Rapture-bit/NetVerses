@@ -1,5 +1,4 @@
-import { HashLink } from "react-router-hash-link";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
@@ -20,15 +19,10 @@ type InteractionCounts = {
   [key: string]: number;
 };
 
-interface Comment {
+type Comment = {
   author: string;
   text: string;
-  date: string;
-  interactions: {
-    likes: number;
-    dislikes: number;
-  };
-}
+};
 
 type images = {
   URL: string;
@@ -87,9 +81,6 @@ export default function Post({
   const [textColor, setTextColor] = useState<string>(
     `text-${localColorPreference}-500`,
   );
-  const [bgColor, setBgColor] = useState<string>(
-    `bg-${localColorPreference}-900`,
-  );
   const [borderColor, setBorderColor] = useState<string>(
     `border-${localColorPreference}-600`,
   );
@@ -97,33 +88,15 @@ export default function Post({
     `shadow-${localColorPreference}-600`,
   );
 
-  const navigate = useNavigate();
-
   const toggleBoost = () => {
     setBoostMenuVisible(!isBoostMenuVisible);
   };
 
   useEffect(() => {
     setTextColor(`text-${localColorPreference}-500`);
-    setBgColor(`bg-${localColorPreference}-900`);
     setBorderColor(`border-${localColorPreference}-600`);
     setShadowColor(`shadow-${localColorPreference}-600`);
   }, [localColorPreference]);
-
-  const toggleClick = (action) => {
-    if (action === "Boost") {
-      toggleBoost();
-    } else if (action === "Comment") {
-      navigate(`/${author}/posts/${id}`, { replace: false });
-
-      setTimeout(() => {
-        const commentElement = document.getElementById("comment");
-        if (commentElement) {
-          commentElement.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 0.5 * 1000);
-    }
-  };
 
   return (
     <div className="flex border border-neutral-700 flex-col space-y-5 p-5 sm:p-6 rounded-xl mx-auto w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor transition-all duration-300 hover:shadow-lg hover:scale-[1.01]">
@@ -140,7 +113,7 @@ export default function Post({
                 alt="Avatar"
               />
             </Link>
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col">
               <Link
                 to={author.toLowerCase()}
                 className="font-medium text-black dark:text-white hover:underline"
@@ -148,7 +121,7 @@ export default function Post({
                 {author}
               </Link>
               <Tooltip mouseLeaveDelay={0} title={humanReadableDate}>
-                <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline inline-block w-fit">
+                <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline">
                   {timeAgo}
                 </span>
               </Tooltip>
@@ -178,9 +151,7 @@ export default function Post({
 
         {isAIGenerated && (
           <div className="mt-2">
-            <span
-              className={`inline-block text-xs select-none ${bgColor} text-white font-semibold rounded-full px-2 py-1`}
-            >
+            <span className="inline-block text-xs select-none bg-yellow-400 text-black font-semibold rounded-full px-2 py-1">
               AI-generated
             </span>
             <div className={`mt-2`}>
@@ -206,13 +177,10 @@ export default function Post({
         {attachments && attachments?.length !== 0 && (
           <AttachmentsViewer
             attachments={attachments}
-            colorProfile={colorProfile}
             postDetails={{
               date,
               author,
               interactions,
-              description,
-              isAIGenerated,
               isNSFW,
               comments,
               title,
@@ -255,9 +223,7 @@ export default function Post({
                 >
                   <button
                     aria-label={action}
-                    onClick={() => {
-                      toggleClick(action);
-                    }}
+                    onClick={action === "Boost" ? toggleBoost : undefined}
                     className={`flex items-center gap-1.5 ${colors[action]} transition-all duration-300 px-2 py-1 rounded-md hover:bg-[#dddddd] dark:hover:bg-[#1d1d1d]`}
                   >
                     <span className={`icon-[${icons[action]}] w-4 h-4`} />
@@ -348,13 +314,12 @@ export default function Post({
             <p className="text-gray-500 dark:text-gray-400">No comments yet.</p>
           )}
           {comments.length > 3 && (
-            <HashLink
-              smooth
-              to={`/${author}/posts/${id}#comments`}
+            <Link
+              to={`/${author}/posts/${id}`}
               className={`${textColor} hover:underline mt-2 font-medium self-start`}
             >
               View more comments ({comments.length - 3})
-            </HashLink>
+            </Link>
           )}
         </div>
       </footer>

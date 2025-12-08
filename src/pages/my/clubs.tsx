@@ -8,7 +8,9 @@ import ChannelCard from "@/components/ChannelCard";
 
 import PageTitle from "@/components/others/PageTitle";
 
-export default function ClubsPage({ toggleBack }) {
+export default function ClubsPage() {
+  const toggleBack = () => {};
+
   const [channels, setChannels] = useState([
     {
       name: "Global Horizon News",
@@ -114,73 +116,76 @@ export default function ClubsPage({ toggleBack }) {
   const [clubs, setClubs] = useState([
     {
       name: "Socialist Union Party",
-      badges: ["Politics"],
+      badges: ["Politics", "Community"],
       members_count: 200,
+      online_members: 10,
       clubId: "1234567890",
       description:
         "We work to empower citizens, strengthen public services, and ensure that every member of society can live with dignity and opportunity.",
       bannerUrl:
         "https://cdn.netverses.com/media/uploads/banners/soviet_banner.jpg",
-      logoUrl: "", // Smaller devices
+      logoUrl: "",
     },
     {
       name: "Technocracy Alliance",
-      badges: ["Politics"],
+      badges: ["Technology", "Science"],
       members_count: 200,
+      online_members: 15,
       clubId: "1234567890",
       description:
         "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
       bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      logoUrl: "", // Smaller devices
+      logoUrl: "",
     },
     {
       name: "Divided's Epic Community",
-      badges: ["Community"],
-      clubId: "1234567890",
+      badges: ["Sports", "Gaming"],
       members_count: 200,
+      online_members: 100,
+      clubId: "1234567890",
       description: "This is a cool community.",
       bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      logoUrl: "", // Smaller devices
+      logoUrl: "",
     },
     {
-      name: "Socialist Party Union",
-      badges: ["Politics"],
-      clubId: "1234567890",
-      members_count: 200,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
+      name: "Astronomy Enthusiasts",
+      badges: ["Science", "Community"],
+      members_count: 120,
+      online_members: 50,
+      clubId: "1234567891",
+      description: "Exploring the universe, one star at a time.",
       bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      logoUrl: "", // Smaller devices
+      logoUrl: "",
     },
     {
-      name: "Socialist Party Union",
-      badges: ["Politics"],
-      clubId: "1234567890",
-      members_count: 200,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
+      name: "Writers & Literature Circle",
+      badges: ["Literature", "Community", "Art"],
+      members_count: 80,
+      online_members: 40,
+      clubId: "1234567892",
+      description: "A place for aspiring writers and literature lovers.",
       bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      logoUrl: "", // Smaller devices
+      logoUrl: "",
     },
     {
-      name: "Socialist Party Union",
-      badges: ["Politics"],
-      clubId: "1234567890",
-      members_count: 200,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
+      name: "Green Earth Alliance",
+      badges: ["Environment", "Community"],
+      members_count: 150,
+      online_members: 17,
+      clubId: "1234567893",
+      description: "Promoting sustainability and environmental awareness.",
       bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      logoUrl: "", // Smaller devices
+      logoUrl: "",
     },
     {
-      name: "Socialist Party Union",
-      badges: ["Politics"],
-      clubId: "1234567890",
-      members_count: 200,
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
+      name: "Music & Arts Society",
+      badges: ["Music", "Art"],
+      members_count: 90,
+      online_members: 42,
+      clubId: "1234567894",
+      description: "Celebrating creativity through music and art.",
       bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
-      logoUrl: "", // Smaller devices
+      logoUrl: "",
     },
   ]);
 
@@ -224,6 +229,7 @@ export default function ClubsPage({ toggleBack }) {
                     <ClubCard
                       key={index}
                       name={element.name}
+                      online_members={element.online_members}
                       badges={element.badges}
                       clubId={element.clubId}
                       members_count={element.members_count}

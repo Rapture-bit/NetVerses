@@ -129,9 +129,9 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
               },
             },
             {
-              author: "MusicMaven",
+              author: "FutureReader",
               date: "2024-09-16T09:30:00Z",
-              text: "Great playlist suggestions! Keep them coming.",
+              text: "The future looks bright for NetVerses!",
               interactions: {
                 likes: 25,
                 dislikes: 2,

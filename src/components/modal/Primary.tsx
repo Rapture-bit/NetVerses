@@ -5,7 +5,7 @@ import { ThemeContext } from "@/context/ThemeContext";
 interface PrimaryModalProps {
   confirmClose: boolean;
   noConfirmationDialog: boolean;
-  open: boolean;
+  open?: boolean;
   title: string;
   children: React.ReactNode;
   footer?: React.ReactNode;

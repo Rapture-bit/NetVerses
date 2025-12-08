@@ -1,6 +1,8 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
 import AttachmentFocus from "./AttachmentFocus";
 import { motion, AnimatePresence } from "framer-motion";
+
+import { AttachmentProps } from "./AttachmentFocus";
 
 import { Tooltip } from "antd";
 
@@ -30,15 +32,21 @@ const videoTypes = [
   "3gp",
 ];
 
-const AttachmentsViewer = ({ attachments, postDetails }) => {
+interface focusedAttachmentDetails {
+  id: string;
+  index: number | null;
+}
+
+const repeatedTimes = 10;
+
+const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
   const scrollContainer = useRef<HTMLDivElement>(null);
-  const [focusedAttachmentDetails, setFocusedAttachmentDetails] = useState<
-    Array<{}>
-  >({
-    id: "",
-    index: null,
-  });
-  const [attachmentsType, setAttachmentsType] = useState<Object[]>([]);
+  const [focusedAttachmentDetails, setFocusedAttachmentDetails] =
+    useState<focusedAttachmentDetails>({
+      id: "",
+      index: null,
+    });
+  const [attachmentsType, setAttachmentsType] = useState<AttachmentProps[]>([]);
   const [imageAttachmentTypes, setImageAttachmentTypes] = useState<Object[]>(
     [],
   );
@@ -46,8 +54,8 @@ const AttachmentsViewer = ({ attachments, postDetails }) => {
     [],
   );
 
-  const [currentScrollWidth, setScrollWidth] = useState<number>(0);
-  const [maxScrollWidth, setMaxScrollWidth] = useState<number>(1000);
+  const [showRightButton, setShowRightButton] = useState<boolean>(false);
+  const [showLeftButton, setShowLeftButton] = useState<boolean>(false);
 
   const compareSrc = (element, srcUrl): boolean => {
     let elementLength: number = element.length;
@@ -70,23 +78,55 @@ const AttachmentsViewer = ({ attachments, postDetails }) => {
     return valid;
   };
 
+  const checkScroll = () => {
+    const maxScroll =
+      scrollContainer?.current?.scrollWidth -
+      scrollContainer?.current?.clientWidth;
+    const scrollWidth = scrollContainer?.current?.scrollLeft;
+
+    if (scrollWidth < maxScroll) {
+      setShowRightButton(true);
+      setShowLeftButton(false);
+    } else if (scrollWidth > 0) {
+      setShowLeftButton(true);
+      setShowRightButton(false);
+    } else {
+      setShowRightButton(false);
+      setShowLeftButton(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!scrollContainer) return;
+
+    let times = 0;
+    const intervalID = setInterval(() => {
+      if (times >= repeatedTimes) clearInterval(intervalID);
+      checkScroll();
+      times += 1;
+    }, 0.35 * 1000);
+  }, [scrollContainer]);
+
   useEffect(() => {
     if (!scrollContainer) return;
 
     const handleScroll = () => {
-      setMaxScrollWidth(
-        scrollContainer?.current?.scrollWidth -
-          scrollContainer?.current.clientWidth,
-      );
-      setScrollWidth(scrollContainer?.current?.scrollLeft);
+      let times = 0;
+      const intervalID = setInterval(() => {
+        if (times >= repeatedTimes) clearInterval(intervalID);
+        checkScroll();
+        times += 1;
+      }, 0.35 * 1000);
     };
 
     scrollContainer.current.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
 
     return () => {
       scrollContainer?.current?.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
-  }, [currentScrollWidth]);
+  }, []);
 
   useEffect(() => {
     const typesObject = [];
@@ -204,7 +244,8 @@ const AttachmentsViewer = ({ attachments, postDetails }) => {
   return (
     <>
       <AttachmentFocus
-        onClose={() => setFocusedAttachmentDetails({ id: null })}
+        onClose={() => setFocusedAttachmentDetails({ id: null, index: null })}
+        colorProfile={colorProfile}
         postDetails={postDetails}
         attachments={attachmentsType}
         attachmentIndex={focusedAttachmentDetails.index}
@@ -212,7 +253,7 @@ const AttachmentsViewer = ({ attachments, postDetails }) => {
 
       <div className="relative mt-3">
         <AnimatePresence>
-          {currentScrollWidth > 0 && (
+          {showLeftButton && (
             <Tooltip
               mouseLeaveDelay={0}
               title="Previous"
@@ -223,7 +264,7 @@ const AttachmentsViewer = ({ attachments, postDetails }) => {
                 initial={{ opacity: 0, x: -20, y: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20, y: -20 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.2 }}
                 className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
                 onClick={() => scroll("left")}
               >
@@ -237,7 +278,7 @@ const AttachmentsViewer = ({ attachments, postDetails }) => {
           ref={scrollContainer}
           className="flex items-center gap-3 overflow-x-scroll scrollbar-hidden scroll-smooth py-2"
         >
-          {imageAttachmentTypes.map((attachment, index) => (
+          {imageAttachmentTypes.map((attachment: AttachmentProps, index) => (
             <img
               crossOrigin="anonymous"
               key={index}
@@ -249,7 +290,7 @@ const AttachmentsViewer = ({ attachments, postDetails }) => {
               alt={attachment.attachmentDetails.comment}
             />
           ))}
-          {videoAttachmentTypes.map((attachment, index) => (
+          {videoAttachmentTypes.map((attachment: AttachmentProps, index) => (
             <video
               crossOrigin="anonymous"
               onClick={handleClick}
@@ -268,7 +309,7 @@ const AttachmentsViewer = ({ attachments, postDetails }) => {
         </div>
 
         <AnimatePresence>
-          {currentScrollWidth < maxScrollWidth && (
+          {showRightButton && (
             <Tooltip
               mouseLeaveDelay={0}
               title="Next"

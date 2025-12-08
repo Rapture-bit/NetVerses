@@ -1,3 +1,5 @@
 import React from "react";
 
-export default function TOSPage() {}
+export default function TOSPage() {
+  return <></>;
+}

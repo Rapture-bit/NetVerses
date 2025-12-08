@@ -16,7 +16,7 @@ export default function TooltipHelp({ children, title }) {
         <div
           className={`
         absolute top-full mt-2 w-80 italic text-xs break-words
-        transition-all duration-300
+        transition-all duration-300 font-normal
         px-2 py-1 rounded-md z-10 darkerBackgroundColor shadow-lg
         ${isHovered ? "opacity-100 visible" : "opacity-0 invisible"}
       `}

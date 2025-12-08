@@ -18,12 +18,14 @@ type CommentProps = {
   interactions: InteractionCounts;
   isNSFW?: boolean;
   date: string;
+  extendWidth?: boolean;
 };
 
 export default function Comment({
   author,
   date,
   interactions,
+  extendWidth = false,
   isNSFW,
   content,
 }: CommentProps) {
@@ -34,7 +36,9 @@ export default function Comment({
   );
 
   return (
-    <div className="flex border border-neutral-700 flex-col space-y-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+    <div
+      className={`flex border border-neutral-700 flex-col space-y-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 ${extendWidth ? "w-full max-w-none" : "w-full sm:w-3/4 lg:w-3/4 xl:w-1/2"} darkerBackgroundColor`}
+    >
       <header className="flex flex-col items-start space-y-3">
         <div className="flex flex-row items-center gap-3">
           <div className="relative inline-block">
@@ -79,7 +83,7 @@ export default function Comment({
       </main>
       <footer className="flex flex-col space-y-3">
         <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row items-center gap-5">
             <Tooltip
               mouseLeaveDelay={0}
               title="Like"
@@ -88,7 +92,7 @@ export default function Comment({
             >
               <button
                 aria-label="Like"
-                className="flex items-center gap-2 hover:text-blue-500 transition-colors duration-300"
+                className="flex items-center gap-2 textColor hover:text-blue-500 transition-colors duration-300"
               >
                 <span className="icon-[mdi--like-outline] w-4 h-4"></span>
                 <span>{formatNumber(interactions.likes)}</span>
@@ -103,10 +107,28 @@ export default function Comment({
             >
               <button
                 aria-label="Dislike"
-                className="flex items-center gap-2 hover:text-red-500 transition-colors duration-300"
+                className="flex items-center gap-2 textColor hover:text-red-500 transition-colors duration-300"
               >
                 <span className="icon-[mdi--dislike-outline] w-4 h-4"></span>
                 <span>{formatNumber(interactions.dislikes)}</span>
+              </button>
+            </Tooltip>
+
+            <Tooltip
+              mouseLeaveDelay={0}
+              title="Reply"
+              placement="bottom"
+              arrow={false}
+            >
+              <button
+                aria-label="Reply"
+                className="flex items-center gap-2 textColor transition-colors duration-300 hover:underline"
+              >
+                <span
+                  className="icon-[material-symbols--reply] w-4 h-4"
+                  aria-hidden="true"
+                ></span>
+                <span>Reply</span>
               </button>
             </Tooltip>
           </div>

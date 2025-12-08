@@ -20,10 +20,11 @@ const SettingsPage = React.lazy(() => import("@/pages/my/settings"));
 const PostsPage = React.lazy(() => import("@/pages/postpage"));
 const Home = React.lazy(() => import("@/pages/home"));
 const PageNotFound = React.lazy(() => import("@/pages/pagenotfound"));
-const PrivacyPage = React.lazy(() => import("@/pages/privacypolicy"));
+const PrivacyPage = React.lazy(() => import("@/subdomains/help/privacypolicy"));
 const Messages = React.lazy(() => import("@/pages/messages"));
 const ProfilePage = React.lazy(() => import("@/pages/profilepage"));
 const ExplorePage = React.lazy(() => import("@/pages/explore"));
+const TOSPage = React.lazy(() => import("@/subdomains/help/tos"));
 
 const HelpLandingPage = React.lazy(() => import("@/subdomains/help/landing"));
 
@@ -58,6 +59,8 @@ export default function SubdomainDivider() {
         <Routes>
           <Route element={<DocumentationLayout />}>
             <Route path="/" element={<HelpLandingPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/tos" element={<TOSPage />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>

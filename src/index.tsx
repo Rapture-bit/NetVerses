@@ -97,7 +97,7 @@ const App = () => {
         }
 
         const res = await fetch("https://api.netverses.com/v1/self", {
-          method: "POST",
+          method: "GET",
           credentials: "include",
         });
 

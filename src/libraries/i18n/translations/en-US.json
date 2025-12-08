@@ -23,7 +23,7 @@
   "home": {
     "myFeed": "My Feed",
     "articlesLabel": "Articles",
-    "viewMoreNews": "View more articles",
+    "viewMoreArticles": "View more articles",
     "visitProfile": "Visit Profile",
     "editProfile": "Edit Profile",
     "Posts": "Posts",
@@ -55,7 +55,7 @@
   "features": {
     "contentAgeVerification": {
       "title": "Smart Age Check",
-      "description": "Our service estimates your age from inquiries and behavior, without requiring selfies or IDs. Your answers are never stored."
+      "description": "Our service estimates your age from inquiries and behaviour, without requiring selfies or IDs. Your answers are never stored."
     },
     "advancedPostPrivacy": {
       "title": "Advanced Post Privacy",
@@ -92,7 +92,7 @@
   "cookiesConsent": {
     "title": "uses cookies.",
     "description": "Our website uses cookies and similar tracking technologies to enhance your browsing experience, ensure the functionality of our services, and provide personalized content and recommendations.",
-    "second_description": "Cookies also help us analyze site traffic, understand user behavior, and improve our products and services. To learn more about how we handle your data and your rights, please visit our "
+    "second_description": "Cookies also help us analyze site traffic, understand user behaviour, and improve our products and services. To learn more about how we handle your data and your rights, please visit our "
   },
   "errors": {
     "SignUp": {

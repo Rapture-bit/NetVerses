@@ -9,6 +9,7 @@ interface Props {
 export default function PrimaryInput({
   ColorSettings,
   errorMessage = "",
+  infoMessage = "",
   type = "text",
   ...props
 }) {
@@ -25,8 +26,14 @@ export default function PrimaryInput({
       {type === "password" && <Input.Password type={type} {...props} />}
       {type !== "password" && <Input type={type} {...props} />}
       {errorMessage && (
-        <div className="flex items-center space-x-2 text-red-500">
-          <span className="roboto text-sm font-medium">{errorMessage}</span>
+        <div className="flex items-center space-x-2 text-red-500 text-sm">
+          <span className="roboto font-medium">{errorMessage}</span>
+        </div>
+      )}
+
+      {infoMessage && (
+        <div className="flex items-center space-x-2 text-orange-500">
+          <span className="roboto text-sm font-medium">{infoMessage}</span>
         </div>
       )}
     </ConfigProvider>

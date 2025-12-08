@@ -54,8 +54,8 @@ const ProfilePreview = ({ username }) => {
   ]);
 
   return (
-    <div className="relative border border-neutral-700 flex flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
-      <div className="relative flex flex-col rounded-md">
+    <div className="relative border-t-0 flex flex-col rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+      <div className="relative flex flex-col rounded-md border border-neutral-300 dark:border-neutral-700">
         <div
           className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-36 w-full relative top-0 left-0 rounded-t-lg`}
         >
@@ -92,153 +92,160 @@ const ProfilePreview = ({ username }) => {
             </button>
           )}
         </div>
-        <div className="flex flex-row">
-          <div className="flex flex-row ml-auto gap-3">
-            {self && (
-              <button
-                className={`rounded-md ${profileColors.background} font-semibold text-white py-1.5 px-6 transition-all duration-300 hover:brightness-95`}
-                aria-label="Edit"
-              >
-                Edit
-              </button>
-            )}
-            <div className="flex gap-2">
-              {!self && (
-                <Tooltip placement="bottom" title="Follow">
-                  <button
-                    className={`rounded-md gap-1 flex items-center bg-transparent border ${profileColors.borderColor} ${profileColors.hoverBackground} font-semibold dark:text-white py-1 px-3 transition-all duration-300 text-sm`}
-                    aria-label="Follow"
-                  >
-                    <span
-                      className="icon-[mingcute--user-follow-line] text-white w-4 h-4"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="sr-only">Follow</span>
-                  </button>
-                </Tooltip>
-              )}
 
-              {!self && (
-                <Tooltip placement="bottom" title="Message">
-                  <button
-                    className={`rounded-md gap-1 flex items-center hover:text-white bg-transparent border ${profileColors.borderColor} ${profileColors.hoverBackground} font-semibold dark:text-white py-1 px-3 transition-all duration-300 text-sm`}
-                    aria-label="Message"
-                  >
-                    <span
-                      className="icon-[ic--outline-email] w-4 h-4"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="sr-only">Message</span>
-                  </button>
-                </Tooltip>
-              )}
-
-              <Tooltip placement="bottom" title="More">
+        <div className="p-4 sm:pl-5 sm:py-4">
+          <div className="flex flex-row">
+            <div className="flex flex-row ml-auto gap-3">
+              {self && (
                 <button
-                  className={`rounded-md gap-1 flex items-center bg-transparent hover:text-white border ${profileColors.borderColor} ${profileColors.hoverBackground} hover:brightness-90 font-semibold dark:text-white py-1 px-2 transition-all duration-300 text-sm`}
-                  aria-label="More options"
+                  className={`rounded-md ${profileColors.background} font-semibold text-white py-1.5 px-6 transition-all duration-300 hover:brightness-95`}
+                  aria-label="Edit"
                 >
-                  <span
-                    className="icon-[ant-design--more-outlined] w-5 h-5"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="sr-only">More options</span>
+                  Edit
                 </button>
-              </Tooltip>
-            </div>
-          </div>
-        </div>
-        <div className="mt-3 pl-2 flex flex-col gap-3">
-          <div className="flex flex-col gap-1">
-            <div className="inline-flex items-center space-x-2">
-              <span className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none">
-                {username}
-              </span>
+              )}
+              <div className="flex gap-2">
+                {!self && (
+                  <Tooltip placement="bottom" title="Follow">
+                    <button
+                      className={`rounded-md gap-1 flex items-center bg-transparent border ${profileColors.borderColor} ${profileColors.hoverBackground} font-semibold dark:text-white py-1 px-3 transition-all duration-300 text-sm`}
+                      aria-label="Follow"
+                    >
+                      <span
+                        className="icon-[mingcute--user-follow-line] text-white w-4 h-4"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="sr-only">Follow</span>
+                    </button>
+                  </Tooltip>
+                )}
 
-              <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
-                <Tooltip placement="bottom" title="Official Member">
-                  <span
-                    className="icon-[ic--baseline-verified] w-4 h-4 text-yellow-400 cursor-pointer flex-shrink-0"
-                    aria-label="Verified"
-                  ></span>
-                </Tooltip>
+                {!self && (
+                  <Tooltip placement="bottom" title="Message">
+                    <button
+                      className={`rounded-md gap-1 flex items-center hover:text-white bg-transparent border ${profileColors.borderColor} ${profileColors.hoverBackground} font-semibold dark:text-white py-1 px-3 transition-all duration-300 text-sm`}
+                      aria-label="Message"
+                    >
+                      <span
+                        className="icon-[ic--outline-email] w-4 h-4"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="sr-only">Message</span>
+                    </button>
+                  </Tooltip>
+                )}
 
-                <Tooltip placement="bottom" title="Early Creator">
-                  <span className="icon-[material-symbols--diamond-rounded] w-4 h-4 text-blue-500 cursor-pointer flex-shrink-0"></span>
-                </Tooltip>
-
-                <Tooltip placement="bottom" title="Business Account">
-                  <span className="icon-[material-symbols--store-outline] w-4 h-4 text-violet-500 cursor-pointer flex-shrink-0"></span>
+                <Tooltip placement="bottom" title="More">
+                  <button
+                    className={`rounded-md gap-1 flex items-center bg-transparent hover:text-white border ${profileColors.borderColor} ${profileColors.hoverBackground} hover:brightness-90 font-semibold dark:text-white py-1 px-2 transition-all duration-300 text-sm`}
+                    aria-label="More options"
+                  >
+                    <span
+                      className="icon-[ant-design--more-outlined] w-5 h-5"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="sr-only">More options</span>
+                  </button>
                 </Tooltip>
               </div>
             </div>
-
+          </div>
+          <div className="mt-3 pl-2 flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <div className="flex-row space-x-1 inline-flex">
-                <span
-                  className={`icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem] ${profileColors.textColor}`}
-                ></span>
-                <span
-                  className={`font-semibold ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
-                >
-                  {Job}
+              <div className="inline-flex items-center space-x-2">
+                <span className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none">
+                  {username}
                 </span>
+
+                <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
+                  <Tooltip placement="bottom" title="Official Member">
+                    <span
+                      className="icon-[ic--baseline-verified] w-4 h-4 text-[#facc15] cursor-pointer flex-shrink-0"
+                      aria-label="Verified"
+                    ></span>
+                  </Tooltip>
+
+                  <Tooltip placement="bottom" title="Early Creator">
+                    <span className="icon-[material-symbols--diamond-rounded] w-4 h-4 text-[#3b82f6] cursor-pointer flex-shrink-0"></span>
+                  </Tooltip>
+
+                  <Tooltip placement="bottom" title="Business Account">
+                    <span className="icon-[material-symbols--store-outline] w-4 h-4 text-[#a855f7] cursor-pointer flex-shrink-0"></span>
+                  </Tooltip>
+
+                  <Tooltip placement="bottom" title="StarPlus Member">
+                    <span className="icon-[material-symbols--star-rounded] w-4 h-4 text-[#bb4bff] cursor-pointer flex-shrink-0"></span>
+                  </Tooltip>
+                </div>
               </div>
-              <p className="w-4/5 dark:text-white">{Bio}</p>
+
+              <div className="flex flex-col gap-1">
+                <div className="flex-row space-x-1 inline-flex">
+                  <span
+                    className={`icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem] ${profileColors.textColor}`}
+                  ></span>
+                  <span
+                    className={`font-semibold ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
+                  >
+                    {Job}
+                  </span>
+                </div>
+                <p className="w-4/5 dark:text-white">{Bio}</p>
+              </div>
             </div>
-          </div>
 
-          <div className="flex justify-start gap-4 mt-3">
-            {socialLinks.map(({ href, icon, name, color }) => (
-              <Link
-                key={name}
-                to={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center transition-all transform hover:scale-110"
-              >
-                <span className={`${color} icon-[${icon}] w-6 h-6`} />
-              </Link>
-            ))}
-          </div>
-
-          <div className="border-t border-neutral-300 dark:border-neutral-700 my-3"></div>
-
-          <div className="flex justify-between md:justify-start md:gap-10 text-center">
-            {[
-              {
-                label: "Followers",
-                count: followers,
-                link: self ? "/my/followers" : `/${username}/followers`,
-              },
-              {
-                label: "Following",
-                count: following,
-                link: self ? "/my/following" : `/${username}/following`,
-              },
-              {
-                label: "Achievements",
-                count: achievements,
-                link: self ? "/my/achievements" : `/${username}/achievements`,
-              },
-              {
-                label: "Reputation",
-                count: reputation,
-                link: self ? "/my/reputation" : `/${username}/reputation`,
-              },
-            ].map(({ label, count, link }) => (
-              <div key={label} className="flex flex-col items-center">
-                <a
-                  href={link}
-                  className="text-base font-bold text-black dark:text-white hover:underline"
+            <div className="flex justify-start gap-4 mt-3">
+              {socialLinks.map(({ href, icon, name, color }) => (
+                <Link
+                  key={name}
+                  to={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center transition-all transform hover:scale-110"
                 >
-                  {formatNumber(count)}
-                </a>
-                <span className="text-sm text-neutral-700 dark:text-neutral-400">
-                  {label}
-                </span>
-              </div>
-            ))}
+                  <span className={`${color} icon-[${icon}] w-6 h-6`} />
+                </Link>
+              ))}
+            </div>
+
+            <div className="border-t border-neutral-300 dark:border-neutral-700 my-3"></div>
+
+            <div className="flex justify-between md:justify-start md:gap-10 text-center">
+              {[
+                {
+                  label: "Followers",
+                  count: followers,
+                  link: self ? "/my/followers" : `/${username}/followers`,
+                },
+                {
+                  label: "Following",
+                  count: following,
+                  link: self ? "/my/following" : `/${username}/following`,
+                },
+                {
+                  label: "Achievements",
+                  count: achievements,
+                  link: self ? "/my/achievements" : `/${username}/achievements`,
+                },
+                {
+                  label: "Reputation",
+                  count: reputation,
+                  link: self ? "/my/reputation" : `/${username}/reputation`,
+                },
+              ].map(({ label, count, link }) => (
+                <div key={label} className="flex flex-col items-center">
+                  <a
+                    href={link}
+                    className="text-base font-bold text-black dark:text-white hover:underline"
+                  >
+                    {formatNumber(count)}
+                  </a>
+                  <span className="text-sm text-neutral-700 dark:text-neutral-400">
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

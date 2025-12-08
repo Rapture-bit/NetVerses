@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Navi18n from "@/libraries/Navi18n";
 
 import SignUpModal from "@/components/modal/SignUp";
@@ -69,13 +70,19 @@ export default function Page() {
 
           <p className="text-xs textColor mt-2">
             {t("welcomePage.termsAgreement")}{" "}
-            <a href="/tos" className="textColor transition duration-300">
+            <Link
+              to="https://help.netverses.com/tos"
+              className="textColor transition duration-300"
+            >
               <u>{t("general.tosLabel")}</u>
-            </a>{" "}
+            </Link>{" "}
             {t("general.andLabel")}{" "}
-            <a href="/privacy" className="textColor transition duration-300">
+            <Link
+              to="https://help.netverses.com/privacy"
+              className="textColor transition duration-300"
+            >
               <u>{t("general.privacyLabel")}</u>
-            </a>
+            </Link>
             .
           </p>
         </div>

@@ -8,6 +8,7 @@ interface ClubCardProps {
   bannerAlt?: string;
   badges: string[];
   members_count: number;
+  online_members: number;
   logoAlt?: string;
   logoUrl: string;
   clubId?: string;
@@ -21,6 +22,7 @@ export default function ClubCard({
   logoAlt = "Logo",
   logoUrl,
   badges,
+  online_members,
   members_count,
   clubId,
 }: ClubCardProps) {
@@ -55,7 +57,7 @@ export default function ClubCard({
                     title="Politics Club"
                     mouseLeaveDelay={0}
                   >
-                    <span className="icon-[streamline-flex--politics-speech-remix] cursor-pointer text-black dark:text-white w-4 h-4"></span>
+                    <span className="icon-[streamline-flex--politics-speech-remix] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
                   </Tooltip>
                 )}
                 {element === "Community" && (
@@ -65,6 +67,78 @@ export default function ClubCard({
                     mouseLeaveDelay={0}
                   >
                     <span className="icon-[material-symbols--globe] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
+                  </Tooltip>
+                )}
+                {element === "Sports" && (
+                  <Tooltip
+                    placement="bottom"
+                    title="Sports Club"
+                    mouseLeaveDelay={0}
+                  >
+                    <span className="icon-[material-symbols--sports-soccer] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
+                  </Tooltip>
+                )}
+                {element === "Music" && (
+                  <Tooltip
+                    placement="bottom"
+                    title="Music Club"
+                    mouseLeaveDelay={0}
+                  >
+                    <span className="icon-[ri--music-line] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
+                  </Tooltip>
+                )}
+                {element === "Art" && (
+                  <Tooltip
+                    placement="bottom"
+                    title="Art Club"
+                    mouseLeaveDelay={0}
+                  >
+                    <span className="icon-[hugeicons--brush] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
+                  </Tooltip>
+                )}
+                {element === "Science" && (
+                  <Tooltip
+                    placement="bottom"
+                    title="Science Club"
+                    mouseLeaveDelay={0}
+                  >
+                    <span className="icon-[material-symbols--science-outline] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
+                  </Tooltip>
+                )}
+                {element === "Technology" && (
+                  <Tooltip
+                    placement="bottom"
+                    title="Technology Club"
+                    mouseLeaveDelay={0}
+                  >
+                    <span className="icon-[material-symbols--computer-outline] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
+                  </Tooltip>
+                )}
+                {element === "Gaming" && (
+                  <Tooltip
+                    placement="bottom"
+                    title="Gaming Club"
+                    mouseLeaveDelay={0}
+                  >
+                    <span className="icon-[streamline--controller] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
+                  </Tooltip>
+                )}
+                {element === "Literature" && (
+                  <Tooltip
+                    placement="bottom"
+                    title="Literature Club"
+                    mouseLeaveDelay={0}
+                  >
+                    <span className="icon-[tabler--book] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
+                  </Tooltip>
+                )}
+                {element === "Environment" && (
+                  <Tooltip
+                    placement="bottom"
+                    title="Environment Club"
+                    mouseLeaveDelay={0}
+                  >
+                    <span className="icon-[material-symbols--nature-outline] cursor-pointer text-black dark:text-white w-4 h-4 mt-1"></span>
                   </Tooltip>
                 )}
               </span>
@@ -93,10 +167,17 @@ export default function ClubCard({
             </span>
             <span>Members</span>
           </div>
+
+          <div className="flex items-center gap-1 text-xs text-neutral-700 dark:text-neutral-400">
+            <span className="font-semibold text-black dark:text-white hover:underline">
+              {online_members}
+            </span>
+            <span>Online</span>
+          </div>
         </div>
 
         <button className="mt-4 bg-violet-800 hover:bg-violet-900 transition-all duration-300 text-white text-sm roboto px-4 py-2 rounded-lg self-start">
-          Join Club
+          Explore
         </button>
       </div>
     </div>

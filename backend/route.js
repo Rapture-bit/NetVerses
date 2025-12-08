@@ -93,7 +93,7 @@ const route = {
     {
       name: "Get Self Information",
       path: "/self",
-      allowedMethods: ["POST"],
+      allowedMethods: ["GET"],
       functionFile: "../API/users/self.js",
       authRequired: true,
       rateLimit: {

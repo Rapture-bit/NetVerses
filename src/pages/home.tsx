@@ -139,13 +139,48 @@ export default function Home() {
       },
       attachments: [],
       comments: [
-        { author: "TechEnthusiast", text: "This is exciting news!" },
-        { author: "TechEnthusiast", text: "This is exciting news!" },
-        { author: "TechEnthusiast", text: "This is exciting news!" },
-        { author: "TechEnthusiast", text: "This is exciting news!" },
-        { author: "TechEnthusiast", text: "This is exciting news!" },
-        { author: "TechEnthusiast", text: "This is exciting news!" },
-        { author: "TechEnthusiast", text: "This is exciting news!" },
+        {
+          author: "TechEnthusiast",
+          text: "This is exciting news!",
+          date: "2024-09-16T06:00:00Z",
+          interactions: { likes: 2, dislikes: 0 },
+        },
+        {
+          author: "TechEnthusiast",
+          text: "This is exciting news!",
+          date: "2024-09-16T06:00:00Z",
+          interactions: { likes: 2, dislikes: 0 },
+        },
+        {
+          author: "TechEnthusiast",
+          text: "This is exciting news!",
+          date: "2024-09-16T06:00:00Z",
+          interactions: { likes: 2, dislikes: 0 },
+        },
+        {
+          author: "TechEnthusiast",
+          text: "This is exciting news!",
+          date: "2024-09-16T06:00:00Z",
+          interactions: { likes: 2, dislikes: 0 },
+        },
+        {
+          author: "TechEnthusiast",
+          text: "This is exciting news!",
+          date: "2024-09-16T06:00:00Z",
+          interactions: { likes: 2, dislikes: 0 },
+        },
+        {
+          author: "TechEnthusiast",
+          text: "This is exciting news!",
+          date: "2024-09-16T06:00:00Z",
+          interactions: { likes: 2, dislikes: 0 },
+        },
+        {
+          author: "TechEnthusiast",
+          text: "This is exciting news!",
+          date: "2024-09-16T06:00:00Z",
+          interactions: { likes: 2, dislikes: 0 },
+        },
       ],
     },
     {
@@ -165,7 +200,12 @@ export default function Home() {
       },
       attachments: [],
       comments: [
-        { author: "FeatureFan", text: "Loving the personalized feeds!" },
+        {
+          author: "FeatureFan",
+          text: "Loving the personalized feeds!",
+          date: "2024-09-16T10:00:00Z",
+          interactions: { likes: 1, dislikes: 0 },
+        },
       ],
       isNSFW: false,
     },
@@ -186,7 +226,12 @@ export default function Home() {
       },
       attachments: [],
       comments: [
-        { author: "PowerUser", text: "These tips are really helpful!" },
+        {
+          author: "PowerUser",
+          text: "These tips are really helpful!",
+          date: "2024-09-16T10:10:00Z",
+          interactions: { likes: 3, dislikes: 0 },
+        },
       ],
       isNSFW: false,
     },
@@ -207,7 +252,12 @@ export default function Home() {
       },
       attachments: [],
       comments: [
-        { author: "UpdateFollower", text: "Can’t wait for the new features!" },
+        {
+          author: "UpdateFollower",
+          text: "Can’t wait for the new features!",
+          date: "2024-09-16T10:20:00Z",
+          interactions: { likes: 4, dislikes: 1 },
+        },
       ],
       isNSFW: false,
     },
@@ -228,7 +278,12 @@ export default function Home() {
       },
       attachments: [],
       comments: [
-        { author: "PrivacyAdvocate", text: "Good to know my data is secure." },
+        {
+          author: "PrivacyAdvocate",
+          text: "Good to know my data is secure.",
+          date: "2024-09-16T10:25:00Z",
+          interactions: { likes: 5, dislikes: 0 },
+        },
       ],
       isNSFW: false,
     },
@@ -263,11 +318,13 @@ export default function Home() {
         {
           author: "FutureReader",
           text: "The future looks bright for NetVerses!",
+          date: "2024-09-16T10:30:00Z",
+          interactions: { likes: 6, dislikes: 1 },
         },
       ],
       isNSFW: true,
     },
-  ]); // API
+  ]);
 
   const [filteredVerses, setFilteredVerses] = useState<object[]>(versesData);
   const [filteredArticles, setFilteredArticles] =
@@ -450,6 +507,7 @@ export default function Home() {
                       title={post.title}
                       date={post.date}
                       description={post.description}
+                      isAIGenerated={true}
                       author={post.author}
                       interactions={post.interactions}
                       attachments={post.attachments}

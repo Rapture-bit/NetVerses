@@ -245,3 +245,7 @@ textarea {
 .borderColorTransparent {
   border-color: var(--border-color-transparent);
 }
+
+button:focus {
+  outline: none;
+}

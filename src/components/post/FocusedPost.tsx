@@ -298,9 +298,12 @@ export default function FocusedPost({
         </footer>
       </div>
       <div className="h-4"></div>
-      <Verse isComment={true} />
+      <Verse id="comment" isComment={true} />
       <div className="h-2"></div>
-      <div className="inline-flex items-center justify-between w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 py-2 text-sm font-medium">
+      <div
+        id="comments"
+        className="inline-flex items-center justify-between w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 py-2 text-sm font-medium"
+      >
         <hr className="flex-1 border-t borderColor mx-2" />
         <div className="gap-2 flex flex-row">
           <span className="text-sm dark:text-neutral-400">Sort by:</span>
