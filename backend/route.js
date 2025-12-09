@@ -5,7 +5,7 @@ const route = {
       path: "/users/check-email",
       allowedMethods: ["GET"],
       functionFile: "../API/users/checkEmail.js",
-      authRequired: false,
+      csrfRequired: false,
       rateLimit: {
         max: 10,
       },
@@ -15,17 +15,7 @@ const route = {
       path: "/auth/refresh",
       allowedMethods: ["POST"],
       functionFile: "../API/auth/rotate-token.js",
-      authRequired: false,
-      rateLimit: {
-        max: 9000,
-      },
-    },
-    {
-      name: "Retrieve Feed",
-      path: "/feeds",
-      allowedMethods: ["GET"],
-      functionFile: "../API/feed/get-feed.js",
-      authRequired: false,
+      csrfRequired: true,
       rateLimit: {
         max: 9000,
       },
@@ -35,7 +25,6 @@ const route = {
       path: "/otp/confirm",
       allowedMethods: ["POST"],
       functionFile: "../API/otp/otp-confirm.js",
-      authRequired: false,
       rateLimit: {
         max: 9000,
       },
@@ -45,7 +34,6 @@ const route = {
       path: "/otp/request",
       allowedMethods: ["POST"],
       functionFile: "../API/otp/otp-request.js",
-      authRequired: false,
       rateLimit: {
         max: 9000,
       },
@@ -55,9 +43,9 @@ const route = {
       path: "/feed/retrieve",
       allowedMethods: ["GET"],
       functionFile: "../API/feed/get-feed.js",
-      authRequired: false,
+      csrfRequired: true,
       rateLimit: {
-        max: 10000000000000,
+        max: 100000,
       },
     },
     {
@@ -65,7 +53,6 @@ const route = {
       path: "/users/check-username",
       allowedMethods: ["GET"],
       functionFile: "../API/users/checkUsername.js",
-      authRequired: false,
       rateLimit: {
         max: 15,
       },
@@ -75,7 +62,6 @@ const route = {
       path: "/auth/login",
       allowedMethods: ["POST"],
       functionFile: "../API/auth/login.js",
-      authRequired: false,
       rateLimit: {
         max: 10,
       },
@@ -85,7 +71,6 @@ const route = {
       path: "/check-country",
       allowedMethods: ["GET"],
       functionFile: "../API/checkRegion.js",
-      authRequired: false,
       rateLimit: {
         max: 25,
       },
@@ -93,9 +78,9 @@ const route = {
     {
       name: "Get Self Information",
       path: "/self",
-      allowedMethods: ["GET"],
+      allowedMethods: ["POST"],
       functionFile: "../API/users/self.js",
-      authRequired: true,
+      csrfRequired: true,
       rateLimit: {
         max: 10000,
       },
@@ -105,19 +90,8 @@ const route = {
       path: "/users/:username",
       allowedMethods: ["GET"],
       functionFile: "../API/users/user.js",
-      authRequired: false,
       rateLimit: {
         max: 50,
-      },
-    },
-    {
-      name: "Translate Content",
-      path: "/services/translate",
-      allowedMethods: ["GET"],
-      functionFile: "../API/services/translate.js",
-      authRequired: false,
-      rateLimit: {
-        max: 10000000000000,
       },
     },
   ],

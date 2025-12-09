@@ -144,7 +144,6 @@ export default function RightBar() {
               <RadioCard
                 radioName="Radio Name"
                 playingStatus="paused"
-                setPlayingStatus={() => 0}
                 id={"112345778"}
                 genre="Sports"
               />

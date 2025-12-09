@@ -1,5 +1,7 @@
 import { blacklistedCountries } from "../../constants/blacklistedCountries.js";
 
+import * as UAParser from "ua-parser-js";
+
 import { OTP } from "../../database/models/OTP.js";
 import { User, UserProfile, UserToken } from "../../database/models/User.js";
 import { createJwtToken } from "../../auth/HandleJWT.js";
@@ -11,6 +13,7 @@ import {
 
 import argon2 from "argon2";
 import validator from "validator";
+import { UserSession } from "../../database/models/Session.js";
 
 const successJSON = (username) => {
   const JSON = {
@@ -52,7 +55,7 @@ async function hashPassword(password) {
   return await argon2.hash(password);
 }
 
-async function createAccount(res, email, username, password, rememberMe) {
+async function createAccount(req, res, email, username, password, rememberMe) {
   try {
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
@@ -61,19 +64,38 @@ async function createAccount(res, email, username, password, rememberMe) {
         message: "An account with this email already exists.",
       });
     }
-    const hashedPassword = await hashPassword(password);
 
-    await User.create({ email, password: hashedPassword });
-    const user = await User.findOne({ where: { email } });
-    const userId = user.id;
+    const accessTokenExpires = new Date();
+    accessTokenExpires.setMinutes(accessTokenExpires.getMinutes() + 15); // After 15 minutes
 
     const expiresAt = new Date();
     expiresAt.setDate(
       rememberMe ? expiresAt.getDate() + 30 : expiresAt.getDate() + 7,
     ); // After 7 days
 
-    const accessTokenExpires = new Date();
-    accessTokenExpires.setMinutes(accessTokenExpires.getMinutes() + 15); // After 15 minutes
+    const hashedPassword = await hashPassword(password);
+    const user_agent = req.headers["user-agent"];
+    const parsed_user_agent = new UAParser.UAParser(user_agent);
+    const device_type =
+      parsed_user_agent.getDevice().type === "mobile"
+        ? "Mobile"
+        : parsed_user_agent.getDevice().type === "tablet"
+          ? "Tablet"
+          : "Desktop";
+
+    const csrf_token = generateCSRFToken();
+    const createdUser = await User.create({ email, password: hashedPassword });
+    const createdSession = await UserSession.create({
+      userId: createdUser.id,
+      device: device_type,
+      ipAddress: req.ip,
+      csrfToken: csrf_token,
+      userAgent: user_agent,
+      endsAt: expiresAt,
+    });
+
+    const user = await User.findOne({ where: { email } });
+    const userId = user.id;
 
     await UserProfile.create({
       id: userId,
@@ -82,19 +104,21 @@ async function createAccount(res, email, username, password, rememberMe) {
     });
 
     const refreshToken = generateRefreshToken();
-    const sessionId = generateSessionId();
-    const csrfToken = generateCSRFToken();
+    const sessionId = createdSession.getDataValue("id");
 
     await UserToken.create({
       refresh_token: refreshToken,
       session_id: sessionId,
-      csrf_token: csrfToken,
       userId: userId,
       expiresAt: expiresAt,
-      sessionExpiresAt: accessTokenExpires,
+      accessExpiresAt: accessTokenExpires,
+      sessionExpiresAt: expiresAt,
     });
 
     const generatedAccessToken = createJwtToken({ userId, username });
+
+    res.locals.csrf_token = csrf_token;
+    console.log("CSRF Token: ", res.locals.csrf_token);
     res.cookie("access_token", generatedAccessToken, {
       httpOnly: true,
       secure: true,
@@ -110,11 +134,6 @@ async function createAccount(res, email, username, password, rememberMe) {
       domain: ".netverses.com",
       sameSite: "Strict",
       signed: true,
-    });
-    res.cookie("csrf_token", csrfToken, {
-      httpOnly: false,
-      sameSite: "Strict",
-      secure: true,
     });
     res.cookie("session_id", sessionId, {
       httpOnly: true,
@@ -188,6 +207,7 @@ async function isBlacklisted(res, ip) {
 }
 
 async function confirmOTP(
+  req,
   res,
   requestId,
   code,
@@ -213,7 +233,7 @@ async function confirmOTP(
   const now = new Date();
 
   if (existingOTP.getDataValue("validated") === true) {
-    return await createAccount(res, email, username, password, rememberMe);
+    return await createAccount(req, res, email, username, password, rememberMe);
   }
 
   if (now >= expiryDate) {
@@ -247,7 +267,7 @@ async function confirmOTP(
   const familiarOTP = await OTP.findAll({ where: { email: email } });
   await Promise.all(familiarOTP.map((element) => element.destroy()));
 
-  return await createAccount(res, email, username, password);
+  return await createAccount(req, res, email, username, password);
 }
 
 export default async function (req, res) {
@@ -312,6 +332,7 @@ export default async function (req, res) {
   }
 
   return await confirmOTP(
+    req,
     res,
     requestId,
     code,

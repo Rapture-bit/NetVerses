@@ -41,7 +41,7 @@ export default async function checkAuth(req) {
       };
     }
 
-    if (session.sessionExpiresAt < new Date()) {
+    if (session.accessExpiresAt < new Date()) {
       console.warn("Session expired:", session.sessionId);
       return {
         success: false,

@@ -183,7 +183,7 @@ UserToken.init(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
-    sessionExpiresAt: {
+    accessExpiresAt: {
       type: DataTypes.DATE,
       allowNull: false,
     },

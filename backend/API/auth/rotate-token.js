@@ -18,7 +18,7 @@ export default async function (req, res) {
 
     if (access_token && session_id) {
       const session = await UserToken.findOne({ where: { session_id } });
-      if (session && session.sessionExpiresAt < new Date()) {
+      if (session && session.accessExpiresAt < new Date()) {
         const generatedSessionId = generateSessionId();
         const refreshToken = generateRefreshToken();
 
@@ -41,7 +41,7 @@ export default async function (req, res) {
           session_id: generatedSessionId,
           userId: userId,
           expiresAt: refreshTokenExpires,
-          sessionExpiresAt: accessTokenExpires,
+          accessExpiresAt: accessTokenExpires,
         });
 
         res.cookie("access_token", accessToken, {
@@ -133,7 +133,7 @@ export default async function (req, res) {
       session_id: generatedSessionId,
       userId: userId,
       expiresAt: refreshTokenExpires,
-      sessionExpiresAt: accessTokenExpires,
+      accessExpiresAt: accessTokenExpires,
     });
 
     res.cookie("access_token", accessToken, {

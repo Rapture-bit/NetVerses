@@ -7,9 +7,13 @@ import cookieParser from "cookie-parser";
 import crypto from "crypto";
 import compression from "compression";
 import fs from "fs";
+import { createProxyMiddleware } from "http-proxy-middleware";
+
+import { UserSession } from "./database/models/Session.js";
+
 import apiMiddleware from "./middlewares/apiMiddleware.js";
 import assetsMiddleware from "./middlewares/assetsMiddleware.js";
-import { createProxyMiddleware } from "http-proxy-middleware";
+import csrfMiddleware from "./middlewares/CSRFMiddleware.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,7 +71,8 @@ async function startServer() {
   console.log("Development mode: ", isDev);
 
   const app = express();
-  const secretKey = generateSecretKey(512);
+  const MISC_KEY = generateSecretKey(512);
+  const REQUESTS_KEY = generateSecretKey(256);
 
   app.use(compression());
   app.use((req, res, next) => {
@@ -136,7 +141,8 @@ async function startServer() {
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(cookieParser(secretKey));
+  app.use(cookieParser(MISC_KEY));
+  app.use(csrfMiddleware);
   app.use(apiMiddleware);
   app.use(assetsMiddleware);
 
@@ -151,27 +157,90 @@ async function startServer() {
     const indexPath = path.join(__dirname, "../dist", "index.html");
     const indexHtml = fs.readFileSync(indexPath, "utf-8");
 
-    app.get("*", (req, res, next) => {
+    const devIndexPath = path.join(__dirname, '"../../', "index.html");
+    const devIndexHtml = fs.readFileSync(devIndexPath, "utf-8");
+
+    app.get("*", async (req, res, next) => {
       if (/\.(js|css|png|jpg|svg|map|json)$/i.test(req.path)) return next();
+
+      const { session_id } = req.signedCookies;
+      let csrfToken = null;
+
+      if (session_id) {
+        const session = await UserSession.findOne({
+          where: { id: session_id },
+        });
+        if (session) {
+          csrfToken = session.csrfToken;
+        }
+      }
+
       const htmlWithNonce = indexHtml.replace(
         "</head>",
-        `<meta name="csp-nonce" content="${res.locals.nonce}"></head>`,
+        `<meta name="csp-nonce" content="${res.locals.nonce}">
+     <meta name="csrf" content="${csrfToken}">
+     </head>`,
       );
+
+      console.log("HTML sent with meta tag");
+
       res.send(htmlWithNonce);
     });
   } else {
     console.log("Redirecting to Vite dev server");
+
     app.use(
       "/",
       createProxyMiddleware({
         target: "http://localhost:5173",
         changeOrigin: true,
         ws: true,
+        selfHandleResponse: true,
+        on: {
+          proxyRes: async (proxyRes, req, res) => {
+            const { session_id } = req.signedCookies;
+            let csrfToken = null;
+
+            if (session_id) {
+              const session = await UserSession.findOne({
+                where: { id: session_id },
+              });
+              if (session) {
+                csrfToken = session.csrfToken;
+              }
+            }
+
+            let body = Buffer.from([]);
+
+            proxyRes.on("data", (chunk) => {
+              body = Buffer.concat([body, chunk]);
+            });
+
+            proxyRes.on("end", () => {
+              const html = body.toString("utf-8");
+
+              html.replace(
+                "</head>",
+                `<meta name="csp-nonce" content="${res.locals.nonce}">
+     <meta name="csrf" content="${csrfToken}">
+     <meta name="test" content="test">
+     </head>`,
+              );
+
+              res.end(html);
+            });
+          },
+        },
       }),
     );
   }
 
   app.use((err, req, res, next) => {
+    if (!res || typeof res.status !== "function") {
+      console.error("Express response object is missing or invalid", err);
+      return;
+    }
+
     res.status(err.statusCode || 500).send({
       message: err.message || "Internal Server Error.",
       error: err.name,

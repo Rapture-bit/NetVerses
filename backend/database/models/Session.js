@@ -25,6 +25,10 @@ UserSession.init(
       },
       onDelete: "CASCADE",
     },
+    csrfToken: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     device: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -42,14 +46,15 @@ UserSession.init(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    endedAt: {
+    endsAt: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
     },
   },
   {
     sequelize,
-    modelName: "UserSession",
+    tableName: "UserSession",
+    timestamps: true,
   },
 );
 
