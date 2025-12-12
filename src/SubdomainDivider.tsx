@@ -2,6 +2,7 @@ import React, {
   useState,
   useEffect,
   useRef,
+  Suspense,
   useContext,
   useLayoutEffect,
 } from "react";
@@ -11,8 +12,10 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import DocumentationLayout from "@/layouts/DocumentationLayout";
 
 import { UserContext } from "@/context/UserContext";
+import { CSRFContext } from "@/context/CSRFContext";
 
 import Loading from "@/components/others/Loading";
+import fetchCSRFPost from "./utils/fetchPostPage";
 
 const LandingPage = React.lazy(() => import("@/pages/landingpage"));
 const ClubsPage = React.lazy(() => import("@/pages/my/clubs"));
@@ -30,7 +33,9 @@ const HelpLandingPage = React.lazy(() => import("@/subdomains/help/landing"));
 
 export default function SubdomainDivider() {
   const { updateCache } = useContext(UserContext);
-
+  const { setCSRFToken } = useContext(CSRFContext);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isAuth, setAuth] = useState<boolean>(false);
   const [userCache, setUserCache] = useState<Object[] | null | undefined>(
     undefined,
   );
@@ -49,12 +54,114 @@ export default function SubdomainDivider() {
     }
   }, []);
 
-  if (subdomain === null) {
-    return null;
+  // Check theme
+  useLayoutEffect(() => {
+    const setTheme = () => {
+      const mode = document.documentElement.getAttribute("data-mode");
+
+      if (mode) {
+        document.documentElement.setAttribute("data-mode", mode);
+      } else {
+        const isDarkMode = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        document.documentElement.setAttribute(
+          "data-mode",
+          isDarkMode ? "dark" : "light",
+        );
+      }
+    };
+
+    setTheme();
+
+    const mediaQueryListener = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    );
+    const updateTheme = (event) => {
+      document.documentElement.setAttribute(
+        "data-mode",
+        event.matches ? "dark" : "light",
+      );
+    };
+
+    mediaQueryListener.addEventListener("change", updateTheme);
+    return () => {
+      mediaQueryListener.removeEventListener("change", updateTheme);
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    let csrfToken = null;
+
+    const csrfElement = document.getElementsByName("csrf")[0];
+    if (csrfElement) {
+      const csrfContent = csrfElement.getAttribute("content");
+      setCSRFToken(csrfContent);
+      csrfToken = csrfContent;
+
+      console.log(csrfToken, csrfContent);
+    }
+
+    const authenticate = async () => {
+      try {
+        const refreshData = await fetchCSRFPost(
+          "https://api.netverses.com/v1/auth/refresh",
+          csrfToken,
+        );
+
+        if (
+          refreshData.response === "User already authenticated." &&
+          isMounted
+        ) {
+          setAuth(true);
+        }
+
+        console.log(csrfToken);
+
+        const selfData = await fetchCSRFPost(
+          "https://api.netverses.com/v1/self",
+          csrfToken,
+        );
+
+        console.log(isMounted, selfData.success, selfData.user);
+        if (isMounted) setAuth(selfData.success && selfData.user);
+      } catch (err) {
+        console.error(err);
+        if (isMounted) setAuth(false);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    authenticate();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Check feed
+  useEffect(() => {
+    if (!isAuth) {
+      return;
+    }
+
+    if (!localStorage.getItem("selectedFeed")) {
+      localStorage.setItem("selectedFeed", "MyFeed");
+    }
+
+    if (!localStorage.getItem("selectedFilter")) {
+      localStorage.setItem("selectedFilter", "Popular");
+    }
+  }, [isAuth]);
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       {subdomain === "help" ? (
         <Routes>
           <Route element={<DocumentationLayout />}>
@@ -134,6 +241,6 @@ export default function SubdomainDivider() {
           </Route>
         </Routes>
       )}
-    </>
+    </Suspense>
   );
 }

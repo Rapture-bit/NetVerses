@@ -88,7 +88,7 @@ async function startServer() {
         "https://help.netverses.com",
       ],
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
+      allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
       credentials: true,
     }),
   );
@@ -217,16 +217,26 @@ async function startServer() {
             });
 
             proxyRes.on("end", () => {
-              const html = body.toString("utf-8");
+              const isHTML =
+                req.url === "/" ||
+                req.url.endsWith(".html") ||
+                proxyRes.headers["content-type"]?.includes("text/html");
 
-              html.replace(
+              if (!isHTML) {
+                res.writeHead(proxyRes.statusCode, proxyRes.headers);
+                return res.end(body);
+              }
+
+              let html = body.toString("utf-8");
+
+              html = html.replace(
                 "</head>",
                 `<meta name="csp-nonce" content="${res.locals.nonce}">
      <meta name="csrf" content="${csrfToken}">
-     <meta name="test" content="test">
      </head>`,
               );
 
+              res.setHeader("Content-Type", "text/html");
               res.end(html);
             });
           },

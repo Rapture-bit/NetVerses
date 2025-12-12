@@ -35,11 +35,9 @@ export default async function csrfMiddleware(req, res, next) {
   const fullPath = req.originalUrl.split("?")[0];
   const method = req.method;
 
-  const isAuthenticated = checkAuth(req).success;
   const { session_id } = req.signedCookies;
 
   if (!fullPath.startsWith("/v1/" || hostname !== "api.netverses.com")) {
-    console.log("Gate 1 failed");
     return next();
   }
 
@@ -53,32 +51,30 @@ export default async function csrfMiddleware(req, res, next) {
   });
 
   if (!matchingRoute || !matchingRoute.csrfRequired) {
-    console.log("Gate 2 failed");
     return next();
   }
 
-  if (isAuthenticated) {
-    const session = await UserSession.findOne({
-      where: { id: session_id },
+  if (!session_id) {
+    return res.status(200).json({
+      success: false,
+      message: "Expired or invalid session.",
     });
-
-    if (session) {
-      const { csrfToken } = session;
-      const headerToken = req.headers["x-csrf-token"];
-
-      if (!headerToken || headerToken != csrfToken) {
-        return res.status(403).json({ error: "Invalid CSRF token" });
-      }
-
-      const generatedCSRFToken = generateCSRFToken();
-      await session.update({ csrfToken: generatedCSRFToken });
-
-      res.locals.csrf_token = generatedCSRFToken;
-    }
   }
 
-  console.log("auth failed!");
+  const session = await UserSession.findOne({
+    where: { id: session_id },
+  });
 
+  if (session) {
+    const { csrfToken } = session;
+    const headerToken = req.headers["x-csrf-token"];
+
+    if (!headerToken || headerToken.trim() != csrfToken.trim()) {
+      return res.status(403).json({ error: "Invalid CSRF token" });
+    }
+
+    return next();
+  }
   return res.status(200).json({
     success: false,
     message: "Expired or invalid session.",

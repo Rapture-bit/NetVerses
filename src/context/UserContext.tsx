@@ -2,8 +2,11 @@ import React, {
   useState,
   useEffect,
   useLayoutEffect,
+  useContext,
   createContext,
 } from "react";
+import { CSRFContext } from "@/context/CSRFContext";
+import fetchCSRFPost from "@/utils/fetchPostPage";
 
 interface User {
   id: string;
@@ -31,35 +34,47 @@ export const UserContext = createContext<UserContextType | undefined>(
 );
 
 const UserProvider = ({ children }) => {
+  const { setCSRFToken } = useContext(CSRFContext);
   const [userCache, setUserCache] = useState<User | null>(null);
   const [cacheExpirationDate, setCacheExpirationDate] = useState<
     number | null
   >();
 
   const updateCache = async () => {
+    let csrfToken = null;
+
+    const csrfElement = document.getElementsByName("csrf")[0];
+    if (csrfElement) {
+      const csrfContent = csrfElement.getAttribute("content");
+      setCSRFToken(csrfContent);
+      csrfToken = csrfContent;
+
+      console.log(csrfToken, csrfContent);
+    }
+
     const now = Date.now();
     if (userCache !== null && cacheExpirationDate && now < cacheExpirationDate)
       return;
 
     try {
-      const fetchAPI = await fetch("https://api.netverses.com/v1/self", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const selfData = await fetchCSRFPost(
+        "https://api.netverses.com/v1/self",
+        csrfToken,
+      );
 
-      if (!fetchAPI.ok) {
+      if (!selfData) {
+        return null;
+      }
+
+      if (!selfData.success) {
         setUserCache(null);
         return null;
       }
 
-      const data = await fetchAPI.json();
-      if (data.success && data.user) {
-        console.log(data.user);
-        setUserCache(data.user);
-        return data.user;
+      if (selfData.success && selfData.user) {
+        console.log(selfData.user);
+        setUserCache(selfData.user);
+        return selfData.user;
       } else {
         setUserCache(null);
         return null;

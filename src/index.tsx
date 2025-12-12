@@ -1,4 +1,3 @@
-import React, { useState, Suspense, useEffect, useLayoutEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -15,13 +14,12 @@ import "@/fonts/inter.css";
 import "@/fonts/rubik.css";
 import "@/fonts/jost.css";
 
-import Loading from "@/components/others/Loading";
-
 import ThemeProvider from "@/context/ThemeContext";
 import UserProvider from "@/context/UserContext";
 import LocaleProvider from "@/context/LocaleContext";
 import AnimateProvider from "@/context/AnimateContext";
 import SubdomainDivider from "@/SubdomainDivider";
+import CSRFProvider, { CSRFContext } from "@/context/CSRFContext";
 
 import AnimationPlayer from "./components/others/AnimationPlayer";
 
@@ -37,122 +35,18 @@ const rootElement = document.getElementById("app") as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
 
 const App = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isAuth, setAuth] = useState<boolean>(false);
-
-  // Check theme
-  useLayoutEffect(() => {
-    const setTheme = () => {
-      const mode = document.documentElement.getAttribute("data-mode");
-
-      if (mode) {
-        document.documentElement.setAttribute("data-mode", mode);
-      } else {
-        const isDarkMode = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        document.documentElement.setAttribute(
-          "data-mode",
-          isDarkMode ? "dark" : "light",
-        );
-      }
-    };
-
-    setTheme();
-
-    const mediaQueryListener = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    );
-    const updateTheme = (event) => {
-      document.documentElement.setAttribute(
-        "data-mode",
-        event.matches ? "dark" : "light",
-      );
-    };
-
-    mediaQueryListener.addEventListener("change", updateTheme);
-    return () => {
-      mediaQueryListener.removeEventListener("change", updateTheme);
-    };
-  }, []);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const authenticate = async () => {
-      try {
-        const refreshRes = await fetch(
-          "https://api.netverses.com/v1/auth/refresh",
-          {
-            method: "POST",
-            credentials: "include",
-          },
-        );
-
-        if (refreshRes.ok) {
-          const refreshData = await refreshRes.json();
-          if (refreshData.success && isMounted) {
-            setAuth(true);
-          }
-        }
-
-        const res = await fetch("https://api.netverses.com/v1/self", {
-          method: "POST",
-          credentials: "include",
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (isMounted) setAuth(data.success && data.user);
-        } else if (isMounted) {
-          setAuth(false);
-        }
-      } catch (err) {
-        console.error(err);
-        if (isMounted) setAuth(false);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
-    authenticate();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  // Check feed
-  useEffect(() => {
-    if (!isAuth) {
-      return;
-    }
-
-    if (!localStorage.getItem("selectedFeed")) {
-      localStorage.setItem("selectedFeed", "MyFeed");
-    }
-
-    if (!localStorage.getItem("selectedFilter")) {
-      localStorage.setItem("selectedFilter", "Popular");
-    }
-  }, [isAuth]);
-
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
-    <ThemeProvider>
-      <LocaleProvider>
-        <UserProvider>
-          <AnimateProvider>
-            <Suspense fallback={<Loading />}>
+    <CSRFProvider>
+      <ThemeProvider>
+        <LocaleProvider>
+          <UserProvider>
+            <AnimateProvider>
               <SubdomainDivider />
-            </Suspense>
-          </AnimateProvider>
-        </UserProvider>
-      </LocaleProvider>
-    </ThemeProvider>
+            </AnimateProvider>
+          </UserProvider>
+        </LocaleProvider>
+      </ThemeProvider>
+    </CSRFProvider>
   );
 };
 
