@@ -5,7 +5,6 @@ import checkAuth from "../auth/checkAuth.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
-import { generateCSRFToken } from "../auth/detailsGenerator.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,7 +56,7 @@ export default async function csrfMiddleware(req, res, next) {
   if (!session_id) {
     return res.status(200).json({
       success: false,
-      message: "Expired or invalid session.",
+      message: "Expired or invalid session (1)",
     });
   }
 
@@ -75,8 +74,9 @@ export default async function csrfMiddleware(req, res, next) {
 
     return next();
   }
+
   return res.status(200).json({
     success: false,
-    message: "Expired or invalid session.",
+    message: "Expired or invalid session (2)",
   });
 }

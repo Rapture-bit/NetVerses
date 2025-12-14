@@ -8,6 +8,8 @@ import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
 
+import BadgesList from "../profile/BadgesList";
+
 interface profileColors {
   bannerGradient: string;
   background: string;
@@ -16,15 +18,34 @@ interface profileColors {
   textColor: string;
 }
 
-export default function LeftBar({ userData }) {
+interface dataProps {
+  username: string;
+  profile_picture: string;
+  career: string;
+  bio: string;
+  followers: number;
+  following: number;
+  color: string;
+}
+
+export default function LeftBar() {
   const { t } = useTranslation();
   const [hideButtons, setHideButtons] = useState<boolean>(false);
   const [leftPosition, setLeftPosition] = useState<string>("8%");
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
+  const [badges, setBadges] = useState([
+    { name: "Official Member" },
+    { name: "Early Creator" },
+    { name: "Star+" },
+    { name: "Business Account" },
+  ]);
+
+  const [userData, setUserData] = useState<dataProps>();
+
   const [Job, setJob] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [posts, setPosts] = useState<number>(0);
+  const [postsNumber, setPostsNumber] = useState<number>(0);
   const [followers, setFollowers] = useState<number>(0);
   const [following, setFollowing] = useState<number>(0);
   const [username, setUsername] = useState<string>("");
@@ -65,43 +86,32 @@ export default function LeftBar({ userData }) {
     },
   ]);
 
-  const [socialLinks, setSocialLinks] = useState([
-    {
-      href: "/",
-      icon: "prime--twitter",
-      platform: "Twitter",
-      user: "@xenon",
-      color: "text-blue-500",
-    },
-    {
-      href: "/",
-      icon: "devicon--linkedin",
-      platform: "LinkedIn",
-      user: "@xenon",
-      color: "text-blue-700",
-    },
-    {
-      href: "/",
-      icon: "logos--discord-icon",
-      platform: "Discord",
-      user: "@quantarion_1",
-      color: "text-indigo-500",
-    },
-    {
-      href: "/",
-      icon: "skill-icons--instagram",
-      platform: "Instagram",
-      user: "@xenon_official",
-      color: "text-pink-500",
-    },
-    {
-      href: "/",
-      icon: "akar-icons--globe",
-      platform: "Personal Website",
-      user: "netverses.com",
-      color: "dark:text-white text-black",
-    },
-  ]);
+  useEffect(() => {
+    const dataElement = document.getElementById("data-field");
+
+    const username = dataElement?.dataset.username;
+    const description = dataElement?.dataset.description;
+    const career = dataElement?.dataset.career;
+    const preferences = dataElement?.dataset.preferences;
+    const followers = Number(dataElement?.dataset.followers);
+    const following = Number(dataElement?.dataset.following);
+    const pfp = dataElement?.dataset.pfp;
+
+    const preferencesJsonStr = preferences.replace(/'/g, '"');
+    const preferencesJSON = JSON.parse(preferencesJsonStr);
+
+    const color = preferencesJSON.color;
+
+    setUserData({
+      username,
+      bio: description,
+      career,
+      color,
+      followers,
+      following,
+      profile_picture: pfp,
+    });
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -112,13 +122,13 @@ export default function LeftBar({ userData }) {
 
   useEffect(() => {
     if (!userData) return;
-    setUsername(userData.profile.username);
-    setAvatar(userData.profile.profile_picture);
-    setJob(userData.profile.career);
-    setDescription(userData.profile.bio);
-    setFollowers(userData.analytics.followers);
-    setFollowing(userData.analytics.following);
-    setProfileColor(userData.userPreferences.profileColor);
+    setUsername(userData.username);
+    setAvatar(userData.profile_picture);
+    setJob(userData.career);
+    setDescription(userData.bio);
+    setFollowers(userData.followers);
+    setFollowing(userData.following);
+    setProfileColor(userData.color);
   }, [userData]);
 
   useEffect(() => {
@@ -178,291 +188,254 @@ export default function LeftBar({ userData }) {
   };
 
   return (
-    <nav
-      className="fixed xl:flex hidden top-14 xl:top-20 h-[90vh] w-[16vw] min-w-[200px] max-w-[300px] p-4 roboto dark:text-white text-black flex-col items-center space-y-6 z-10 transition-all duration-200"
-      style={{ left: leftPosition }}
-    >
-      <div className="relative">
-        <div
-          className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-20 w-full absolute top-0 left-0 rounded-t-lg`}
-        >
-          {isLoaded ? (
-            <Link
-              to={`/${username}`}
-              className="absolute z-10 mt-7 ml-4 w-16 h-16 rounded-full overflow-hidden"
-              aria-label={`Profile of ${username}`}
-            >
-              <div
-                className="w-full h-full bg-cover rounded-full"
-                style={{
-                  backgroundImage: `url(${avatar})`,
-                  backgroundPosition: "center",
-                }}
-              ></div>
-            </Link>
-          ) : (
-            <div className="absolute z-10 mt-7 ml-4 w-16 h-16 rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
-          )}
-
-          <Tooltip placement="bottom" title="Edit Profile" mouseLeaveDelay={0}>
-            <button
-              className="absolute top-2 right-2 z-20 transition-colors inline-flex flex-shrink-0"
-              aria-label="Edit Banner"
-            >
-              <span className="icon-[flowbite--edit-outline] text-[#c0c0c0] hover:text-white transition-all duration-300 text-xl"></span>
-            </button>
-          </Tooltip>
-        </div>
-
-        <div className="flex border border-neutral-700 flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor text-center pt-28">
-          <div className="flex flex-col gap-1">
-            <div className="inline-flex items-center gap-1">
-              {isLoaded ? (
-                <div className="flex items-center space-x-2">
-                  <Link
-                    to={`/${username.toLowerCase()}`}
-                    className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none hover:underline"
+    <>
+      <span
+        id="data-field"
+        data-username="Xenon"
+        data-description="Proud chairman of NetVerses™, empowering connections and shaping the future of digital social platforms."
+        data-career="Entrepreneur"
+        data-preferences="{ 'color': 'purple' }"
+        data-following={2}
+        data-followers={10}
+        data-posts={0}
+        data-pfp={"https://cdn.netverses.com/media/image_placeholder.jpg"}
+      ></span>
+      <nav
+        className="fixed xl:flex hidden top-14 xl:top-20 h-[90vh] w-[16vw] min-w-[200px] max-w-[300px] p-4 roboto dark:text-white text-black flex-col items-center space-y-6 z-10 transition-all duration-200"
+        style={{ left: leftPosition }}
+      >
+        <div className="relative">
+          <div
+            className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-20 w-full absolute top-0 left-0 rounded-t-lg`}
+          >
+            {isLoaded ? (
+              <Link
+                to={`/${username}`}
+                className="absolute z-10 top-7 left-4 w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden cursor-pointer"
+                aria-label={`Profile of ${username}`}
+              >
+                <div className="w-full h-full rounded-full border-2 sm:border-4 border-gray-900 bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-violet-500/50 hover:scale-105">
+                  <svg
+                    viewBox="0 0 100 100"
+                    className="w-10 h-10 sm:w-14 sm:h-14"
                   >
-                    {username}
-                  </Link>
-
-                  <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
-                    <Tooltip placement="bottom" title="Official Member">
-                      <span
-                        className="icon-[ic--baseline-verified] w-4 h-4 text-[#facc15] cursor-pointer flex-shrink-0"
-                        aria-label="Verified"
-                      ></span>
-                    </Tooltip>
-
-                    <Tooltip placement="bottom" title="Early Creator">
-                      <span className="icon-[material-symbols--diamond-rounded] w-4 h-4 text-[#3b82f6] cursor-pointer flex-shrink-0"></span>
-                    </Tooltip>
-
-                    <Tooltip placement="bottom" title="Business Account">
-                      <span className="icon-[material-symbols--store-outline] w-4 h-4 text-[#a855f7] cursor-pointer flex-shrink-0"></span>
-                    </Tooltip>
-
-                    <Tooltip placement="bottom" title="StarPlus Member">
-                      <span className="icon-[material-symbols--star-rounded] w-4 h-4 text-[#bb4bff] cursor-pointer flex-shrink-0"></span>
-                    </Tooltip>
-                  </div>
+                    <circle cx="50" cy="35" r="15" fill="white" opacity="0.9" />
+                    <path
+                      d="M 30 70 Q 50 55 70 70 L 70 85 Q 50 70 30 85 Z"
+                      fill="white"
+                      opacity="0.9"
+                    />
+                  </svg>
                 </div>
-              ) : (
-                <div className="h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-              )}
-            </div>
-            <div className="flex flex-col gap-1">
-              {isLoaded ? (
-                <>
-                  <div className="flex-row space-x-1 inline-flex">
-                    <span
-                      className={`icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem] ${profileColors.textColor}`}
-                    ></span>
-                    <span
-                      className={`font-medium ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
-                    >
-                      Entrepreneur
-                    </span>
-                  </div>
-                </>
-              ) : (
-                <div className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-              )}
-            </div>
+              </Link>
+            ) : (
+              <div className="absolute z-10 mt-7 ml-4 w-16 h-16 rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
+            )}
+
+            <Tooltip
+              placement="bottom"
+              title="Edit Profile"
+              mouseLeaveDelay={0}
+            >
+              <button
+                className="absolute top-2 right-2 z-20 transition-colors inline-flex flex-shrink-0"
+                aria-label="Edit Banner"
+              >
+                <span className="icon-[flowbite--edit-outline] text-[#c0c0c0] hover:text-white transition-all duration-300 text-xl"></span>
+              </button>
+            </Tooltip>
           </div>
 
-          {isLoaded ? (
-            <p className="description text-sm text-left w-full whitespace-normal break-words">
-              Proud chairman of NetVerses™, empowering connections and shaping
-              the future of digital social platforms.
-            </p>
-          ) : (
-            <div className="flex flex-col gap-2 mt-2">
-              <div className="h-3 w-full bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-              <div className="h-3 w-5/6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-            </div>
-          )}
-
-          {isLoaded ? (
-            <div className="flex justify-start gap-4 mt-3">
-              {socialLinks.map(({ href, icon, platform, user, color }) => (
-                <a
-                  onMouseEnter={() => {
-                    toggleArrayHover(true, platform);
-                  }}
-                  onMouseLeave={() => {
-                    toggleArrayHover(false, platform);
-                  }}
-                  key={platform}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center"
-                >
-                  <span className={`${color} icon-[${icon}] w-6 h-6`}></span>
-                  <AnimatePresence>
-                    {hoverArray.find((element) => element.platform === platform)
-                      ?.isHover && (
-                      <motion.div
-                        className="absolute textColor darkerBackgroundColor border borderColor text-sm px-2 py-1 rounded-md mt-2 shadow-lg text-center pointer-events-none"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 35 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 300,
-                          damping: 25,
-                          duration: 0.3,
-                        }}
-                      >
-                        {user}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </a>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col gap-2 mt-2">
-              <div className="h-3 w-full bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-              <div className="h-3 w-5/6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-            </div>
-          )}
-
-          <div className="border-t border-neutral-300 dark:border-neutral-700 my-3"></div>
-
-          <div className="flex flex-row justify-center gap-8">
-            {[
-              { value: followers, label: "Followers" },
-              { value: following, label: "Following" },
-              { value: posts, label: "Posts" },
-            ].map((item, idx) => (
-              <div key={idx} className="flex flex-col items-center">
+          <div className="flex border borderColor flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor text-center pt-28">
+            <div className="flex flex-col gap-1">
+              <div className="inline-flex items-center gap-1">
                 {isLoaded ? (
-                  <>
-                    <Link to="#" className="text-lg font-bold hover:underline">
-                      {formatNumber(item.value)}
+                  <div className="flex items-center space-x-2">
+                    <Link
+                      to={`/${username.toLowerCase()}`}
+                      className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none hover:underline"
+                    >
+                      {username}
                     </Link>
-                    <span className="text-xs textColor">{item.label}</span>
-                  </>
+                  </div>
                 ) : (
-                  <>
-                    <div className="h-5 w-10 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-                    <div className="h-3 w-10 bg-gray-300 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
-                  </>
+                  <div className="h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
                 )}
               </div>
-            ))}
+              <div className="flex flex-col gap-1">
+                {isLoaded ? (
+                  <>
+                    <div className="flex-row space-x-1 inline-flex">
+                      <span
+                        className={`icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem] ${profileColors.textColor}`}
+                      ></span>
+                      <span
+                        className={`font-medium ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
+                      >
+                        Entrepreneur
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                )}
+              </div>
+            </div>
+
+            {isLoaded ? (
+              <p className="text-gray-300 text-sm leading-relaxed">
+                Proud chairman of NetVerses™, empowering connections and
+                shaping the future of digital social platforms.
+              </p>
+            ) : (
+              <div className="flex flex-col gap-2 mt-2">
+                <div className="h-3 w-full bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-3 w-5/6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
+            )}
+
+            <div className="border-t borderColor my-3"></div>
+
+            <div className="flex flex-row justify-center gap-8">
+              {[
+                { value: followers, label: "Followers" },
+                { value: following, label: "Following" },
+                { value: postsNumber, label: "Posts" },
+              ].map((item, idx) => (
+                <div key={idx} className="flex flex-col items-center">
+                  {isLoaded ? (
+                    <>
+                      <Link
+                        to="#"
+                        className="text-lg font-bold hover:underline"
+                      >
+                        {formatNumber(item.value)}
+                      </Link>
+                      <span className="text-xs textColor">{item.label}</span>
+                    </>
+                  ) : (
+                    <>
+                      <div className="h-5 w-10 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                      <div className="h-3 w-10 bg-gray-300 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex flex-col space-y-4 justify-center items-center">
-        <div className="relative flex items-center justify-center">
-          <button
-            aria-label={t("home.leftBar.home")}
-            onClick={(e) => navigate("/")}
-            className={`${selectedPage === "Home" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-          >
-            <span
-              className={`${selectedPage === "Home" ? "icon-[fluent--home-16-filled]" : "icon-[fluent--home-16-regular]"} w-6 h-6 flex items-center justify-center`}
-            ></span>
-            <span className="text-base xl:flex hidden">
-              {t("home.leftBar.home")}
-            </span>
-          </button>
-        </div>
-        <div className="relative flex items-center justify-center">
-          <button
-            aria-label={t("home.leftBar.explore")}
-            onClick={(e) => navigate("/explore")}
-            className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-          >
-            <span
-              className={`${selectedPage === "Explore" ? "icon-[mingcute--search-fill]" : "icon-[mingcute--search-line]"} w-6 h-6 flex items-center justify-center`}
-            ></span>
-            <span className="text-base xl:flex hidden">
-              {t("home.leftBar.explore")}
-            </span>
-          </button>
-        </div>
+        <div className="flex flex-col space-y-4 justify-center items-center">
+          <div className="relative flex items-center justify-center">
+            <button
+              aria-label={t("home.leftBar.home")}
+              onClick={(e) => navigate("/")}
+              className={`${selectedPage === "Home" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+            >
+              <span
+                className={`${selectedPage === "Home" ? "icon-[fluent--home-16-filled]" : "icon-[fluent--home-16-regular]"} w-6 h-6 flex items-center justify-center`}
+              ></span>
+              <span className="text-base xl:flex hidden">
+                {t("home.leftBar.home")}
+              </span>
+            </button>
+          </div>
+          <div className="relative flex items-center justify-center">
+            <button
+              aria-label={t("home.leftBar.explore")}
+              onClick={(e) => navigate("/explore")}
+              className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+            >
+              <span
+                className={`${selectedPage === "Explore" ? "icon-[mingcute--search-fill]" : "icon-[mingcute--search-line]"} w-6 h-6 flex items-center justify-center`}
+              ></span>
+              <span className="text-base xl:flex hidden">
+                {t("home.leftBar.explore")}
+              </span>
+            </button>
+          </div>
 
-        {!hideButtons && (
-          <>
-            <div className="relative flex items-center justify-center">
-              <button
-                aria-label={t("home.leftBar.messages")}
-                onClick={(e) => navigate("/my/messages")}
-                className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-              >
-                <span
-                  className={`${selectedPage === "Messages" ? "icon-[ic--baseline-email]" : "icon-[ic--outline-email]"} w-6 h-6 flex items-center justify-center`}
-                ></span>
-                <span className="text-base">{t("home.leftBar.messages")}</span>
-              </button>
-            </div>
+          {!hideButtons && (
+            <>
+              <div className="relative flex items-center justify-center">
+                <button
+                  aria-label={t("home.leftBar.messages")}
+                  onClick={(e) => navigate("/my/messages")}
+                  className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                >
+                  <span
+                    className={`${selectedPage === "Messages" ? "icon-[ic--baseline-email]" : "icon-[ic--outline-email]"} w-6 h-6 flex items-center justify-center`}
+                  ></span>
+                  <span className="text-base">
+                    {t("home.leftBar.messages")}
+                  </span>
+                </button>
+              </div>
 
-            <div className="relative flex items-center justify-center">
-              <button
-                aria-label={t("home.leftBar.clubs")}
-                onClick={(e) => navigate("/my/clubs")}
-                className={`${selectedPage === "Clubs" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-              >
-                <span
-                  className={`${selectedPage === "Clubs" ? "icon-[mage--globe-fill]" : "icon-[hugeicons--globe-02]"} w-6 h-6 flex items-center justify-center`}
-                ></span>
-                <span className="text-base">{t("home.leftBar.clubs")}</span>
-              </button>
-            </div>
+              <div className="relative flex items-center justify-center">
+                <button
+                  aria-label={t("home.leftBar.clubs")}
+                  onClick={(e) => navigate("/my/clubs")}
+                  className={`${selectedPage === "Clubs" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                >
+                  <span
+                    className={`${selectedPage === "Clubs" ? "icon-[mage--globe-fill]" : "icon-[hugeicons--globe-02]"} w-6 h-6 flex items-center justify-center`}
+                  ></span>
+                  <span className="text-base">{t("home.leftBar.clubs")}</span>
+                </button>
+              </div>
 
-            <div className="relative flex items-center justify-center">
-              <button
-                aria-label={t("home.leftBar.settings")}
-                onClick={(e) => navigate("/my/settings")}
-                className={`${selectedPage === "Settings" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-              >
-                <span
-                  className={`${selectedPage === "Settings" ? "icon-[fluent--settings-28-filled]" : "icon-[fluent--settings-28-regular]"} w-6 h-6 flex items-center justify-center`}
-                ></span>
-                <span className="text-base">{t("home.leftBar.settings")}</span>
-              </button>
-            </div>
-          </>
-        )}
-        <div className="flex flex-col space-y-4 w-full items-center justify-center">
-          <button
-            aria-label={t("home.leftBar.starplus")}
-            onClick={(e) => navigate("/starplus")}
-            className={`${selectedPage === "StarPlus" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-          >
-            <span
-              className={`${selectedPage === "StarPlus" ? "icon-[material-symbols--star]" : "icon-[material-symbols--star-outline]"} w-6 h-6 flex items-center justify-center`}
-            ></span>
-            <span className="text-base xl:flex hidden">
-              {t("home.leftBar.starplus")}
-            </span>
-          </button>
-
-          {hideButtons && (
-            <div className="relative flex items-center justify-center">
-              <button
-                aria-label={"More"}
-                onClick={(e) => navigate("/explore")}
-                className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} border border-neutral-700 p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
-              >
-                <span
-                  className={`icon-[material-symbols--more-up] w-6 h-6 flex items-center justify-center`}
-                ></span>
-                <span className="text-base xl:flex hidden">More</span>
-              </button>
-            </div>
+              <div className="relative flex items-center justify-center">
+                <button
+                  aria-label={t("home.leftBar.settings")}
+                  onClick={(e) => navigate("/my/settings")}
+                  className={`${selectedPage === "Settings" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                >
+                  <span
+                    className={`${selectedPage === "Settings" ? "icon-[fluent--settings-28-filled]" : "icon-[fluent--settings-28-regular]"} w-6 h-6 flex items-center justify-center`}
+                  ></span>
+                  <span className="text-base">
+                    {t("home.leftBar.settings")}
+                  </span>
+                </button>
+              </div>
+            </>
           )}
+          <div className="flex flex-col space-y-4 w-full items-center justify-center">
+            <button
+              aria-label={t("home.leftBar.starplus")}
+              onClick={(e) => navigate("/starplus")}
+              className={`${selectedPage === "StarPlus" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+            >
+              <span
+                className={`${selectedPage === "StarPlus" ? "icon-[material-symbols--star]" : "icon-[material-symbols--star-outline]"} w-6 h-6 flex items-center justify-center`}
+              ></span>
+              <span className="text-base xl:flex hidden">
+                {t("home.leftBar.starplus")}
+              </span>
+            </button>
 
-          <div className="flex flex-row gap-2 mr-auto">
-            <span className="text-xs mr-auto">© 2025 NetVerses</span>
+            {hideButtons && (
+              <div className="relative flex items-center justify-center">
+                <button
+                  aria-label={"More"}
+                  onClick={(e) => navigate("/explore")}
+                  className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                >
+                  <span
+                    className={`icon-[material-symbols--more-up] w-6 h-6 flex items-center justify-center`}
+                  ></span>
+                  <span className="text-base xl:flex hidden">More</span>
+                </button>
+              </div>
+            )}
+
+            <div className="flex flex-row gap-2 mr-auto">
+              <span className="text-xs mr-auto">© 2025 NetVerses</span>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }

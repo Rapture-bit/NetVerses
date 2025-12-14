@@ -4,9 +4,9 @@ import * as UAParser from "ua-parser-js";
 
 import { OTP } from "../../database/models/OTP.js";
 import { User, UserProfile, UserToken } from "../../database/models/User.js";
+import { UserConsent } from "../../database/models/DataConsentRecord.js";
 import { createJwtToken } from "../../auth/HandleJWT.js";
 import {
-  generateSessionId,
   generateRefreshToken,
   generateCSRFToken,
 } from "../../auth/detailsGenerator.js";
@@ -106,6 +106,8 @@ async function createAccount(req, res, email, username, password, rememberMe) {
     const refreshToken = generateRefreshToken();
     const sessionId = createdSession.getDataValue("id");
 
+    console.log(sessionId, await createdSession.getDataValue("id"));
+
     await UserToken.create({
       refresh_token: refreshToken,
       session_id: sessionId,
@@ -117,7 +119,6 @@ async function createAccount(req, res, email, username, password, rememberMe) {
 
     const generatedAccessToken = createJwtToken({ userId, username });
 
-    res.locals.csrf_token = csrf_token;
     console.log("CSRF Token: ", res.locals.csrf_token);
     res.cookie("access_token", generatedAccessToken, {
       httpOnly: true,
@@ -156,6 +157,12 @@ async function createAccount(req, res, email, username, password, rememberMe) {
         },
       },
     );
+
+    try {
+      await UserConsent.create({ userId });
+    } catch (e) {
+      console.error(e);
+    }
 
     return res.status(200).json({
       success: true,

@@ -51,7 +51,7 @@ const ProfilePage = () => {
       <div
         className={`flex flex-col gap-3 ${isAvailable ? "justify-start" : "justify-center"} items-center w-full h-full pt-24 bg-fixed bg-cover bg-center`}
       >
-        <div className="relative flex border border-neutral-700 flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+        <div className="relative flex border borderColor flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
           <div className="flex flex-row justify-between items-center">
             <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
               <button

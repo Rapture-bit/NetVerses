@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface ChannelsProps {
   name: string;
@@ -19,12 +19,10 @@ export default function ChannelCard({
   bannerAlt = "Banner",
   channelId,
 }: ChannelsProps) {
-  const navigate = useNavigate();
-
   return (
     <Link
       to={`/channels/${channelId}`}
-      className="flex flex-shrink-0 hover:bg-black/5 cursor-pointer transition-all sm:w-[48%] md:w-[40%] lg:w-[35%] flex-col gap-0 w-[35%] rounded-xl border border-neutral-700 darkerBackgroundColor shadow-md hover:shadow-lg duration-300 overflow-hidden"
+      className="flex flex-shrink-0 hover:bg-black/5 cursor-pointer transition-all sm:w-[48%] md:w-[40%] lg:w-[35%] flex-col gap-0 w-[35%] rounded-xl border borderColor darkerBackgroundColor shadow-md hover:shadow-lg duration-300 overflow-hidden"
     >
       <div className="w-full h-40 relative">
         <img

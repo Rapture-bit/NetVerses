@@ -109,7 +109,7 @@ export default function Verse({ id, isComment }: VerseProps) {
 
   return (
     <>
-      <div className="relative flex flex-col p-4 sm:pl-5 border border-neutral-700 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+      <div className="relative flex flex-col p-4 sm:pl-5 border borderColor sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
         <div className="flex items-start space-x-4">
           <Link
             to={`/${username}`}

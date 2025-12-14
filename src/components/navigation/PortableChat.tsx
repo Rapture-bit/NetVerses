@@ -4,7 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Tooltip } from "antd";
 import FriendMessage from "../messages/FriendMessage";
 
+import useDeviceType from "@/hooks/useDeviceType";
+
 export default function PortableChat() {
+  const { deviceType, isTouchScreen } = useDeviceType();
+
   const [rightPosition, setRightPosition] = useState("8%");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isExpanded, setExpanded] = useState(false);
@@ -41,16 +45,24 @@ export default function PortableChat() {
     isUnread: i % 2 === 0,
   }));
 
+  const normalizeString = (str) => {
+    return str.toLowerCase().replace(/[^a-z0-9]/g, "");
+  };
+
   const filteredMessages = messages.filter((msg) => {
-    const matchesSearch = msg.author
+    const matchesSearch = normalizeString(msg.author)
       .toLowerCase()
-      .includes(searchText.toLowerCase());
+      .includes(normalizeString(searchText.toLowerCase()));
     const matchesFilter =
       filter === "all" ||
       (filter === "unread" && msg.isUnread) ||
       (filter === "read" && !msg.isUnread);
     return matchesSearch && matchesFilter;
   });
+
+  if (deviceType === "mobile" || isTouchScreen) {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-0 right-0 flex flex-col z-[800] pointer-events-none min-h-screen min-w-full">
@@ -101,7 +113,7 @@ export default function PortableChat() {
           <AnimatePresence>
             {isExpanded && (
               <motion.div
-                className="flex flex-col gap-2 p-3 border-b border-purple-700 dark:border-neutral-700"
+                className="flex flex-col gap-2 p-3 border-b borderColor"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

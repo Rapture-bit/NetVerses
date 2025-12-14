@@ -73,7 +73,7 @@ export default function RightBar() {
     transition-all duration-300 
     xl:w-64 w-full 
     border rounded-lg
-    ${isInputFocused ? "border-purple-700 shadow-[0_0_10px_rgba(147,51,234,0.4)]" : "border-[#3b3b3b]"} 
+    ${isInputFocused ? "border-purple-700 shadow-[0_0_10px_rgba(147,51,234,0.4)]" : "borderColor"} 
     darkerBackgroundColor
   `}
           >
@@ -119,14 +119,14 @@ export default function RightBar() {
 
           <div className="bg-neutral-700 px-3 w-full rounded-full py-[0.03rem]"></div>
 
-          <div className="relative flex items-center justify-start p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border border-neutral-700">
+          <div className="relative flex items-center justify-start p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border borderColor">
             <span className="font-semibold text-base textColor">
               Radio Broadcasts
             </span>
           </div>
 
           <div className="relative flex items-center justify-start transition-all duration-300 xl:w-64">
-            <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#1F1F1F] from-[#cfcfcf] to-transparent z-10"></div>
+            <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#111827] from-[#cfcfcf] to-transparent z-10"></div>
 
             <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
               <RadioCard
@@ -156,13 +156,13 @@ export default function RightBar() {
             </div>
           </div>
 
-          <div className="relative flex items-center justify-start p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border border-neutral-700">
+          <div className="relative flex items-center justify-start p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border borderColor">
             <span className="font-semibold text-base textColor">
               Local Articles
             </span>
           </div>
 
-          <div className="relative flex items-center justify-center p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border border-neutral-700">
+          <div className="relative flex items-center justify-center p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border borderColor">
             <div className="flex flex-row gap-3 items-center">
               <Link
                 to="/articles"

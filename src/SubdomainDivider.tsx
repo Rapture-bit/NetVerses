@@ -110,14 +110,17 @@ export default function SubdomainDivider() {
           csrfToken,
         );
 
-        if (
-          refreshData.response === "User already authenticated." &&
-          isMounted
-        ) {
+        if (refreshData.success && refreshData.isAuthenticated && isMounted) {
           setAuth(true);
+        } else {
+          console.log(
+            refreshData.success,
+            refreshData.isAuthenticated,
+            isMounted,
+          );
+          setCSRFToken(refreshData.csrfToken);
+          csrfToken = refreshData.csrfToken;
         }
-
-        console.log(csrfToken);
 
         const selfData = await fetchCSRFPost(
           "https://api.netverses.com/v1/self",

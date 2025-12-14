@@ -27,7 +27,7 @@ export default function ClubCard({
   clubId,
 }: ClubCardProps) {
   return (
-    <div className="flex flex-shrink-0 sm:w-[48%] md:w-[40%] lg:w-[35%] flex-col gap-0 w-[35%] rounded-xl border border-neutral-700 darkerBackgroundColor shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div className="flex flex-shrink-0 sm:w-[48%] md:w-[40%] lg:w-[35%] flex-col gap-0 w-[35%] rounded-xl border borderColor darkerBackgroundColor shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="w-full h-40 relative">
         <Link to={`/clubs/${clubId}`}>
           <img

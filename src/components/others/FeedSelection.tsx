@@ -17,7 +17,7 @@ export default function FeedSelection({ onChange }) {
   return (
     <div
       id="feed-selection"
-      className="relative select-none flex border border-neutral-700 darkerBackgroundColor w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 h-14 rounded-lg z-30"
+      className="relative select-none flex border borderColor darkerBackgroundColor w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 h-14 rounded-lg z-30"
     >
       <div
         className={`absolute bottom-0 h-1 bg-purple-800 rounded-full transition-all duration-300`}

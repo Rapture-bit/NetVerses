@@ -97,7 +97,7 @@ const Articles = ({
     <>
       <div
         id={id.toString()}
-        className={`flex flex-col space-y-6 p-6 sm:pl-6 sm:py-6 rounded-lg mx-auto sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 dark:bg-[#1E1E1E] border-2 border-[#999999] shadow-md dark:border-[#2C2C2C]`}
+        className={`flex flex-col space-y-6 p-6 sm:pl-6 sm:py-6 rounded-lg mx-auto sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor borderColor border shadow-md`}
       >
         <div className="flex flex-row justify-between gap-4">
           <div className="flex flex-row items-center gap-2">

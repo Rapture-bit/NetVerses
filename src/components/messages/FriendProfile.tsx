@@ -61,7 +61,7 @@ export default function FriendProfile({ username }) {
         </Link>
       </div>
 
-      <div className="flex flex-col border border-neutral-700 space-y-3 py-5 max-h-full px-7 rounded-lg darkerBackgroundColor text-center pt-28">
+      <div className="flex flex-col border borderColor space-y-3 py-5 max-h-full px-7 rounded-lg darkerBackgroundColor text-center pt-28">
         <div className="flex flex-col gap-1">
           <div className="inline-flex items-center gap-1">
             <span className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none">

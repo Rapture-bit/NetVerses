@@ -158,13 +158,15 @@ async function startServer() {
     const indexHtml = fs.readFileSync(indexPath, "utf-8");
 
     const devIndexPath = path.join(__dirname, '"../../', "index.html");
-    const devIndexHtml = fs.readFileSync(devIndexPath, "utf-8");
+    // const devIndexHtml = fs.readFileSync(devIndexPath, "utf-8");
 
     app.get("*", async (req, res, next) => {
       if (/\.(js|css|png|jpg|svg|map|json)$/i.test(req.path)) return next();
 
       const { session_id } = req.signedCookies;
       let csrfToken = null;
+
+      console.log(session_id);
 
       if (session_id) {
         const session = await UserSession.findOne({
@@ -182,13 +184,9 @@ async function startServer() {
      </head>`,
       );
 
-      console.log("HTML sent with meta tag");
-
       res.send(htmlWithNonce);
     });
   } else {
-    console.log("Redirecting to Vite dev server");
-
     app.use(
       "/",
       createProxyMiddleware({

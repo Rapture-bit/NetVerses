@@ -2,6 +2,29 @@ import { Link } from "react-router-dom";
 import React, { useState, useLayoutEffect } from "react";
 import formatNumber from "@/utils/formatNumber";
 
+import BadgesList from "./BadgesList";
+
+import {
+  Volume2,
+  VolumeX,
+  Twitter,
+  Linkedin,
+  Github,
+  Instagram,
+  Award,
+  Briefcase,
+  MapPin,
+  Calendar,
+  UserPlus,
+  Mail,
+  Rocket,
+  Target,
+  Users,
+  Star,
+  Lightbulb,
+  GraduationCap,
+} from "lucide-react";
+
 import { Tooltip } from "antd";
 
 const ProfilePreview = ({ username }) => {
@@ -26,39 +49,65 @@ const ProfilePreview = ({ username }) => {
     textColor: `text-${profileColor}-500`,
   });
 
-  const [socialLinks, setSocialLinks] = useState([
-    {
-      href: "/",
-      icon: "prime--twitter",
-      name: "Twitter",
-      color: "text-blue-500",
-    },
-    {
-      href: "/",
-      icon: "devicon--linkedin",
-      name: "LinkedIn",
-      color: "text-blue-700",
-    },
-    {
-      href: "/",
-      icon: "logos--discord-icon",
-      name: "Discord",
-      color: "text-indigo-500",
-    },
-    {
-      href: "/",
-      icon: "skill-icons--instagram",
-      name: "Instagram",
-      color: "text-pink-500",
-    },
+  const [audioOn, setAudioOn] = useState<boolean>(false);
+
+  const toggleAudio = () => {
+    setAudioOn(!audioOn);
+  };
+
+  const [badges, setBadges] = useState([
+    { name: "Official Member" },
+    { name: "Early Creator" },
+    { name: "Star+" },
+    { name: "Business Account" },
+  ]);
+
+  const [socialMedia, setSocialMedia] = useState([
+    { name: "Twitter", icon: Twitter, link: "@xenon" },
+    { name: "LinkedIn", icon: Linkedin, link: "/in/xenon" },
+    { name: "GitHub", icon: Github, link: "github.com/xenon" },
+    { name: "Instagram", icon: Instagram, link: "@xenon" },
   ]);
 
   return (
     <div className="relative border-t-0 flex flex-col rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
-      <div className="relative flex flex-col rounded-md border border-neutral-300 dark:border-neutral-700">
+      <div className="relative flex flex-col rounded-md border borderColor">
         <div
           className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-36 w-full relative top-0 left-0 rounded-t-lg`}
         >
+          <div className="absolute flex flex-row space-x-2 top-4 right-3 sm:top-3 sm:right-3">
+            {self && (
+              <Tooltip placement="bottom" title="Edit Banner">
+                <button
+                  className="w-8 h-8 flex items-center justify-center bg-gray-800/80 backdrop-blur-sm rounded-full hover:bg-gray-800 transition-all"
+                  aria-label="Edit Banner"
+                >
+                  <span
+                    className="icon-[tabler--photo-edit] w-4 h-4 text-gray-100"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </Tooltip>
+            )}
+
+            <Tooltip
+              placement="bottom"
+              title={!audioOn ? "Background Music On" : "Background Music Off"}
+            >
+              <button
+                onClick={toggleAudio}
+                className="w-8 h-8 flex items-center justify-center bg-gray-800/80 backdrop-blur-sm rounded-full hover:bg-gray-800 transition-all"
+                aria-label={audioOn ? "Mute audio" : "Unmute audio"}
+              >
+                {audioOn ? (
+                  <Volume2 className="w-4 h-4 text-gray-100" />
+                ) : (
+                  <VolumeX className="w-4 h-4 text-gray-100" />
+                )}
+              </button>
+            </Tooltip>
+          </div>
+
           <Link
             to={`/${username}`}
             className="absolute z-10 mt-20 ml-4 w-24 h-24"
@@ -72,30 +121,31 @@ const ProfilePreview = ({ username }) => {
             }}
           >
             <div
-              className="w-full h-full bg-cover rounded-full"
-              style={{
-                backgroundImage: `url(${Avatar})`,
-                backgroundPosition: "center",
-              }}
-            ></div>
-          </Link>
-
-          {self && (
-            <button
-              className="absolute bottom-0 right-0 mb-2 mr-2 h-8 w-8 rounded-full p-0 flex items-center justify-center hover:brightness-125 transition-all duration-300 backgroundColor textColor z-20"
-              aria-label="Edit profile picture"
+              className={`w-full h-full rounded-full border-2 sm:border-4 border-gray-900 bg-gradient-to-br from-${profileColor}-500 to-${profileColor}-600 flex items-center justify-center shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-${profileColor}-500/50 hover:scale-105`}
             >
-              <span
-                className="icon-[tabler--photo-edit] w-4 h-4"
-                aria-hidden="true"
-              ></span>
-            </button>
-          )}
+              <svg viewBox="0 0 100 100" className="w-10 h-10 sm:w-14 sm:h-14">
+                <circle cx="50" cy="35" r="15" fill="white" opacity="0.9" />
+                <path
+                  d="M 30 70 Q 50 55 70 70 L 70 85 Q 50 70 30 85 Z"
+                  fill="white"
+                  opacity="0.9"
+                />
+              </svg>
+            </div>
+          </Link>
         </div>
 
-        <div className="p-4 sm:pl-5 sm:py-4">
-          <div className="flex flex-row">
-            <div className="flex flex-row ml-auto gap-3">
+        <div className="p-4 sm:pl-5 sm:py-4 flex mt-5 flex-col gap-3">
+          <div className="flex items-center pl-2 justify-between">
+            <div className="inline-flex items-center space-x-2">
+              <span className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none">
+                Xenon
+              </span>
+
+              <BadgesList badges={badges} profileColor={profileColor} />
+            </div>
+
+            <div className="flex items-center gap-2">
               {self && (
                 <button
                   className={`rounded-md ${profileColors.background} font-semibold text-white py-1.5 px-6 transition-all duration-300 hover:brightness-95`}
@@ -104,81 +154,40 @@ const ProfilePreview = ({ username }) => {
                   Edit
                 </button>
               )}
-              <div className="flex gap-2">
-                {!self && (
-                  <Tooltip placement="bottom" title="Follow">
-                    <button
-                      className={`rounded-md gap-1 flex items-center bg-transparent border ${profileColors.borderColor} ${profileColors.hoverBackground} font-semibold dark:text-white py-1 px-3 transition-all duration-300 text-sm`}
-                      aria-label="Follow"
-                    >
-                      <span
-                        className="icon-[mingcute--user-follow-line] text-white w-4 h-4"
-                        aria-hidden="true"
-                      ></span>
-                      <span className="sr-only">Follow</span>
-                    </button>
-                  </Tooltip>
-                )}
 
-                {!self && (
-                  <Tooltip placement="bottom" title="Message">
-                    <button
-                      className={`rounded-md gap-1 flex items-center hover:text-white bg-transparent border ${profileColors.borderColor} ${profileColors.hoverBackground} font-semibold dark:text-white py-1 px-3 transition-all duration-300 text-sm`}
-                      aria-label="Message"
-                    >
-                      <span
-                        className="icon-[ic--outline-email] w-4 h-4"
-                        aria-hidden="true"
-                      ></span>
-                      <span className="sr-only">Message</span>
-                    </button>
-                  </Tooltip>
-                )}
-
-                <Tooltip placement="bottom" title="More">
+              {!self && (
+                <Tooltip placement="bottom" title="Follow">
                   <button
-                    className={`rounded-md gap-1 flex items-center bg-transparent hover:text-white border ${profileColors.borderColor} ${profileColors.hoverBackground} hover:brightness-90 font-semibold dark:text-white py-1 px-2 transition-all duration-300 text-sm`}
-                    aria-label="More options"
+                    className={`rounded-md gap-1 flex items-center bg-transparent border ${profileColors.borderColor} ${profileColors.hoverBackground} font-semibold dark:text-white py-1 px-3 transition-all duration-300 text-sm`}
+                    aria-label="Follow"
                   >
                     <span
-                      className="icon-[ant-design--more-outlined] w-5 h-5"
+                      className="icon-[mingcute--user-follow-line] text-white w-4 h-4"
                       aria-hidden="true"
                     ></span>
-                    <span className="sr-only">More options</span>
+                    <span className="sr-only">Follow</span>
                   </button>
                 </Tooltip>
-              </div>
+              )}
+
+              {!self && (
+                <Tooltip placement="bottom" title="Message">
+                  <button
+                    className={`rounded-md gap-1 flex items-center hover:text-white bg-transparent border ${profileColors.borderColor} ${profileColors.hoverBackground} font-semibold dark:text-white py-1 px-3 transition-all duration-300 text-sm`}
+                    aria-label="Message"
+                  >
+                    <span
+                      className="icon-[ic--outline-email] w-4 h-4"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="sr-only">Message</span>
+                  </button>
+                </Tooltip>
+              )}
             </div>
           </div>
-          <div className="mt-3 pl-2 flex flex-col gap-3">
+          <div className="pl-2 flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <div className="inline-flex items-center space-x-2">
-                <span className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none">
-                  {username}
-                </span>
-
-                <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
-                  <Tooltip placement="bottom" title="Official Member">
-                    <span
-                      className="icon-[ic--baseline-verified] w-4 h-4 text-[#facc15] cursor-pointer flex-shrink-0"
-                      aria-label="Verified"
-                    ></span>
-                  </Tooltip>
-
-                  <Tooltip placement="bottom" title="Early Creator">
-                    <span className="icon-[material-symbols--diamond-rounded] w-4 h-4 text-[#3b82f6] cursor-pointer flex-shrink-0"></span>
-                  </Tooltip>
-
-                  <Tooltip placement="bottom" title="Business Account">
-                    <span className="icon-[material-symbols--store-outline] w-4 h-4 text-[#a855f7] cursor-pointer flex-shrink-0"></span>
-                  </Tooltip>
-
-                  <Tooltip placement="bottom" title="StarPlus Member">
-                    <span className="icon-[material-symbols--star-rounded] w-4 h-4 text-[#bb4bff] cursor-pointer flex-shrink-0"></span>
-                  </Tooltip>
-                </div>
-              </div>
-
               <div className="flex flex-col gap-1">
                 <div className="flex-row space-x-1 inline-flex">
                   <span
@@ -190,61 +199,80 @@ const ProfilePreview = ({ username }) => {
                     {Job}
                   </span>
                 </div>
-                <p className="w-4/5 dark:text-white">{Bio}</p>
+
+                <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-1 text-gray-500 text-sm">
+                  <div className="flex items-center gap-1">
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>San Francisco</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>March 2023</span>
+                  </div>
+                </div>
+
+                <div className="flex py-1 justify-between md:justify-start md:gap-10 text-center">
+                  {[
+                    {
+                      label: "Followers",
+                      count: followers,
+                      link: self ? "/my/followers" : `/${username}/followers`,
+                    },
+                    {
+                      label: "Following",
+                      count: following,
+                      link: self ? "/my/following" : `/${username}/following`,
+                    },
+                    {
+                      label: "Reputation",
+                      count: reputation,
+                      link: self ? "/my/reputation" : `/${username}/reputation`,
+                    },
+                  ].map(({ label, count, link }) => (
+                    <div
+                      key={label}
+                      className="flex flex-row space-x-1 items-center"
+                    >
+                      <a
+                        href={link}
+                        className="text-base font-bold text-black dark:text-white hover:underline"
+                      >
+                        {formatNumber(count)}
+                      </a>
+                      <span className="text-base text-neutral-700 dark:text-neutral-400">
+                        {label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="text-gray-300 text-sm leading-relaxed">{Bio}</p>
               </div>
             </div>
 
-            <div className="flex justify-start gap-4 mt-3">
-              {socialLinks.map(({ href, icon, name, color }) => (
-                <Link
-                  key={name}
-                  to={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center transition-all transform hover:scale-110"
-                >
-                  <span className={`${color} icon-[${icon}] w-6 h-6`} />
-                </Link>
-              ))}
-            </div>
-
-            <div className="border-t border-neutral-300 dark:border-neutral-700 my-3"></div>
-
-            <div className="flex justify-between md:justify-start md:gap-10 text-center">
-              {[
-                {
-                  label: "Followers",
-                  count: followers,
-                  link: self ? "/my/followers" : `/${username}/followers`,
-                },
-                {
-                  label: "Following",
-                  count: following,
-                  link: self ? "/my/following" : `/${username}/following`,
-                },
-                {
-                  label: "Achievements",
-                  count: achievements,
-                  link: self ? "/my/achievements" : `/${username}/achievements`,
-                },
-                {
-                  label: "Reputation",
-                  count: reputation,
-                  link: self ? "/my/reputation" : `/${username}/reputation`,
-                },
-              ].map(({ label, count, link }) => (
-                <div key={label} className="flex flex-col items-center">
+            <div className="mt-2">
+              <h2 className="text-gray-100 text-sm font-semibold mb-2">
+                Connect
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {socialMedia.map((social) => (
                   <a
-                    href={link}
-                    className="text-base font-bold text-black dark:text-white hover:underline"
+                    key={social.name}
+                    href="#"
+                    className={`flex items-center gap-2 p-2 border borderColor rounded-lg hover:border-${profileColor}-500/50 hover:bg-${profileColor}-500/10 transition-colors group`}
                   >
-                    {formatNumber(count)}
+                    <social.icon
+                      className={`w-4 h-4 text-gray-400 group-hover:text-${profileColor}-400 transition-colors`}
+                    />
+                    <div className="min-w-0">
+                      <div className="text-gray-100 text-xs">{social.name}</div>
+                      <div className="text-gray-500 text-xs truncate">
+                        {social.link}
+                      </div>
+                    </div>
                   </a>
-                  <span className="text-sm text-neutral-700 dark:text-neutral-400">
-                    {label}
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>

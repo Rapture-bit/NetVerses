@@ -18,7 +18,7 @@ export default function CookiesConsent({
   const [expand, SetExpand] = useState<boolean | null>(null);
   const [isCustomCookiesOpen, setCustomCookiesOpen] = useState<boolean>(false);
   const [allElementsSelected, setAllElements] = useState<boolean>(false);
-  const [consentedCookiesList, setConsentedCookiesList] = useState<String[]>([
+  const [consentedCookiesList, setConsentedCookiesList] = useState<string[]>([
     "necessary",
     "functional",
     "advertising",

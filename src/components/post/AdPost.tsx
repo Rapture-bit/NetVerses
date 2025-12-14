@@ -99,7 +99,7 @@ export default function Post({
   }, [localColorPreference]);
 
   return (
-    <div className="flex border border-neutral-700 flex-col space-y-5 p-5 sm:p-6 rounded-xl mx-auto w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor transition-all duration-300 hover:shadow-lg hover:scale-[1.01]">
+    <div className="flex border borderColor flex-col space-y-5 p-5 sm:p-6 rounded-xl mx-auto w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor transition-all duration-300 hover:shadow-lg hover:scale-[1.01]">
       <header className="flex flex-col space-y-3">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3">

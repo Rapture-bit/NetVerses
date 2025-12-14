@@ -11,7 +11,7 @@ const Media = (props: Props) => {
   return (
     <div
       id="mediaMenu"
-      className={`flex flex-col gap-3 border border-neutral-700 rounded-lg p-3 transition-all duration-500 ease-in-out transform ${
+      className={`flex flex-col gap-3 border borderColor rounded-lg p-3 transition-all duration-500 ease-in-out transform ${
         colorProperties.textColor === "#c0c0c0"
           ? "bg-neutral-900"
           : "bg-neutral-300"

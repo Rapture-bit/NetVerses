@@ -41,7 +41,7 @@ export default function RadioCard({
   return (
     <div
       id={id}
-      className="flex flex-shrink-0 gap-3 darkerBackgroundColor border border-neutral-700 p-6 duration-300 rounded-xl shadow-sm transition-all"
+      className="flex flex-shrink-0 gap-3 darkerBackgroundColor border borderColor p-6 duration-300 rounded-xl shadow-sm transition-all"
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="flex items-center justify-center bg-neutral-700 p-3 rounded-full">

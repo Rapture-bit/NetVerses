@@ -194,7 +194,7 @@ export default function ClubsPage() {
       <PageTitle title="NetVerses ~ Clubs" />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">
-          <div className="flex flex-row border border-neutral-700 justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-1/2 darkerBackgroundColor">
+          <div className="flex flex-row border borderColor justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-1/2 darkerBackgroundColor">
             <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
               <button
                 aria-label="Go Back"
@@ -222,7 +222,7 @@ export default function ClubsPage() {
               </div>
 
               <div className="relative w-full">
-                <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#1F1F1F] from-[#cfcfcf] to-transparent z-10"></div>
+                <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#111827] from-[#cfcfcf] to-transparent z-10"></div>
 
                 <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
                   {clubs.map((element, index) => (
@@ -242,7 +242,7 @@ export default function ClubsPage() {
               </div>
             </div>
 
-            <hr className="border-neutral-700 my-0.5" />
+            <hr className="borderColor my-0.5" />
 
             <div className="flex flex-col">
               <div className="flex flex-row justify-between items-center w-full">
@@ -263,7 +263,7 @@ export default function ClubsPage() {
               </div>
 
               <div className="relative w-full">
-                <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#1F1F1F] from-[#cfcfcf] to-transparent z-10"></div>
+                <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#111827] from-[#cfcfcf] to-transparent z-10"></div>
 
                 <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
                   {channels.map((element, index) => (

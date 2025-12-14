@@ -11,15 +11,11 @@ UserConsent.init(
   {
     id: {
       type: DataTypes.STRING(32),
-      defaultValue: generateNonHyphenUUID(),
+      defaultValue: generateNonHyphenUUID,
       primaryKey: true,
     },
     userId: {
       type: DataTypes.STRING(32),
-      allowNull: false,
-    },
-    document: {
-      type: DataTypes.STRING,
       allowNull: false,
     },
     consentedAt: {

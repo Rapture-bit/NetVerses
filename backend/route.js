@@ -15,7 +15,7 @@ const route = {
       path: "/auth/refresh",
       allowedMethods: ["POST"],
       functionFile: "../API/auth/rotate-token.js",
-      csrfRequired: true,
+      csrfRequired: false,
       rateLimit: {
         max: 9000,
       },

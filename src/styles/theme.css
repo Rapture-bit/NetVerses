@@ -5,20 +5,16 @@
   --text-color-light: #1f1f1f;
   --selection-text-color-light: black;
   --vibrant-color-light: #9b59b6;
-
-  --background-color-dark: #1a1a1a;
-  --darker-background-color-dark: #222222;
-  --border-input-color-dark: #5a5a5a;
+  --background-color-dark: #111827;
+  --darker-background-color-dark: #0e1526;
+  --border-input-color-dark: #1f2937;
   --text-color-dark: #c0c0c0;
-  --selection-text-color-dark: white;
+  --button-background-dark: #292c31;
   --vibrant-color-dark: #8e2a8a;
-
   --purple-dark: #b479fc;
   --purple-light: #6c00f0;
-
   --primary-color: #5700c2;
   --selection-color: #780cfc8e;
-
   --background-color: var(--background-color-light);
   --border-input-color: var(--border-input-color-light);
   --darker-background-color: var(--darker-background-color-light);

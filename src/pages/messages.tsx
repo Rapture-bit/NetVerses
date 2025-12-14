@@ -331,7 +331,7 @@ export default function Messages() {
       <BottomBar />
 
       <div className="flex flex-col gap-3 justify-start items-center w-full h-screen pt-24 bg-fixed bg-cover bg-center sm:px-9">
-        <div className="flex flex-row border border-neutral-700 justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-full darkerBackgroundColor">
+        <div className="flex flex-row border borderColor justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-full darkerBackgroundColor">
           <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
             <button
               aria-label="Go Back"
@@ -346,7 +346,7 @@ export default function Messages() {
 
         <div className="flex flex-row gap-3 w-full min-h-screen md:min-h-0 md:h-5/6">
           <div
-            className={`flex flex-col border border-neutral-700 p-0 ${windowSize.width < 860 ? "w-full" : "w-1/3"} rounded-lg darkerBackgroundColor`}
+            className={`flex flex-col border borderColor p-0 ${windowSize.width < 860 ? "w-full" : "w-1/3"} rounded-lg darkerBackgroundColor`}
           >
             <div className="flex flex-col gap-3 p-4">
               <div className="flex flex-row justify-between">
@@ -419,7 +419,7 @@ export default function Messages() {
             className={`flex-col  ${windowSize.width < 860 ? "hidden" : "flex"} w-full space-y-3`}
           >
             <div
-              className={`${findFriendCall(selectedFriendDetails["username"])?.answered && windowSize.width <= 970 ? "bg-green-700 text-white" : "darkerBackgroundColor"} w-full p-3 border border-neutral-700 rounded-lg md:flex justify-between hidden`}
+              className={`${findFriendCall(selectedFriendDetails["username"])?.answered && windowSize.width <= 970 ? "bg-green-700 text-white" : "darkerBackgroundColor"} w-full p-3 border borderColor rounded-lg md:flex justify-between hidden`}
             >
               <div className="flex flex-row gap-2 justify-between items-center w-full">
                 <div className="flex flex-row gap-3 items-center">
@@ -531,7 +531,7 @@ export default function Messages() {
                   </div>
                 </div>
               )}
-            <div className="darkerBackgroundColor border border-neutral-700 overflow-y-auto overflow-x-hidden flex flex-col gap-3 w-full p-4 rounded-lg md:flex justify-between h-screen">
+            <div className="darkerBackgroundColor border borderColor overflow-y-auto overflow-x-hidden flex flex-col gap-3 w-full p-4 rounded-lg md:flex justify-between h-screen">
               {selectedFriendDetails["messages"].length === 0 ? (
                 <div className="flex flex-col gap-3 justify-center items-center">
                   <span className="icon-[bi--stars] w-20 h-20 textColor transition-transform duration-200 hover:scale-110"></span>
@@ -754,7 +754,7 @@ export default function Messages() {
             <FriendActivity user={selectedFriendDetails["username"]} />
             <FriendMenu user={selectedFriendDetails["username"]} />
             <SecondFriendMenu user={selectedFriendDetails["username"]} />
-            <div className="w-full border border-neutral-700 flex flex-row justify-center items-center p-2 darkerBackgroundColor rounded-lg">
+            <div className="w-full border borderColor flex flex-row justify-center items-center p-2 darkerBackgroundColor rounded-lg">
               <Link
                 to={`/${selectedFriendDetails["username"]}`}
                 className="text-sm dark:hover:text-white hover:text-black transition duration-200"

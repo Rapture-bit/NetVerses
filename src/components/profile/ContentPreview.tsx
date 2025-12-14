@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 import Post from "../post/Post";
 
@@ -110,7 +110,26 @@ const ContentPreview = ({ username }: Props) => {
   const [userAchievements, setUserAchievements] = useState<Object[]>([]); // To be updated with API
   const [userClubs, setUserClubs] = useState<Object[]>([]); // To be updated with API
 
+  const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const [filteredPosts, setFilteredPosts] = useState<object[]>(userPosts);
+
+  const [highlightStyle, setHighlightStyle] = useState<{
+    left: number;
+    width: number;
+  }>({
+    left: 0,
+    width: 0,
+  });
+
+  useEffect(() => {
+    const button = buttonRefs.current[selectedContent];
+    if (button) {
+      setHighlightStyle({
+        left: button.offsetLeft,
+        width: button.offsetWidth,
+      });
+    }
+  }, [selectedContent]);
 
   const items: MenuProps["items"] = [
     {
@@ -179,9 +198,17 @@ const ContentPreview = ({ username }: Props) => {
 
   return (
     <>
-      <div className="relative flex border border-neutral-700 flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+      <div className="relative flex border borderColor flex-col p-4 sm:pl-5 sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
+        <div
+          className={`absolute bottom-0 h-1 bg-${profileColor}-800 rounded-full transition-all duration-300`}
+          style={{
+            left: highlightStyle.left,
+            width: highlightStyle.width,
+          }}
+        ></div>
         <div className="flex overflow-x-auto scrollbar-hide px-4 gap-5 justify-between items-center">
           <button
+            ref={(el) => (buttonRefs.current["Posts"] = el)}
             aria-label="Access Posts"
             onClick={() => setSelectedContent("Posts")}
             className={`flex items-center ${selectedContent === "Posts" ? "dark:text-white text-black" : "dark:text-neutral-400 text-neutral-600"} hover:dark:text-white hover:text-black transition-colors duration-200`}
@@ -190,6 +217,7 @@ const ContentPreview = ({ username }: Props) => {
             <span className="font-semibold">Posts</span>
           </button>
           <button
+            ref={(el) => (buttonRefs.current["Pins"] = el)}
             aria-label="Access Pins"
             onClick={() => setSelectedContent("Pins")}
             className={`flex items-center ${selectedContent === "Pins" ? "dark:text-white text-black" : "dark:text-neutral-400 text-neutral-600"} hover:dark:text-white hover:text-black transition-colors duration-200`}
@@ -198,6 +226,7 @@ const ContentPreview = ({ username }: Props) => {
             <span className="font-semibold">Pins</span>
           </button>
           <button
+            ref={(el) => (buttonRefs.current["FollowersOnlyPosts"] = el)}
             aria-label="Access Followers-Only Posts"
             onClick={() => setSelectedContent("FollowersOnlyPosts")}
             className={`flex items-center ${selectedContent === "FollowersOnlyPosts" ? "dark:text-white text-black" : "dark:text-neutral-400 text-neutral-600"} hover:dark:text-white hover:text-black transition-colors duration-200`}
@@ -206,6 +235,7 @@ const ContentPreview = ({ username }: Props) => {
             <span className="font-semibold">Followers Only</span>
           </button>
           <button
+            ref={(el) => (buttonRefs.current["Achievements"] = el)}
             aria-label="Access Achievements"
             onClick={() => setSelectedContent("Achievements")}
             className={`flex items-center ${selectedContent === "Achievements" ? "dark:text-white text-black" : "dark:text-neutral-400 text-neutral-600"} hover:dark:text-white hover:text-black transition-colors duration-200`}
@@ -214,6 +244,7 @@ const ContentPreview = ({ username }: Props) => {
             <span className="font-semibold">Achievements</span>
           </button>
           <button
+            ref={(el) => (buttonRefs.current["Clubs"] = el)}
             aria-label="Access Clubs"
             onClick={() => setSelectedContent("Clubs")}
             className={`flex items-center ${selectedContent === "Clubs" ? "dark:text-white text-black" : "dark:text-neutral-400 text-neutral-600"} hover:dark:text-white hover:text-black transition-colors duration-200`}
