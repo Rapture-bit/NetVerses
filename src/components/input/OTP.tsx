@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 interface OTPTypes {
@@ -15,101 +15,120 @@ const OTP: React.FC<OTPTypes> = ({
   inputType,
 }) => {
   const [otpArray, setOTPArray] = useState<string[]>(Array(length).fill(""));
-  const [currentX, setX] = useState<number>();
-  const [errorStyle, setErrorStyle] = useState<string>("border-gray-600");
+  const [currentX, setX] = useState<number>(0);
+  const [errorStyle, setErrorStyle] = useState("border-gray-600");
 
-  const isValidInput = (value: string) => {
-    if (inputType === "numeric") {
-      return /^\d*$/.test(value);
-    }
-    return /^[a-zA-Z0-9]*$/.test(value);
-  };
+  const inputsRef = useRef<HTMLInputElement[]>([]);
 
+  const isValidInput = (value: string) =>
+    inputType === "numeric"
+      ? /^\d*$/.test(value)
+      : /^[a-zA-Z0-9]*$/.test(value);
+
+  /* ---------- INPUT CHANGE ---------- */
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const value = event.target.value;
+    const value = e.target.value;
+    if (!isValidInput(value)) return;
 
-    if (value.length > 1 || !isValidInput(value)) return;
+    const char = value.slice(-1);
+    const newOTP = [...otpArray];
+    newOTP[index] = char;
 
-    const newOTPArray = [...otpArray];
-    newOTPArray[index] = value;
+    setOTPArray(newOTP);
 
-    setOTPArray(newOTPArray);
-
-    if (value && index < length - 1) {
-      const nextInput = document.getElementById(`otp-input-${index + 1}`);
-      if (nextInput) nextInput.focus();
+    if (char && index < length - 1) {
+      inputsRef.current[index + 1]?.focus();
     }
   };
 
-  useEffect(() => {
-    const otpString = otpArray.join("");
-    const isNotFull = otpString.length < length;
+  /* ---------- KEYBOARD NAV ---------- */
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    if (e.key === "Backspace") {
+      if (!otpArray[index] && index > 0) {
+        inputsRef.current[index - 1]?.focus();
+      }
+    }
 
-    onOTPChange(otpString, isNotFull);
+    if (e.key === "ArrowLeft" && index > 0) {
+      inputsRef.current[index - 1]?.focus();
+    }
+
+    if (e.key === "ArrowRight" && index < length - 1) {
+      inputsRef.current[index + 1]?.focus();
+    }
+  };
+
+  /* ---------- PASTE SUPPORT ---------- */
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    const pasted = e.clipboardData.getData("text").trim();
+    if (!isValidInput(pasted)) return;
+
+    const chars = pasted.slice(0, length).split("");
+    const newOTP = Array(length).fill("");
+
+    chars.forEach((char, i) => (newOTP[i] = char));
+    setOTPArray(newOTP);
+
+    inputsRef.current[Math.min(chars.length, length) - 1]?.focus();
+  };
+
+  /* ---------- OTP CHANGE ---------- */
+  useEffect(() => {
+    const otp = otpArray.join("");
+    onOTPChange(otp, otp.length < length);
   }, [otpArray, length, onOTPChange]);
 
-  const handleKeyDown = (
-    event: React.KeyboardEvent<HTMLInputElement>,
-    index: number,
-  ) => {
-    if (event.key === "Backspace" && !otpArray[index] && index > 0) {
-      const prevInput = document.getElementById(`otp-input-${index - 1}`);
-      if (prevInput) prevInput.focus();
-    }
-  };
-
-  if (length <= 0 || length > 8) {
-    return null;
-  }
-
+  /* ---------- ERROR ANIMATION ---------- */
   useEffect(() => {
-    if (!isError) {
-      return;
-    }
+    if (!isError) return;
 
-    setX(-10);
     setErrorStyle(
       "border-red-500 text-red-500 focus:border-red-500 focus:text-white",
     );
 
-    const timeout = setTimeout(() => {
-      setX(10);
+    setX(-10);
+    const t1 = setTimeout(() => setX(10), 50);
+    const t2 = setTimeout(() => setX(0), 100);
+    const t3 = setTimeout(() => setErrorStyle("border-gray-600"), 250);
 
-      const resetTimeout = setTimeout(() => {
-        setX(0);
-      }, 50);
-
-      const finalTimeout = setTimeout(() => {
-        setErrorStyle("border-gray-600");
-      }, 200);
-
-      return () => (clearTimeout(resetTimeout), clearTimeout(finalTimeout));
-    }, 50);
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, [isError]);
 
+  if (length <= 0 || length > 8) return null;
+
   return (
-    <div className="flex flex-col justify-center items-center space-y-3 p-3 roboto">
-      <motion.div
-        animate={{
-          x: currentX,
-        }}
-      >
-        <div className="flex flex-row space-x-2 justify-center items-center roboto">
+    <div className="flex justify-center items-center p-3">
+      <motion.div animate={{ x: currentX }}>
+        <div className="flex space-x-2">
           {Array.from({ length }).map((_, i) => (
             <input
               key={i}
+              ref={(el) => el && (inputsRef.current[i] = el)}
               id={`otp-input-${i}`}
-              type="text"
-              className={`w-10 h-10 bg-transparent border ${errorStyle} focus:border-gray-500 transition-all duration-300 text-center rounded-md outline-none`}
+              type={inputType === "numeric" ? "tel" : "text"}
+              inputMode={inputType === "numeric" ? "numeric" : "text"}
+              pattern={inputType === "numeric" ? "[0-9]*" : undefined}
+              autoComplete="one-time-code"
               maxLength={1}
               value={otpArray[i]}
-              autoComplete="off"
+              aria-label={`OTP digit ${i + 1}`}
+              className={`w-10 h-10 bg-transparent border ${errorStyle} rounded-md text-center outline-none transition-all`}
               onChange={(e) => handleInputChange(e, i)}
               onKeyDown={(e) => handleKeyDown(e, i)}
+              onPaste={handlePaste}
+              onFocus={(e) => e.target.select()}
             />
           ))}
         </div>

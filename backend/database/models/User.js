@@ -3,6 +3,8 @@ const { Model, DataTypes, Sequelize } = pkg;
 import sequelize from "../config/database.js";
 import { randomUUID } from "crypto";
 
+import { UserSession } from "./Session.js";
+
 function generateNonHyphenUUID() {
   return randomUUID().replace(/-/g, "");
 }
@@ -159,49 +161,10 @@ UserProfile.init(
   },
 );
 
-class UserToken extends Model {}
-UserToken.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
-      primaryKey: true,
-    },
-    refresh_token: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    }, // Safe UUID
-    session_id: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    userId: {
-      type: DataTypes.STRING(32),
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    accessExpiresAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    expiresAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    modelName: "UserToken",
-  },
-);
-
 User.hasOne(UserProfile, { foreignKey: "id" });
 UserProfile.belongsTo(User, { foreignKey: "id" });
 
-User.hasMany(UserToken, { foreignKey: "userId" });
-UserToken.belongsTo(User, { foreignKey: "userId" });
+User.hasMany(UserSession, { foreignKey: "userId" });
+UserSession.belongsTo(User, { foreignKey: "userId" });
 
-export { User, UserToken, UserProfile };
+export { User, UserProfile };

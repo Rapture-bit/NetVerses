@@ -1,6 +1,8 @@
-export default async function fetchCSRFPost(URL, csrfToken, body?) {
+import { useCSRFStore } from "@/context/CSRFStore";
+
+export default async function fetchCSRFPost(URL, csrfToken?, body?) {
   try {
-    const postRes = await fetch(URL, {
+    const postRequest = await fetch(URL, {
       method: "POST",
       body: body,
       credentials: "include",
@@ -9,9 +11,14 @@ export default async function fetchCSRFPost(URL, csrfToken, body?) {
       },
     });
 
-    if (postRes.ok) {
-      const postResData = await postRes.json();
-      return postResData;
+    if (postRequest.ok) {
+      const postRequestResponse = await postRequest.json();
+
+      if (postRequestResponse.csrfToken) {
+        useCSRFStore.getState().setCSRFToken(postRequestResponse.csrfToken);
+      }
+
+      return postRequestResponse;
     } else {
       return null;
     }

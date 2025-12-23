@@ -23,8 +23,12 @@ export default function PrimaryInput({
         },
       }}
     >
-      {type === "password" && <Input.Password type={type} {...props} />}
-      {type !== "password" && <Input type={type} {...props} />}
+      {type === "password" && (
+        <Input.Password className="!bg-transparent" type={type} {...props} />
+      )}
+      {type !== "password" && (
+        <Input type={type} className="!bg-transparent" {...props} />
+      )}
       {errorMessage && (
         <div className="flex items-center space-x-2 text-red-500 text-sm">
           <span className="roboto font-medium">{errorMessage}</span>

@@ -132,7 +132,7 @@ export default function Post({
           <div className="flex items-center gap-3">
             <Link
               to={author}
-              className="w-12 h-12 rounded-full overflow-hidden block border-2 border-gray-700 hover:border-gray-500 transition-all duration-200"
+              className="w-12 h-12 rounded-full overflow-hidden block border border-gray-700 hover:border-gray-500 transition-all duration-200"
             >
               <img
                 src="/images/avatars/default.jpg"
@@ -258,7 +258,7 @@ export default function Post({
                     onClick={() => {
                       toggleClick(action);
                     }}
-                    className={`flex items-center gap-1.5 ${colors[action]} transition-all duration-300 px-2 py-1 rounded-md hover:bg-[#dddddd] dark:hover:bg-[#1d1d1d]`}
+                    className={`flex items-center gap-1.5 ${colors[action]} transition-all duration-300 px-2 py-1 rounded-md hover:bg-[#e3e3e3] dark:hover:bg-[#121b31]`}
                   >
                     <span className={`icon-[${icons[action]}] w-4 h-4`} />
                     <span>{formatNumber(counts[action])}</span>
@@ -278,7 +278,7 @@ export default function Post({
               >
                 <button
                   aria-label={"Transfer Ownership"}
-                  className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-all duration-300 p-1 rounded hover:bg-[#dddddd] dark:hover:bg-[#1d1d1d]"
+                  className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-all duration-300 p-1 rounded hover:bg-[#e3e3e3] dark:hover:bg-[#121b31]"
                 >
                   <span className="icon-[mingcute--transfer-line] w-4 h-4" />
                 </button>
@@ -299,7 +299,7 @@ export default function Post({
                 >
                   <button
                     aria-label={action}
-                    className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-all duration-300 p-1 rounded hover:bg-[#dddddd] dark:hover:bg-[#1d1d1d]"
+                    className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-all duration-300 p-1 rounded hover:bg-[#e3e3e3] dark:hover:bg-[#121b31]"
                   >
                     <span className={`icon-[${icons[action]}] w-4 h-4`} />
                   </button>

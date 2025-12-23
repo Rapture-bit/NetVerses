@@ -4,7 +4,9 @@ import dotenv from "dotenv";
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 const createJwtToken = (payload) => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "2h" });
+  return jwt.sign({ ...payload, jti: crypto.randomUUID() }, JWT_SECRET, {
+    expiresIn: "2h",
+  });
 };
 
 export { createJwtToken };

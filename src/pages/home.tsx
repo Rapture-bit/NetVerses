@@ -3,7 +3,6 @@ import BottomBar from "@/components/navigation/BottomBar";
 import Verse from "@/components/post/Verse";
 import Post, { PostProps } from "@/components/post/Post";
 import Articles, { ArticlesProps } from "@/components/post/Articles";
-import TodaySummary from "@/components/others/TodaySummary";
 import FeedSelection from "@/components/others/FeedSelection";
 import BottomPageComponent from "@/components/post/BottomPageComponent";
 import type { MenuProps } from "antd/es/menu";
@@ -476,9 +475,7 @@ export default function Home() {
           {(isLoading || isFeedLoading) && (
             <span className="icon-[eos-icons--loading] w-7 h-7 text-purple-600"></span>
           )}
-          {!isLoading && !isFeedLoading && selectedFeed === "Articles" && (
-            <TodaySummary />
-          )}
+          {!isLoading && !isFeedLoading && selectedFeed === "Articles" && null}
           {!isLoading &&
             !isFeedLoading &&
             (selectedFeed === "Articles"

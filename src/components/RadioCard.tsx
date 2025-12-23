@@ -44,17 +44,15 @@ export default function RadioCard({
       className="flex flex-shrink-0 gap-3 darkerBackgroundColor border borderColor p-6 duration-300 rounded-xl shadow-sm transition-all"
     >
       <div className="flex flex-col items-center justify-center gap-2">
-        <div className="flex items-center justify-center bg-neutral-700 p-3 rounded-full">
-          <span
-            className={`${genreIcons[genre] || ""} w-6 h-6 text-neutral-300`}
-          ></span>
+        <div className="flex items-center justify-center dark:bg-[#131a2d] bg-[#d2d2d2] p-3 rounded-full">
+          <span className={`${genreIcons[genre] || ""} w-6 h-6`}></span>
         </div>
 
         <div className="flex flex-col gap-0.5 items-center justify-center">
           <span className="font-semibold text-base hover:underline cursor-pointer">
             {radioName}
           </span>
-          <span className="text-sm text-neutral-300 hover:underline hover:text-purple-400 cursor-pointer transition-colors duration-300">
+          <span className="text-sm text-neutral-800 dark:text-neutral-300 hover:underline hover:text-purple-400 cursor-pointer transition-colors duration-300">
             {genre}
           </span>
         </div>
@@ -64,7 +62,7 @@ export default function RadioCard({
             onClick={() => {
               changePlayStatus();
             }}
-            className="flex justify-center items-center w-10 h-10 bg-neutral-700 rounded-full hover:bg-neutral-600 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+            className="flex justify-center items-center w-10 h-10 dark:bg-[#131a2d] bg-[#d2d2d2] rounded-full dark:hover:bg-[#172038] hover:bg-[#d2d2d2]/80 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
           >
             <AnimatePresence initial={false} mode="popLayout">
               {playingStatus === "paused" && (
@@ -74,7 +72,7 @@ export default function RadioCard({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.2 }}
-                  className="icon-[fluent--play-12-filled] w-6 h-6 text-neutral-300"
+                  className="icon-[fluent--play-12-filled] w-6 h-6 text-neutral-800 dark:text-neutral-300"
                 ></motion.span>
               )}
 
@@ -85,14 +83,14 @@ export default function RadioCard({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.2 }}
-                  className="icon-[material-symbols--pause] w-6 h-6 text-neutral-300"
+                  className="icon-[material-symbols--pause] w-6 h-6 text-neutral-800 dark:text-neutral-300"
                 ></motion.span>
               )}
             </AnimatePresence>
           </button>
 
-          <button className="flex justify-center items-center w-10 h-10 bg-neutral-700 rounded-full hover:bg-neutral-600 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400">
-            <span className="icon-[basil--chat-outline] w-6 h-6 text-neutral-300"></span>
+          <button className="flex justify-center items-center w-10 h-10 dark:bg-[#131a2d] bg-[#d2d2d2] rounded-full dark:hover:bg-[#172038] hover:bg-[#d2d2d2]/80 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400">
+            <span className="icon-[basil--chat-outline] w-6 h-6 text-neutral-800 dark:text-neutral-300"></span>
           </button>
         </div>
       </div>

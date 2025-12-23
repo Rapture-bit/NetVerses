@@ -38,7 +38,7 @@ export default function Verse({ id, isComment }: VerseProps) {
     {
       title: "Emoji",
       iconClass: "icon-[mdi--emoji-outline]",
-      hover: "hover:text-yellow-500",
+      hover: "hover:text--500",
     },
     {
       title: "Add Media",
@@ -98,7 +98,7 @@ export default function Verse({ id, isComment }: VerseProps) {
     };
   }, []);
 
-  if (deviceType === "mobile" && isTouchScreen) {
+  if (deviceType === "mobile" && isTouchScreen && !isComment) {
     return null;
   }
 
@@ -150,11 +150,28 @@ export default function Verse({ id, isComment }: VerseProps) {
               >
                 <button
                   aria-label={btn.title}
-                  className={`relative p-2 rounded-xl bg-transparent hover:bg-[var(--button-hover-bg,#f3f3f3)] dark:hover:bg-neutral-800 text-gray-500 dark:text-gray-300 transition-all duration-300 ease-in-out transform hover:-translate-y-[1px] active:scale-95 ${btn.hover}`}
+                  className={`
+    group relative flex items-center justify-center
+    w-9 h-9 sm:w-10 sm:h-10
+    rounded-xl
+    bg-black/5 dark:bg-white/5
+    backdrop-blur-md
+    text-gray-600 dark:text-gray-300
+    transition-all duration-300 ease-out
+    hover:bg-black/10 dark:hover:bg-white/10
+    hover:-translate-y-0.5
+    active:translate-y-0 active:scale-95
+    focus:outline-none
+  `}
                 >
                   <span
-                    className={`${btn.iconClass} block w-5 h-5 sm:w-5 sm:h-5`}
-                  ></span>
+                    className={`
+      ${btn.iconClass}
+      w-5 h-5
+      transition-colors duration-300
+      group-hover:${btn.hover.replace("hover:", "")}
+    `}
+                  />
                 </button>
               </Tooltip>
             ))}

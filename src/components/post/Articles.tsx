@@ -163,7 +163,7 @@ const Articles = ({
                     ) => (
                       <div
                         key={index}
-                        className="flex darkerBackgroundColor transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:bg-opacity-90 rounded-lg px-3 py-3 items-center space-x-2"
+                        className="flex dark:bg-[#151b2d] backgroundColor transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:bg-opacity-90 rounded-lg px-3 py-3 items-center space-x-2"
                       >
                         <Link to={affiliation_link}>
                           <img
@@ -209,7 +209,7 @@ const Articles = ({
 
                 {signedParties.length > 3 && (
                   <div className="flex items-center justify-center">
-                    <button className="darkerBackgroundColor p-2 w-10 h-10 rounded-full text-white font-semibold transition-all duration-200">
+                    <button className="dark:bg-[#181e32] backgroundColor p-2 w-10 h-10 rounded-full text-white font-semibold transition-all duration-200">
                       +{signedParties.length - 3}
                     </button>
                   </div>

@@ -13,9 +13,11 @@ import {
 } from "@ant-design/icons";
 import { Button, Checkbox, ConfigProvider } from "antd";
 import debounce from "lodash.debounce";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, color } from "framer-motion";
 import { text } from "stream/consumers";
 import EmailChange from "./EmailChange";
+
+import { useCSRFStore } from "@/context/CSRFStore";
 
 interface SignUpModalProps {
   visible: boolean;
@@ -126,6 +128,10 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
     }
 
     if (!isBlacklistedResponse.success) {
+      return setError(t("errors.SignUp.UnexpectedError"), 1);
+    }
+
+    if (isBlacklistedResponse.isBlacklisted) {
       return setError(t("errors.SignUp.restrictedRegion"), 1);
     }
   };
@@ -669,7 +675,20 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         const confirmOTPResponse = await confirmOTPFetch.json();
 
         if (!confirmOTPFetch.ok) {
-          return setError(t("errors.SignUp.UnexpectedError"), 2);
+          switch (confirmOTPFetch.status) {
+            case 400:
+            case 401:
+              setError(t("errors.SignUp.InvalidOTP"), 2);
+              return;
+
+            case 429:
+              setError(t("errors.SignUp.maxAttempts"), 2);
+              return;
+
+            default:
+              setError(t("errors.SignUp.UnexpectedError"), 2);
+              return;
+          }
         }
 
         if (confirmOTPFetch.ok && !confirmOTPResponse.success) {
@@ -693,8 +712,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
         }
 
         refreshPage();
-
         setTab(3);
+        console.log(confirmOTPResponse?.csrf_token);
+        useCSRFStore.getState().setCSRFToken(confirmOTPResponse?.csrf_token);
       } catch (error) {
         setError(t("errors.SignUp.codeVerificationError"), 3);
       }
@@ -752,7 +772,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
     if (responseResend.max) {
       setResendStatus({
-        label: t("SignUp.maxAttempts"),
+        label: t("errors.SignUp.maxAttempts"),
         onHold: true,
       });
     }
@@ -1028,6 +1048,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                       token: {
                         colorPrimary: colorProperties.primaryColor
                           ? colorProperties.primaryColor
+                          : "#1677ff",
+                        colorBgContainer: colorProperties.backgroundColor
+                          ? colorProperties.backgroundColor
                           : "#1677ff",
                       },
                     }}

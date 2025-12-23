@@ -1,8 +1,6 @@
 import route from "../route.js";
 
 import { UserSession } from "../database/models/Session.js";
-import checkAuth from "../auth/checkAuth.js";
-
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -36,7 +34,7 @@ export default async function csrfMiddleware(req, res, next) {
 
   const { session_id } = req.signedCookies;
 
-  if (!fullPath.startsWith("/v1/" || hostname !== "api.netverses.com")) {
+  if (!fullPath.startsWith("/v1/") || hostname !== "api.netverses.com") {
     return next();
   }
 
@@ -68,9 +66,13 @@ export default async function csrfMiddleware(req, res, next) {
     const { csrfToken } = session;
     const headerToken = req.headers["x-csrf-token"];
 
-    if (!headerToken || headerToken.trim() != csrfToken.trim()) {
+    console.log(headerToken, csrfToken);
+    if (!headerToken || !csrfToken || headerToken.trim() !== csrfToken.trim()) {
       return res.status(403).json({ error: "Invalid CSRF token" });
     }
+
+    req.csrfValidated = true;
+    req.session = session;
 
     return next();
   }

@@ -1,6 +1,8 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
+import { useEffect } from "react";
+
 import "@/styles/tailwind.css";
 import "@/styles/theme.css";
 import "@/styles/global.css";
@@ -19,9 +21,9 @@ import UserProvider from "@/context/UserContext";
 import LocaleProvider from "@/context/LocaleContext";
 import AnimateProvider from "@/context/AnimateContext";
 import SubdomainDivider from "@/SubdomainDivider";
-import CSRFProvider, { CSRFContext } from "@/context/CSRFContext";
-
 import AnimationPlayer from "./components/others/AnimationPlayer";
+
+import { useCSRFStore } from "@/context/CSRFStore";
 
 import "@/libraries/i18n/i18n";
 
@@ -35,18 +37,33 @@ const rootElement = document.getElementById("app") as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
 
 const App = () => {
+  const { initCSRFToken, csrfToken, setCSRFToken } = useCSRFStore();
+
+  useEffect(() => {
+    const runAsync = async () => {
+      const token = await initCSRFToken();
+      if (token) {
+        setCSRFToken(token);
+      }
+    };
+
+    runAsync();
+  }, [initCSRFToken, setCSRFToken]);
+
+  useEffect(() => {
+    console.log(csrfToken);
+  }, [csrfToken]);
+
   return (
-    <CSRFProvider>
-      <ThemeProvider>
-        <LocaleProvider>
-          <UserProvider>
-            <AnimateProvider>
-              <SubdomainDivider />
-            </AnimateProvider>
-          </UserProvider>
-        </LocaleProvider>
-      </ThemeProvider>
-    </CSRFProvider>
+    <ThemeProvider>
+      <LocaleProvider>
+        <UserProvider>
+          <AnimateProvider>
+            <SubdomainDivider />
+          </AnimateProvider>
+        </UserProvider>
+      </LocaleProvider>
+    </ThemeProvider>
   );
 };
 

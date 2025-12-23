@@ -110,14 +110,14 @@
       "takenUsername": "Username already taken.",
       "takenEmail": "Email already taken.",
       "restrictedRegion": "Sorry, sign-ups from your region are currently restricted.",
-      "authenticationError": "The authentication process is currently closed. Please come back later!"
+      "authenticationError": "The authentication process is currently closed. Please come back later!",
+      "maxAttempts": "Max Attempts Reached"
     },
     "maxRateLimited": "Max rate limit reached. Please try again later.",
     "invalidEmail": "Provided email is invalid."
   },
   "SignUp": {
     "modalTitle": "Registration",
-    "maxAttempts": "Max Attempts",
     "resendCode": "Resend",
     "SignUpIntro": "Create an account with NetVerses and begin your journey with us today.",
     "consentConfirmation": "I agree and consent to the",

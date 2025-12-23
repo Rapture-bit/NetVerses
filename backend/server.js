@@ -74,24 +74,25 @@ async function startServer() {
   const MISC_KEY = generateSecretKey(512);
   const REQUESTS_KEY = generateSecretKey(256);
 
-  app.use(compression());
-  app.use((req, res, next) => {
-    res.locals.nonce = crypto.randomBytes(16).toString("base64");
-    next();
-  });
-
   app.use(
     cors({
       origin: [
         "https://netverses.com",
         "https://cdn.netverses.com",
         "https://help.netverses.com",
+        "https://api.netverses.com",
       ],
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
       credentials: true,
     }),
   );
+
+  app.use(compression());
+  app.use((req, res, next) => {
+    res.locals.nonce = crypto.randomBytes(16).toString("base64");
+    next();
+  });
 
   app.use(
     helmet({
@@ -139,6 +140,25 @@ async function startServer() {
     }),
   );
 
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://netverses.com");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization, x-csrf-token",
+    );
+    res.header(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS",
+    );
+
+    if (req.method === "OPTIONS") {
+      return res.sendStatus(204);
+    }
+
+    next();
+  });
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser(MISC_KEY));
@@ -163,24 +183,9 @@ async function startServer() {
     app.get("*", async (req, res, next) => {
       if (/\.(js|css|png|jpg|svg|map|json)$/i.test(req.path)) return next();
 
-      const { session_id } = req.signedCookies;
-      let csrfToken = null;
-
-      console.log(session_id);
-
-      if (session_id) {
-        const session = await UserSession.findOne({
-          where: { id: session_id },
-        });
-        if (session) {
-          csrfToken = session.csrfToken;
-        }
-      }
-
       const htmlWithNonce = indexHtml.replace(
         "</head>",
         `<meta name="csp-nonce" content="${res.locals.nonce}">
-     <meta name="csrf" content="${csrfToken}">
      </head>`,
       );
 
@@ -196,19 +201,13 @@ async function startServer() {
         selfHandleResponse: true,
         on: {
           proxyRes: async (proxyRes, req, res) => {
-            const { session_id } = req.signedCookies;
-            let csrfToken = null;
-
-            if (session_id) {
-              const session = await UserSession.findOne({
-                where: { id: session_id },
-              });
-              if (session) {
-                csrfToken = session.csrfToken;
-              }
-            }
-
             let body = Buffer.from([]);
+
+            res.setHeader(
+              "Access-Control-Allow-Origin",
+              "https://netverses.com",
+            );
+            res.setHeader("Access-Control-Allow-Credentials", "true");
 
             proxyRes.on("data", (chunk) => {
               body = Buffer.concat([body, chunk]);
@@ -230,7 +229,6 @@ async function startServer() {
               html = html.replace(
                 "</head>",
                 `<meta name="csp-nonce" content="${res.locals.nonce}">
-     <meta name="csrf" content="${csrfToken}">
      </head>`,
               );
 

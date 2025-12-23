@@ -27,12 +27,14 @@ export default async function (req, res) {
 
     if (blacklistedCountries.has(countryCode)) {
       return res.status(200).json({
-        success: false,
+        success: true,
+        isBlacklisted: true,
         message: "Blacklisted region.",
       });
     } else {
       return res.status(200).json({
         success: true,
+        isBlacklisted: false,
         message: "Not blacklisted.",
       });
     }

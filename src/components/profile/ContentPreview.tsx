@@ -1,3 +1,12 @@
+import {
+  Rocket,
+  GraduationCap,
+  Award,
+  Target,
+  Lightbulb,
+  Star,
+} from "lucide-react";
+
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 import Post from "../post/Post";
@@ -8,6 +17,7 @@ import type { MenuProps } from "antd/es/menu";
 
 import { Dropdown, ConfigProvider, Space } from "antd";
 import DownOutlined from "@ant-design/icons";
+import AchievementsList from "./AchievementsList";
 
 interface Props {
   username: string;
@@ -17,9 +27,7 @@ const ContentPreview = ({ username }: Props) => {
   const [selectedContent, setSelectedContent] = useState<string>("Posts");
   const [selectedFilter, setSelectedFilter] = useState<string>("Popular");
 
-  const [profileColor, setProfileColor] = useState<string>("blue"); // To be updated with API
-  const [achievements, setAchievements] = useState<Object[]>([]); // To be updated with API
-
+  const [profileColor, setProfileColor] = useState<string>("purple"); // To be updated with API
   const [isLoading, setLoading] = useState<boolean>(true);
   const [userPosts, setUserPosts] = useState<Object[]>([
     {
@@ -107,8 +115,46 @@ const ContentPreview = ({ username }: Props) => {
     },
   ]); // To be updated with API
 
-  const [userAchievements, setUserAchievements] = useState<Object[]>([]); // To be updated with API
   const [userClubs, setUserClubs] = useState<Object[]>([]); // To be updated with API
+
+  const [userAchievements, setUserAchievements] = useState([
+    {
+      name: "First Startup Founded",
+      description: "Launched your first company",
+      date: "Jan 2020",
+      icon: <Rocket className="w-4 h-4" />,
+    },
+    {
+      name: "10K Followers",
+      description: "Reached 10,000 followers milestone",
+      date: "Jun 2023",
+      icon: <Target className="w-4 h-4" />,
+    },
+    {
+      name: "Community Builder",
+      description: "Created 5+ active communities",
+      date: "Sep 2023",
+      icon: <Award className="w-4 h-4" />,
+    },
+    {
+      name: "Top Contributor",
+      description: "Ranked in top 1% of contributors",
+      date: "Nov 2023",
+      icon: <Star className="w-4 h-4" />,
+    },
+    {
+      name: "Innovation Award",
+      description: "Won best innovation of the year",
+      date: "Dec 2023",
+      icon: <Lightbulb className="w-4 h-4" />,
+    },
+    {
+      name: "Mentor",
+      description: "Mentored 50+ entrepreneurs",
+      date: "Mar 2024",
+      icon: <GraduationCap className="w-4 h-4" />,
+    },
+  ]);
 
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const [filteredPosts, setFilteredPosts] = useState<object[]>(userPosts);
@@ -226,13 +272,13 @@ const ContentPreview = ({ username }: Props) => {
             <span className="font-semibold">Pins</span>
           </button>
           <button
-            ref={(el) => (buttonRefs.current["FollowersOnlyPosts"] = el)}
+            ref={(el) => (buttonRefs.current["ExclusiveContent"] = el)}
             aria-label="Access Followers-Only Posts"
-            onClick={() => setSelectedContent("FollowersOnlyPosts")}
-            className={`flex items-center ${selectedContent === "FollowersOnlyPosts" ? "dark:text-white text-black" : "dark:text-neutral-400 text-neutral-600"} hover:dark:text-white hover:text-black transition-colors duration-200`}
+            onClick={() => setSelectedContent("ExclusiveContent")}
+            className={`flex items-center ${selectedContent === "ExclusiveContent" ? "dark:text-white text-black" : "dark:text-neutral-400 text-neutral-600"} hover:dark:text-white hover:text-black transition-colors duration-200`}
           >
             <span className="icon-[tabler--eye-star] w-5 h-5 mr-2"></span>
-            <span className="font-semibold">Followers Only</span>
+            <span className="font-semibold">Exclusive Content</span>
           </button>
           <button
             ref={(el) => (buttonRefs.current["Achievements"] = el)}
@@ -292,6 +338,13 @@ const ContentPreview = ({ username }: Props) => {
         <span
           className={`icon-[eos-icons--loading] w-7 h-7 text-${profileColor}-500`}
         ></span>
+      )}
+
+      {!isLoading && selectedContent === "Achievements" && (
+        <AchievementsList
+          achievements={userAchievements}
+          profileColor={profileColor}
+        />
       )}
 
       {!isLoading &&

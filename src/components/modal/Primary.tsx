@@ -155,7 +155,7 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
                 >
                   <Button
                     aria-label="No"
-                    className="rounded-full"
+                    className="rounded-full !bg-transparent"
                     onClick={handleConfirmCancel}
                   >
                     <span>No</span>

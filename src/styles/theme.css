@@ -1,28 +1,30 @@
 :root {
-  --darker-background-color-light: #f1f1f1;
-  --border-input-color-light: #b6b6b6;
-  --background-color-light: white;
-  --text-color-light: #1f1f1f;
-  --selection-text-color-light: black;
-  --vibrant-color-light: #9b59b6;
+  --darker-background-color-light: #f7f8fa;
+  --border-input-color-light: #d0d5dd;
+  --secondary-background-color-light: #eef0f3;
+  --background-color-light: #ffffff;
+  --text-color-light: #1d1f23;
+  --selection-text-color-light: #000000;
+  --vibrant-color-light: #7c3aed;
   --background-color-dark: #111827;
   --darker-background-color-dark: #0e1526;
+  --secondary-background-color-dark: #f1f1f1;
   --border-input-color-dark: #1f2937;
   --text-color-dark: #c0c0c0;
   --button-background-dark: #292c31;
   --vibrant-color-dark: #8e2a8a;
   --purple-dark: #b479fc;
-  --purple-light: #6c00f0;
-  --primary-color: #5700c2;
-  --selection-color: #780cfc8e;
+  --purple-light: #6d28d9;
+  --primary-color: #6d28d9;
+  --selection-color: rgba(109, 40, 217, 0.25);
   --background-color: var(--background-color-light);
   --border-input-color: var(--border-input-color-light);
   --darker-background-color: var(--darker-background-color-light);
   --text-color: var(--text-color-light);
   --selection-text-color: var(--selection-text-color-light);
   --vibrant-color: var(--vibrant-color-light);
-  --purple: var(--text-purple-light) --border-color-transparent:
-    rgba(241, 241, 241, 0.5);
+  --purple: var(--text-purple-light);
+  --border-color-transparent: rgba(241, 241, 241, 0.5);
 }
 
 html {
@@ -124,6 +126,7 @@ textarea {
     --selection-text-color: var(--selection-text-color-dark);
     --vibrant-color: var(--vibrant-color-dark);
     --border-color-transparent: var(--background-color-dark);
+    --secondary-background-color: var(--secondary-background-color-dark);
   }
 
   ::-webkit-scrollbar-track {
@@ -147,6 +150,7 @@ textarea {
   --selection-text-color: var(--selection-text-color-light);
   --vibrant-color: var(--vibrant-color-light);
   --border-color-transparent: var(--background-color-light);
+  --secondary-background-color: var(--secondary-background-color-light);
   --purple: var(--purple-light);
 }
 
@@ -158,6 +162,7 @@ textarea {
   --selection-text-color: var(--selection-text-color-dark);
   --vibrant-color: var(--vibrant-color-dark);
   --border-color-transparent: var(--background-color-dark);
+  --secondary-background-color: var(--secondary-background-color-dark);
   --purple: var(--purple-dark);
 }
 
@@ -224,6 +229,10 @@ textarea {
 
 .backgroundPurple {
   background-color: var(--purple);
+}
+
+.secondaryBackgroundColor {
+  background-color: var(--secondary-background-color);
 }
 
 .textColor {

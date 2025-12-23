@@ -1,4 +1,5 @@
-import { UserProfile, User, UserToken } from "../database/models/User.js";
+import { UserProfile, User } from "../database/models/User.js";
+import { UserSession } from "../database/models/Session.js";
 import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
@@ -31,7 +32,7 @@ export default async function checkAuth(req) {
       };
     }
 
-    const session = await UserToken.findOne({ session_id });
+    const session = await UserSession.findOne({ session_id });
 
     if (!session) {
       console.warn("No session found for session_id:", session_id);

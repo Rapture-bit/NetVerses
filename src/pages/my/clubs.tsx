@@ -114,6 +114,7 @@ export default function ClubsPage() {
     },
   ]);
   const [clubs, setClubs] = useState([
+    // API DATA
     {
       name: "Socialist Union Party",
       badges: ["Politics", "Community"],
@@ -224,7 +225,7 @@ export default function ClubsPage() {
               <div className="relative w-full">
                 <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#111827] from-[#cfcfcf] to-transparent z-10"></div>
 
-                <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
+                <div className="flex flex-row snap-start snap-mandatory overscroll-x-contain gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
                   {clubs.map((element, index) => (
                     <ClubCard
                       key={index}

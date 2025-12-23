@@ -15,7 +15,7 @@ const route = {
       path: "/auth/refresh",
       allowedMethods: ["POST"],
       functionFile: "../API/auth/rotate-token.js",
-      csrfRequired: false,
+      csrfRequired: true,
       rateLimit: {
         max: 9000,
       },
@@ -80,10 +80,17 @@ const route = {
       path: "/self",
       allowedMethods: ["POST"],
       functionFile: "../API/users/self.js",
-      csrfRequired: true,
+      csrfRequired: false,
       rateLimit: {
         max: 10000,
       },
+    },
+    {
+      name: "Get CSRF Token",
+      path: "/security/get-csrf",
+      allowedMethods: ["POST"],
+      functionFile: "../API/security/get-csrf.js",
+      csrfRequired: false,
     },
     {
       name: "User Details",

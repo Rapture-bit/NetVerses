@@ -32,7 +32,7 @@ export default function Boost({ visible, setIsOpen }) {
     api.error({
       message: `Insufficient Boosts`,
       showProgress: true,
-      pauseOnHover: false,
+      pauseOnHover: true,
       description: "User don't have enough boosts to perform this action!", // i18n
       placement,
     });

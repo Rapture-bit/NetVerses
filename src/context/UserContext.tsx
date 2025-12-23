@@ -5,7 +5,7 @@ import React, {
   useContext,
   createContext,
 } from "react";
-import { CSRFContext } from "@/context/CSRFContext";
+import { useCSRFStore } from "@/context/CSRFStore";
 import fetchCSRFPost from "@/utils/fetchPostPage";
 
 interface User {
@@ -34,24 +34,12 @@ export const UserContext = createContext<UserContextType | undefined>(
 );
 
 const UserProvider = ({ children }) => {
-  const { setCSRFToken } = useContext(CSRFContext);
   const [userCache, setUserCache] = useState<User | null>(null);
   const [cacheExpirationDate, setCacheExpirationDate] = useState<
     number | null
   >();
 
   const updateCache = async () => {
-    let csrfToken = null;
-
-    const csrfElement = document.getElementsByName("csrf")[0];
-    if (csrfElement) {
-      const csrfContent = csrfElement.getAttribute("content");
-      setCSRFToken(csrfContent);
-      csrfToken = csrfContent;
-
-      console.log(csrfToken, csrfContent);
-    }
-
     const now = Date.now();
     if (userCache !== null && cacheExpirationDate && now < cacheExpirationDate)
       return;
@@ -59,7 +47,7 @@ const UserProvider = ({ children }) => {
     try {
       const selfData = await fetchCSRFPost(
         "https://api.netverses.com/v1/self",
-        csrfToken,
+        null,
       );
 
       if (!selfData) {
@@ -74,6 +62,9 @@ const UserProvider = ({ children }) => {
       if (selfData.success && selfData.user) {
         console.log(selfData.user);
         setUserCache(selfData.user);
+        if (selfData.csrf_token) {
+          useCSRFStore.getState().setCSRFToken(selfData.csrf_token);
+        }
         return selfData.user;
       } else {
         setUserCache(null);

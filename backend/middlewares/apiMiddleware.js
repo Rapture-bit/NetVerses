@@ -1,6 +1,7 @@
 import route from "../route.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import { generateCSRFToken } from "../API/tokenUtils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -62,6 +63,22 @@ function matchRoute(pathToMatch, routePath) {
 }
 
 export default async function apiMiddleware(req, res, next) {
+  const originalJson = res.json.bind(res);
+  res.json = async (body) => {
+    if (req.csrfValidated === true && res.statusCode < 400 && req.session) {
+      const newToken = generateCSRFToken();
+
+      req.session.csrfToken = newToken;
+      await req.session.save();
+
+      if (body && typeof body === "object") {
+        body.csrfToken = newToken;
+      }
+    }
+
+    return originalJson(body);
+  };
+
   const hostname = req.hostname;
   const fullPath = req.originalUrl.split("?")[0];
   const method = req.method;

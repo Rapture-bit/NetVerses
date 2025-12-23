@@ -1,10 +1,14 @@
 import sequelize from "./config/database.js";
 
-import { User, UserProfile, UserToken } from "./models/User.js";
+import { User, UserProfile } from "./models/User.js";
 import { Verse, Article } from "./models/Feed.js";
 import { UserSession } from "./models/Session.js";
 import { Club, ClubSubscriber, ClubSubscriptionPlan } from "./models/Clubs.js";
 import { OTP } from "./models/OTP.js";
+import { UserConsent } from "./models/DataConsentRecord.js";
+
+User.hasMany(UserConsent, { foreignKey: "userId" });
+UserConsent.belongsTo(User, { foreignKey: "userId" });
 
 async function syncDatabase() {
   try {

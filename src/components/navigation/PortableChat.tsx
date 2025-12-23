@@ -104,7 +104,7 @@ export default function PortableChat() {
                     isExpanded
                       ? "icon-[si--expand-more-fill]"
                       : "icon-[si--expand-less-fill]"
-                  } w-6 h-6 block text-white`}
+                  } w-6 h-6 block dark:text-white text-neutral-800`}
                 />
               </motion.button>
             </Tooltip>
@@ -129,7 +129,7 @@ export default function PortableChat() {
                     inputFocused
                       ? "border-purple-700"
                       : "dark:border-neutral-700"
-                  } bg-transparent text-white placeholder-gray-400 outline-none`}
+                  } bg-transparent dark:text-white text-neutral-800 placeholder-gray-400 outline-none`}
                 />
               </motion.div>
             )}

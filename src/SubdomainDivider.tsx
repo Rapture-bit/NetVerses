@@ -12,7 +12,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import DocumentationLayout from "@/layouts/DocumentationLayout";
 
 import { UserContext } from "@/context/UserContext";
-import { CSRFContext } from "@/context/CSRFContext";
+import { useCSRFStore } from "@/context/CSRFStore";
 
 import Loading from "@/components/others/Loading";
 import fetchCSRFPost from "./utils/fetchPostPage";
@@ -33,13 +33,14 @@ const HelpLandingPage = React.lazy(() => import("@/subdomains/help/landing"));
 
 export default function SubdomainDivider() {
   const { updateCache } = useContext(UserContext);
-  const { setCSRFToken } = useContext(CSRFContext);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAuth, setAuth] = useState<boolean>(false);
+  const { csrfToken, setCSRFToken } = useCSRFStore();
   const [userCache, setUserCache] = useState<Object[] | null | undefined>(
     undefined,
   );
   const [subdomain, setSubdomain] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useLayoutEffect(() => {
     setSubdomain(window.location.hostname.split(".")[0]);
@@ -92,43 +93,31 @@ export default function SubdomainDivider() {
 
   useEffect(() => {
     let isMounted = true;
-    let csrfToken = null;
-
-    const csrfElement = document.getElementsByName("csrf")[0];
-    if (csrfElement) {
-      const csrfContent = csrfElement.getAttribute("content");
-      setCSRFToken(csrfContent);
-      csrfToken = csrfContent;
-
-      console.log(csrfToken, csrfContent);
-    }
-
     const authenticate = async () => {
       try {
-        const refreshData = await fetchCSRFPost(
+        if (!csrfToken || attempt >= 1) return;
+
+        setAttempt((prevAttpt) => prevAttpt + 1);
+        console.log(attempt);
+        const fetchData = await fetchCSRFPost(
           "https://api.netverses.com/v1/auth/refresh",
           csrfToken,
         );
+        const fetchDataResp = await fetchData.json();
 
-        if (refreshData.success && refreshData.isAuthenticated && isMounted) {
-          setAuth(true);
-        } else {
-          console.log(
-            refreshData.success,
-            refreshData.isAuthenticated,
-            isMounted,
-          );
-          setCSRFToken(refreshData.csrfToken);
-          csrfToken = refreshData.csrfToken;
-        }
+        if (!fetchData.ok) return;
+        setCSRFToken(fetchDataResp.csrf_token);
+        setAuth(Boolean(fetchDataResp?.success && fetchDataResp?.authed));
 
         const selfData = await fetchCSRFPost(
           "https://api.netverses.com/v1/self",
-          csrfToken,
+          null,
         );
+        const selfDataResp = await selfData.json();
 
-        console.log(isMounted, selfData.success, selfData.user);
-        if (isMounted) setAuth(selfData.success && selfData.user);
+        if (isMounted) {
+          setAuth(Boolean(selfDataResp?.success && selfDataResp?.user));
+        }
       } catch (err) {
         console.error(err);
         if (isMounted) setAuth(false);
@@ -142,9 +131,8 @@ export default function SubdomainDivider() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [csrfToken, attempt]);
 
-  // Check feed
   useEffect(() => {
     if (!isAuth) {
       return;

@@ -188,6 +188,15 @@ export default function Messages() {
     },
   ]); // API
 
+  const [profileColor, setProfileColor] = useState<string>("purple"); // local user's profile color
+  const [profileColors, setProfileColors] = useState<profileColors>({
+    bannerGradient: `from-${profileColor}-700`,
+    background: `bg-${profileColor}-800`,
+    hoverBackground: `hover:bg-${profileColor}-800`,
+    borderColor: `border-${profileColor}-800`,
+    textColor: `text-${profileColor}-500`,
+  });
+
   const [filter, setFilter] = useState<string>("All");
   const [friendsFilter, setFriendsFilter] = useState<string>("");
   const [filteredFriendsMessages, setFilteredFriendsMessages] = useState<
@@ -560,8 +569,8 @@ export default function Messages() {
                               isSender
                                 ? "bg-purple-700 text-white rounded-tl-xl rounded-tr-xl rounded-bl-xl justify-end hover:bg-purple-600"
                                 : `rounded-tl-xl rounded-tr-xl rounded-br-xl justify-start ${
-                                    colorProperties.textColor === "#c0c0c0"
-                                      ? "bg-neutral-700 text-white hover:bg-neutral-600"
+                                    colorProperties.textColor === "#c0c0c0" // Dark
+                                      ? `bg-[#1f2844] text-white hover:bg-[#1f2844]/50`
                                       : "bg-gray-200 text-gray-900 hover:bg-gray-300"
                                   }`
                             } items-start gap-3 transition-colors duration-200`}
@@ -644,8 +653,8 @@ export default function Messages() {
                         <div
                           className={`relative flex py-2 px-3 items-center gap-2 rounded-tl-xl rounded-tr-xl rounded-br-xl justify-start ${
                             colorProperties.textColor === "#c0c0c0"
-                              ? "bg-neutral-700 text-white"
-                              : "bg-gray-200 text-gray-900"
+                              ? `bg-[#1f2844] text-white hover:bg-[#1f2844]/50`
+                              : "bg-gray-200 text-gray-900 hover:bg-gray-300"
                           } transition-colors duration-200`}
                         >
                           <div className="flex items-end gap-[3px] h-[14px]">
@@ -706,7 +715,7 @@ export default function Messages() {
                         mouseLeaveDelay={0}
                         placement="bottom"
                       >
-                        <button className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-200 dark:bg-neutral-700 text-gray-800 dark:text-white shadow hover:scale-110 transition-transform duration-200">
+                        <button className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-200 dark:bg-[#2b3554] text-gray-800 dark:text-white shadow hover:scale-110 transition-transform duration-200">
                           <span className="icon-[ic--baseline-attachment] w-6 h-6"></span>
                         </button>
                       </Tooltip>
@@ -716,7 +725,7 @@ export default function Messages() {
                         mouseLeaveDelay={0}
                         placement="bottom"
                       >
-                        <button className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-200 dark:bg-neutral-700 text-gray-800 dark:text-white shadow opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-200">
+                        <button className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-200 dark:bg-[#2b3554] text-gray-800 dark:text-white shadow opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-200">
                           <span className="icon-[bxs--gift] w-6 h-6"></span>
                         </button>
                       </Tooltip>
@@ -726,7 +735,7 @@ export default function Messages() {
                         mouseLeaveDelay={0}
                         placement="bottom"
                       >
-                        <button className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-200 dark:bg-neutral-700 text-gray-800 dark:text-white shadow hover:scale-110 transition-transform duration-200">
+                        <button className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-200 dark:bg-[#2b3554] text-gray-800 dark:text-white shadow hover:scale-110 transition-transform duration-200">
                           <span className="icon-[hugeicons--money-send-02] w-6 h-6"></span>
                         </button>
                       </Tooltip>
@@ -738,7 +747,9 @@ export default function Messages() {
                         mouseLeaveDelay={0}
                         placement="bottom"
                       >
-                        <button className="flex items-center justify-center w-10 h-10 rounded-md bg-purple-600 text-white shadow hover:bg-purple-700 hover:scale-110 transition-all duration-200">
+                        <button
+                          className={`flex items-center justify-center w-10 h-10 rounded-md bg-${profileColor}-600 text-white shadow hover:bg-${profileColor}-700 hover:scale-110 transition-all duration-200`}
+                        >
                           <span className="icon-[fluent--send-16-filled] w-6 h-6"></span>
                         </button>
                       </Tooltip>

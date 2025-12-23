@@ -1,5 +1,3 @@
-import { UserToken } from "../../database/models/User.js";
-
 export default async function (req, res) {
   const signedCookies = req.signedCookies;
   let authToken;

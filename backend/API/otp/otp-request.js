@@ -1,8 +1,4 @@
-// Verification measures:
-// -- [Valid Email, Country (by IP), Username, Password]
-// -- Validate email (validator.isEmail)
 import { OTP } from "../../database/models/OTP.js";
-
 import checkAuth from "../../auth/checkAuth.js";
 import sendVerification from "../../services/sendVerification.js";
 import crypto from "crypto";
@@ -15,177 +11,162 @@ function generateOTP() {
 
 function validateUsername(username) {
   const usernameRegex = /^[a-zA-Z0-9_-]+$/;
-  if (username.length < 4 || !usernameRegex.test(username)) {
-    return false;
-  } else {
-    return true;
-  }
+  return username.length >= 4 && usernameRegex.test(username);
 }
 
 async function getCountryFromIp(ip) {
   try {
-    const response = await fetch(`http://ip-api.com/json/${ip}`);
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-    const data = await response.json();
+    const res = await fetch(`http://ip-api.com/json/${ip}`);
+    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+    const data = await res.json();
     return data.countryCode;
   } catch (e) {
-    console.error("Error fetching IP info:", error);
+    console.error("Error fetching IP info:", e);
     return null;
   }
 }
 
-async function isBlacklisted(res, ip) {
+async function isBlacklisted(ip) {
   const countryCode = await getCountryFromIp(ip);
-  if (blacklistedCountries.has(countryCode)) {
-    return res.status(403).json({
-      success: false,
-      message: "Sign-ups from your region are restricted.",
-    });
-  }
+  return blacklistedCountries.has(countryCode);
 }
 
-async function attemptOTP(res, email, username, existingOTP) {
+async function attemptOTP(existingOTP, email, username) {
   const now = new Date();
   const code = generateOTP();
-  const expiresAt = new Date(now.getTime() + 600000); // (in milliseconds)
+  const expiresAt = new Date(now.getTime() + 10 * 60 * 1000); // 10 min
 
-  await existingOTP.reload();
-  const currentCount = existingOTP.getDataValue("requestsCount");
-  const lastRequestDate = existingOTP.getDataValue("lastRequestAt");
-
-  if (now.getTime() - lastRequestDate.getTime() < 20 * 1000) {
-    return res.status(200).json({
+  // Enforce 20-second throttle
+  if (
+    existingOTP.lastRequestAt &&
+    now - existingOTP.lastRequestAt < 20 * 1000
+  ) {
+    return {
       success: false,
-      requestId: existingOTP.getDataValue("requestId"),
+      requestId: existingOTP.requestId,
       message: "Please wait 20 seconds before requesting a new code.",
-    });
+    };
   }
 
-  existingOTP.set({
-    lastRequestAt: now,
-    otpCode: code,
-    expiresAt,
-    requestsCount: currentCount + 1,
-  });
+  existingOTP.otpCode = code;
+  existingOTP.expiresAt = expiresAt;
+  existingOTP.lastRequestAt = now;
+  existingOTP.requestsCount += 1;
   await existingOTP.save();
 
-  sendVerification(email, code, username, "register");
-  return res.status(200).json({
+  await sendVerification(email, code, username, "register");
+
+  return {
     success: true,
     sent: true,
-    requestId: existingOTP.getDataValue("requestId"),
-    message: `OTP has been sent to ${email}`,
-    requestsCount: currentCount + 1,
-  });
+    requestId: existingOTP.requestId,
+    message: `OTP sent to ${email}`,
+    requestsCount: existingOTP.requestsCount,
+  };
 }
-async function createNewOTP(res, email, username) {
+
+async function createNewOTP(email, username) {
   const now = new Date();
   const code = generateOTP();
-  const expiresAt = new Date(now.getTime() + 600000); // 10 minutes
+  const expiresAt = new Date(now.getTime() + 10 * 60 * 1000); // 10 min
 
   const createdOTP = await OTP.create({
-    email: email,
+    email,
     otpCode: code,
     lastRequestAt: now,
     createdAt: now,
-    expiresAt: expiresAt,
+    expiresAt,
+    requestsCount: 1,
   });
 
-  sendVerification(email, code, username, "register");
+  await sendVerification(email, code, username, "register");
 
-  return res.status(200).json({
+  return {
     success: true,
     sent: true,
-    requestId: createdOTP.getDataValue("requestId"),
-    message: `OTP has been sent to ${email}`,
-  });
+    requestId: createdOTP.requestId,
+    message: `OTP sent to ${email}`,
+  };
 }
 
-async function requestOTP(res, email, username) {
-  try {
-    const existingOTP = await OTP.findOne({ where: { email: email } });
-    if (existingOTP) {
-      const now = new Date();
-      const lastRequestDate = existingOTP.getDataValue("lastRequestAt");
-      const timeDifference = (now - lastRequestDate) / 1000;
+async function requestOTP(email, username) {
+  const existingOTP = await OTP.findOne({ where: { email } });
 
-      if (existingOTP.getDataValue("validated") === true) {
-        return res.status(200).json({
-          success: false,
-          message:
-            "User cannot request another OTP once validated. Please create an account.",
-        });
-      }
-      if (existingOTP.getDataValue("requestsCount") >= 3) {
-        if (timeDifference < 120) {
-          // Before 2 minutes (120 seconds)
-          return res.status(200).json({
-            success: false,
-            max: true,
-            message:
-              "User have reached the maximum of 3 OTP requests. Please try again in 2 minutes.",
-          });
-        } else {
-          // Past 2 minutes (120 seconds)
-          await existingOTP.destroy();
-          return await createNewOTP(res, email, username);
-        }
-      }
-      if (timeDifference >= 600) {
-        // Past 10 minutes
-        await existingOTP.destroy();
-        return await createNewOTP(res, email, username);
-      }
-      return await attemptOTP(res, email, username, existingOTP);
+  if (existingOTP) {
+    const now = new Date();
+    const timeDiff = (now - existingOTP.lastRequestAt) / 1000; // seconds
+
+    if (existingOTP.validated) {
+      return {
+        success: false,
+        message: "OTP already validated. Please proceed to create an account.",
+      };
     }
-    return await createNewOTP(res, email, username);
-  } catch (e) {
-    console.error(`INTERNAL SERVER ERROR: ${e}`);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal Server Error" });
+
+    if (existingOTP.requestsCount >= 3 && timeDiff < 120) {
+      return {
+        success: false,
+        message: "Max 3 OTP requests reached. Try again in 2 minutes.",
+      };
+    }
+
+    if (
+      timeDiff >= 600 ||
+      (existingOTP.requestsCount >= 3 && timeDiff >= 120)
+    ) {
+      await existingOTP.destroy();
+      return await createNewOTP(email, username);
+    }
+
+    return await attemptOTP(existingOTP, email, username);
   }
+
+  return await createNewOTP(email, username);
 }
 
-export default async function (req, res) {
+export default async function handler(req, res) {
   try {
-    const isAuthenticated = await checkAuth(req).success;
-    if (isAuthenticated) {
+    if ((await checkAuth(req)).success) {
       return res.status(200).json({
         success: false,
-        message: "The user is already authenticated.",
+        message: "User already authenticated.",
       });
     }
 
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-    await isBlacklisted(res, ip);
+    if (await isBlacklisted(ip)) {
+      return res.status(403).json({
+        success: false,
+        message: "Sign-ups from your region are restricted.",
+      });
+    }
 
     const { email, username } = req.body;
+
     if (!email || !validator.isEmail(email)) {
-      return res.status(200).json({
-        success: false,
-        message: "Invalid email address.",
-      });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid email address." });
     }
 
     if (!username) {
-      return res.status(200).json({
-        success: false,
-        message: "Username field is required.",
-      });
+      return res
+        .status(400)
+        .json({ success: false, message: "Username field is required." });
     }
 
     if (!validateUsername(username)) {
-      return res.status(200).json({
+      return res.status(400).json({
         success: false,
         message:
           "Username must be ≥4 characters and contain only letters, numbers, _, or -.",
       });
     }
 
-    return await requestOTP(res, email, username);
+    const result = await requestOTP(email, username);
+    return res.status(200).json(result);
   } catch (e) {
-    console.error(`INTERNAL SERVER ERROR: ${e}`);
+    console.error("INTERNAL SERVER ERROR:", e);
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error" });

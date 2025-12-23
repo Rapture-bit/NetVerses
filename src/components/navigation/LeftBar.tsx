@@ -51,7 +51,7 @@ export default function LeftBar() {
   const [username, setUsername] = useState<string>("");
   const [avatar, setAvatar] = useState<string>("/images/avatars/default.jpg");
   const [selectedPage, setSelectedPage] = useState<string>("");
-  const [profileColor, setProfileColor] = useState<string>("purple");
+  const [profileColor, setProfileColor] = useState<string>("purple"); // local user's profile color
   const [profileColors, setProfileColors] = useState<profileColors>({
     bannerGradient: `from-${profileColor}-700`,
     background: `bg-${profileColor}-800`,
@@ -214,7 +214,9 @@ export default function LeftBar() {
                 className="absolute z-10 top-7 left-4 w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden cursor-pointer"
                 aria-label={`Profile of ${username}`}
               >
-                <div className="w-full h-full rounded-full border-2 sm:border-4 border-gray-900 bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-violet-500/50 hover:scale-105">
+                <div
+                  className={`w-full h-full rounded-full border sm:border-2 border-${profileColor}-900 bg-gradient-to-br from-${profileColor}-500 to-${profileColor}-600 flex items-center justify-center shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-${profileColor}-500/50 hover:scale-105`}
+                >
                   <svg
                     viewBox="0 0 100 100"
                     className="w-10 h-10 sm:w-14 sm:h-14"
@@ -241,13 +243,13 @@ export default function LeftBar() {
                 className="absolute top-2 right-2 z-20 transition-colors inline-flex flex-shrink-0"
                 aria-label="Edit Banner"
               >
-                <span className="icon-[flowbite--edit-outline] text-[#c0c0c0] hover:text-white transition-all duration-300 text-xl"></span>
+                <span className="icon-[flowbite--edit-outline] text-[#e2e2e2] hover:text-white transition-all duration-300 text-xl"></span>
               </button>
             </Tooltip>
           </div>
 
-          <div className="flex border borderColor flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor text-center pt-28">
-            <div className="flex flex-col gap-1">
+          <div className="flex border borderColor flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor pt-28">
+            <div className="flex flex-col gap-0.5">
               <div className="inline-flex items-center gap-1">
                 {isLoaded ? (
                   <div className="flex items-center space-x-2">
@@ -283,7 +285,7 @@ export default function LeftBar() {
             </div>
 
             {isLoaded ? (
-              <p className="text-gray-300 text-sm leading-relaxed">
+              <p className="dark:text-gray-300 text-black text-sm leading-relaxed text-left m-0 p-0">
                 Proud chairman of NetVerses™, empowering connections and
                 shaping the future of digital social platforms.
               </p>
@@ -325,7 +327,7 @@ export default function LeftBar() {
           </div>
         </div>
 
-        <div className="flex flex-col space-y-4 justify-center items-center">
+        <div className="flex flex-col space-y-2 justify-center items-center">
           <div className="relative flex items-center justify-center">
             <button
               aria-label={t("home.leftBar.home")}

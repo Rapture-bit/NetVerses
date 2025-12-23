@@ -1,216 +1,97 @@
-import { blacklistedCountries } from "../../constants/blacklistedCountries.js";
-
-import * as UAParser from "ua-parser-js";
-
-import { OTP } from "../../database/models/OTP.js";
-import { User, UserProfile, UserToken } from "../../database/models/User.js";
+import { User, UserProfile } from "../../database/models/User.js";
 import { UserConsent } from "../../database/models/DataConsentRecord.js";
+import { UserSession } from "../../database/models/Session.js";
+import { OTP } from "../../database/models/OTP.js";
 import { createJwtToken } from "../../auth/HandleJWT.js";
 import {
   generateRefreshToken,
   generateCSRFToken,
-} from "../../auth/detailsGenerator.js";
-
+  hashToken,
+} from "../tokenUtils.js";
+import * as UAParser from "ua-parser-js";
 import argon2 from "argon2";
 import validator from "validator";
-import { UserSession } from "../../database/models/Session.js";
-
-const successJSON = (username) => {
-  const JSON = {
-    embeds: [
-      {
-        title: "Authentication",
-        description: "Somebody created an account with us!",
-        color: 0x00ff00,
-        fields: [
-          {
-            name: "Username",
-            value: username,
-            inline: true,
-          },
-        ],
-        timestamp: new Date(),
-      },
-    ],
-  };
-
-  return JSON;
-};
+import { blacklistedCountries } from "../../constants/blacklistedCountries.js";
 
 function checkPassword(password) {
   const lowercaseRegex = /[a-z]/g;
   const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/g;
-  if (
-    password.length < 8 ||
-    (password.match(lowercaseRegex) || []).length < 2 ||
-    !specialCharRegex.test(password)
-  ) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-async function hashPassword(password) {
-  return await argon2.hash(password);
-}
-
-async function createAccount(req, res, email, username, password, rememberMe) {
-  try {
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return res.status(200).json({
-        success: false,
-        message: "An account with this email already exists.",
-      });
-    }
-
-    const accessTokenExpires = new Date();
-    accessTokenExpires.setMinutes(accessTokenExpires.getMinutes() + 15); // After 15 minutes
-
-    const expiresAt = new Date();
-    expiresAt.setDate(
-      rememberMe ? expiresAt.getDate() + 30 : expiresAt.getDate() + 7,
-    ); // After 7 days
-
-    const hashedPassword = await hashPassword(password);
-    const user_agent = req.headers["user-agent"];
-    const parsed_user_agent = new UAParser.UAParser(user_agent);
-    const device_type =
-      parsed_user_agent.getDevice().type === "mobile"
-        ? "Mobile"
-        : parsed_user_agent.getDevice().type === "tablet"
-          ? "Tablet"
-          : "Desktop";
-
-    const csrf_token = generateCSRFToken();
-    const createdUser = await User.create({ email, password: hashedPassword });
-    const createdSession = await UserSession.create({
-      userId: createdUser.id,
-      device: device_type,
-      ipAddress: req.ip,
-      csrfToken: csrf_token,
-      userAgent: user_agent,
-      endsAt: expiresAt,
-    });
-
-    const user = await User.findOne({ where: { email } });
-    const userId = user.id;
-
-    await UserProfile.create({
-      id: userId,
-      display_name: username,
-      username: username,
-    });
-
-    const refreshToken = generateRefreshToken();
-    const sessionId = createdSession.getDataValue("id");
-
-    console.log(sessionId, await createdSession.getDataValue("id"));
-
-    await UserToken.create({
-      refresh_token: refreshToken,
-      session_id: sessionId,
-      userId: userId,
-      expiresAt: expiresAt,
-      accessExpiresAt: accessTokenExpires,
-      sessionExpiresAt: expiresAt,
-    });
-
-    const generatedAccessToken = createJwtToken({ userId, username });
-
-    console.log("CSRF Token: ", res.locals.csrf_token);
-    res.cookie("access_token", generatedAccessToken, {
-      httpOnly: true,
-      secure: true,
-      expires: accessTokenExpires,
-      domain: ".netverses.com",
-      sameSite: "Strict",
-      signed: true,
-    });
-    res.cookie("refresh_token", refreshToken, {
-      httpOnly: true,
-      secure: true,
-      expires: expiresAt,
-      domain: ".netverses.com",
-      sameSite: "Strict",
-      signed: true,
-    });
-    res.cookie("session_id", sessionId, {
-      httpOnly: true,
-      secure: true,
-      domain: ".netverses.com",
-      sameSite: "Strict",
-      signed: true,
-    });
-
-    res.header("Access-Control-Allow-Origin", "https://netverses.com");
-    res.header("Access-Control-Allow-Credentials", "true");
-
-    fetch(
-      "https://discord.com/api/webhooks/1431609262832095242/ffrXI8ZIqL7u1ulzjgFoLtp64LC-CoPoks0mBnIRDz8B3yipknSY5e2wnMH73X-mvuXT",
-      {
-        method: "POST",
-        body: JSON.stringify(successJSON(username)),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    try {
-      await UserConsent.create({ userId });
-    } catch (e) {
-      console.error(e);
-    }
-
-    return res.status(200).json({
-      success: true,
-      access_token: generatedAccessToken,
-      access_expiresAt: accessTokenExpires,
-      message: "Account successfully created.",
-    });
-  } catch (e) {
-    console.error(e);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal Server Error" });
-  }
+  return (
+    password.length >= 8 &&
+    (password.match(lowercaseRegex) || []).length >= 2 &&
+    specialCharRegex.test(password)
+  );
 }
 
 function validateUsername(username) {
   const usernameRegex = /^[a-zA-Z0-9_-]+$/;
-  if (username.length < 4 || !usernameRegex.test(username)) {
-    return false;
-  } else {
-    return true;
-  }
+  return username.length >= 4 && usernameRegex.test(username);
 }
 
-async function checkRequestID(requestId) {
-  return !!(await OTP.findOne({ where: { requestId } }));
-}
-
-async function getCountryFromIp(ip) {
-  try {
-    const response = await fetch(`http://ip-api.com/json/${ip}`);
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-    const data = await response.json();
-    return data.countryCode;
-  } catch (e) {
-    console.error("Error fetching IP info:", e);
-    return null;
-  }
+async function hashPassword(password) {
+  return argon2.hash(password);
 }
 
 async function isBlacklisted(res, ip) {
-  const countryCode = await getCountryFromIp(ip);
-  if (blacklistedCountries.has(countryCode)) {
-    return res.status(403).json({
-      success: false,
-      message: "Sign-ups from your region are restricted.",
-    });
+  try {
+    const response = await fetch(`http://ip-api.com/json/${ip}`);
+    const data = await response.json();
+    if (blacklistedCountries.has(data.countryCode)) {
+      res.status(403).json({
+        success: false,
+        message: "Sign-ups from your region are restricted.",
+      });
+      return true;
+    }
+  } catch (e) {
+    console.error("IP check error:", e);
   }
+  return false;
+}
+
+async function createUserSession(req, userId, username, rememberMe = false) {
+  const userAgent = req.headers["user-agent"];
+  const parser = new UAParser.UAParser(userAgent);
+  const device =
+    parser.getDevice().type === "mobile"
+      ? "Mobile"
+      : parser.getDevice().type === "tablet"
+        ? "Tablet"
+        : "Desktop";
+
+  const refreshToken = generateRefreshToken();
+  const refreshTokenHash = hashToken(refreshToken);
+  console.log("==== REFRESH HASH (SAVED): ", refreshTokenHash, " ======");
+
+  const csrfToken = generateCSRFToken();
+
+  const accessExpiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 min
+  const refreshExpiresAt = new Date(
+    Date.now() + (rememberMe ? 30 : 7) * 24 * 60 * 60 * 1000,
+  );
+
+  const accessToken = createJwtToken({ userId, username });
+
+  const session = await UserSession.create({
+    userId: userId,
+    device: device,
+    ipAddress: req.ip,
+    userAgent: userAgent,
+    refreshTokenHash: refreshTokenHash,
+    csrfToken: csrfToken,
+    accessExpiresAt: accessExpiresAt,
+    refreshExpiresAt: refreshExpiresAt,
+    expiresAt: refreshExpiresAt,
+  });
+
+  return {
+    accessToken,
+    refreshToken,
+    csrfToken,
+    sessionId: session.id,
+    accessExpiresAt,
+    refreshExpiresAt,
+  };
 }
 
 async function confirmOTP(
@@ -223,120 +104,124 @@ async function confirmOTP(
   password,
   rememberMe,
 ) {
-  const existingOTP = await OTP.findOne({
-    where: { requestId: requestId, email: email },
-  });
+  const existingOTP = await OTP.findOne({ where: { requestId, email } });
+  if (!existingOTP)
+    return res.status(400).json({ success: false, message: "OTP not found." });
 
-  if (!existingOTP) {
-    return res.status(200).json({
-      success: false,
-      message: "OTP not found for this request.",
-    });
-  }
-
-  const attempts = existingOTP.getDataValue("attempts");
-  const otpCode = existingOTP.getDataValue("otpCode");
-  const expiryDate = existingOTP.getDataValue("expiresAt");
-  const now = new Date();
-
-  if (existingOTP.getDataValue("validated") === true) {
+  if (existingOTP.validated) {
     return await createAccount(req, res, email, username, password, rememberMe);
   }
 
-  if (now >= expiryDate) {
-    return res.status(200).json({
-      success: false,
-      message: "This code has expired. Request a new one to continue.",
-    });
+  if (new Date() >= existingOTP.expiresAt) {
+    return res.status(400).json({ success: false, message: "OTP expired." });
   }
 
-  if (attempts >= 4) {
+  if (existingOTP.attempts >= 4) {
     await existingOTP.destroy();
-    return res.status(200).json({
-      success: false,
-      message:
-        "Maximum attempts reached. Please request a new code to continue.",
-    });
+    return res
+      .status(429)
+      .json({ success: false, message: "Max attempts reached." });
   }
 
-  if (otpCode !== code) {
+  if (existingOTP.otpCode !== code) {
     await existingOTP.increment("attempts");
-    return res.status(200).json({
+    return res.status(400).json({
       success: false,
-      attempts: existingOTP.getDataValue("attempts"),
-      requestId,
-      message: "Provided code is invalid.",
+      message: "Invalid OTP.",
+      attempts: existingOTP.attempts,
     });
   }
 
   await existingOTP.update({ validated: true });
+  await OTP.destroy({ where: { email } });
 
-  const familiarOTP = await OTP.findAll({ where: { email: email } });
-  await Promise.all(familiarOTP.map((element) => element.destroy()));
-
-  return await createAccount(req, res, email, username, password);
+  return await createAccount(req, res, email, username, password, rememberMe);
 }
 
-export default async function (req, res) {
-  const signedCookies = req.signedCookies;
-  if (signedCookies && signedCookies.access_token) {
+async function createAccount(req, res, email, username, password, rememberMe) {
+  if (!validator.isEmail(email))
+    return res.status(400).json({ success: false, message: "Invalid email." });
+  if (!checkPassword(password))
+    return res.status(400).json({ success: false, message: "Weak password." });
+  if (!validateUsername(username))
     return res
-      .status(200)
-      .json({ success: false, message: "The user is already authenticated." });
-  }
+      .status(400)
+      .json({ success: false, message: "Invalid username." });
+
+  const existingUser = await User.findOne({ where: { email } });
+  if (existingUser)
+    return res
+      .status(400)
+      .json({ success: false, message: "Email already exists." });
+
+  const hashedPassword = await hashPassword(password);
+  const newUser = await User.create({ email, password: hashedPassword });
+  await UserProfile.create({
+    id: newUser.id,
+    username,
+    display_name: username,
+  });
+  await UserConsent.create({ userId: newUser.id });
+
+  const {
+    accessToken,
+    refreshToken,
+    csrfToken,
+    sessionId,
+    accessExpiresAt,
+    refreshExpiresAt,
+  } = await createUserSession(req, newUser.id, username, rememberMe);
+
+  res.cookie("access_token", accessToken, {
+    httpOnly: true,
+    secure: true,
+    signed: true,
+    sameSite: "Lax",
+    domain: ".netverses.com",
+    expires: accessExpiresAt,
+  });
+  res.cookie("refresh_token", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    signed: true,
+    sameSite: "Lax",
+    domain: ".netverses.com",
+    expires: refreshExpiresAt,
+  });
+  res.cookie("session_id", sessionId, {
+    httpOnly: true,
+    secure: true,
+    signed: true,
+    sameSite: "Strict",
+    domain: ".netverses.com",
+  });
+
+  return res.status(201).json({
+    success: true,
+    access_token: accessToken,
+    csrf_token: csrfToken,
+    message: "Account created successfully.",
+  });
+}
+
+export default async function handler(req, res) {
+  const signedCookies = req.signedCookies;
+  if (signedCookies?.access_token)
+    return res
+      .status(400)
+      .json({ success: false, message: "Already authenticated." });
 
   const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-  await isBlacklisted(res, ip);
+  if (await isBlacklisted(res, ip)) return;
 
-  const { email, password, username, code, requestId, rememberMe } = req.body;
-  if (!email || !validator.isEmail(email)) {
-    return res.status(200).json({
-      success: false,
-      message: "Invalid email address.",
-    });
-  }
+  const { email, username, password, code, requestId, rememberMe } = req.body;
 
-  if (!requestId || (requestId && !(await checkRequestID(requestId)))) {
+  if (!requestId)
     return res
-      .status(200)
+      .status(400)
       .json({ success: false, message: "Invalid request ID." });
-  }
-
-  if (!code) {
-    return res
-      .status(200)
-      .json({ success: false, message: "Code field is required." });
-  }
-
-  if (!username) {
-    return res.status(200).json({
-      success: false,
-      message: "Username field is required.",
-    });
-  }
-
-  if (!password) {
-    return res.status(200).json({
-      success: false,
-      message: "Password field is required.",
-    });
-  }
-
-  if (!checkPassword(password)) {
-    return res.status(200).json({
-      success: false,
-      message:
-        "Password must be ≥8 characters, with 2 lowercase letters and 1 special character.",
-    });
-  }
-
-  if (!validateUsername(username)) {
-    return res.status(200).json({
-      success: false,
-      message:
-        "Username must be ≥4 characters and contain only letters, numbers, _, or -.",
-    });
-  }
+  if (!code)
+    return res.status(400).json({ success: false, message: "OTP required." });
 
   return await confirmOTP(
     req,
