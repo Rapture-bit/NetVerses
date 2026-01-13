@@ -46,7 +46,7 @@ const UserProvider = ({ children }) => {
 
     try {
       const selfData = await fetchCSRFPost(
-        "https://api.netverses.com/v1/self",
+        "https://api.netverses.com/v1/me",
         null,
       );
 

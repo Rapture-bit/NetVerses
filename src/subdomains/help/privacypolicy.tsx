@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useLayoutEffect, useContext } from "react";
 
-import TopBar from "@/components/navigation/TopBar";
+import TopBar from "@/ui/navigation/TopBar";
 import { ThemeContext } from "@/context/ThemeContext";
-import PageTitle from "@/components/others/PageTitle";
-import Footer from "@/components/navigation/Footer";
-import DocTab from "@/components/others/document/DocTab";
+import PageTitle from "@/ui/others/PageTitle";
+import Footer from "@/ui/navigation/Footer";
+import DocTab from "@/ui/others/document/DocTab";
 import { motion } from "framer-motion";
 
 interface Section {

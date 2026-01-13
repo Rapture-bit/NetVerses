@@ -8,18 +8,18 @@ import React, {
 } from "react";
 
 import { ThemeContext } from "@/context/ThemeContext";
-import SearchBar from "@/components/input/SearchBar";
-import BottomBar from "@/components/navigation/BottomBar";
-import FriendMessage from "@/components/messages/FriendMessage";
+import SearchBar from "@/ui/input/SearchBar";
+import BottomBar from "@/ui/navigation/BottomBar";
+import FriendMessage from "@/ui/messages/FriendMessage";
 
-import FriendProfile from "@/components/messages/FriendProfile";
-import FriendActivity from "@/components/messages/FriendActivity";
-import FriendMenu from "@/components/messages/FriendMenu";
-import SecondFriendMenu from "@/components/messages/SecondFriendMenu";
+import FriendProfile from "@/ui/messages/FriendProfile";
+import FriendActivity from "@/ui/messages/FriendActivity";
+import FriendMenu from "@/ui/messages/FriendMenu";
+import SecondFriendMenu from "@/ui/messages/SecondFriendMenu";
 
 import { Tooltip } from "antd";
 
-import PageTitle from "@/components/others/PageTitle";
+import PageTitle from "@/ui/others/PageTitle";
 
 interface messagesProp {
   sender: string;
@@ -773,7 +773,7 @@ export default function Messages() {
                 View Profile
               </Link>
             </div>
-            <span className="text-xs">© 2025 NetVerses</span>
+            <span className="text-xs">© 2026 NetVerses</span>
           </div>
         </div>
       </div>

@@ -101,6 +101,7 @@ async function startServer() {
           defaultSrc: ["'self'"],
           scriptSrc: [
             "'self'",
+            "'unsafe-inline'",
             "'unsafe-eval'",
             "'sha256-N2vi+DkocM+iW/3yclKUZdJ1gW1wGfCwP8qahG/+7uI='",
             (req, res) => `'nonce-${res.locals.nonce}'`,
@@ -232,6 +233,16 @@ async function startServer() {
      </head>`,
               );
 
+              html = html
+                .replace(
+                  `<script type="module">`,
+                  `<script type="module" nonce="${res.locals.nonce}">`,
+                )
+                .replace(
+                  `<script type="module" src="/@vite/client">`,
+                  `<script type="module" src="/@vite/client" nonce="${res.locals.nonce}">`,
+                );
+
               res.setHeader("Content-Type", "text/html");
               res.end(html);
             });
@@ -254,7 +265,7 @@ async function startServer() {
     });
   });
 
-  const PORT = process.env.PORT || 3000;
+  const PORT = 3000;
 
   app.listen(PORT, () => {
     fetchServer(onlineMessage);

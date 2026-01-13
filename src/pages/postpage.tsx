@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import BottomBar from "@/components/navigation/BottomBar";
-import FocusedPost from "@/components/post/FocusedPost";
+import BottomBar from "@/ui/navigation/BottomBar";
+import FocusedPost from "@/ui/post/FocusedPost";
 
-import PageTitle from "@/components/others/PageTitle";
+import PageTitle from "@/ui/others/PageTitle";
 
 export default function PostsPage() {
   const { id } = useParams();
   const [postData, setPostData] = useState(null);
+
+  const [colorProfile, setColorProfile] = useState("purple");
 
   return (
     <>
@@ -17,6 +19,7 @@ export default function PostsPage() {
       <div className="flex flex-col justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <FocusedPost
           id={Number(id)}
+          colorProfile={colorProfile}
           key={1}
           title={"New Features"}
           date={"2024-09-16T09:30:00Z"}
@@ -85,6 +88,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
           comments={[
             {
               author: "TechGuru",
+              id: 5148263975049182637,
               date: "2024-09-16T09:30:00Z",
               text: "The new updates are fantastic!",
               interactions: {
@@ -94,6 +98,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
             },
             {
               author: "User123",
+              id: 9704628157392846513,
               date: "2024-09-16T09:30:00Z",
               text: "I appreciate the user-friendly interface.",
               interactions: {
@@ -103,6 +108,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
             },
             {
               author: "GamerGal",
+              id: 7483951629048172635,
               date: "2024-10-10T09:30:00Z",
               text: "This platform has changed the way I connect with friends!",
               interactions: {
@@ -112,6 +118,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
             },
             {
               author: "MovieBuff",
+              id: 8293647051928374650,
               date: "2024-09-16T09:30:00Z",
               text: "Excited to see more personalized recommendations!",
               interactions: {
@@ -121,6 +128,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
             },
             {
               author: "TravelLover",
+              id: 6419283750649182735,
               date: "2024-09-16T09:30:00Z",
               text: "The travel tips section is a game changer!",
               interactions: {
@@ -130,6 +138,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
             },
             {
               author: "FutureReader",
+              id: 3759284617059283641,
               date: "2024-09-16T09:30:00Z",
               text: "The future looks bright for NetVerses!",
               interactions: {
@@ -139,6 +148,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
             },
             {
               author: "FitnessFreak",
+              id: 9081726459384716254,
               date: "2024-09-16T09:30:00Z",
               text: "I'm loving the fitness content tailored to my goals!",
               interactions: {
@@ -148,6 +158,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
             },
             {
               author: "BookWorm",
+              id: 4629051738462958173,
               date: "2024-09-16T09:30:00Z",
               text: "Fantastic book recommendations, can't wait to dive in!",
               interactions: {
@@ -158,6 +169,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
             {
               author: "Foodie",
               date: "2024-09-16T09:30:00Z",
+              id: 8172649051837462950,
               text: "The recipes shared here are delicious and easy to follow!",
               interactions: {
                 likes: 19,
@@ -167,6 +179,7 @@ In conclusion, NetVerses is shaping the future of news consumption by combining 
             {
               author: "ArtAficionado",
               date: "2024-09-16T09:30:00Z",
+              id: 5938471629053847261,
               text: "Impressed by the range of artistic content available!",
               interactions: {
                 likes: 21,

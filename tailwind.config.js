@@ -1,21 +1,9 @@
-import { addDynamicIconSelectors, addIconSelectors } from "@iconify/tailwind";
+import { addDynamicIconSelectors } from "@iconify/tailwind";
 import tailwindRtl from "tailwindcss-rtl";
 
 /** @type {import('tailwindcss').Config} */
 export default {
   safelist: [
-    {
-      pattern: /bg-(.*)-(500|600|700|800|900)/,
-      variants: ["hover"],
-    },
-    {
-      pattern: /text-(.*)-(500|600|700|800|900)/,
-      variants: ["hover"],
-    },
-    {
-      pattern: /border-(.*)-(500|600|700|800|900)/,
-      variants: ["hover"],
-    },
     {
       pattern: /gradient-to-(.*)/,
     },
@@ -31,6 +19,25 @@ export default {
     {
       pattern: /bg-gradient-(.*)/,
       variants: ["hover"],
+    },
+    {
+      pattern:
+        /(bg|text|border|hover:bg|hover:border|group-hover:text)-(blue|red|green|purple|yellow|pink|indigo|gray)-(300|400|500|600|700|800)/,
+    },
+    {
+      pattern: /bg-(purple|blue|red)-900/,
+    },
+    {
+      pattern: /text-(purple|blue|red)-500/,
+    },
+    {
+      pattern: /border-(purple|blue|red)-600/,
+    },
+    {
+      pattern: /shadow-(purple|blue|red)-600/,
+    },
+    {
+      pattern: /icon-\[.*\]/,
     },
   ],
   content: [

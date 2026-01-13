@@ -1,0 +1,443 @@
+import { useLocation, Link } from "react-router-dom";
+
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { Tooltip } from "antd";
+import formatNumber from "@/utils/formatNumber";
+import { useTranslation } from "react-i18next";
+
+import BadgesList from "../profile/BadgesList";
+
+interface profileColors {
+  bannerGradient: string;
+  background: string;
+  hoverBackground: string;
+  borderColor: string;
+  textColor: string;
+}
+
+interface dataProps {
+  username: string;
+  profile_picture: string;
+  career: string;
+  bio: string;
+  followers: number;
+  following: number;
+  color: string;
+}
+
+export default function LeftBar() {
+  const { t } = useTranslation();
+  const [hideButtons, setHideButtons] = useState<boolean>(false);
+  const [leftPosition, setLeftPosition] = useState<string>("8%");
+  const [isLoaded, setLoaded] = useState<boolean>(false);
+
+  const [badges, setBadges] = useState([
+    { name: "Official Member" },
+    { name: "Early Creator" },
+    { name: "Star+" },
+    { name: "Business Account" },
+  ]);
+
+  const [userData, setUserData] = useState<dataProps>();
+
+  const [Job, setJob] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [postsNumber, setPostsNumber] = useState<number>(0);
+  const [followers, setFollowers] = useState<number>(0);
+  const [following, setFollowing] = useState<number>(0);
+  const [username, setUsername] = useState<string>("");
+  const [avatar, setAvatar] = useState<string>("/images/avatars/default.jpg");
+  const [selectedPage, setSelectedPage] = useState<string>("");
+  const [profileColor, setProfileColor] = useState<string>("yellow"); // local user's profile color
+  const [profileColors, setProfileColors] = useState<profileColors>({
+    bannerGradient: `from-${profileColor}-700`,
+    background: `bg-${profileColor}-800`,
+    hoverBackground: `hover:bg-${profileColor}-800`,
+    borderColor: `border-${profileColor}-800`,
+    textColor: `text-${profileColor}-500`,
+  });
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [hoverArray, setHoverArray] = useState([
+    {
+      platform: "Twitter",
+      isHover: false,
+    },
+    {
+      platform: "Instagram",
+      isHover: false,
+    },
+    {
+      platform: "LinkedIn",
+      isHover: false,
+    },
+    {
+      platform: "Discord",
+      isHover: false,
+    },
+    {
+      platform: "Personal Website",
+      isHover: false,
+    },
+  ]);
+
+  useEffect(() => {
+    const dataElement = document.getElementById("data-field");
+
+    const username = dataElement?.dataset.username;
+    const description = dataElement?.dataset.description;
+    const career = dataElement?.dataset.career;
+    const preferences = dataElement?.dataset.preferences;
+    const followers = Number(dataElement?.dataset.followers);
+    const following = Number(dataElement?.dataset.following);
+    const pfp = dataElement?.dataset.pfp;
+
+    const preferencesJsonStr = preferences.replace(/'/g, '"');
+    const preferencesJSON = JSON.parse(preferencesJsonStr);
+
+    const color = preferencesJSON.color;
+
+    setUserData({
+      username,
+      bio: description,
+      career,
+      color,
+      followers,
+      following,
+      profile_picture: pfp,
+    });
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!userData) setLoaded(false);
+      else setLoaded(true);
+    }, 1 * 1000);
+  }, [userData]);
+
+  useEffect(() => {
+    if (!userData) return;
+    setUsername(userData.username);
+    setAvatar(userData.profile_picture);
+    setJob(userData.career);
+    setDescription(userData.bio);
+    setFollowers(userData.followers);
+    setFollowing(userData.following);
+    setProfileColor(userData.color);
+  }, [userData]);
+
+  useEffect(() => {
+    setProfileColors({
+      bannerGradient: `from-${profileColor}-700`,
+      background: `bg-${profileColor}-800`,
+      hoverBackground: `hover:bg-${profileColor}-800`,
+      borderColor: `border-${profileColor}-800`,
+      textColor: `text-${profileColor}-500`,
+    });
+  }, [profileColor]);
+
+  const updatePosition = () => {
+    const windowHeight = window.innerHeight;
+    if (windowHeight < 740) setLeftPosition("6%");
+    else if (windowHeight >= 700 && windowHeight < 900) setLeftPosition("7%");
+    else setLeftPosition("8%");
+  };
+
+  useEffect(() => {
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    return () => window.removeEventListener("resize", updatePosition);
+  }, []);
+
+  useEffect(() => {
+    const checkHeight = () => setHideButtons(window.innerHeight < 900);
+    window.addEventListener("resize", checkHeight);
+    checkHeight();
+    return () => window.removeEventListener("resize", checkHeight);
+  }, []);
+
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === "/") setSelectedPage("Home");
+    else if (path === "/my/messages") setSelectedPage("Messages");
+    else if (path === "/my/clubs") setSelectedPage("Clubs");
+    else if (path === "/my/settings") setSelectedPage("Settings");
+    else if (path === "/explore") setSelectedPage("Explore");
+    else if (path === "/starplus") setSelectedPage("StarPlus");
+    else setSelectedPage("");
+  }, [location]);
+
+  const toggleArrayHover = (mouseIn: boolean, platform: string) => {
+    const array = hoverArray.find((element) => element.platform === platform);
+    if (!array) return;
+
+    let newArray = hoverArray.filter((item) => item.platform !== platform);
+    array.isHover = mouseIn;
+
+    newArray.push(array);
+    if (!newArray) return;
+
+    console.log(array, newArray);
+
+    setHoverArray(newArray);
+  };
+
+  return (
+    <>
+      <span
+        id="data-field"
+        data-username="Xenon"
+        data-description="Proud chairman of NetVerses™, empowering connections and shaping the future of digital social platforms."
+        data-career="Entrepreneur"
+        data-preferences="{ 'color': 'purple' }"
+        data-following={2}
+        data-followers={10}
+        data-posts={0}
+        data-pfp={"https://cdn.netverses.com/media/image_placeholder.jpg"}
+      ></span>
+      <nav
+        className="fixed xl:flex hidden top-14 xl:top-20 h-[90vh] w-[16vw] min-w-[200px] max-w-[300px] p-4 roboto dark:text-white text-black flex-col items-center space-y-6 z-10 transition-all duration-200"
+        style={{ left: leftPosition }}
+      >
+        <div className="relative">
+          <div
+            className={`bg-gradient-to-b ${profileColors.bannerGradient} to-transparent h-20 w-full absolute top-0 left-0 rounded-t-lg`}
+          >
+            {isLoaded ? (
+              <Link
+                to={`/${username}`}
+                className="absolute z-10 top-7 left-4 w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden cursor-pointer"
+                aria-label={`Profile of ${username}`}
+              >
+                <div
+                  className={`w-full h-full rounded-full border sm:border-2 border-${profileColor}-900 bg-gradient-to-br from-${profileColor}-500 to-${profileColor}-600 flex items-center justify-center shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-${profileColor}-500/50 hover:scale-105`}
+                >
+                  <svg
+                    viewBox="0 0 100 100"
+                    className="w-10 h-10 sm:w-14 sm:h-14"
+                  >
+                    <circle cx="50" cy="35" r="15" fill="white" opacity="0.9" />
+                    <path
+                      d="M 30 70 Q 50 55 70 70 L 70 85 Q 50 70 30 85 Z"
+                      fill="white"
+                      opacity="0.9"
+                    />
+                  </svg>
+                </div>
+              </Link>
+            ) : (
+              <div className="absolute z-10 mt-7 ml-4 w-16 h-16 rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
+            )}
+
+            <Tooltip
+              placement="bottom"
+              title="Edit Profile"
+              mouseLeaveDelay={0}
+            >
+              <button
+                className="absolute top-2 right-2 z-20 transition-colors inline-flex flex-shrink-0"
+                aria-label="Edit Banner"
+              >
+                <span className="icon-[flowbite--edit-outline] text-[#e2e2e2] hover:text-white transition-all duration-300 text-xl"></span>
+              </button>
+            </Tooltip>
+          </div>
+
+          <div className="flex border borderColor flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor pt-28">
+            <div className="flex flex-col gap-0.5">
+              <div className="inline-flex items-center gap-1">
+                {isLoaded ? (
+                  <div className="flex items-center space-x-2">
+                    <Link
+                      to={`/${username.toLowerCase()}`}
+                      className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none hover:underline"
+                    >
+                      {username}
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                )}
+              </div>
+              <div className="flex flex-col gap-1">
+                {isLoaded ? (
+                  <>
+                    <div className="flex-row space-x-1 inline-flex">
+                      <span
+                        className={`icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem] ${profileColors.textColor}`}
+                      ></span>
+                      <span
+                        className={`font-medium ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
+                      >
+                        Entrepreneur
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                )}
+              </div>
+            </div>
+
+            {isLoaded ? (
+              <p className="dark:text-gray-300 text-black text-sm leading-relaxed text-left m-0 p-0">
+                Proud chairman of NetVerses™, empowering connections and
+                shaping the future of digital social platforms.
+              </p>
+            ) : (
+              <div className="flex flex-col gap-2 mt-2">
+                <div className="h-3 w-full bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                <div className="h-3 w-5/6 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+              </div>
+            )}
+
+            <div className="border-t borderColor my-3"></div>
+
+            <div className="flex flex-row justify-center gap-8">
+              {[
+                { value: followers, label: "Followers" },
+                { value: following, label: "Following" },
+                { value: postsNumber, label: "Posts" },
+              ].map((item, idx) => (
+                <div key={idx} className="flex flex-col items-center">
+                  {isLoaded ? (
+                    <>
+                      <Link
+                        to="#"
+                        className="text-lg font-bold hover:underline"
+                      >
+                        {formatNumber(item.value)}
+                      </Link>
+                      <span className="text-xs textColor">{item.label}</span>
+                    </>
+                  ) : (
+                    <>
+                      <div className="h-5 w-10 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                      <div className="h-3 w-10 bg-gray-300 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col space-y-2 justify-center items-center">
+          <div className="relative flex items-center justify-center">
+            <button
+              aria-label={t("home.leftBar.home")}
+              onClick={(e) => navigate("/")}
+              className={`${selectedPage === "Home" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+            >
+              <span
+                className={`${selectedPage === "Home" ? "icon-[fluent--home-16-filled]" : "icon-[fluent--home-16-regular]"} w-6 h-6 flex items-center justify-center`}
+              ></span>
+              <span className="text-base xl:flex hidden">
+                {t("home.leftBar.home")}
+              </span>
+            </button>
+          </div>
+          <div className="relative flex items-center justify-center">
+            <button
+              aria-label={t("home.leftBar.explore")}
+              onClick={(e) => navigate("/explore")}
+              className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+            >
+              <span
+                className={`${selectedPage === "Explore" ? "icon-[mingcute--search-fill]" : "icon-[mingcute--search-line]"} w-6 h-6 flex items-center justify-center`}
+              ></span>
+              <span className="text-base xl:flex hidden">
+                {t("home.leftBar.explore")}
+              </span>
+            </button>
+          </div>
+
+          {!hideButtons && (
+            <>
+              <div className="relative flex items-center justify-center">
+                <button
+                  aria-label={t("home.leftBar.messages")}
+                  onClick={(e) => navigate("/my/messages")}
+                  className={`${selectedPage === "Messages" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                >
+                  <span
+                    className={`${selectedPage === "Messages" ? "icon-[ic--baseline-email]" : "icon-[ic--outline-email]"} w-6 h-6 flex items-center justify-center`}
+                  ></span>
+                  <span className="text-base">
+                    {t("home.leftBar.messages")}
+                  </span>
+                </button>
+              </div>
+
+              <div className="relative flex items-center justify-center">
+                <button
+                  aria-label={t("home.leftBar.clubs")}
+                  onClick={(e) => navigate("/my/clubs")}
+                  className={`${selectedPage === "Clubs" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                >
+                  <span
+                    className={`${selectedPage === "Clubs" ? "icon-[mage--globe-fill]" : "icon-[hugeicons--globe-02]"} w-6 h-6 flex items-center justify-center`}
+                  ></span>
+                  <span className="text-base">{t("home.leftBar.clubs")}</span>
+                </button>
+              </div>
+
+              <div className="relative flex items-center justify-center">
+                <button
+                  aria-label={t("home.leftBar.settings")}
+                  onClick={(e) => navigate("/my/settings")}
+                  className={`${selectedPage === "Settings" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                >
+                  <span
+                    className={`${selectedPage === "Settings" ? "icon-[fluent--settings-28-filled]" : "icon-[fluent--settings-28-regular]"} w-6 h-6 flex items-center justify-center`}
+                  ></span>
+                  <span className="text-base">
+                    {t("home.leftBar.settings")}
+                  </span>
+                </button>
+              </div>
+            </>
+          )}
+          <div className="flex flex-col space-y-4 w-full items-center justify-center">
+            <button
+              aria-label={t("home.leftBar.starplus")}
+              onClick={(e) => navigate("/starplus")}
+              className={`${selectedPage === "StarPlus" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+            >
+              <span
+                className={`${selectedPage === "StarPlus" ? "icon-[material-symbols--star]" : "icon-[material-symbols--star-outline]"} w-6 h-6 flex items-center justify-center`}
+              ></span>
+              <span className="text-base xl:flex hidden">
+                {t("home.leftBar.starplus")}
+              </span>
+            </button>
+
+            {hideButtons && (
+              <div className="relative flex items-center justify-center">
+                <button
+                  aria-label={"More"}
+                  onClick={(e) => navigate("/explore")}
+                  className={`${selectedPage === "Explore" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all xl:w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                >
+                  <span
+                    className={`icon-[material-symbols--more-up] w-6 h-6 flex items-center justify-center`}
+                  ></span>
+                  <span className="text-base xl:flex hidden">More</span>
+                </button>
+              </div>
+            )}
+
+            <div className="flex flex-row gap-2 mr-auto">
+              <span className="text-xs mr-auto">© 2026 NetVerses</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </>
+  );
+}

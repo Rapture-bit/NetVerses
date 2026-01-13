@@ -75,6 +75,7 @@ export default async function refreshSession(req, res) {
       signed: true,
       sameSite: "Strict",
       domain: ".netverses.com",
+      expires: refreshExpiresAt,
     });
 
     return res.json({ success: true, authed: true });

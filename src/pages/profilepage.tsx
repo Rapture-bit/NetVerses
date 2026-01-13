@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import PageTitle from "@/components/others/PageTitle";
-import BottomBar from "@/components/navigation/BottomBar";
+import PageTitle from "@/ui/others/PageTitle";
+import BottomBar from "@/ui/navigation/BottomBar";
 import { Tooltip } from "antd";
-import ProfilePreview from "@/components/profile/ProfilePreview";
-import ContentPreview from "@/components/profile/ContentPreview";
+import ProfilePreview from "@/ui/profile/ProfilePreview";
+import ContentPreview from "@/ui/profile/ContentPreview";
 
 const ProfilePage = () => {
   const navigate = useNavigate();

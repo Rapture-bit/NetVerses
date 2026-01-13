@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import PageTitle from "@/components/others/PageTitle";
-import BottomBar from "@/components/navigation/BottomBar";
+import PageTitle from "@/ui/others/PageTitle";
+import BottomBar from "@/ui/navigation/BottomBar";
 
 import { Tooltip } from "antd";
 

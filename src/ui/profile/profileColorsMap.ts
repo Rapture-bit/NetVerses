@@ -1,0 +1,138 @@
+export const profileColorsMap = {
+  blue: {
+    bannerGradient: "from-blue-700",
+    background: "bg-blue-800",
+    hoverBackground: "hover:bg-blue-800",
+    borderColor: "border-blue-800",
+    textColor: "text-blue-500",
+    socialMediaProperties: {
+      borderColor: "hover:!border-blue-500",
+      hoverBackground: "hover:bg-blue-500/10",
+      groupHoverText: "group-hover:text-blue-400",
+    },
+    pfp: {
+      borderColor: "border-blue-900",
+      fromGradient: "from-blue-500",
+      toGradient: "to-blue-500",
+    },
+  },
+  red: {
+    bannerGradient: "from-red-700",
+    background: "bg-red-800",
+    hoverBackground: "hover:bg-red-800",
+    borderColor: "border-red-800",
+    textColor: "text-red-500",
+    socialMediaProperties: {
+      borderColor: "hover:!border-red-500",
+      hoverBackground: "hover:bg-red-500/10",
+      groupHoverText: "group-hover:text-red-400",
+    },
+    pfp: {
+      borderColor: "border-red-900",
+      fromGradient: "from-red-500",
+      toGradient: "to-red-500",
+    },
+  },
+  green: {
+    bannerGradient: "from-green-700",
+    background: "bg-green-800",
+    hoverBackground: "hover:bg-green-800",
+    borderColor: "border-green-800",
+    textColor: "text-green-500",
+    socialMediaProperties: {
+      borderColor: "hover:!border-green-500",
+      hoverBackground: "hover:bg-green-500/10",
+      groupHoverText: "group-hover:text-green-400",
+    },
+    pfp: {
+      borderColor: "border-green-900",
+      fromGradient: "from-green-500",
+      toGradient: "to-green-500",
+    },
+  },
+  purple: {
+    bannerGradient: "from-purple-700",
+    background: "bg-purple-800",
+    hoverBackground: "hover:bg-purple-800",
+    borderColor: "border-purple-800",
+    textColor: "text-purple-500",
+    socialMediaProperties: {
+      borderColor: "hover:!border-purple-500",
+      hoverBackground: "hover:bg-purple-500/10",
+      groupHoverText: "group-hover:text-purple-400",
+    },
+    pfp: {
+      borderColor: "border-purple-900",
+      fromGradient: "from-purple-500",
+      toGradient: "to-purple-500",
+    },
+  },
+  yellow: {
+    bannerGradient: "from-yellow-700",
+    background: "bg-yellow-800",
+    hoverBackground: "hover:bg-yellow-800",
+    borderColor: "border-yellow-800",
+    textColor: "text-yellow-500",
+    socialMediaProperties: {
+      borderColor: "hover:!border-yellow-500",
+      hoverBackground: "hover:bg-yellow-500/10",
+      groupHoverText: "group-hover:text-yellow-400",
+    },
+    pfp: {
+      borderColor: "border-yellow-900",
+      fromGradient: "from-yellow-500",
+      toGradient: "to-yellow-500",
+    },
+  },
+  pink: {
+    bannerGradient: "from-pink-700",
+    background: "bg-pink-800",
+    hoverBackground: "hover:bg-pink-800",
+    borderColor: "border-pink-800",
+    textColor: "text-pink-500",
+    socialMediaProperties: {
+      borderColor: "hover:!border-pink-500",
+      hoverBackground: "hover:bg-pink-500/10",
+      groupHoverText: "group-hover:text-pink-400",
+    },
+    pfp: {
+      borderColor: "border-pink-900",
+      fromGradient: "from-pink-500",
+      toGradient: "to-pink-500",
+    },
+  },
+  indigo: {
+    bannerGradient: "from-indigo-700",
+    background: "bg-indigo-800",
+    hoverBackground: "hover:bg-indigo-800",
+    borderColor: "border-indigo-800",
+    textColor: "text-indigo-500",
+    socialMediaProperties: {
+      borderColor: "hover:!border-indigo-500",
+      hoverBackground: "hover:bg-indigo-500/10",
+      groupHoverText: "group-hover:text-indigo-400",
+    },
+    pfp: {
+      borderColor: "border-indigo-900",
+      fromGradient: "from-indigo-500",
+      toGradient: "to-indigo-500",
+    },
+  },
+  gray: {
+    bannerGradient: "from-gray-700",
+    background: "bg-gray-800",
+    hoverBackground: "hover:bg-gray-800",
+    borderColor: "border-gray-800",
+    textColor: "text-gray-500",
+    socialMediaProperties: {
+      borderColor: "hover:!border-gray-500",
+      hoverBackground: "hover:bg-gray-500/10",
+      groupHoverText: "group-hover:text-gray-400",
+    },
+    pfp: {
+      borderColor: "border-gray-900",
+      fromGradient: "from-gray-500",
+      toGradient: "to-gray-500",
+    },
+  },
+};

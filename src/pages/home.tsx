@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
-import BottomBar from "@/components/navigation/BottomBar";
-import Verse from "@/components/post/Verse";
-import Post, { PostProps } from "@/components/post/Post";
-import Articles, { ArticlesProps } from "@/components/post/Articles";
-import FeedSelection from "@/components/others/FeedSelection";
-import BottomPageComponent from "@/components/post/BottomPageComponent";
+import BottomBar from "@/ui/navigation/BottomBar";
+import Verse from "@/ui/post/Verse";
+import Post, { PostProps } from "@/ui/post/Post";
+import Articles, { ArticlesProps } from "@/ui/post/Articles";
+import FeedSelection from "@/ui/others/FeedSelection";
+import BottomPageComponent from "@/ui/post/BottomPageComponent";
 import type { MenuProps } from "antd/es/menu";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { Dropdown, Space, ConfigProvider } from "antd";
-import PageTitle from "@/components/others/PageTitle";
+import PageTitle from "@/ui/others/PageTitle";
 import { useTranslation } from "react-i18next";
 
 import { ThemeContext } from "@/context/ThemeContext";
@@ -393,6 +393,18 @@ export default function Home() {
     }, 1000);
   };
 
+  useEffect(() => {
+    const onLocalStorageChange = (e) => {
+      setSelectedFeed(e.detail);
+    };
+
+    window.addEventListener("selectedFeedChange", onLocalStorageChange);
+
+    return () => {
+      window.removeEventListener("selectedFeedChange", onLocalStorageChange);
+    };
+  }, []);
+
   const items: MenuProps["items"] = [
     {
       key: "0",
@@ -431,7 +443,10 @@ export default function Home() {
       <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">
-          <FeedSelection onChange={handleFeedChange} />
+          <FeedSelection
+            onChange={handleFeedChange}
+            forceSelect={selectedFeed}
+          />
           {selectedFeed !== "Articles" && <Verse isComment={false} />}
           {selectedFeed !== "Articles" && (
             <div className="inline-flex items-center justify-between w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 py-2 text-sm font-medium">

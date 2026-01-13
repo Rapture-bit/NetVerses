@@ -111,7 +111,8 @@
       "takenEmail": "Email already taken.",
       "restrictedRegion": "Sorry, sign-ups from your region are currently restricted.",
       "authenticationError": "The authentication process is currently closed. Please come back later!",
-      "maxAttempts": "Max Attempts Reached"
+      "maxAttempts": "Max Attempts Reached",
+      "InvalidOTP": "Provided code is invalid."
     },
     "maxRateLimited": "Max rate limit reached. Please try again later.",
     "invalidEmail": "Provided email is invalid."

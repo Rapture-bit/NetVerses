@@ -194,6 +194,7 @@ async function createAccount(req, res, email, username, password, rememberMe) {
     signed: true,
     sameSite: "Strict",
     domain: ".netverses.com",
+    expires: refreshExpiresAt,
   });
 
   return res.status(201).json({

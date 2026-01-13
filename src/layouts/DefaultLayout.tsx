@@ -11,15 +11,15 @@ import Cookies from "js-cookie";
 
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-import AnimationPlayer from "@/components/others/AnimationPlayer";
+import AnimationPlayer from "@/ui/others/AnimationPlayer";
 
-import CookiesConsent from "@/components/modal/BottomMenu/CookiesConsent";
-import TopBar from "@/components/navigation/TopBar";
-import LeftBar from "@/components/navigation/LeftBar";
-import RightBar from "@/components/navigation/RightBar";
-import PortableChat from "@/components/navigation/PortableChat";
+import CookiesConsent from "@/ui/modal/BottomMenu/CookiesConsent";
+import TopBar from "@/ui/navigation/TopBar";
+import LeftBar from "@/ui/navigation/LeftBar";
+import RightBar from "@/ui/navigation/RightBar";
+import PortableChat from "@/ui/navigation/PortableChat";
 
-import Loading from "@/components/others/Loading";
+import Loading from "@/ui/others/Loading";
 
 import { AnimateContext } from "@/context/AnimateContext";
 import { UserContext } from "@/context/UserContext";

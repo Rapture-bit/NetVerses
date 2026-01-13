@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PageTitle from "@/components/others/PageTitle";
+import PageTitle from "@/ui/others/PageTitle";
 
 export default function HelpLandingPage() {
   return (

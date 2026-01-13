@@ -77,7 +77,7 @@ const route = {
     },
     {
       name: "Get Self Information",
-      path: "/self",
+      path: "/me",
       allowedMethods: ["POST"],
       functionFile: "../API/users/self.js",
       csrfRequired: false,

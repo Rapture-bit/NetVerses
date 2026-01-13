@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
+console.log(JWT_SECRET);
 
 export default async function checkAuth(req) {
   try {

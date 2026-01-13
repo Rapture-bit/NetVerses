@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import BottomBar from "@/components/navigation/BottomBar";
-import PageTitle from "@/components/others/PageTitle";
-import SearchBar from "@/components/input/SearchBar";
+import BottomBar from "@/ui/navigation/BottomBar";
+import PageTitle from "@/ui/others/PageTitle";
+import SearchBar from "@/ui/input/SearchBar";
 
 import { Tooltip } from "antd";
 

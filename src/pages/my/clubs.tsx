@@ -3,10 +3,10 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Tooltip } from "antd";
 
-import ClubCard from "@/components/ClubCard";
-import ChannelCard from "@/components/ChannelCard";
+import ClubCard from "@/ui/ClubCard";
+import ChannelCard from "@/ui/ChannelCard";
 
-import PageTitle from "@/components/others/PageTitle";
+import PageTitle from "@/ui/others/PageTitle";
 
 export default function ClubsPage() {
   const toggleBack = () => {};

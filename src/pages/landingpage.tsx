@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navi18n from "@/libraries/Navi18n";
 
-import SignUpModal from "@/components/modal/SignUp";
-import SignInModal from "@/components/modal/SignIn";
-import FeaturesList from "@/components/others/FeaturesList";
-import PageTitle from "@/components/others/PageTitle";
-import LocaleMenu from "@/components/modal/BottomMenu/LocaleMenu";
+import SignUpModal from "@/ui/modal/SignUp";
+import SignInModal from "@/ui/modal/SignIn";
+import FeaturesList from "@/ui/others/FeaturesList";
+import PageTitle from "@/ui/others/PageTitle";
+import LocaleMenu from "@/ui/modal/BottomMenu/LocaleMenu";
 import { useTranslation } from "react-i18next";
 
 export default function Page() {

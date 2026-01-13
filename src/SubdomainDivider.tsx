@@ -14,7 +14,7 @@ import DocumentationLayout from "@/layouts/DocumentationLayout";
 import { UserContext } from "@/context/UserContext";
 import { useCSRFStore } from "@/context/CSRFStore";
 
-import Loading from "@/components/others/Loading";
+import Loading from "@/ui/others/Loading";
 import fetchCSRFPost from "./utils/fetchPostPage";
 
 const LandingPage = React.lazy(() => import("@/pages/landingpage"));
@@ -98,12 +98,12 @@ export default function SubdomainDivider() {
         if (!csrfToken || attempt >= 1) return;
 
         setAttempt((prevAttpt) => prevAttpt + 1);
-        console.log(attempt);
+        // console.log(attempt);
         const fetchData = await fetchCSRFPost(
           "https://api.netverses.com/v1/auth/refresh",
           csrfToken,
         );
-        const fetchDataResp = await fetchData.json();
+        const fetchDataResp = fetchData;
 
         if (!fetchData.ok) return;
         setCSRFToken(fetchDataResp.csrf_token);
@@ -178,7 +178,8 @@ export default function SubdomainDivider() {
               }
             />
             <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="/:username/posts/:id" element={<PostsPage />} />
+            <Route path="/u/:username/:id" element={<PostsPage />} />
+            // Add comments page
             <Route path="/:username" element={<ProfilePage />} />
             <Route
               path="/my/messages"
