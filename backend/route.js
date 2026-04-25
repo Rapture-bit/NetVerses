@@ -11,13 +11,33 @@ const route = {
       },
     },
     {
-      name: "Refresh Token",
-      path: "/auth/refresh",
+      name: "Interests Sync",
+      path: "/me/sync/interests",
       allowedMethods: ["POST"],
-      functionFile: "../API/auth/rotate-token.js",
+      functionFile: "../API/user/syncInterests.js",
+      authRequired: true,
+      csrfRequired: true,
+    },
+    {
+      name: "Update Profile",
+      path: "/me/update-profile",
+      allowedMethods: ["POST"],
+      functionFile: "../API/user/updateProfile.js",
+      authRequired: true,
       csrfRequired: true,
       rateLimit: {
-        max: 9000,
+        max: 100,
+      },
+    },
+    {
+      name: "Avatar Upload",
+      path: "/me/avatar-upload",
+      allowedMethods: ["POST"],
+      functionFile: "../API/user/avatarUpload.js",
+      csrfRequired: true,
+      authRequired: true,
+      rateLimit: {
+        max: 10,
       },
     },
     {
@@ -44,6 +64,7 @@ const route = {
       allowedMethods: ["GET"],
       functionFile: "../API/feed/get-feed.js",
       csrfRequired: true,
+      authRequired: true,
       rateLimit: {
         max: 100000,
       },
@@ -76,11 +97,12 @@ const route = {
       },
     },
     {
-      name: "Get Self Information",
-      path: "/me",
-      allowedMethods: ["POST"],
-      functionFile: "../API/users/self.js",
+      name: "Get Self Interests",
+      path: "/me/interests",
+      allowedMethods: ["GET"],
+      functionFile: "../API/user/self/getInterests.js",
       csrfRequired: false,
+      authRequired: true,
       rateLimit: {
         max: 10000,
       },
@@ -91,6 +113,7 @@ const route = {
       allowedMethods: ["POST"],
       functionFile: "../API/security/get-csrf.js",
       csrfRequired: false,
+      authRequired: true,
     },
     {
       name: "User Details",

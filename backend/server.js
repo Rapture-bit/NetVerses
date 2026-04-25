@@ -1,6 +1,9 @@
+import userRouter from "./routers/userRouter.js";
+import selfRouter from "./routers/selfRouter.js";
 import express from "express";
 import cors from "cors";
-import helmet from "helmet";
+import https from "https";
+import helmet, { xContentTypeOptions } from "helmet";
 import path from "path";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
@@ -9,16 +12,26 @@ import compression from "compression";
 import fs from "fs";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
+import safeSerialize from "./API/safeSerialize.js";
+
+import fileUpload from "express-fileupload";
+
+import portforward from "./portforwarding.js";
+
 import { UserSession } from "./database/models/Session.js";
 
-import apiMiddleware from "./middlewares/apiMiddleware.js";
-import assetsMiddleware from "./middlewares/assetsMiddleware.js";
-import csrfMiddleware from "./middlewares/CSRFMiddleware.js";
+import apiMiddleware from "./middlewares/api_middleware.js";
+import assetsMiddleware from "./middlewares/assets_middleware.js";
+import authMiddleware from "./middlewares/auth_middleware.js";
+import routeGuardMiddleware from "./middlewares/routeGuardMiddleware.js";
+import csrfMiddleware from "./middlewares/csrf_middleware.js";
+import rateLimiter from "./middlewares/rate_limiter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 import index from "./database/index.js";
+import contentMiddleware from "./middlewares/content_middleware.js";
 
 function generateSecretKey(length = 256) {
   const randomBytes = crypto.randomBytes(length / 2);
@@ -88,6 +101,11 @@ async function startServer() {
     }),
   );
 
+  app.use(fileUpload());
+  app.use(
+    "/uploads/avatars",
+    express.static(path.join(__dirname, "../../assets/images/uploads/avatars")),
+  );
   app.use(compression());
   app.use((req, res, next) => {
     res.locals.nonce = crypto.randomBytes(16).toString("base64");
@@ -124,6 +142,7 @@ async function startServer() {
           imgSrc: [
             "'self'",
             "data:",
+            "blob:",
             "https://netverses.com",
             "https://cdn.netverses.com",
             "https://www.googletagmanager.com",
@@ -141,31 +160,23 @@ async function startServer() {
     }),
   );
 
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://netverses.com");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Authorization, x-csrf-token",
-    );
-    res.header(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS",
-    );
-
-    if (req.method === "OPTIONS") {
-      return res.sendStatus(204);
-    }
-
-    next();
-  });
-
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser(MISC_KEY));
   app.use(csrfMiddleware);
+  app.use(authMiddleware);
+  app.use(routeGuardMiddleware);
   app.use(apiMiddleware);
   app.use(assetsMiddleware);
+  app.use("/u/:username", contentMiddleware, userRouter);
+  app.use("/my", selfRouter);
+  app.use(
+    "/v1",
+    rateLimiter({
+      windowMs: 60 * 1000,
+      max: 100,
+    }),
+  );
 
   if (!isDev) {
     app.use("/assets", express.static(path.join(__dirname, "../dist/assets")));
@@ -184,11 +195,24 @@ async function startServer() {
     app.get("*", async (req, res, next) => {
       if (/\.(js|css|png|jpg|svg|map|json)$/i.test(req.path)) return next();
 
-      const htmlWithNonce = indexHtml.replace(
+      let htmlWithNonce = indexHtml.replace(
         "</head>",
         `<meta name="csp-nonce" content="${res.locals.nonce}">
      </head>`,
       );
+
+      htmlWithNonce = htmlWithNonce.replace(
+        "<!--__USER__-->",
+        `<script nonce="${res.locals.nonce}">
+          window.__USER__ = ${safeSerialize(req.user)};
+        </script>`,
+      );
+      if (req.profile) {
+        htmlWithNonce = htmlWithNonce.replace(
+          "<!--__PROFILE__-->",
+          `<script nonce="${res.locals.nonce}">window.__PROFILE__ = ${safeSerialize(req.profile)};</script>`,
+        );
+      }
 
       res.send(htmlWithNonce);
     });
@@ -230,7 +254,7 @@ async function startServer() {
               html = html.replace(
                 "</head>",
                 `<meta name="csp-nonce" content="${res.locals.nonce}">
-     </head>`,
+                </head>`,
               );
 
               html = html
@@ -242,6 +266,20 @@ async function startServer() {
                   `<script type="module" src="/@vite/client">`,
                   `<script type="module" src="/@vite/client" nonce="${res.locals.nonce}">`,
                 );
+
+              html = html.replace(
+                "<!--__USER__-->",
+                `
+                <script nonce="${res.locals.nonce}">
+          window.__USER__ = ${safeSerialize(req.user)};
+        </script>`,
+              );
+              if (req.profile) {
+                html = html.replace(
+                  "<!--__PROFILE__-->",
+                  `<script nonce="${res.locals.nonce}">window.__PROFILE__ = ${safeSerialize(req.profile)};</script>`,
+                );
+              }
 
               res.setHeader("Content-Type", "text/html");
               res.end(html);
@@ -265,11 +303,17 @@ async function startServer() {
     });
   });
 
-  const PORT = 3000;
+  const PORT = 443;
 
-  app.listen(PORT, () => {
-    fetchServer(onlineMessage);
-    console.log(`Server is running on http://localhost:${PORT}`);
+  const options = {
+    key: fs.readFileSync("key.pem"),
+    cert: fs.readFileSync("cert.pem"),
+    ca: fs.readFileSync("chain.pem"),
+  };
+
+  https.createServer(options, app).listen(PORT, "192.168.0.101", () => {
+    portforward();
+    console.log(`HTTPS server running on https://192.168.0.101:${PORT}`);
   });
 }
 

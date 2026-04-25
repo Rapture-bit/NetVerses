@@ -11,11 +11,19 @@ import { Dropdown, Space, ConfigProvider } from "antd";
 import PageTitle from "@/ui/others/PageTitle";
 import { useTranslation } from "react-i18next";
 
+import { UserContext } from "@/context/UserContext";
+
+import ProfileCustomization from "@/ui/modal/ProfileCustomization";
+
 import { ThemeContext } from "@/context/ThemeContext";
 
 export default function Home() {
   const { t } = useTranslation();
   const { colorProperties } = useContext(ThemeContext);
+  const { userData } = useContext(UserContext)!;
+
+  const [showProfileCustomization, setCustomizationMenuOpen] =
+    useState<boolean>(false);
   const [selectedFilter, setFilter] = useState<string>(
     localStorage.getItem("selectedFilter") || "Popular",
   );
@@ -183,6 +191,49 @@ export default function Home() {
       ],
     },
     {
+      id: 8273491827465918273,
+      title: "Upgrade Your Experience with NetVerses Premium!",
+      type: "Ad",
+      description:
+        "Unlock exclusive features on NetVerses Premium: ad-free browsing, priority content, and advanced personalization. Join thousands enjoying the next-level news experience!",
+      author: "NetVerses Team",
+      date: "2026-03-06T12:00:00Z",
+      interactions: {
+        likes: 120,
+        dislikes: 2,
+        views: 1500,
+        boosts: 50,
+        comments: 10,
+      },
+      attachments: [
+        {
+          id: "f47ac10b58cc4372a5670e02b2c3d479",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+        {
+          id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+        {
+          id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+      ],
+      comments: [
+        {
+          author: "NewsLover99",
+          text: "Tried Premium and the personalized content is amazing!",
+          date: "2026-03-06T12:30:00Z",
+          interactions: { likes: 5, dislikes: 0 },
+        },
+      ],
+      isNSFW: false,
+      isAd: true,
+    },
+    {
       id: 1842124855719629178,
       title: "Top Features of NetVerses",
       type: "Blog",
@@ -312,6 +363,37 @@ export default function Home() {
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
           comment: "NetVerses's Default Avatar",
         },
+        {
+          id: "f47ac10b58cc4372a5670e02b2c3d479",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+        {
+          id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+
+        {
+          id: "f47ac10b58cc4372a5670e02b2c3d479",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+        {
+          id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+        {
+          id: "f47ac10b58cc4372a5670e02b2c3d479",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
+        {
+          id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          comment: "NetVerses's Default Avatar",
+        },
       ],
       comments: [
         {
@@ -337,6 +419,14 @@ export default function Home() {
     };
     loadData();
   }, []);
+
+  useEffect(() => {
+    if (userData && userData.newlyRegistered) {
+      setCustomizationMenuOpen(true);
+    } else {
+      setCustomizationMenuOpen(false);
+    }
+  }, [userData]);
 
   useEffect(() => {
     const filterPosts = () => {
@@ -439,6 +529,10 @@ export default function Home() {
 
   return (
     <>
+      <ProfileCustomization
+        visible={showProfileCustomization}
+        setIsOpen={setCustomizationMenuOpen}
+      />
       <PageTitle title="NetVerses ~ Home" />
       <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">

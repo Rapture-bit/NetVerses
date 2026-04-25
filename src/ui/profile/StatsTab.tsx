@@ -3,37 +3,39 @@ import formatNumber from "@/utils/formatNumber";
 export default function StatsTab({
   followers,
   username,
-  reputation,
+  connections,
   self,
   following,
 }) {
+  const stats = [
+    {
+      label: "Followers",
+      count: followers,
+      link: self ? "/my/followers" : `/${username}/followers`,
+    },
+    {
+      label: "Following",
+      count: following,
+      link: self ? "/my/following" : `/${username}/following`,
+    },
+    {
+      label: "Connections",
+      count: connections,
+      link: self ? "/my/connections" : `/${username}/connections`,
+    },
+  ];
+
   return (
-    <div className="flex justify-between md:justify-start md:gap-10 text-center">
-      {[
-        {
-          label: "Followers",
-          count: followers,
-          link: self ? "/my/followers" : `/${username}/followers`,
-        },
-        {
-          label: "Following",
-          count: following,
-          link: self ? "/my/following" : `/${username}/following`,
-        },
-        {
-          label: "Reputation",
-          count: reputation,
-          link: self ? "/my/reputation" : `/${username}/reputation`,
-        },
-      ].map(({ label, count, link }) => (
-        <div key={label} className="flex flex-row space-x-1 items-center">
+    <div className="flex items-center space-x-4 md:space-x-6">
+      {stats.map(({ label, count, link }) => (
+        <div key={label} className="flex items-baseline space-x-1">
           <a
             href={link}
-            className="text-base font-bold text-black dark:text-white hover:underline"
+            className="font-semibold text-black dark:text-white text-sm md:text-base transition-transform duration-150 hover:scale-105 hover:underline"
           >
             {formatNumber(count)}
           </a>
-          <span className="text-base text-neutral-700 dark:text-neutral-400">
+          <span className="text-neutral-500 dark:text-neutral-400 text-sm md:text-base font-medium">
             {label}
           </span>
         </div>

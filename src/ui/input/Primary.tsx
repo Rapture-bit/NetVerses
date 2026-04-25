@@ -11,6 +11,7 @@ export default function PrimaryInput({
   errorMessage = "",
   infoMessage = "",
   type = "text",
+  disabled = false,
   ...props
 }) {
   return (
@@ -18,6 +19,7 @@ export default function PrimaryInput({
       theme={{
         token: {
           colorBorder: ColorSettings.BorderColor,
+          colorText: ColorSettings.textColor,
           colorPrimary: ColorSettings.BorderColor,
           controlOutline: ColorSettings.BorderColor,
         },
@@ -27,7 +29,11 @@ export default function PrimaryInput({
         <Input.Password className="!bg-transparent" type={type} {...props} />
       )}
       {type !== "password" && (
-        <Input type={type} className="!bg-transparent" {...props} />
+        <Input
+          type={type}
+          className={`!bg-transparent ${disabled ? "cursor-not-allowed! hover:border-transparent" : ""}`}
+          {...props}
+        />
       )}
       {errorMessage && (
         <div className="flex items-center space-x-2 text-red-500 text-sm">

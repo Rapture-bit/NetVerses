@@ -1,0 +1,145 @@
+{
+  "general": {
+    "RegisterBtn": "ⵙⴽⴽⴻⵎ",
+    "SignInBtn": "ⴽⵛⵎ",
+    "andLabel": "ⴰⴽⴽⴻⴷ",
+    "tosLabel": "ⵜⵉⵡⵜⵉⵍⵉⵏ ⵏ ⵓⵙⴻⵇⴷⴻⵛ",
+    "privacyLabel": "ⵜⴰⵙⴻⵔⵜⵉⵜ ⵏ ⵜⴱⴰⴹⵏⵉⵜ",
+    "Next": "ⴰⵔ ⵣⴷⴰⵜ",
+    "Confirm": "ⵙⴻⵔⴳⴳⴻⴳ",
+    "confirmPassword": "ⵙⴻⵔⴳⴳⴻⴳ ⴰⵡⴰⵍ ⵏ ⵓⵄⴻⴷⴷⵉ",
+    "Email": "ⵉⵎⴰⵢⵍ",
+    "Username": "ⵉⵙⴻⵎ ⵏ ⵓⵙⴻⵇⴷⴰⵛ",
+    "Password": "ⴰⵡⴰⵍ ⵏ ⵓⵄⴻⴷⴷⵉ",
+    "learnmore": "ⵙⵙⵉⵏ ⵓⴳⴰⵔ",
+    "showmore": "ⵙⴽⴻⵏ ⵓⴳⴰⵔ",
+    "got-it": "ⴼⵀⴻⵎⵖ"
+  },
+
+  "input": {
+    "versesInput": "ⵛⴰⵔⴽ ⵉⵙⴰⵍⵍⴻⵏ-ⵉⴽ ⴳ ⵓⵏⵉⵡⴻⵔⵙ",
+    "comment": "ⴰⵡⴰⵍ ⵏ ⵓⵙⴻⵇⴷⴰⵛ...",
+    "search": "ⵏⴰⴷⵉ"
+  },
+
+  "home": {
+    "myFeed": "ⴰⴼⵉⴷ-ⵉⵏⵓ",
+    "articlesLabel": "ⵉⵎⴰⴳⵔⴰⴷⴻⵏ",
+    "viewMoreArticles": "ⵙⴽⴻⵏ ⵓⴳⴰⵔ ⵏ ⵉⵎⴰⴳⵔⴰⴷⴻⵏ",
+    "visitProfile": "ⵔⵣⵓ ⵖⴻⵔ ⵓⵎⴰⵖⵏⵓ",
+    "editProfile": "ⵙⵏⴻⵎⵔⴻⵎ ⴰⵎⴰⵖⵏⵓ",
+    "Posts": "ⵜⵉⵙⵓⴼⴼⴰ",
+    "Followers": "ⵉⵎⴷⴰⵏⴻⵏ ⵉ ⵜⵜⴰⵣⴰⵍⴻⵏ-ⵉⴽ",
+    "Following": "ⵜⴻⵜⵜⴰⵣⴰⵍⴻⴹ",
+
+    "leftBar": {
+      "home": "ⴰⵙⵏⵓⴱⴻⴳ",
+      "explore": "ⵙⵏⵉⵔⴻⵎ",
+      "messages": "ⵉⵣⵏⴰⵏ",
+      "clubs": "ⵜⵉⴳⵔⵓⴳⵣⴰ",
+      "settings": "ⵉⵖⴻⵡⵡⴰⵔⴻⵏ",
+      "starplus": "StarPlus"
+    },
+
+    "sortLabel": "ⵙⴼⴻⵔ: ",
+    "filterOptions": {
+      "recent": "ⵉⵎⴰⵢⵏⵓⵜⴻⵏ",
+      "popular": "ⵉⵎⴰⵣⴰⵏⴻⵏ"
+    }
+  },
+
+  "loading": {
+    "description": "ⵜⴰⵡⵔⴰ ⵜⴰⵎⴰⵢⵏⵓⵜ ⵏ ⵙⵓⵛⵢⴰⵍ ⵎⵉⴷⵢⴰ ⴰⴷ ⴽ ⵉⵍⴻⵙⵙⵏ, ⴰⴷ ⴽ ⵢⴰⵡⵉ ⵖⴻⵔ ⵜⵓⴷⵔⵜ ⵏ ⵓⵙⵓⵇⵇⵓ ⵏ ⵉⵙⴰⵍⵍⴻⵏ ⴳ ⵡⴰⵎⵓⵔ ⵏⵏⴻⵖ."
+  },
+
+  "welcomePage": {
+    "title": "ⴰⵏⵚⵓⴼ ⵖⴻⵔ NetVerses",
+    "quote": "ⴰⵙⵏⴼⴰⵔ ⵏ ⵜⵓⵔⴰ ⵏ ⵓⵙⵏⴼⵍ ⵏ ⵡⴰⵎⴰⵔ ⵏ ⵉⵙⴰⵍⵍⴻⵏ.",
+    "description": "NetVerses ⴷ ⵜⴰⵙⵏⴰ ⵏ ⵓⵙⵙⵓⵖⵍ ⴷ ⵓⵙⴻⵍⴽⴻⵎ ⵏ ⵉⵙⴰⵍⵍⴻⵏ. ⵎⴰ ⵢⴻⵍⵍⴰ ⴷ ⴰⵎⵙⴻⵍⴰⵍ, ⴰⵎⴻⵙⴽⴰⵔ, ⵏⵖ ⴽⴰⵏ ⴰⴷ ⵜⵉⵍⵉⴷ ⵜⵜⴰⴷⴷⴰⵔⴻⴷ ⵉⵙⴰⵍⵍⴻⵏ, ⵜⵣⴻⵎⵔⴻⴷ ⴰⴷ ⵜⵙⵙⴰⵍⵉⴷ ⵉⵙⴰⵍⵍⴻⵏ. ⴳ NetVerses ⵓⵔ ⵜⵃⵡⴰⵊⴻⴷ ⴰⵔ ⴰⴷ ⵜⵇⴻⴷⴷⵎⴻⴷ ⵉⵙⴰⵍⵍⴻⵏ ⵓⵔ ⵉⵙⵙⴰⵃⴻⵍⵏ.",
+    "termsAgreement": "ⵎⴰ ⵜⵇⴱⴻⵍⴻⴷ, ⵜⵙⴻⵡⵡⴻⴷ"
+  },
+
+  "features": {
+    "contentAgeVerification": {
+      "title": "ⴰⵙⵏⵇⴻⴷ ⵏ ⵓⵎⵓⵙ ⵏ ⵍⵄⴻⵎⵔ",
+      "description": "ⵓⵔ ⵉⵙⵡⵉⵏ ⴰⵔ ⴰⵙⵙⵓⵖⵍ ⵏ ⵍⵄⴻⵎⵔ-ⵉⴽ ⵙ ⵉⵙⵉⵜⴰⵡⵏ ⵏ ⵡⴰⵎⵓⵙ."
+    },
+
+    "advancedPostPrivacy": {
+      "title": "ⵜⴰⵙⴻⵔⵜⵉⵜ ⵜⴰⵎⴰⵢⵏⵓⵜ",
+      "description": "ⴼⵔⴻⵏ ⵎⴰⵏⵉⴽ ⴰⴷ ⵜⵉⵍⵉ ⵜⵉⵙⵓⴼⴼⴰ-ⵉⴽ."
+    },
+
+    "livePostTranslation": {
+      "title": "ⴰⵙⵓⵇⵇⵍ ⵙ ⵡⴰⵎⴰⵔ",
+      "description": "ⵙⵓⵇⵇⵍ ⵉⵙⴰⵍⵍⴻⵏ ⴳ ⵢⴰⵍ ⵜⵓⵜⵍⴰⵢⵜ."
+    },
+
+    "summarizeButton": {
+      "title": "ⴰⵙⵓⵎⵎⴻⵔ",
+      "description": "ⵙⵙⵓⵎⵎⴻⵔ ⵉⵙⴰⵍⵍⴻⵏ ⵙ ⵓⵙⵙⴰⵔ."
+    },
+
+    "ephemeralPosts": {
+      "title": "ⵜⵉⵙⵓⴼⴼⴰ ⵉⵜⵜⴼⴼⴽⴻⵏ",
+      "description": "ⴰⴷ ⴼⴼⴻⵏ ⵙ ⵡⴰⵎⴰⵔ ⵏ ⵡⴰⵎⵓⵔ."
+    },
+
+    "postOwnershipTransfer": {
+      "title": "ⴰⵙⵏⴼⵍ ⵏ ⴱⴰⴱ ⵏ ⵜⵉⵙⵓⴼⴼⴰ",
+      "description": "ⵙⴻⵍⴽⴻⵎ ⴰⵙⵏⴼⵍ ⵏ ⴱⴰⴱ ⵏ ⵓⵙⵓⴼⴼⴰ."
+    },
+
+    "noSpy": {
+      "title": "ⵏⵓⵙⴱⴰⵢ",
+      "description": "ⵃⴻⵔⵣ ⵜⵓⴷⵔⵜ ⵉⴽ ⵙ ⵏⵓⵙⴱⴰⵢ."
+    },
+
+    "shareNews": {
+      "title": "ⴱⴹⵓ ⵉⵙⴰⵍⵍⴻⵏ",
+      "description": "ⴱⴹⵓ ⵉⵙⴰⵍⵍⴻⵏ ⵙ ⵡⴰⵎⴰⵔ."
+    }
+  },
+
+  "privacyPage": {
+    "Effective": "ⴰⵙⴻⵔⵜⵉ:"
+  },
+
+  "cookiesConsent": {
+    "title": "ⵢⴻⵙⵡⴻⵍ ⴽⵓⴽⵉⵣ",
+    "description": "ⵡⴻⴱⵙⴰⵢⵜ ⵏⵏⴻⵖ ⵉⵙⵡⴻⵍ ⴽⵓⴽⵉⵣ ⴰⴽⴽⴻⴷ ⵜⵓⵙⵏⴰ ⵏ ⵓⵙⵍⴰⵔ ⵉⵡⴰⴷⴻⵏ ⵏ ⵓⵙⵙⵉⵏ.",
+    "second_description": "ⴽⵓⴽⵉⵣ ⵉⵜⵜⴰⵡⵉⵏ ⴰⵔ ⵉⵙⵙⵏ ⵉⵎⵓⵙⵙⴰ ⵏ ⵡⴻⴱ."
+  },
+
+  "errors": {
+    "SignUp": {
+      "UserLoggedIn": "ⵓⵔ ⵢⴻⵜⵜⵡⴰⵇⴱⴻⵍ ⴰⵔ ⴰⵙⵙⴻⵇⴷⴻⵎ ⵎⵉ ⵜⵉⵍⵍⴰⴷ ⵜⵇⴻⴷⴷⴰⵛ.",
+      "UnexpectedError": "ⵜⴻⴹⵔⴰ ⴷ ⵜⵓⵛⴷⴰ.",
+      "processingError": "ⵜⴻⴹⵔⴰ ⴷ ⵜⵓⵛⴷⴰ.",
+      "codeVerificationError": "ⵜⴻⴹⵔⴰ ⴷ ⵜⵓⵛⴷⴰ ⴳ ⵓⵙⵏⵇⴻⴷ ⵏ ⵜⴰⵏⴳⴰⵍⵜ.",
+      "shortInvalidUsername": "ⵉⵙⴻⵎ ⵏ ⵓⵙⴻⵇⴷⴰⵛ ⵉⵍⴰⵇ ⴰⴷ ⵢⵉⵍⵉ ⵙ 4 ⵉⵙⴻⴽⴽⴰⵍⴻⵏ.",
+      "longInvalidUsername": "ⵓⵔ ⵉⵍⴰⵇ ⴰⴷ ⵢⴰⵄⴷⵉ 20 ⵉⵙⴻⴽⴽⴰⵍⴻⵏ.",
+      "invalidPassword": "ⴰⵡⴰⵍ ⵏ ⵓⵄⴻⴷⴷⵉ ⵉⵍⴰⵇ ⴰⴷ ⵢⵉⵍⵉ ⵙ 8 ⵉⵙⴻⴽⴽⴰⵍⴻⵏ.",
+      "unmatchingPasswords": "ⴰⵡⴰⵍⴻⵏ ⵓⵔ ⵉⵎⵙⴰⴹⴰⵏ",
+      "emailAvailability": "ⵜⴻⴹⵔⴰ ⴷ ⵜⵓⵛⴷⴰ ⴳ ⵓⵎⴰⵢⵍ.",
+      "usernameAvailability": "ⵜⴻⴹⵔⴰ ⴷ ⵜⵓⵛⴷⴰ ⴳ ⵉⵙⴻⵎ.",
+      "takenUsername": "ⵉⵙⴻⵎ ⵢⴻⵜⵜⵡⴰⵔⵏⴰ.",
+      "takenEmail": "ⵉⵎⴰⵢⵍ ⵢⴻⵜⵜⵡⴰⵔⵏⴰ."
+    },
+    "maxRateLimited": "ⴰⵙⵓⵔⵙ ⴰⵎⴰⵢⵏⵓ.",
+    "invalidEmail": "ⵉⵎⴰⵢⵍ ⵓⵔ ⵉⵙⵙⴰⵍⴰ."
+  },
+
+  "SignUp": {
+    "modalTitle": "ⴰⵙⴽⴽⴻⵎ",
+    "resendCode": "ⴰⵍⵍⴰⵙ ⴰⵣⵏⴻⵏ",
+    "SignUpIntro": "ⵔⵏⵓ ⴰⵎⵙⴻⵇⴷⴰⵛ ⴳ NetVerses.",
+    "consentConfirmation": "ⵇⴱⴻⵍⵖ ⴰⴽⴽⴻⴷ",
+    "codeConfirmation": "ⵏⵓⵣⵣⴻⵏ ⴰⴽ ⵜⴰⵏⴳⴰⵍⵜ.",
+    "enterCode": "ⵙⴽⴽⴻⵎ ⵜⴰⵏⴳⴰⵍⵜ",
+    "accountCreationSuccessful": {
+      "title": "ⵉⵜⵜⵡⴰⵔⵏⴰ ⵙ ⵓⵙⵃⴰⵍ!",
+      "description": "ⴰⵎⵙⴻⵇⴷⴰⵛ ⵢⴻⵜⵜⵡⴰⵔⵏⴰ ⵙ ⵙⵃⴰ."
+    }
+  }
+}

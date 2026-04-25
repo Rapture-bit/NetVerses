@@ -50,6 +50,58 @@ User.init(
   },
 );
 
+class UserInterest extends Model {}
+UserInterest.init(
+  {
+    id: {
+      type: DataTypes.STRING(32),
+      primaryKey: true,
+      defaultValue: generateNonHyphenUUID,
+    },
+    userId: {
+      type: DataTypes.STRING(32),
+      allowNull: false,
+    },
+    interestId: {
+      type: DataTypes.STRING(32),
+      allowNull: false,
+    },
+    score: {
+      type: DataTypes.FLOAT,
+      defaultValue: 1.0,
+    },
+    source: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+  },
+  {
+    sequelize,
+    modelName: "UserInterest",
+  },
+);
+
+class Interest extends Model {}
+Interest.init(
+  {
+    id: {
+      type: DataTypes.STRING(32),
+      primaryKey: true,
+      defaultValue: generateNonHyphenUUID,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      unique: true,
+    },
+  },
+  {
+    sequelize,
+    modelName: "Interest",
+  },
+);
+
 class UserProfile extends Model {}
 UserProfile.init(
   {
@@ -57,6 +109,16 @@ UserProfile.init(
       type: DataTypes.STRING(32),
       primaryKey: true,
       allowNull: false,
+    },
+    zodiac_sign: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      defaultValue: "",
+    },
+    pronouns: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      defaultValue: "",
     },
     display_name: {
       type: DataTypes.STRING(255),
@@ -84,15 +146,31 @@ UserProfile.init(
         isUrl: true,
       },
     },
+    birthDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    location: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      defaultValue: "Earth",
+    },
+    newlyRegistered: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
     banner: {
       type: DataTypes.STRING(255),
       allowNull: true,
-      defaultValue: "",
+      defaultValue: "https://example.com",
+      validate: {
+        isUrl: true,
+      },
     },
     bio: {
       type: DataTypes.STRING(255),
       allowNull: true,
-      defaultValue: "",
+      defaultValue: "Welcome to my profile!",
       validate: {
         len: [0, 255],
       },
@@ -146,6 +224,31 @@ UserProfile.init(
       allowNull: false,
       defaultValue: 0,
     },
+    connections: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    socialMediaConnections: {
+      type: DataTypes.JSON,
+      allowNull: false,
+      defaultValue: {
+        twitter: "",
+        linkedin: "",
+        instagram: "",
+        github: "",
+      },
+    },
+    badges: {
+      type: DataTypes.JSON,
+      allowNull: false,
+      defaultValue: [
+        { name: "Official Member" },
+        { name: "Early Creator" },
+        { name: "Star+" },
+        { name: "Business Account" },
+      ],
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
@@ -167,4 +270,14 @@ UserProfile.belongsTo(User, { foreignKey: "id" });
 User.hasMany(UserSession, { foreignKey: "userId" });
 UserSession.belongsTo(User, { foreignKey: "userId" });
 
-export { User, UserProfile };
+User.belongsToMany(Interest, {
+  through: UserInterest,
+  foreignKey: "userId",
+});
+
+Interest.belongsToMany(User, {
+  through: UserInterest,
+  foreignKey: "interestId",
+});
+
+export { User, UserProfile, Interest, UserInterest };

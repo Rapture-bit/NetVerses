@@ -2,8 +2,16 @@ import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import { Tooltip } from "antd";
 
+import BadgesList from "@/ui/profile/BadgesList";
+
 export default function FriendProfile({ username }) {
   const [friendProfileColor, setFriendProfileColor] = useState<string>("blue");
+  const [badges, setBadges] = useState<any>([
+    { name: "Official Member" },
+    { name: "Early Creator" },
+    { name: "Star+" },
+    { name: "Business Account" },
+  ]);
   const [friendProfileColors, setFriendProfileColors] = useState<Object>({
     bannerGradient: `from-${friendProfileColor}-700`,
     background: `bg-${friendProfileColor}-800`,
@@ -68,25 +76,8 @@ export default function FriendProfile({ username }) {
               {username}
             </span>
 
-            <div className="flex items-center gap-1 bg-black bg-opacity-20 rounded-md px-1 py-1 h-[1.5rem]">
-              <Tooltip placement="bottom" title="Official Member">
-                <span
-                  className="icon-[ic--baseline-verified] w-4 h-4 text-[#facc15] cursor-pointer flex-shrink-0"
-                  aria-label="Verified"
-                ></span>
-              </Tooltip>
-
-              <Tooltip placement="bottom" title="Early Creator">
-                <span className="icon-[material-symbols--diamond-rounded] w-4 h-4 text-[#3b82f6] cursor-pointer flex-shrink-0"></span>
-              </Tooltip>
-
-              <Tooltip placement="bottom" title="Business Account">
-                <span className="icon-[material-symbols--store-outline] w-4 h-4 text-[#a855f7] cursor-pointer flex-shrink-0"></span>
-              </Tooltip>
-
-              <Tooltip placement="bottom" title="StarPlus Member">
-                <span className="icon-[material-symbols--star-rounded] w-4 h-4 text-[#bb4bff] cursor-pointer flex-shrink-0"></span>
-              </Tooltip>
+            <div className="">
+              <BadgesList badges={badges} profileColor={friendProfileColor} />
             </div>
           </div>
           <div className="flex flex-col gap-1">

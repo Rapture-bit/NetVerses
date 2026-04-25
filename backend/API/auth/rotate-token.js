@@ -36,8 +36,8 @@ export default async function refreshSession(req, res) {
     const newRefreshToken = generateRefreshToken();
     const newRefreshHash = hashToken(newRefreshToken);
 
-    const accessExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
-    const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const accessExpiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+    const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
     const accessToken = createJwtToken({
       userId: user.id,
@@ -78,7 +78,7 @@ export default async function refreshSession(req, res) {
       expires: refreshExpiresAt,
     });
 
-    return res.json({ success: true, authed: true });
+    return res.json({ success: true, authed: true, user });
   } catch (err) {
     console.error("refreshSession error:", err);
     return res.status(500).json({ success: false });

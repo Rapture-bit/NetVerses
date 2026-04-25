@@ -15,7 +15,6 @@ import useDeviceType from "@/hooks/useDeviceType";
 import TextArea from "@/ui/input/TextArea";
 
 import { ThemeContext } from "@/context/ThemeContext";
-import { AnimateContext } from "@/context/AnimateContext";
 
 import { useTranslation } from "react-i18next";
 
@@ -27,15 +26,12 @@ interface VerseProps {
 }
 
 const TEST_ANIM =
-  "https://lottie.host/79c83346-aa45-47d0-80b9-c9f5b90b8ee6/UdXjIq2lTO.lottie";
+  "https://lottie.host/9155cd48-8ec3-4220-ba3b-75a6f4032ec2/tqJAFT9u9U.lottie";
 
-// ✅ Correct forwardRef usage
 const Verse = forwardRef<HTMLDivElement, VerseProps>((props, ref) => {
   const { id, isComment, className, style } = props;
   const { t } = useTranslation();
   const { colorProperties } = useContext(ThemeContext);
-  const { setAnimSrc, animSrc, loaded, setLoaded, currentRef } =
-    useContext(AnimateContext);
   const { deviceType, isTouchScreen } = useDeviceType();
   const [isItalic, setIsItalic] = useState<string>("italic");
   const [avatar, setAvatar] = useState<string>("/images/avatars/default.jpg");
@@ -77,17 +73,6 @@ const Verse = forwardRef<HTMLDivElement, VerseProps>((props, ref) => {
     },
   ];
 
-  useEffect(() => {
-    if (loaded && currentRef) {
-      try {
-        currentRef.play();
-      } catch (err) {
-        console.error("[VerseButton] play() failed:", err);
-      }
-      setLoaded(false);
-    }
-  }, [currentRef, loaded, setLoaded]);
-
   function verseInputChanged(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const input = e.target.value.trim();
     setIsItalic(input ? "not-italic" : "italic");
@@ -107,13 +92,6 @@ const Verse = forwardRef<HTMLDivElement, VerseProps>((props, ref) => {
     return () => observer.disconnect();
   }, [colorProperties]);
 
-  if (deviceType === "mobile" && isTouchScreen && !isComment) return null;
-
-  const onVerse = () => {
-    setAnimSrc(TEST_ANIM);
-    currentRef?.play();
-  };
-
   useEffect(() => {
     const onResize = () => {
       if (!EmojiButtonRef.current) return;
@@ -127,6 +105,8 @@ const Verse = forwardRef<HTMLDivElement, VerseProps>((props, ref) => {
 
       const posX = Math.abs(parentElementRect.left - emojiMenuRect.left);
       const posY = Math.abs(parentElementRect.top - emojiMenuRect.top);
+
+      console.log(posX, posY);
 
       setEmojiMenuPos({ x: posX, y: posY });
     };
@@ -143,6 +123,8 @@ const Verse = forwardRef<HTMLDivElement, VerseProps>((props, ref) => {
     const posX = Math.abs(parentElementRect.left - emojiMenuRect.left);
     const posY = Math.abs(parentElementRect.top - emojiMenuRect.top);
 
+    console.log(posX, posY);
+
     setEmojiMenuPos({ x: posX, y: posY });
     setEmojiMenuOpen(true);
   };
@@ -150,7 +132,7 @@ const Verse = forwardRef<HTMLDivElement, VerseProps>((props, ref) => {
   return (
     <>
       <div
-        ref={ref} // ✅ Attach the forwarded ref
+        ref={ref}
         style={style}
         className={`relative flex flex-col p-4 sm:pl-5 border borderColor sm:py-4 rounded-md mx-4 sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor ${className}`}
       >
@@ -217,7 +199,7 @@ const Verse = forwardRef<HTMLDivElement, VerseProps>((props, ref) => {
 
           <button
             aria-label="Verse"
-            onClick={onVerse}
+            onClick={() => console.log("Verse Posted")}
             className="relative ml-auto border border-violet-600 text-violet-500 hover:text-white rounded-xl py-2 px-6 overflow-hidden transition-all duration-300 group font-medium"
           >
             <span className="absolute inset-0 bg-violet-600 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 rounded-xl"></span>

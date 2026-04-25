@@ -20,14 +20,16 @@ import DownOutlined from "@ant-design/icons";
 import AchievementsList from "./AchievementsList";
 
 interface Props {
-  username: string;
+  userData: any;
 }
 
-const ContentPreview = ({ username }: Props) => {
+const ContentPreview = ({ userData }: Props) => {
   const [selectedContent, setSelectedContent] = useState<string>("Posts");
   const [selectedFilter, setSelectedFilter] = useState<string>("Popular");
 
-  const [profileColor, setProfileColor] = useState<string>("red"); // To be updated with API
+  const [profileColor, setProfileColor] = useState<string>(
+    userData.preferences.colorScheme,
+  ); // To be updated with API
   const [isLoading, setLoading] = useState<boolean>(true);
   const [userPosts, setUserPosts] = useState<Object[]>([
     {
@@ -36,7 +38,7 @@ const ContentPreview = ({ username }: Props) => {
       isNSFW: false,
       description:
         "Explore the new platform where news meets innovation. Stay updated with the latest trends and join the conversation.",
-      author: "xenon",
+      author: userData.username,
       date: "2024-09-16T05:30:00Z",
       interactions: {
         likes: 120,
@@ -56,7 +58,7 @@ const ContentPreview = ({ username }: Props) => {
       isNSFW: false,
       description:
         "The future of AI is here. Discover how machine learning is transforming industries worldwide.",
-      author: "xenon",
+      author: userData.username,
       date: "2024-10-01T10:15:00Z",
       interactions: {
         likes: 540,
@@ -76,7 +78,7 @@ const ContentPreview = ({ username }: Props) => {
       isNSFW: true,
       description:
         "Content warning: A deeper look into controversial technology trends that are dividing opinions.",
-      author: "xenon",
+      author: userData.username,
       date: "2024-08-30T08:10:00Z",
       interactions: {
         likes: 320,
@@ -96,7 +98,7 @@ const ContentPreview = ({ username }: Props) => {
       isNSFW: false,
       description:
         "Join the conversation: How social media is evolving with blockchain technology.",
-      author: "xenon",
+      author: userData.username,
       date: "2024-10-11T14:30:00Z",
       interactions: {
         likes: 430,

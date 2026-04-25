@@ -12,7 +12,9 @@ export default function LocaleMenu() {
 
   const [currentLocale, setCurrentLocale] = useState<string>(defaultLocale);
   const [currentLang, setCurrentLang] = useState<string>("English");
-  const [clearDropdown, setClearDropdown] = useState<boolean>(undefined);
+  const [clearDropdown, setClearDropdown] = useState<boolean | undefined>(
+    undefined,
+  );
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
   const [smallDevice, setSmallDevice] = useState<boolean>(
     window.innerWidth <= 620,

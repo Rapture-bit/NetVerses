@@ -9,10 +9,6 @@ import React, {
 import { Outlet } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-
-import AnimationPlayer from "@/ui/others/AnimationPlayer";
-
 import CookiesConsent from "@/ui/modal/BottomMenu/CookiesConsent";
 import TopBar from "@/ui/navigation/TopBar";
 import LeftBar from "@/ui/navigation/LeftBar";
@@ -21,7 +17,6 @@ import PortableChat from "@/ui/navigation/PortableChat";
 
 import Loading from "@/ui/others/Loading";
 
-import { AnimateContext } from "@/context/AnimateContext";
 import { UserContext } from "@/context/UserContext";
 
 const GA_TRACKING_ID = "G-EDV3RGP46V"; // [!] GA_TRACKING_ID
@@ -29,8 +24,7 @@ const GA_TRACKING_ID = "G-EDV3RGP46V"; // [!] GA_TRACKING_ID
 export default function DefaultLayout() {
   const location = useLocation();
 
-  const { userCache, updateCache } = useContext(UserContext);
-  const { animSrc, setCurrentRef } = useContext(AnimateContext);
+  const { userData } = useContext(UserContext);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [animationSrc, setAnimationSrc] = useState<string | null>(null);
@@ -42,16 +36,6 @@ export default function DefaultLayout() {
   );
   const [consentedToCookies, setConsentedToCookies] = useState<String[]>([]);
   const [nonce, setNonce] = useState<string | null>(null);
-  const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    setAnimationSrc(animSrc);
-    console.log(animSrc);
-  }, [animSrc]);
-
-  useEffect(() => {
-    setCurrentRef(dotLottieRef?.current);
-  }, [dotLottieRef]);
 
   const findElement = (cookieName: string): boolean => {
     return consentedToCookies.includes(cookieName);
@@ -134,53 +118,21 @@ export default function DefaultLayout() {
     }
   }, [nonce]);
 
-  useEffect(() => {
-    let userDetails;
-
-    userDetails = {
-      success: true,
-      user: null,
-    };
-
-    userDetails.user = userCache;
-    if (!userDetails?.user) return;
-
-    const profileData = {
-      profile: {
-        username: userDetails.user.username,
-        profile_picture: userDetails.user.profile_picture,
-        banner: userDetails.user.banner,
-        career: userDetails.user.career,
-        isVerified: userDetails.user.isVerified,
-        bio: userDetails.user.bio,
-      },
-      analytics: {
-        followers: userDetails.user.followers,
-        following: userDetails.user.following,
-      },
-      userPreferences: {
-        profileColor: userDetails.user.colorPreference,
-      },
-    };
-
-    setUserData(profileData);
-  }, [userCache]);
-
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
         <>
-          {userCache !== null && !loading && <TopBar />}
-          {userCache == null && !loading && currentPage !== "/" && <TopBar />}
-          {userCache !== null &&
+          {userData !== null && !loading && <TopBar />}
+          {userData == null && !loading && currentPage !== "/" && <TopBar />}
+          {userData !== null &&
             currentPage !== "/privacy" &&
             currentPage !== "/my/messages" && <LeftBar userData={userData} />}
-          {userCache !== null &&
+          {userData !== null &&
             currentPage !== "/my/messages" &&
             currentPage !== "/privacy" && <PortableChat />}
-          {userCache !== null &&
+          {userData !== null &&
             currentPage !== "/privacy" &&
             currentPage !== "/my/messages" && <RightBar />}
           {currentPage !== "/privacy" && (
@@ -191,7 +143,6 @@ export default function DefaultLayout() {
             />
           )}
           <div className="relative min-h-screen">
-            <AnimationPlayer />
             <div className="relative">
               <Outlet />
             </div>

@@ -120,6 +120,10 @@ const AttachmentFocus = ({
     setBoostMenuVisible(!isBoostMenuVisible);
   };
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     setBgColor(`bg-${localColorPreference}-900`);
     setTextColor(`text-${localColorPreference}-500`);
@@ -321,9 +325,14 @@ const AttachmentFocus = ({
             >
               <div className="flex items-center justify-between w-full">
                 <span className="text-white font-bold">Xenon</span>
-                <button className="flex items-center justify-center">
-                  <span className="icon-[ic--round-close] w-4 h-4 text-neutral-300"></span>
-                </button>
+                <Tooltip placement="bottom" mouseLeaveDelay={0} title="Back">
+                  <button
+                    onClick={() => closeMenu()}
+                    className="flex items-center justify-center"
+                  >
+                    <span className="icon-[ic--round-close] w-4 h-4 text-neutral-300"></span>
+                  </button>
+                </Tooltip>
               </div>
 
               <div className="flex flex-col gap-2 mt-2">

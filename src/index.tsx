@@ -19,9 +19,7 @@ import "@/fonts/jost.css";
 import ThemeProvider from "@/context/ThemeContext";
 import UserProvider from "@/context/UserContext";
 import LocaleProvider from "@/context/LocaleContext";
-import AnimateProvider from "@/context/AnimateContext";
 import SubdomainDivider from "@/SubdomainDivider";
-import AnimationPlayer from "./ui/others/AnimationPlayer";
 
 import { useCSRFStore } from "@/context/CSRFStore";
 
@@ -58,9 +56,7 @@ const App = () => {
     <ThemeProvider>
       <LocaleProvider>
         <UserProvider>
-          <AnimateProvider>
-            <SubdomainDivider />
-          </AnimateProvider>
+          <SubdomainDivider />
         </UserProvider>
       </LocaleProvider>
     </ThemeProvider>

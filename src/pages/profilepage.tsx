@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import PageTitle from "@/ui/others/PageTitle";
 import BottomBar from "@/ui/navigation/BottomBar";
 import { Tooltip } from "antd";
@@ -8,28 +8,16 @@ import ContentPreview from "@/ui/profile/ContentPreview";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const [availableUsernames, setAvailableUsernames] = useState<string[]>([
-    "xenon",
-  ]); // Update with API data
-
-  const [username, setUsername] = useState<string>("");
-  const [isAvailable, setIsAvailable] = useState<boolean>(false);
+  const [userData, setUserData] = useState<any>(window.__PROFILE__);
+  const [isAvailable, setIsAvailable] = useState<boolean>(!!window.__PROFILE__);
 
   useEffect(() => {
-    const pathname = window.location.pathname;
-    const extractedUsername = pathname.split("/").pop();
-
-    if (extractedUsername) {
-      const normalizedUsername = extractedUsername.toLowerCase();
-
-      setUsername(normalizedUsername);
-      setIsAvailable(
-        availableUsernames.some(
-          (username) => username.toLowerCase() === normalizedUsername,
-        ),
-      );
+    if (userData) {
+      setIsAvailable(true);
+    } else {
+      setIsAvailable(false);
     }
-  }, [availableUsernames]);
+  }, [userData]);
 
   function toggleBack() {
     if (window.history.length > 1) {
@@ -46,7 +34,11 @@ const ProfilePage = () => {
 
   return (
     <>
-      <PageTitle title={`NetVerses ~ ${username}'s Profile`} />
+      {isAvailable ? (
+        <PageTitle title={`NetVerses ~ ${userData?.username}'s Profile`} />
+      ) : (
+        <PageTitle title={`NetVerses ~ Page Not Found`} />
+      )}
       <BottomBar />
       <div
         className={`flex flex-col gap-3 ${isAvailable ? "justify-start" : "justify-center"} items-center w-full h-full pt-24 bg-fixed bg-cover bg-center`}
@@ -64,7 +56,9 @@ const ProfilePage = () => {
             </Tooltip>
             {isAvailable && (
               <>
-                <span className="font-medium text-lg jost">{username}</span>
+                <span className="font-medium text-lg jost">
+                  {userData?.display_name}
+                </span>
                 <Tooltip
                   mouseLeaveDelay={0}
                   title={"Search"}
@@ -84,8 +78,8 @@ const ProfilePage = () => {
         </div>
         {isAvailable ? (
           <>
-            <ProfilePreview username={username} />
-            <ContentPreview username={username} />
+            <ProfilePreview userData={userData} />
+            <ContentPreview userData={userData} />
           </>
         ) : (
           <div className="justify-center items-center mt-5 text-center flex flex-col gap-3">

@@ -697,15 +697,17 @@ export default function Messages() {
                         }}
                         onInput={(e) => {
                           const target = e.target as HTMLTextAreaElement;
-                          target.style.height = "35px";
-                          target.style.height = `${target.scrollHeight}px`;
+                          requestAnimationFrame(() => {
+                            target.style.height = "35px";
+                            target.style.height = `${target.scrollHeight}px`;
+                          });
                         }}
                         style={{
                           height: "35px",
                           minHeight: "35px",
                           maxHeight: "200px",
                         }}
-                        className="focus:border-purple-600 resize-none duration-300 transition-colors flex-grow py-1 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none border-b border-gray-400 focus:border-t-0 focus:border-l-0 focus:border-r-0"
+                        className="resize-none duration-300 transition-colors flex-grow py-1 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none border-b border-gray-400"
                       />
                     </div>
 

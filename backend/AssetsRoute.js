@@ -8,8 +8,14 @@ const AssetsRoute = [
   {
     name: "Soviet Banner",
     type: "server",
-    urlPath: "/media/uploads/banners/soviet_banner.jpg",
+    urlPath: "/uploads/banners/soviet_banner.jpg",
     filePath: "/images/uploads/soviet_banner.jpg",
+  },
+  {
+    name: "Avatar Upload",
+    urlPath: "/uploads/avatars/:filename",
+    type: "server",
+    filePath: "/images/uploads/avatars/:filename",
   },
   {
     name: "Image",

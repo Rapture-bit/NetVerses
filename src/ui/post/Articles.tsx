@@ -100,7 +100,9 @@ const Articles = ({
       >
         <div className="flex flex-row justify-between gap-4">
           <div className="flex flex-row items-center gap-2">
-            <span className="roboto text-lg dark:text-white">{title}</span>
+            <span className="roboto text-lg dark:text-white hover:underline">
+              {title}
+            </span>
             {factChecked && (
               <Tooltip
                 placement="bottom"

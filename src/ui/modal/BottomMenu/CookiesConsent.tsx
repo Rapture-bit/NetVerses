@@ -79,7 +79,7 @@ export default function CookiesConsent({
               <div className="flex items-center justify-between w-full max-w-md mx-auto px-2">
                 <span className="flex-1 text-center text-base md:text-lg font-medium select-text">
                   <span className="text-black dark:text-gray-200">Net</span>
-                  <span className="text-purple-600">Verse</span> uses cookies.
+                  <span className="text-purple-600">Verses</span> uses cookies.
                 </span>
               </div>
 

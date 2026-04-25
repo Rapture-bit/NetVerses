@@ -1,6 +1,6 @@
 import { useLocation, Link } from "react-router-dom";
 
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -8,7 +8,7 @@ import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
 
-import BadgesList from "../profile/BadgesList";
+import { UserContext } from "@/context/UserContext";
 
 interface profileColors {
   bannerGradient: string;
@@ -19,45 +19,32 @@ interface profileColors {
 }
 
 interface dataProps {
-  username: string;
-  profile_picture: string;
-  career: string;
-  bio: string;
-  followers: number;
-  following: number;
-  color: string;
+  username: string | undefined | null;
+  profile_picture: string | undefined | null;
+  career: string | undefined | null;
+  bio: string | undefined | null;
+  followers: number | undefined | null;
+  following: number | undefined | null;
+  color: string | undefined | null;
+  badges: any;
 }
 
 export default function LeftBar() {
   const { t } = useTranslation();
+  const { userData } = useContext(UserContext)!;
+
   const [hideButtons, setHideButtons] = useState<boolean>(false);
   const [leftPosition, setLeftPosition] = useState<string>("8%");
   const [isLoaded, setLoaded] = useState<boolean>(false);
 
-  const [badges, setBadges] = useState([
-    { name: "Official Member" },
-    { name: "Early Creator" },
-    { name: "Star+" },
-    { name: "Business Account" },
-  ]);
-
-  const [userData, setUserData] = useState<dataProps>();
-
-  const [Job, setJob] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
   const [postsNumber, setPostsNumber] = useState<number>(0);
-  const [followers, setFollowers] = useState<number>(0);
-  const [following, setFollowing] = useState<number>(0);
-  const [username, setUsername] = useState<string>("");
-  const [avatar, setAvatar] = useState<string>("/images/avatars/default.jpg");
   const [selectedPage, setSelectedPage] = useState<string>("");
-  const [profileColor, setProfileColor] = useState<string>("yellow"); // local user's profile color
   const [profileColors, setProfileColors] = useState<profileColors>({
-    bannerGradient: `from-${profileColor}-700`,
-    background: `bg-${profileColor}-800`,
-    hoverBackground: `hover:bg-${profileColor}-800`,
-    borderColor: `border-${profileColor}-800`,
-    textColor: `text-${profileColor}-500`,
+    bannerGradient: `from-${userData?.color}-700`,
+    background: `bg-${userData?.color}-800`,
+    hoverBackground: `hover:bg-${userData?.color}-800`,
+    borderColor: `border-${userData?.color}-800`,
+    textColor: `text-${userData?.color}-500`,
   });
 
   const navigate = useNavigate();
@@ -87,33 +74,6 @@ export default function LeftBar() {
   ]);
 
   useEffect(() => {
-    const dataElement = document.getElementById("data-field");
-
-    const username = dataElement?.dataset.username;
-    const description = dataElement?.dataset.description;
-    const career = dataElement?.dataset.career;
-    const preferences = dataElement?.dataset.preferences;
-    const followers = Number(dataElement?.dataset.followers);
-    const following = Number(dataElement?.dataset.following);
-    const pfp = dataElement?.dataset.pfp;
-
-    const preferencesJsonStr = preferences.replace(/'/g, '"');
-    const preferencesJSON = JSON.parse(preferencesJsonStr);
-
-    const color = preferencesJSON.color;
-
-    setUserData({
-      username,
-      bio: description,
-      career,
-      color,
-      followers,
-      following,
-      profile_picture: pfp,
-    });
-  }, []);
-
-  useEffect(() => {
     setTimeout(() => {
       if (!userData) setLoaded(false);
       else setLoaded(true);
@@ -121,25 +81,14 @@ export default function LeftBar() {
   }, [userData]);
 
   useEffect(() => {
-    if (!userData) return;
-    setUsername(userData.username);
-    setAvatar(userData.profile_picture);
-    setJob(userData.career);
-    setDescription(userData.bio);
-    setFollowers(userData.followers);
-    setFollowing(userData.following);
-    setProfileColor(userData.color);
-  }, [userData]);
-
-  useEffect(() => {
     setProfileColors({
-      bannerGradient: `from-${profileColor}-700`,
-      background: `bg-${profileColor}-800`,
-      hoverBackground: `hover:bg-${profileColor}-800`,
-      borderColor: `border-${profileColor}-800`,
-      textColor: `text-${profileColor}-500`,
+      bannerGradient: `from-${userData?.color}-700`,
+      background: `bg-${userData?.color}-800`,
+      hoverBackground: `hover:bg-${userData?.color}-800`,
+      borderColor: `border-${userData?.color}-800`,
+      textColor: `text-${userData?.color}-500`,
     });
-  }, [profileColor]);
+  }, [userData?.color]);
 
   const updatePosition = () => {
     const windowHeight = window.innerHeight;
@@ -189,17 +138,6 @@ export default function LeftBar() {
 
   return (
     <>
-      <span
-        id="data-field"
-        data-username="Xenon"
-        data-description="Proud chairman of NetVerses™, empowering connections and shaping the future of digital social platforms."
-        data-career="Entrepreneur"
-        data-preferences="{ 'color': 'purple' }"
-        data-following={2}
-        data-followers={10}
-        data-posts={0}
-        data-pfp={"https://cdn.netverses.com/media/image_placeholder.jpg"}
-      ></span>
       <nav
         className="fixed xl:flex hidden top-14 xl:top-20 h-[90vh] w-[16vw] min-w-[200px] max-w-[300px] p-4 roboto dark:text-white text-black flex-col items-center space-y-6 z-10 transition-all duration-200"
         style={{ left: leftPosition }}
@@ -210,12 +148,12 @@ export default function LeftBar() {
           >
             {isLoaded ? (
               <Link
-                to={`/${username}`}
+                to={`/u/${userData?.username.toLowerCase()}`}
                 className="absolute z-10 top-7 left-4 w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden cursor-pointer"
-                aria-label={`Profile of ${username}`}
+                aria-label={`Profile of ${userData?.username}`}
               >
                 <div
-                  className={`w-full h-full rounded-full border sm:border-2 border-${profileColor}-900 bg-gradient-to-br from-${profileColor}-500 to-${profileColor}-600 flex items-center justify-center shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-${profileColor}-500/50 hover:scale-105`}
+                  className={`w-full h-full rounded-full border sm:border-2 border-${userData?.color}-900 bg-gradient-to-br from-${userData?.color}-500 to-${userData?.color}-600 flex items-center justify-center shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-${userData?.color}-500/50 hover:scale-105`}
                 >
                   <svg
                     viewBox="0 0 100 100"
@@ -254,40 +192,41 @@ export default function LeftBar() {
                 {isLoaded ? (
                   <div className="flex items-center space-x-2">
                     <Link
-                      to={`/${username.toLowerCase()}`}
+                      to={`/u/${userData?.username?.toLowerCase()}`}
                       className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none hover:underline"
                     >
-                      {username}
+                      {userData?.username}
                     </Link>
                   </div>
                 ) : (
                   <div className="h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
                 )}
               </div>
-              <div className="flex flex-col gap-1">
-                {isLoaded ? (
-                  <>
-                    <div className="flex-row space-x-1 inline-flex">
-                      <span
-                        className={`icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem] ${profileColors.textColor}`}
-                      ></span>
-                      <span
-                        className={`font-medium ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
-                      >
-                        Entrepreneur
-                      </span>
-                    </div>
-                  </>
-                ) : (
-                  <div className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-                )}
-              </div>
+              {userData?.career && (
+                <div className="flex flex-col gap-1">
+                  {isLoaded ? (
+                    <>
+                      <div className="flex-row space-x-1 inline-flex">
+                        <span
+                          className={`icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem] ${profileColors.textColor}`}
+                        ></span>
+                        <span
+                          className={`font-medium ${profileColors.textColor} text-sm hover:underline cursor-pointer`}
+                        >
+                          {userData?.career}
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                  )}
+                </div>
+              )}
             </div>
 
             {isLoaded ? (
               <p className="dark:text-gray-300 text-black text-sm leading-relaxed text-left m-0 p-0">
-                Proud chairman of NetVerses™, empowering connections and
-                shaping the future of digital social platforms.
+                {userData?.bio}
               </p>
             ) : (
               <div className="flex flex-col gap-2 mt-2">
@@ -300,8 +239,8 @@ export default function LeftBar() {
 
             <div className="flex flex-row justify-center gap-8">
               {[
-                { value: followers, label: "Followers" },
-                { value: following, label: "Following" },
+                { value: userData?.followers, label: "Followers" },
+                { value: userData?.following, label: "Following" },
                 { value: postsNumber, label: "Posts" },
               ].map((item, idx) => (
                 <div key={idx} className="flex flex-col items-center">

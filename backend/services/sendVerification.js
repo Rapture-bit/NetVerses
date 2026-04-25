@@ -67,7 +67,7 @@ export default async function sendVerification(
                   <td class="sm-px-6" style="border-radius: 8px; background-color: #fffffe; padding: 48px; font-size: 16px; color: #334155; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05)">
                     <div style="margin-bottom: 48px; text-align: center">
                       <a href="https://netverses.com" style="font-size: 36px; font-weight: 600; text-decoration: none">
-                        <span style="color: #000001">Net</span><span style="color: #6d28d9">Verse</span>
+                        <span style="color: #000001">Net</span><span style="color: #6d28d9">Verses</span>
                       </a>
                     </div>
                     <h1 class="sm-leading-8" style="margin: 0 0 24px; font-size: 24px; font-weight: 600; color: #000001">
@@ -163,7 +163,7 @@ export default async function sendVerification(
                 <td class="sm-px-6" style="border-radius: 8px; background-color: #fffffe; padding: 48px; font-size: 16px; color: #334155; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05)">
                   <div style="margin-bottom: 48px; text-align: center">
                     <a href="https://netverses.com" style="font-size: 36px; font-weight: 600; text-decoration: none">
-                      <span style="color: #000001">Net</span><span style="color: #6d28d9">Verse</span>
+                      <span style="color: #000001">Net</span><span style="color: #6d28d9">Verses</span>
                     </a>
                   </div>
                   <h1 class="sm-leading-8" style="margin: 0 0 24px; font-size: 24px; font-weight: 600; color: #000001">

@@ -195,7 +195,7 @@ export default function PrivacyPage() {
                   Privacy Policy
                 </h2>
                 <h3 className="text-lg md:text-xl lg:text-2xl text-gray-500 font-medium rubik tracking-normal">
-                  Effective: August 29, 2024
+                  Effective: March 1st, 2026
                 </h3>
               </div>
             </div>

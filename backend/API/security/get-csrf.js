@@ -4,7 +4,6 @@ import { generateCSRFToken, hashToken } from "../tokenUtils.js";
 export default async function (req, res) {
   const { session_id } = req?.signedCookies;
 
-  // VERIFY SESSION ID
   if (!session_id) {
     return res.status(200).json({
       success: false,
@@ -16,7 +15,6 @@ export default async function (req, res) {
     where: { id: session_id },
   });
 
-  // VERIFY SESSION
   if (!acquiredSession) {
     return res.status(200).json({
       success: false,
@@ -28,9 +26,8 @@ export default async function (req, res) {
   const refreshExpirationDate = acquiredSession.refreshExpiresAt.getTime();
   const refreshExpiryDifference = Math.abs(refreshExpirationDate - dateNow);
 
-  const SevenDaysInMs = 7 * 24 * 60 * 60 * 1000; // 7 DAYS (IN MS)
+  const SevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
 
-  // VERIFY REFRESH
   if (refreshExpiryDifference >= SevenDaysInMs) {
     return res.status(200).json({
       success: false,
@@ -38,7 +35,6 @@ export default async function (req, res) {
     });
   }
 
-  // CREATE CSRF TOKEN
   const generatedCSRFToken = generateCSRFToken();
   acquiredSession.csrfToken = generatedCSRFToken;
   await acquiredSession.save();

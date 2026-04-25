@@ -9,6 +9,8 @@ import { useHumanDate } from "../others/HumanReadableDate";
 import AttachmentsViewer from "../others/AttachmentsViewer";
 import Boost from "@/ui/modal/Menu/Boost";
 
+import RedirectMenu from "../others/RedirectMenu";
+
 import { useTranslation } from "react-i18next";
 
 type InteractionCounts = {
@@ -78,6 +80,11 @@ export default function Post({
   const { t } = useTranslation();
   const timeAgo = useTimeAgo(date);
   const humanReadableDate = useHumanDate(date);
+  const adStyles = {
+    borderColor: "!border-yellow-500",
+    bgColor: "!bg-yellow-100 dark:!bg-yellow-900/25",
+    textColor: "!text-yellow-800 dark:!text-yellow-300",
+  };
 
   const bgColorMap = {
     blue: "bg-blue-900",
@@ -138,13 +145,19 @@ export default function Post({
   };
 
   return (
-    <div className="flex border borderColor flex-col space-y-5 p-5 sm:p-6 rounded-xl mx-auto w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor transition-all duration-300 hover:shadow-lg hover:scale-[1.01]">
+    <div
+      className={`flex border borderColor flex-col space-y-5 p-5 sm:p-6 rounded-xl mx-auto w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor transition-all duration-300 ${
+        type === "Ad"
+          ? `${adStyles.bgColor} border ${adStyles.borderColor}`
+          : `border borderColor hover:border-purple-500! hover:shadow-lg hover:scale-[1.01] darkerBackgroundColor`
+      } hover:shadow-lg hover:scale-[1.01]`}
+    >
       <header className="flex flex-col space-y-3">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3">
             <Link
               to={author}
-              className="w-12 h-12 rounded-full overflow-hidden block border border-gray-700 hover:border-gray-500 transition-all duration-200"
+              className={`${type === "Ad" ? "w-9 h-9" : "w-12 h-12"} rounded-full overflow-hidden block border border-gray-700 hover:border-gray-500 transition-all duration-200`}
             >
               <img
                 src="/images/avatars/default.jpg"
@@ -159,11 +172,13 @@ export default function Post({
               >
                 {author}
               </Link>
-              <Tooltip mouseLeaveDelay={0} title={humanReadableDate}>
-                <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline inline-block w-fit">
-                  {timeAgo}
-                </span>
-              </Tooltip>
+              {type !== "Ad" && (
+                <Tooltip mouseLeaveDelay={0} title={humanReadableDate}>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline inline-block w-fit">
+                    {timeAgo}
+                  </span>
+                </Tooltip>
+              )}
             </div>
           </div>
         </div>
@@ -177,6 +192,19 @@ export default function Post({
             )}
           </h1>
         )}
+        {type === "Ad" && title && (
+          <h1 className="text-lg font-semibold text-black dark:text-white flex items-center gap-2">
+            <a
+              href="https://netverses.com/starplus"
+              className="hover:underline"
+            >
+              {title}
+            </a>
+            <span className="text-xs bg-yellow-600 select-none text-white rounded-full px-2 py-1 font-semibold">
+              Sponsored
+            </span>
+          </h1>
+        )}
       </header>
 
       <main>
@@ -186,9 +214,30 @@ export default function Post({
           }`}
         >
           {description}
+          {type === "Ad" && (
+            <>
+              <p className="flex items-center gap-1 mt-1 text-sm italic font-semibold text-yellow-600 select-none">
+                <span className="icon-[material-symbols--ad] text-base"></span>
+                Sponsored by{" "}
+                <RedirectMenu url="https://netverses.com" label="NetVerses" />
+              </p>
+
+              <p className="flex items-center gap-1 mt-1 text-sm italic font-semibold text-yellow-600 select-none">
+                <span className="icon-[maki--roadblock] text-base"></span>
+                Want an ad-free experience? Upgrade to{" "}
+                <span className="font-bold text-yellow-600 hover:text-yellow-500 transition-all duration-300 underline">
+                  <RedirectMenu
+                    url="https://netverses.com/starplus"
+                    label="StarPlus"
+                  />
+                </span>{" "}
+                and enjoy a cleaner, distraction-free interface.
+              </p>
+            </>
+          )}
         </p>
 
-        {isAIGenerated && (
+        {isAIGenerated && type !== "Ad" && (
           <div className="mt-2">
             <span
               className={`inline-block text-xs select-none ${bgColor} text-white font-semibold rounded-full px-2 py-1`}
@@ -215,7 +264,7 @@ export default function Post({
           </Link>
         )}
 
-        {attachments && attachments?.length !== 0 && (
+        {attachments && type !== "Ad" && attachments?.length !== 0 && (
           <AttachmentsViewer
             attachments={attachments}
             colorProfile={colorProfile}
@@ -237,51 +286,53 @@ export default function Post({
 
       <footer className="flex flex-col space-y-3">
         <div className="flex justify-between items-center">
-          <div className="flex gap-4">
-            {["Like", "Dislike", "Comment", "Boost"].map((action, i) => {
-              const icons = {
-                Like: "mdi--like-outline",
-                Dislike: "mdi--dislike-outline",
-                Comment: "majesticons--comment-line",
-                Boost: "material-symbols--speed-outline",
-              };
-              const colors = {
-                Like: "hover:text-blue-500",
-                Dislike: "hover:text-red-500",
-                Comment: "hover:text-cyan-500",
-                Boost: "hover:text-orange-500",
-              };
-              const counts = {
-                Like: interactions.likes,
-                Dislike: interactions.dislikes,
-                Comment: interactions.comments,
-                Boost: interactions.boosts,
-              };
-              return (
-                <Tooltip
-                  key={i}
-                  mouseLeaveDelay={0}
-                  title={action}
-                  placement="bottom"
-                  arrow={false}
-                >
-                  <button
-                    aria-label={action}
-                    onClick={() => {
-                      toggleClick(action);
-                    }}
-                    className={`flex items-center gap-1.5 ${colors[action]} transition-all duration-300 px-2 py-1 rounded-md hover:bg-[#e3e3e3] dark:hover:bg-[#121b31]`}
+          {type != "Ad" && (
+            <div className="flex gap-4">
+              {["Like", "Dislike", "Comment", "Boost"].map((action, i) => {
+                const icons = {
+                  Like: "mdi--like-outline",
+                  Dislike: "mdi--dislike-outline",
+                  Comment: "majesticons--comment-line",
+                  Boost: "material-symbols--speed-outline",
+                };
+                const colors = {
+                  Like: "hover:text-blue-500",
+                  Dislike: "hover:text-red-500",
+                  Comment: "hover:text-cyan-500",
+                  Boost: "hover:text-orange-500",
+                };
+                const counts = {
+                  Like: interactions.likes,
+                  Dislike: interactions.dislikes,
+                  Comment: interactions.comments,
+                  Boost: interactions.boosts,
+                };
+                return (
+                  <Tooltip
+                    key={i}
+                    mouseLeaveDelay={0}
+                    title={action}
+                    placement="bottom"
+                    arrow={false}
                   >
-                    <span className={`icon-[${icons[action]}] w-4 h-4`} />
-                    <span>{formatNumber(counts[action])}</span>
-                  </button>
-                </Tooltip>
-              );
-            })}
-          </div>
+                    <button
+                      aria-label={action}
+                      onClick={() => {
+                        toggleClick(action);
+                      }}
+                      className={`flex items-center gap-1.5 ${colors[action]} transition-all duration-300 px-2 py-1 rounded-md hover:bg-[#e3e3e3] dark:hover:bg-[#121b31]`}
+                    >
+                      <span className={`icon-[${icons[action]}] w-4 h-4`} />
+                      <span>{formatNumber(counts[action])}</span>
+                    </button>
+                  </Tooltip>
+                );
+              })}
+            </div>
+          )}
 
           <div className="flex gap-3">
-            {true && (
+            {type !== "Ad" && true && (
               <Tooltip
                 mouseLeaveDelay={0}
                 title={"Transfer Ownership"}
@@ -296,79 +347,61 @@ export default function Post({
                 </button>
               </Tooltip>
             )}
-            {["Translate", "More"].map((action, i) => {
-              const icons = {
-                Translate: "material-symbols--translate",
-                More: "mingcute--more-2-fill",
-              };
-              return (
-                <Tooltip
-                  key={i}
-                  mouseLeaveDelay={0}
-                  title={action}
-                  placement="bottom"
-                  arrow={false}
-                >
-                  <button
-                    aria-label={action}
-                    className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-all duration-300 p-1 rounded hover:bg-[#e3e3e3] dark:hover:bg-[#121b31]"
-                  >
-                    <span className={`icon-[${icons[action]}] w-4 h-4`} />
-                  </button>
-                </Tooltip>
-              );
-            })}
           </div>
         </div>
 
-        <div className="flex flex-col space-y-3">
-          {comments.length > 0 ? (
-            comments.slice(0, 3).map((comment, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-start space-y-1 border-t border-gray-700 pt-3 pl-3 rounded transition-all duration-200"
-                style={{ marginLeft: `${index * 10}px` }}
-              >
-                <Link
-                  to={`/${comment.author}`}
-                  className="font-medium hover:underline text-black dark:text-white"
+        {type !== "Ad" && (
+          <div className="flex flex-col space-y-3">
+            {comments.length > 0 ? (
+              comments.slice(0, 3).map((comment, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-start space-y-1 border-t border-gray-700 pt-3 pl-3 rounded transition-all duration-200"
+                  style={{ marginLeft: `${index * 10}px` }}
                 >
-                  {comment.author}
-                </Link>
-                <div className="flex justify-between items-start w-full">
-                  <p>{comment.text}</p>
-                  <Tooltip
-                    mouseLeaveDelay={0}
-                    title="Reply"
-                    placement="bottom"
-                    arrow={false}
+                  <Link
+                    to={`/${comment.author}`}
+                    className="font-medium hover:underline text-black dark:text-white"
                   >
-                    <button
-                      className="dark:text-white text-black hover:underline"
-                      aria-label="Reply"
+                    {comment.author}
+                  </Link>
+                  <div className="flex justify-between items-start w-full">
+                    <p>{comment.text}</p>
+                    <Tooltip
+                      mouseLeaveDelay={0}
+                      title="Reply"
+                      placement="bottom"
+                      arrow={false}
                     >
-                      <span
-                        className="icon-[material-symbols--reply] textColor w-4 h-4"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                  </Tooltip>
+                      <button
+                        className="dark:text-white text-black hover:underline"
+                        aria-label="Reply"
+                      >
+                        <span
+                          className="icon-[material-symbols--reply] textColor w-4 h-4"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                    </Tooltip>
+                  </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500 dark:text-gray-400">No comments yet.</p>
-          )}
-          {comments.length > 3 && (
-            <HashLink
-              smooth
-              to={`/u/${author}/${id}#comments`}
-              className={`${textColor} hover:underline mt-2 font-medium self-start`}
-            >
-              View more comments ({comments.length - 3})
-            </HashLink>
-          )}
-        </div>
+              ))
+            ) : (
+              <p className="text-gray-500 dark:text-gray-400">
+                No comments yet.
+              </p>
+            )}
+            {comments.length > 3 && (
+              <HashLink
+                smooth
+                to={`/u/${author}/${id}#comments`}
+                className={`${textColor} hover:underline mt-2 font-medium self-start`}
+              >
+                View more comments ({comments.length - 3})
+              </HashLink>
+            )}
+          </div>
+        )}
       </footer>
 
       <Boost visible={isBoostMenuVisible} setIsOpen={setBoostMenuVisible} />

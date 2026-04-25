@@ -83,16 +83,17 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
       scrollContainer?.current?.scrollWidth -
       scrollContainer?.current?.clientWidth;
     const scrollWidth = scrollContainer?.current?.scrollLeft;
+    console.log(maxScroll, scrollWidth);
 
-    if (scrollWidth < maxScroll) {
+    if (scrollWidth === 0) {
       setShowRightButton(true);
       setShowLeftButton(false);
-    } else if (scrollWidth > 0) {
+    } else if (scrollWidth === maxScroll) {
       setShowLeftButton(true);
       setShowRightButton(false);
-    } else {
-      setShowRightButton(false);
-      setShowLeftButton(false);
+    } else if (scrollWidth < maxScroll) {
+      setShowRightButton(true);
+      setShowLeftButton(true);
     }
   };
 
@@ -265,7 +266,7 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20, y: -20 }}
                 transition={{ duration: 0.2 }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
+                className="absolute left-0 top-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
                 onClick={() => scroll("left")}
               >
                 <span className="icon-[tabler--arrow-left] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
@@ -321,7 +322,7 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20, y: -20 }}
                 transition={{ duration: 0.2 }}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
+                className="absolute right-0 top-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
                 onClick={() => scroll("right")}
               >
                 <span className="icon-[tabler--arrow-right] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />

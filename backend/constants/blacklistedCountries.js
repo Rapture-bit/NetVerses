@@ -7,7 +7,9 @@ const blacklistedCountries = new Set([
   "SD", // Sudan
   "VE", // Venezuela
   "YE", // Yemen
-  "ZW", // Zimbabwe
+  "RU", // Russia
+  "MM", // Myanmar
+  "AO", // Angola
 ]);
 
 export { blacklistedCountries };

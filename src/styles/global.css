@@ -83,6 +83,43 @@
   display: none;
 }
 
+@keyframes fluctuatingShadow {
+  0%,
+  100% {
+    box-shadow:
+      0 4px 15px rgba(138, 43, 226, 0.6),
+      0 0 20px rgba(138, 43, 226, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 6px 25px rgba(138, 43, 226, 0.8),
+      0 0 30px rgba(138, 43, 226, 0.6);
+  }
+}
+
+.fluctuatingShadow {
+  animation: fluctuatingShadow 2s ease-in-out infinite;
+}
+
+.glass-effect {
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(138, 43, 226, 0.4);
+}
+
+.nav-hover {
+  box-shadow:
+    0 4px 15px rgba(138, 43, 226, 0.6),
+    0 0 20px rgba(138, 43, 226, 0.4);
+  transition: box-shadow 1.5s ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.nav-hover:hover {
+  animation: fluctuatingShadow 3s ease-in-out infinite;
+  animation-play-state: running;
+}
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;

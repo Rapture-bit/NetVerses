@@ -32,7 +32,7 @@ export default function BottomBar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (deviceType !== "mobile" || !isTouchScreen) return null;
+  if (deviceType !== "mobile" || !isTouchScreen) return <></>;
 
   const NavButton = ({ label, path, icon, center }) => (
     <button

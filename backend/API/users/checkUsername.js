@@ -1,4 +1,10 @@
 import { UserProfile } from "../../database/models/User.js";
+import fs from "fs";
+
+const reservedPathsData = JSON.parse(
+  fs.readFileSync("./constants/reservedPaths.json", "utf-8"),
+);
+const reservedPaths = new Set(reservedPathsData.paths);
 
 export default async function (req, res) {
   const { username } = req.query;
@@ -24,7 +30,14 @@ export default async function (req, res) {
       where: { username },
     });
 
-    if (isUsernameFound) {
+    let isReserved;
+    for (const reserved of reservedPaths) {
+      if (username === reserved) {
+        isReserved = true;
+      }
+    }
+
+    if (isUsernameFound || isReserved) {
       res.status(200).json({
         success: false,
         isTaken: isUsernameFound,

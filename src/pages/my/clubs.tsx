@@ -123,8 +123,7 @@ export default function ClubsPage() {
       clubId: "1234567890",
       description:
         "We work to empower citizens, strengthen public services, and ensure that every member of society can live with dignity and opportunity.",
-      bannerUrl:
-        "https://cdn.netverses.com/media/uploads/banners/soviet_banner.jpg",
+      bannerUrl: "https://netverses.com/images/soviet.webp",
       logoUrl: "",
     },
     {
@@ -134,8 +133,8 @@ export default function ClubsPage() {
       online_members: 15,
       clubId: "1234567890",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.",
-      bannerUrl: "https://cdn.netverses.com/media/image_placeholder.jpg",
+        "We are a collective of innovators, scientists, engineers, and critical thinkers united by a shared vision: a society guided by human data, and knowledge.",
+      bannerUrl: "https://netverses.com/images/technocracy2.webp",
       logoUrl: "",
     },
     {

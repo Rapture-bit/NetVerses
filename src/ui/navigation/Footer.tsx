@@ -21,6 +21,12 @@ export default function Footer() {
           >
             Support
           </Link>
+          <Link
+            to="https://help.netverses.com/child-safety"
+            className="hover:underline"
+          >
+            Child Safety & Sharing Guidelines
+          </Link>
           <Link to="https://help.netverses.com/api" className="hover:underline">
             API
           </Link>

@@ -37,9 +37,12 @@ interface ErrorState {
   };
 }
 
+const CONFETTI_ANIM =
+  "https://lottie.host/9155cd48-8ec3-4220-ba3b-75a6f4032ec2/tqJAFT9u9U.lottie";
+
 const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   const { t } = useTranslation();
-  const { userCache, updateCache } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const { colorProperties } = useContext(ThemeContext);
   const [isNextDisabled, setNextDisabled] = useState<boolean>(true);
   const [currentTab, setTab] = useState<number>(1);
@@ -138,7 +141,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
   const checkUserAuthentication = async (setError) => {
     try {
-      if (userCache !== null) {
+      if (userData !== null) {
         return setError(t("errors.SignUp.UserLoggedIn"), 1);
       }
     } catch (e) {
@@ -418,7 +421,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
   const refreshPage = () => {
     window.onbeforeunload = null;
-
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -713,7 +715,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
         refreshPage();
         setTab(3);
-        console.log(confirmOTPResponse?.csrf_token);
         useCSRFStore.getState().setCSRFToken(confirmOTPResponse?.csrf_token);
       } catch (error) {
         setError(t("errors.SignUp.codeVerificationError"), 3);
@@ -867,321 +868,323 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   }, [Empty, OTPValue]);
 
   return (
-    <PrimaryModal
-      width={512}
-      confirmClose={true}
-      onClosed={resetTab}
-      title={t("SignUp.modalTitle")}
-      noConfirmationDialog={isNoConfirmationDialog}
-      open={visible}
-      setIsOpen={setIsOpen}
-      footer={
-        <div className="justify-center items-center text-center">
-          {currentTab === 1 && (
-            <Button
-              aria-label={`${t("general.Next")}`}
-              type="primary"
-              onClick={toggleTab}
-              className={`!p-3 ${isNextDisabled ? "!bg-violet-900" : "!bg-violet-700"} !border-violet-900 mt-2 hover:!bg-opacity-85 !px-16 !rounded-full transition-all duration-300`}
-              disabled={isNextDisabled}
-            >
-              <span
-                className={`font-medium text-white transition-all duration-300`}
-              >
-                {t("general.Next")}
-              </span>
-            </Button>
-          )}
-          {currentTab === 2 && (
-            <div className="justify-center items-center flex flex-row space-x-3">
+    <>
+      <PrimaryModal
+        width={512}
+        confirmClose={true}
+        onClosed={resetTab}
+        title={t("SignUp.modalTitle")}
+        noConfirmationDialog={isNoConfirmationDialog}
+        open={visible}
+        setIsOpen={setIsOpen}
+        footer={
+          <div className="justify-center items-center text-center">
+            {currentTab === 1 && (
               <Button
-                aria-label={resendStatus["label"]}
-                type="primary"
-                onClick={handleResend}
-                className={
-                  "textColor hover:text-white !p-3 !bg-transparent hover:!bg-violet-900 !border-violet-900 mt-2 hover:!bg-opacity-85 !px-10 !rounded-full"
-                }
-                disabled={resendStatus["onHold"]}
-              >
-                <span className="font-medium">{resendStatus["label"]}</span>
-              </Button>
-
-              <Button
-                aria-label={`${t("general.Confirm")}`}
+                aria-label={`${t("general.Next")}`}
                 type="primary"
                 onClick={toggleTab}
+                className={`!p-3 ${isNextDisabled ? "!bg-violet-900" : "!bg-violet-700"} !border-violet-900 mt-2 hover:!bg-opacity-85 !px-16 !rounded-full transition-all duration-300`}
                 disabled={isNextDisabled}
-                className={`!p-3 ${isNextDisabled ? "!bg-violet-900 !pointer-none" : "!bg-violet-700 cursor-pointer"} !border-violet-900 mt-2 hover:!bg-opacity-85 !px-16 !rounded-full`}
               >
-                <span className={`font-medium text-white`}>
-                  {t("general.Confirm")}
+                <span
+                  className={`font-medium text-white transition-all duration-300`}
+                >
+                  {t("general.Next")}
                 </span>
               </Button>
-            </div>
-          )}
-        </div>
-      }
-      centered
-    >
-      <AnimatePresence>
-        {currentTab === 1 && (
-          <motion.div
-            key="tab1"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-          >
-            <div className="space-y-4 flex flex-col">
-              <span className="text-sm inter">{t("SignUp.SignUpIntro")}</span>
-
-              <form className="space-y-3 flex flex-col">
-                <ConfigProvider
-                  theme={{
-                    token: {
-                      colorBgBase: colorProperties.backgroundColor
-                        ? colorProperties.backgroundColor
-                        : "#1677ff",
-                      colorPrimary: "#535353",
-                      colorTextPlaceholder: "#9ca3af",
-                      colorBorder: colorProperties.borderInputColor
-                        ? colorProperties.borderInputColor
-                        : "#1677ff",
-                    },
-                  }}
+            )}
+            {currentTab === 2 && (
+              <div className="justify-center items-center flex flex-row space-x-3">
+                <Button
+                  aria-label={resendStatus["label"]}
+                  type="primary"
+                  onClick={handleResend}
+                  className={
+                    "textColor hover:text-white !p-3 !bg-transparent hover:!bg-violet-900 !border-violet-900 mt-2 hover:!bg-opacity-85 !px-10 !rounded-full"
+                  }
+                  disabled={resendStatus["onHold"]}
                 >
-                  <div className="flex flex-col space-y-1">
-                    <PrimaryInput
-                      maxLength={20}
-                      type="text"
-                      placeholder={t("general.Username")}
-                      ColorSettings={{
-                        BorderColor: errorState.TabOne.Username["Invalid"]
-                          ? "#EF4444"
-                          : colorProperties.borderInputColor
-                            ? colorProperties.borderInputColor
-                            : "#1677ff",
-                      }}
-                      prefix={<UserOutlined className="!mr-1" />}
-                      onChange={toggleUsername}
-                      errorMessage={
-                        errorState.TabOne.Username["Invalid"]
-                          ? errorState.TabOne.Username["msg"]
-                          : ""
-                      }
-                    />
-                  </div>
+                  <span className="font-medium">{resendStatus["label"]}</span>
+                </Button>
 
-                  <div className="flex flex-col space-y-1">
-                    <PrimaryInput
-                      maxLength={64}
-                      type="email"
-                      placeholder={t("general.Email")}
-                      ColorSettings={{
-                        BorderColor: errorState.TabOne.Email["Invalid"]
-                          ? "#EF4444"
-                          : colorProperties.borderInputColor
-                            ? colorProperties.borderInputColor
-                            : "#1677ff",
-                      }}
-                      prefix={<MailOutlined className="!mr-1" />}
-                      onChange={toggleEmail}
-                      errorMessage={
-                        errorState.TabOne.Email["Invalid"]
-                          ? errorState.TabOne.Email["msg"]
-                          : ""
-                      }
-                    />
-                  </div>
+                <Button
+                  aria-label={`${t("general.Confirm")}`}
+                  type="primary"
+                  onClick={toggleTab}
+                  disabled={isNextDisabled}
+                  className={`!p-3 ${isNextDisabled ? "!bg-violet-900 !pointer-none" : "!bg-violet-700 cursor-pointer"} !border-violet-900 mt-2 hover:!bg-opacity-85 !px-16 !rounded-full`}
+                >
+                  <span className={`font-medium text-white`}>
+                    {t("general.Confirm")}
+                  </span>
+                </Button>
+              </div>
+            )}
+          </div>
+        }
+        centered
+      >
+        <AnimatePresence>
+          {currentTab === 1 && (
+            <motion.div
+              key="tab1"
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+            >
+              <div className="space-y-4 flex flex-col">
+                <span className="text-sm inter">{t("SignUp.SignUpIntro")}</span>
 
-                  <div className="flex flex-col space-y-1">
-                    <PrimaryInput
-                      maxLength={128}
-                      ColorSettings={{
-                        BorderColor: errorState.TabOne.Password["Invalid"]
-                          ? "#EF4444"
-                          : colorProperties.borderInputColor
-                            ? colorProperties.borderInputColor
-                            : "#1677ff",
-                      }}
-                      placeholder={t("general.Password")}
-                      type="password"
-                      prefix={<LockOutlined className="!mr-1" />}
-                      onChange={togglePassword}
-                      onCopy={(e) => e.preventDefault()}
-                      onPaste={(e) => e.preventDefault()}
-                      errorMessage={
-                        errorState.TabOne.Password["Invalid"]
-                          ? errorState.TabOne.Password["msg"]
-                          : ""
-                      }
-                    />
-                  </div>
-
-                  <div className="flex flex-col space-y-1">
-                    <PrimaryInput
-                      maxLength={128}
-                      ColorSettings={{
-                        BorderColor: errorState.TabOne.ConfirmPassword[
-                          "Invalid"
-                        ]
-                          ? "#EF4444"
-                          : colorProperties.borderInputColor
-                            ? colorProperties.borderInputColor
-                            : "#1677ff",
-                      }}
-                      placeholder={t("general.confirmPassword")}
-                      type="password"
-                      prefix={<CheckOutlined className="!mr-1" />}
-                      onChange={toggleConfirmPassword}
-                      errorMessage={
-                        errorState.TabOne.ConfirmPassword["Invalid"]
-                          ? errorState.TabOne.ConfirmPassword["msg"]
-                          : ""
-                      }
-                      onCopy={(e) => e.preventDefault()}
-                      onPaste={(e) => e.preventDefault()}
-                    />
-                  </div>
-
+                <div className="space-y-3 flex flex-col">
                   <ConfigProvider
                     theme={{
                       token: {
-                        colorPrimary: colorProperties.primaryColor
-                          ? colorProperties.primaryColor
-                          : "#1677ff",
-                        colorBgContainer: colorProperties.backgroundColor
+                        colorBgBase: colorProperties.backgroundColor
                           ? colorProperties.backgroundColor
+                          : "#1677ff",
+                        colorPrimary: "#535353",
+                        colorTextPlaceholder: "#9ca3af",
+                        colorBorder: colorProperties.borderInputColor
+                          ? colorProperties.borderInputColor
                           : "#1677ff",
                       },
                     }}
                   >
-                    <div className="flex flex-col space-y-2">
-                      <Checkbox
-                        id="agreementCheckbox"
-                        className="flex"
-                        onChange={toggleAgreementChecked}
-                      >
-                        <span className="text-sm">
-                          {t("SignUp.consentConfirmation")}{" "}
-                          <a
-                            href="/terms"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="!underline hover:!text-violet-500 !text-violet-600"
-                          >
-                            {t("general.tosLabel")}
-                          </a>{" "}
-                          {t("general.andLabel")}{" "}
-                          <a
-                            href="/privacy"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="!underline hover:!text-violet-500 !text-violet-600"
-                          >
-                            {t("general.privacyLabel")}
-                          </a>
-                          .
-                        </span>
-                      </Checkbox>
-                      {errorState.TabOne.Additional["Invalid"] && (
-                        <span className="text-sm text-red-500">
-                          {errorState.TabOne.Additional["msg"]}
-                        </span>
-                      )}
+                    <div className="flex flex-col space-y-1">
+                      <PrimaryInput
+                        maxLength={20}
+                        type="text"
+                        placeholder={t("general.Username")}
+                        ColorSettings={{
+                          BorderColor: errorState.TabOne.Username["Invalid"]
+                            ? "#EF4444"
+                            : colorProperties.borderInputColor
+                              ? colorProperties.borderInputColor
+                              : "#1677ff",
+                        }}
+                        prefix={<UserOutlined className="!mr-1" />}
+                        onChange={toggleUsername}
+                        errorMessage={
+                          errorState.TabOne.Username["Invalid"]
+                            ? errorState.TabOne.Username["msg"]
+                            : ""
+                        }
+                      />
                     </div>
+
+                    <div className="flex flex-col space-y-1">
+                      <PrimaryInput
+                        maxLength={64}
+                        type="email"
+                        placeholder={t("general.Email")}
+                        ColorSettings={{
+                          BorderColor: errorState.TabOne.Email["Invalid"]
+                            ? "#EF4444"
+                            : colorProperties.borderInputColor
+                              ? colorProperties.borderInputColor
+                              : "#1677ff",
+                        }}
+                        prefix={<MailOutlined className="!mr-1" />}
+                        onChange={toggleEmail}
+                        errorMessage={
+                          errorState.TabOne.Email["Invalid"]
+                            ? errorState.TabOne.Email["msg"]
+                            : ""
+                        }
+                      />
+                    </div>
+
+                    <div className="flex flex-col space-y-1">
+                      <PrimaryInput
+                        maxLength={128}
+                        ColorSettings={{
+                          BorderColor: errorState.TabOne.Password["Invalid"]
+                            ? "#EF4444"
+                            : colorProperties.borderInputColor
+                              ? colorProperties.borderInputColor
+                              : "#1677ff",
+                        }}
+                        placeholder={t("general.Password")}
+                        type="password"
+                        prefix={<LockOutlined className="!mr-1" />}
+                        onChange={togglePassword}
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                        errorMessage={
+                          errorState.TabOne.Password["Invalid"]
+                            ? errorState.TabOne.Password["msg"]
+                            : ""
+                        }
+                      />
+                    </div>
+
+                    <div className="flex flex-col space-y-1">
+                      <PrimaryInput
+                        maxLength={128}
+                        ColorSettings={{
+                          BorderColor: errorState.TabOne.ConfirmPassword[
+                            "Invalid"
+                          ]
+                            ? "#EF4444"
+                            : colorProperties.borderInputColor
+                              ? colorProperties.borderInputColor
+                              : "#1677ff",
+                        }}
+                        placeholder={t("general.confirmPassword")}
+                        type="password"
+                        prefix={<CheckOutlined className="!mr-1" />}
+                        onChange={toggleConfirmPassword}
+                        errorMessage={
+                          errorState.TabOne.ConfirmPassword["Invalid"]
+                            ? errorState.TabOne.ConfirmPassword["msg"]
+                            : ""
+                        }
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                      />
+                    </div>
+
+                    <ConfigProvider
+                      theme={{
+                        token: {
+                          colorPrimary: colorProperties.primaryColor
+                            ? colorProperties.primaryColor
+                            : "#1677ff",
+                          colorBgContainer: colorProperties.backgroundColor
+                            ? colorProperties.backgroundColor
+                            : "#1677ff",
+                        },
+                      }}
+                    >
+                      <div className="flex flex-col space-y-2">
+                        <Checkbox
+                          id="agreementCheckbox"
+                          className="flex"
+                          onChange={toggleAgreementChecked}
+                        >
+                          <span className="text-sm">
+                            {t("SignUp.consentConfirmation")}{" "}
+                            <a
+                              href="/terms"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline! hover:text-violet-500! text-violet-600!"
+                            >
+                              {t("general.tosLabel")}
+                            </a>{" "}
+                            {t("general.andLabel")}{" "}
+                            <a
+                              href="/privacy"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline! hover:text-violet-500! text-violet-600!"
+                            >
+                              {t("general.privacyLabel")}
+                            </a>
+                            .
+                          </span>
+                        </Checkbox>
+                        {errorState.TabOne.Additional["Invalid"] && (
+                          <span className="text-sm text-red-500">
+                            {errorState.TabOne.Additional["msg"]}
+                          </span>
+                        )}
+                      </div>
+                    </ConfigProvider>
                   </ConfigProvider>
-                </ConfigProvider>
-              </form>
-            </div>
-          </motion.div>
-        )}
-
-        {emailChangeMenuVisibility && emailChangeAttempt !== 2 && (
-          <EmailChange
-            visible={emailChangeMenuVisibility}
-            countdownLabel={countdownLabel}
-            setCountdownLabel={setCountdownLabel}
-            attempt={emailChangeAttempt}
-            setAttempt={setEmailChangeAttempt}
-            emailStates={{ email, setEmail, emailCache }}
-            username={username}
-            setRequestID={setRequestID}
-            errorState={errorState}
-            timeSent={timeSent}
-            setTimeSent={setTimeSent}
-            setVisible={setEmailChangeMenuVisibility}
-          />
-        )}
-
-        {currentTab === 2 && (
-          <motion.div
-            key="tab2"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-          >
-            <div className="flex flex-col justify-center items-center space-x-3 space-y-4 p-0.5">
-              <div className="flex flex-col">
-                <span>
-                  {t("SignUp.codeConfirmation") + ":"}{" "}
-                  <b>{email ? email : "name@example.com"}</b>
-                </span>
-
-                {emailChangeAttempt !== 2 && (
-                  <a
-                    onClick={() => {
-                      setEmailChangeMenuVisibility(true);
-                    }}
-                    className="!text-violet-700 hover:!underline w-fit"
-                  >
-                    Change email
-                  </a>
-                )}
+                </div>
               </div>
+            </motion.div>
+          )}
 
-              <div className="w-full max-w-sm text-center">
-                <label className="block text-sm">
-                  {t("SignUp.enterCode")}{" "}
-                </label>
-                <OTP
-                  onOTPChange={checkOTP}
-                  isError={errorState.TabTwo.OneTimeCode["Invalid"]}
-                  length={5}
-                  inputType="numeric"
-                />
-                {errorState.TabTwo.OneTimeCode["Invalid"] && (
-                  <span className="text-sm text-red-500">
-                    {errorState.TabTwo.OneTimeCode["msg"]}
+          {emailChangeMenuVisibility && emailChangeAttempt !== 2 && (
+            <EmailChange
+              visible={emailChangeMenuVisibility}
+              countdownLabel={countdownLabel}
+              setCountdownLabel={setCountdownLabel}
+              attempt={emailChangeAttempt}
+              setAttempt={setEmailChangeAttempt}
+              emailStates={{ email, setEmail, emailCache }}
+              username={username}
+              setRequestID={setRequestID}
+              errorState={errorState}
+              timeSent={timeSent}
+              setTimeSent={setTimeSent}
+              setVisible={setEmailChangeMenuVisibility}
+            />
+          )}
+
+          {currentTab === 2 && (
+            <motion.div
+              key="tab2"
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+            >
+              <div className="flex flex-col justify-center items-center space-x-3 space-y-4 p-0.5">
+                <div className="flex flex-col">
+                  <span>
+                    {t("SignUp.codeConfirmation") + ":"}{" "}
+                    <b>{email ? email : "name@example.com"}</b>
                   </span>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
 
-        {currentTab === 3 && (
-          <motion.div
-            key="tab3"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-          >
-            <div className="flex flex-col justify-center items-center space-y-4 p-6">
-              <span className="icon-[zondicons--checkmark-outline] w-16 h-16 text-green-600" />
-              <h2 className="text-xl font-semibold textColor">
-                {t("SignUp.accountCreationSuccessful.title")}
-              </h2>
-              <p className="text-base dark:text-gray-300 lato text-center">
-                {t("SignUp.accountCreationSuccessful.description")}
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </PrimaryModal>
+                  {emailChangeAttempt !== 2 && (
+                    <a
+                      onClick={() => {
+                        setEmailChangeMenuVisibility(true);
+                      }}
+                      className="text-violet-700! hover:underline! w-fit"
+                    >
+                      Change email
+                    </a>
+                  )}
+                </div>
+
+                <div className="w-full max-w-sm text-center">
+                  <label className="block text-sm">
+                    {t("SignUp.enterCode")}{" "}
+                  </label>
+                  <OTP
+                    onOTPChange={checkOTP}
+                    isError={errorState.TabTwo.OneTimeCode["Invalid"]}
+                    length={5}
+                    inputType="numeric"
+                  />
+                  {errorState.TabTwo.OneTimeCode["Invalid"] && (
+                    <span className="text-sm text-red-500">
+                      {errorState.TabTwo.OneTimeCode["msg"]}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {currentTab === 3 && (
+            <motion.div
+              key="tab3"
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+            >
+              <div className="flex flex-col justify-center items-center space-y-4 p-6">
+                <span className="icon-[zondicons--checkmark-outline] w-16 h-16 text-green-600" />
+                <h2 className="text-xl font-semibold textColor">
+                  {t("SignUp.accountCreationSuccessful.title")}
+                </h2>
+                <p className="text-base dark:text-gray-300 lato text-center">
+                  {t("SignUp.accountCreationSuccessful.description")}
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </PrimaryModal>
+    </>
   );
 };
 

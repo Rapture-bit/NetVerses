@@ -20,6 +20,16 @@
     "versesInput": "Publier m3ana l akhbar dyalek m3a l3alam",
     "comment": "Le commentaire dialek hna..."
   },
+  "modals": {
+    "redirectModal": {
+      "title": "Tawjih",
+      "description": "Ghadi tmchi l site khar, bghiti tkml?",
+      "cautious": "Khalli 3inik 7adra 3la had link!",
+      "proceed": "Kml",
+      "cancel": "Lghaa",
+      "markTrusted": "Allem had link blli moutsouq (Gha thbes had tanbih mn bda mn daba 3la had link)."
+    }
+  },
   "home": {
     "myFeed": "Lfeed dyali",
     "articlesLabel": "Lakhbar",

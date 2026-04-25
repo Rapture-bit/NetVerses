@@ -9,7 +9,9 @@ interface DropdownProps {
   openSide: string;
   clearTrigger?: any;
   size: string;
+  fullWidth?: boolean;
   TWStyling?: string;
+  buttonStyling?: string;
   primaryOption: string;
   currentOption: string;
 }
@@ -20,6 +22,8 @@ export default function Dropdown({
   openSide,
   size,
   TWStyling,
+  fullWidth = false,
+  buttonStyling,
   clearTrigger,
   currentOption,
   setOption,
@@ -134,11 +138,13 @@ export default function Dropdown({
       <button
         ref={buttonRef}
         onClick={toggleDropdown}
-        className={`text-${textSize} space-x-1`}
+        className={`text-${textSize} ${fullWidth ? "w-full" : ""}`}
       >
-        <span className={`text-${textSize}`}>{selectedOption}</span>
-        {openSide == "up" && <UpOutlined />}
-        {openSide == "down" && <DownOutlined />}
+        <div className={`flex flex-row space-x-1 ${buttonStyling}`}>
+          <span className={`text-${textSize}`}>{selectedOption}</span>
+          {openSide == "up" && <UpOutlined />}
+          {openSide == "down" && <DownOutlined />}
+        </div>
       </button>
 
       <AnimatePresence>
@@ -147,7 +153,7 @@ export default function Dropdown({
             id="dropdown-menu"
             key="dropdown-menu"
             ref={menuRef}
-            className={`fixed border-[0.1px] backgroundColor dark:border-[#313131] border-[#a8a8a8] text-sm flex justify-center items-center rounded-lg z-[9999]`}
+            className={`fixed border-[0.1px] backgroundColor dark:border-[#313131] border-[#a8a8a8] text-sm flex justify-center items-center rounded-lg z-[9999] ${TWStyling}`}
             initial={{ opacity: 0, y: openSide === "up" ? 10 : -10 }}
             animate={{ opacity: 1, y: 0 }}
             style={{

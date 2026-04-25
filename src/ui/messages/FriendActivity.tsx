@@ -4,7 +4,7 @@ import { Tooltip } from "antd";
 export default function FriendActivity({ user }) {
   const [activityName, setActivityName] = useState<string>("Minecraft"); // Replace with API
   const [activityType, setActivityType] =
-    useState<["playing", "listening", "streaming", "watching"]>("playing"); // Replace with API
+    useState<["playing", "listening", "streaming", "watching"]>("listening"); // Replace with API
   const [activityUrl, setActivityUrl] = useState<string>(
     "https://minecraft.com",
   ); // Replace with API

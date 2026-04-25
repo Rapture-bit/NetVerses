@@ -60,10 +60,6 @@ export default function PortableChat() {
     return matchesSearch && matchesFilter;
   });
 
-  if (deviceType === "mobile" || isTouchScreen) {
-    return null;
-  }
-
   return (
     <div className="fixed bottom-0 right-0 flex flex-col z-[800] pointer-events-none min-h-screen min-w-full">
       <AnimatePresence>

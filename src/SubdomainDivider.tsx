@@ -15,8 +15,9 @@ import { UserContext } from "@/context/UserContext";
 import { useCSRFStore } from "@/context/CSRFStore";
 
 import Loading from "@/ui/others/Loading";
-import fetchCSRFPost from "./utils/fetchPostPage";
+import fetchCSRF from "./utils/fetchPageWithCSRF";
 
+const UserSettings = React.lazy(() => import("@/pages/usersettings"));
 const LandingPage = React.lazy(() => import("@/pages/landingpage"));
 const ClubsPage = React.lazy(() => import("@/pages/my/clubs"));
 const SettingsPage = React.lazy(() => import("@/pages/my/settings"));
@@ -25,34 +26,26 @@ const Home = React.lazy(() => import("@/pages/home"));
 const PageNotFound = React.lazy(() => import("@/pages/pagenotfound"));
 const PrivacyPage = React.lazy(() => import("@/subdomains/help/privacypolicy"));
 const Messages = React.lazy(() => import("@/pages/messages"));
+const RecoverPassword = React.lazy(() => import("@/pages/recover-pass"));
 const ProfilePage = React.lazy(() => import("@/pages/profilepage"));
 const ExplorePage = React.lazy(() => import("@/pages/explore"));
 const TOSPage = React.lazy(() => import("@/subdomains/help/tos"));
-
+const ChildSharingSafetyPage = React.lazy(
+  () => import("@/subdomains/help/child-sharing-safety"),
+);
 const HelpLandingPage = React.lazy(() => import("@/subdomains/help/landing"));
 
 export default function SubdomainDivider() {
-  const { updateCache } = useContext(UserContext);
+  const { userData } = useContext(UserContext)!;
+
   const [loading, setLoading] = useState<boolean>(true);
   const [isAuth, setAuth] = useState<boolean>(false);
   const { csrfToken, setCSRFToken } = useCSRFStore();
-  const [userCache, setUserCache] = useState<Object[] | null | undefined>(
-    undefined,
-  );
   const [subdomain, setSubdomain] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
 
   useLayoutEffect(() => {
     setSubdomain(window.location.hostname.split(".")[0]);
-
-    const setValue = async () => {
-      const cacheValue = await updateCache();
-      setUserCache(cacheValue);
-    };
-
-    if (!userCache) {
-      setValue();
-    }
   }, []);
 
   // Check theme
@@ -95,28 +88,13 @@ export default function SubdomainDivider() {
     let isMounted = true;
     const authenticate = async () => {
       try {
-        if (!csrfToken || attempt >= 1) return;
+        if (!userData || userData === null) {
+          if (isMounted) setAuth(false);
+          return;
+        }
 
-        setAttempt((prevAttpt) => prevAttpt + 1);
-        // console.log(attempt);
-        const fetchData = await fetchCSRFPost(
-          "https://api.netverses.com/v1/auth/refresh",
-          csrfToken,
-        );
-        const fetchDataResp = fetchData;
-
-        if (!fetchData.ok) return;
-        setCSRFToken(fetchDataResp.csrf_token);
-        setAuth(Boolean(fetchDataResp?.success && fetchDataResp?.authed));
-
-        const selfData = await fetchCSRFPost(
-          "https://api.netverses.com/v1/self",
-          null,
-        );
-        const selfDataResp = await selfData.json();
-
-        if (isMounted) {
-          setAuth(Boolean(selfDataResp?.success && selfDataResp?.user));
+        if (isMounted && userData) {
+          setAuth(true);
         }
       } catch (err) {
         console.error(err);
@@ -158,6 +136,7 @@ export default function SubdomainDivider() {
           <Route element={<DocumentationLayout />}>
             <Route path="/" element={<HelpLandingPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/child-safety" element={<ChildSharingSafetyPage />} />
             <Route path="/tos" element={<TOSPage />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
@@ -168,25 +147,25 @@ export default function SubdomainDivider() {
             <Route
               path="/"
               element={
-                userCache === undefined ? (
+                userData === undefined ? (
                   <Loading />
-                ) : userCache !== null ? (
+                ) : userData !== null ? (
                   <Home />
                 ) : (
                   <LandingPage />
                 )
               }
             />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="/u/:username/:id" element={<PostsPage />} />
+            <Route path="/u/:username/posts/:id" element={<PostsPage />} />
             // Add comments page
-            <Route path="/:username" element={<ProfilePage />} />
+            <Route path="/u/:username" element={<ProfilePage />} />
+            <Route path="/my/settings" element={<UserSettings />} />
             <Route
               path="/my/messages"
               element={
-                userCache === undefined ? (
+                userData === undefined ? (
                   <Loading />
-                ) : userCache !== null ? (
+                ) : userData !== null ? (
                   <Messages />
                 ) : (
                   <PageNotFound />
@@ -196,10 +175,22 @@ export default function SubdomainDivider() {
             <Route
               path="/explore"
               element={
-                userCache === undefined ? (
+                userData === undefined ? (
                   <Loading />
-                ) : userCache !== null ? (
+                ) : userData !== null ? (
                   <ExplorePage />
+                ) : (
+                  <PageNotFound />
+                )
+              }
+            />
+            <Route
+              path="/recover-password"
+              element={
+                userData === undefined ? (
+                  <Loading />
+                ) : userData === null ? (
+                  <RecoverPassword />
                 ) : (
                   <PageNotFound />
                 )
@@ -208,9 +199,9 @@ export default function SubdomainDivider() {
             <Route
               path="/my/clubs"
               element={
-                userCache === undefined ? (
+                userData === undefined ? (
                   <Loading />
-                ) : userCache !== null ? (
+                ) : userData !== null ? (
                   <ClubsPage />
                 ) : (
                   <PageNotFound />
@@ -220,9 +211,9 @@ export default function SubdomainDivider() {
             <Route
               path="/my/settings"
               element={
-                userCache === undefined ? (
+                userData === undefined ? (
                   <Loading />
-                ) : userCache !== null ? (
+                ) : userData !== null ? (
                   <SettingsPage />
                 ) : (
                   <PageNotFound />

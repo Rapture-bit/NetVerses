@@ -27,6 +27,18 @@
   --border-color-transparent: rgba(241, 241, 241, 0.5);
 }
 
+.blinking-cursor {
+  display: inline-block;
+  width: 1ch;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 html {
   background-color: var(--background-color);
   color: var(--text-color);

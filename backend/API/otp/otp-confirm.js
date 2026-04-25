@@ -160,6 +160,7 @@ async function createAccount(req, res, email, username, password, rememberMe) {
     id: newUser.id,
     username,
     display_name: username,
+    newlyRegistered: true,
   });
   await UserConsent.create({ userId: newUser.id });
 

@@ -2,7 +2,10 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
+import { motion, AnimatePresence } from "framer-motion";
+
 import RadioCard from "@/ui/RadioCard";
+import { Tooltip } from "antd";
 
 interface focusedComponentsProps {
   resetButton: boolean;
@@ -12,8 +15,31 @@ interface focusedComponentsProps {
 // TO BE RENOVATED (Tumblr-like) //
 export default function RightBar() {
   const { t } = useTranslation();
+  const scrollContainer = useRef<HTMLDivElement>(null);
   const [isAuth, setAuth] = useState<boolean>(true);
   const [rightPosition, setRightPosition] = useState("8%");
+
+  const [showRightButton, setShowRightButton] = useState<boolean>(false);
+  const [showLeftButton, setShowLeftButton] = useState<boolean>(false);
+
+  const checkScroll = () => {
+    const maxScroll =
+      scrollContainer?.current?.scrollWidth -
+      scrollContainer?.current?.clientWidth;
+    const scrollWidth = scrollContainer?.current?.scrollLeft;
+    console.log(maxScroll, scrollWidth);
+
+    if (scrollWidth === 0) {
+      setShowRightButton(true);
+      setShowLeftButton(false);
+    } else if (scrollWidth === maxScroll) {
+      setShowLeftButton(true);
+      setShowRightButton(false);
+    } else if (scrollWidth < maxScroll) {
+      setShowRightButton(true);
+      setShowLeftButton(true);
+    }
+  };
 
   const [isInputFocused, setInputFocused] = useState<boolean>(false);
   const [focusedComponents, setFocusedComponents] =
@@ -48,6 +74,49 @@ export default function RightBar() {
   const onSearchInput = (inputValue) => {
     setSearchTerm(inputValue);
   };
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollContainer.current) {
+      const scrollAmount = scrollContainer.current.offsetWidth / 2; // adjust scroll step
+      scrollContainer.current.scrollBy({
+        left: direction === "right" ? scrollAmount : -scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const repeatedTimes = 10;
+  useEffect(() => {
+    if (!scrollContainer) return;
+
+    let times = 0;
+    const intervalID = setInterval(() => {
+      if (times >= repeatedTimes) clearInterval(intervalID);
+      checkScroll();
+      times += 1;
+    }, 0.35 * 1000);
+  }, [scrollContainer]);
+
+  useEffect(() => {
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      let times = 0;
+      const intervalID = setInterval(() => {
+        if (times >= repeatedTimes) clearInterval(intervalID);
+        checkScroll();
+        times += 1;
+      }, 0.35 * 1000);
+    };
+
+    scrollContainer.current.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      scrollContainer?.current?.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     updatePosition();
@@ -84,7 +153,7 @@ export default function RightBar() {
     darkerBackgroundColor
   `}
         >
-          <div className="flex items-center w-full gap-2 text-sm text-neutral-700 dark:text-neutral-400 focus-within:text-black dark:focus-within:text-white">
+          <div className="flex items-center w-full gap-2 p-0.5 text-sm text-neutral-700 dark:text-neutral-400 focus-within:text-black dark:focus-within:text-white">
             <span className="icon-[si--search-line] w-4 h-4 flex-shrink-0 transition-colors duration-300" />
             <input
               onInput={(e) => onSearchInput(e.currentTarget.value)}
@@ -155,7 +224,7 @@ export default function RightBar() {
         <div className="relative flex items-center justify-start p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border borderColor">
           <h2
             id="radio-section-title"
-            className="font-semibold text-base textColor flex items-center gap-2"
+            className="font-semibold select-none text-base textColor flex items-center gap-2"
           >
             <span
               className="icon-[mdi--radio] w-5 h-5"
@@ -166,9 +235,32 @@ export default function RightBar() {
         </div>
 
         <div className="relative flex items-center justify-start transition-all duration-300 xl:w-64">
-          <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#111827] from-[#cfcfcf] to-transparent z-10"></div>
+          <AnimatePresence>
+            {showLeftButton && (
+              <Tooltip
+                mouseLeaveDelay={0}
+                title="Previous"
+                placement="bottom"
+                arrow={false}
+              >
+                <motion.button
+                  initial={{ opacity: 0, x: -20, y: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute left-0 top-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
+                  onClick={() => scroll("left")}
+                >
+                  <span className="icon-[tabler--arrow-left] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
+                </motion.button>
+              </Tooltip>
+            )}
+          </AnimatePresence>
 
-          <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
+          <div
+            ref={scrollContainer}
+            className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative"
+          >
             <RadioCard
               playingStatus="paused"
               radioName="Radio Name"
@@ -194,12 +286,32 @@ export default function RightBar() {
               genre="Talk"
             />
           </div>
+
+          {showRightButton && (
+            <Tooltip
+              mouseLeaveDelay={0}
+              title="Next"
+              placement="bottom"
+              arrow={false}
+            >
+              <motion.button
+                initial={{ opacity: 0, x: 20, y: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20, y: -20 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 top-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
+                onClick={() => scroll("right")}
+              >
+                <span className="icon-[tabler--arrow-right] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
+              </motion.button>
+            </Tooltip>
+          )}
         </div>
 
         <div className="relative flex items-center justify-start p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border borderColor">
           <h2
             id="articles-section-title"
-            className="font-semibold text-base textColor flex items-center gap-2"
+            className="font-semibold select-none text-base textColor flex items-center gap-2"
           >
             <span
               className="icon-[mdi--newspaper-variant-outline] w-5 h-5"
