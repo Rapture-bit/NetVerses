@@ -172,7 +172,7 @@ export default function RightBar() {
               }}
               type="text"
               value={searchTerm}
-              placeholder="Search anything..."
+              placeholder={`${t("rightBar.search_bar")}`}
               className="w-full bg-transparent outline-none placeholder-neutral-500 text-black dark:text-white text-sm"
             />
             {searchTerm && (
@@ -180,7 +180,7 @@ export default function RightBar() {
                 onClick={clearSearch}
                 className="text-neutral-500 dark:hover:text-neutral-300 hover:text-neutral-600 transition-all duration-200 hover:rotate-90"
               >
-                <span className="icon-[mdi--close] w-4 h-4 translate-y-0.5"></span>
+                <span className="icon-[ic--round-close] w-4 h-4 translate-y-0.5"></span>
               </button>
             )}
           </div>
@@ -221,19 +221,6 @@ export default function RightBar() {
 
         <div className="bg-neutral-700 px-3 w-full rounded-full py-[0.03rem]"></div>
 
-        <div className="relative flex items-center justify-start p-3 transition-all duration-300 xl:w-64 darkerBackgroundColor rounded-lg gap-3 border borderColor">
-          <h2
-            id="radio-section-title"
-            className="font-semibold select-none text-base textColor flex items-center gap-2"
-          >
-            <span
-              className="icon-[mdi--radio] w-5 h-5"
-              aria-hidden="true"
-            ></span>
-            Radio Broadcasts
-          </h2>
-        </div>
-
         <div className="relative flex items-center justify-start transition-all duration-300 xl:w-64">
           <AnimatePresence>
             {showLeftButton && (
@@ -248,7 +235,7 @@ export default function RightBar() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20, y: -20 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute left-0 top-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
+                  className="absolute left-0 -translate-x-12 top-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
                   onClick={() => scroll("left")}
                 >
                   <span className="icon-[tabler--arrow-left] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />
@@ -299,7 +286,7 @@ export default function RightBar() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20, y: -20 }}
                 transition={{ duration: 0.2 }}
-                className="absolute right-0 top-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
+                className="absolute right-0 translate-x-12 top-1/2 z-10 p-2 rounded-full hover:bg-opacity-70"
                 onClick={() => scroll("right")}
               >
                 <span className="icon-[tabler--arrow-right] h-7 w-7 cursor-pointer text-white hover:scale-110 transition-transform" />

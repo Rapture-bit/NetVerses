@@ -1,7 +1,6 @@
 import { HashLink } from "react-router-hash-link";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { Tooltip } from "antd";
 import formatNumber from "@/utils/formatNumber";
 import formatDate from "@/utils/formatDate";
 import { useTimeAgo } from "@/ui/others/TimeAgo";
@@ -10,6 +9,7 @@ import AttachmentsViewer from "../others/AttachmentsViewer";
 import Boost from "@/ui/modal/Menu/Boost";
 
 import RedirectMenu from "../others/RedirectMenu";
+import Tooltip from "@/ui/Tooltip";
 
 import { useTranslation } from "react-i18next";
 
@@ -44,6 +44,7 @@ type videos = {
 
 interface Attachments {
   id: string;
+  isAI: boolean;
   URL: string;
   comment?: string;
 }
@@ -165,7 +166,7 @@ export default function Post({
                 alt="Avatar"
               />
             </Link>
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col">
               <Link
                 to={author.toLowerCase()}
                 className="font-medium text-black dark:text-white hover:underline"
@@ -173,11 +174,13 @@ export default function Post({
                 {author}
               </Link>
               {type !== "Ad" && (
-                <Tooltip mouseLeaveDelay={0} title={humanReadableDate}>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline inline-block w-fit">
-                    {timeAgo}
-                  </span>
-                </Tooltip>
+                <div className="relative">
+                  <Tooltip label={humanReadableDate}>
+                    <span className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:underline inline-block w-fit">
+                      {timeAgo}
+                    </span>
+                  </Tooltip>
+                </div>
               )}
             </div>
           </div>
@@ -285,21 +288,15 @@ export default function Post({
       </main>
 
       <footer className="flex flex-col space-y-3">
-        <div className="flex justify-between items-center">
-          {type != "Ad" && (
-            <div className="flex gap-4">
-              {["Like", "Dislike", "Comment", "Boost"].map((action, i) => {
+        <div className="flex items-center justify-between">
+          {type !== "Ad" && (
+            <div className="flex items-center gap-1">
+              {["Like", "Dislike", "Comment", "Boost"].map((action) => {
                 const icons = {
                   Like: "mdi--like-outline",
                   Dislike: "mdi--dislike-outline",
                   Comment: "majesticons--comment-line",
                   Boost: "material-symbols--speed-outline",
-                };
-                const colors = {
-                  Like: "hover:text-blue-500",
-                  Dislike: "hover:text-red-500",
-                  Comment: "hover:text-cyan-500",
-                  Boost: "hover:text-orange-500",
                 };
                 const counts = {
                   Like: interactions.likes,
@@ -307,23 +304,38 @@ export default function Post({
                   Comment: interactions.comments,
                   Boost: interactions.boosts,
                 };
+                const count = counts[action as keyof typeof counts];
+
                 return (
-                  <Tooltip
-                    key={i}
-                    mouseLeaveDelay={0}
-                    title={action}
-                    placement="bottom"
-                    arrow={false}
-                  >
+                  <Tooltip key={action} label={action}>
                     <button
                       aria-label={action}
-                      onClick={() => {
-                        toggleClick(action);
-                      }}
-                      className={`flex items-center gap-1.5 ${colors[action]} transition-all duration-300 px-2 py-1 rounded-md hover:bg-[#e3e3e3] dark:hover:bg-[#121b31]`}
+                      onClick={() => toggleClick(action)}
+                      className="
+                group/btn
+                flex items-center 
+                gap-1.5 
+                px-3 py-1.5 
+                rounded-full
+                text-sm
+                text-gray-600 dark:text-gray-400
+                hover:text-purple-600 dark:hover:text-purple-400
+                hover:bg-purple-500/10 dark:hover:bg-purple-400/10
+                active:scale-95
+                transition-all duration-200
+              "
                     >
-                      <span className={`icon-[${icons[action]}] w-4 h-4`} />
-                      <span>{formatNumber(counts[action])}</span>
+                      <span
+                        className={`
+                icon-[${icons[action as keyof typeof icons]}] 
+                w-4 h-4 
+                transition-transform duration-200 
+                group-hover/btn:scale-110
+              `}
+                      />
+                      <span className="font-medium tabular-nums">
+                        {formatNumber(count)}
+                      </span>
                     </button>
                   </Tooltip>
                 );
@@ -331,23 +343,26 @@ export default function Post({
             </div>
           )}
 
-          <div className="flex gap-3">
-            {type !== "Ad" && true && (
-              <Tooltip
-                mouseLeaveDelay={0}
-                title={"Transfer Ownership"}
-                placement="bottom"
-                arrow={false}
-              >
+          {type !== "Ad" && (
+            <div className="flex items-center gap-1">
+              <Tooltip label="Transfer Ownership">
                 <button
-                  aria-label={"Transfer Ownership"}
-                  className="flex items-center gap-2 dark:hover:text-neutral-100 hover:text-neutral-800 transition-all duration-300 p-1 rounded hover:bg-[#e3e3e3] dark:hover:bg-[#121b31]"
+                  aria-label="Transfer Ownership"
+                  className="
+            p-2 
+            rounded-full
+            text-gray-400 
+            hover:text-gray-700 dark:hover:text-gray-200
+            hover:bg-gray-100 dark:hover:bg-white/5
+            active:scale-95
+            transition-all duration-200
+          "
                 >
                   <span className="icon-[mingcute--transfer-line] w-4 h-4" />
                 </button>
               </Tooltip>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {type !== "Ad" && (
@@ -356,7 +371,7 @@ export default function Post({
               comments.slice(0, 3).map((comment, index) => (
                 <div
                   key={index}
-                  className="flex flex-col items-start space-y-1 border-t border-gray-700 pt-3 pl-3 rounded transition-all duration-200"
+                  className="flex flex-col items-start space-y-1 border-t border-gray-700 pt-3 pl-3 transition-all duration-200"
                   style={{ marginLeft: `${index * 10}px` }}
                 >
                   <Link
@@ -367,12 +382,7 @@ export default function Post({
                   </Link>
                   <div className="flex justify-between items-start w-full">
                     <p>{comment.text}</p>
-                    <Tooltip
-                      mouseLeaveDelay={0}
-                      title="Reply"
-                      placement="bottom"
-                      arrow={false}
-                    >
+                    <Tooltip label="Reply">
                       <button
                         className="dark:text-white text-black hover:underline"
                         aria-label="Reply"

@@ -17,8 +17,7 @@ import FriendActivity from "@/ui/messages/FriendActivity";
 import FriendMenu from "@/ui/messages/FriendMenu";
 import SecondFriendMenu from "@/ui/messages/SecondFriendMenu";
 
-import { Tooltip } from "antd";
-
+import Tooltip from "@/ui/Tooltip";
 import PageTitle from "@/ui/others/PageTitle";
 
 interface messagesProp {
@@ -341,7 +340,7 @@ export default function Messages() {
 
       <div className="flex flex-col gap-3 justify-start items-center w-full h-screen pt-24 bg-fixed bg-cover bg-center sm:px-9">
         <div className="flex flex-row border borderColor justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-full darkerBackgroundColor">
-          <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
+          <Tooltip label={"Back"}>
             <button
               aria-label="Go Back"
               onClick={toggleBack}
@@ -434,6 +433,7 @@ export default function Messages() {
                 <div className="flex flex-row gap-3 items-center">
                   <div className="relative w-9 h-9">
                     <img
+                      draggable={false}
                       id="pfp"
                       src={selectedFriendDetails["pfp"]}
                       className="w-9 h-9 rounded-full"

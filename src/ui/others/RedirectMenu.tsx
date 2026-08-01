@@ -11,6 +11,7 @@ export default function RedirectMenu({ url, label, ...props }) {
   const { colorProperties } = useContext(ThemeContext);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isTrusted, setTrusted] = useState<boolean>(false);
+  const [isTrustOption, setTrustOption] = useState<boolean>(false);
 
   const toggleModal = () => {
     setModalOpen(true);
@@ -18,7 +19,7 @@ export default function RedirectMenu({ url, label, ...props }) {
 
   const resetTab = () => {};
   const toggleTrustedChecked = () => {
-    setTrusted(!isTrusted);
+    setTrustOption(!isTrustOption);
   };
 
   useEffect(() => {

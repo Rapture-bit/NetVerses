@@ -1,0 +1,391 @@
+Date : 2026-07-04 15:41:45
+Directory : c:\Users\Xenon\OneDrive\NetVerses
+Total : 274 files,  189248 codes, 114 comments, 2313 blanks, all 191675 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |         47 |    167,789 |          0 |         62 |    167,851 |
+| TypeScript JSX     |        114 |     16,111 |         73 |      1,605 |     17,789 |
+| JavaScript         |         78 |      3,829 |          7 |        511 |      4,347 |
+| TypeScript         |         12 |        829 |          2 |         40 |        871 |
+| PostCSS            |         12 |        443 |          1 |         85 |        529 |
+| HTML               |          4 |        213 |         30 |          4 |        247 |
+| JSON with Comments |          1 |         22 |          0 |          1 |         23 |
+| XML                |          1 |         10 |          0 |          0 |         10 |
+| Ignore             |          1 |          2 |          1 |          1 |          4 |
+| Python             |          3 |          0 |          0 |          3 |          3 |
+| Rust               |          1 |          0 |          0 |          1 |          1 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                              | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                 |        274 |    189,248 |        114 |      2,313 |    191,675 |
+| . (Files)                                                                                         |         10 |     14,385 |          5 |         16 |     14,406 |
+| backend                                                                                           |         84 |      3,837 |         33 |        505 |      4,375 |
+| backend (Files)                                                                                   |          7 |        577 |          1 |         57 |        635 |
+| backend\API                                                                                       |         25 |        937 |          4 |        176 |      1,117 |
+| backend\API (Files)                                                                               |          4 |         60 |          0 |          9 |         69 |
+| backend\API\auth                                                                                  |          5 |        132 |          0 |         26 |        158 |
+| backend\API\auth (Files)                                                                          |          4 |        109 |          0 |         21 |        130 |
+| backend\API\auth\link                                                                             |          1 |         23 |          0 |          5 |         28 |
+| backend\API\feed                                                                                  |          3 |         46 |          0 |         10 |         56 |
+| backend\API\otp                                                                                   |          3 |        355 |          1 |         59 |        415 |
+| backend\API\otp (Files)                                                                           |          2 |        355 |          1 |         58 |        414 |
+| backend\API\otp\login                                                                             |          1 |          0 |          0 |          1 |          1 |
+| backend\API\security                                                                              |          2 |         65 |          3 |         18 |         86 |
+| backend\API\services                                                                              |          1 |         30 |          0 |          3 |         33 |
+| backend\API\user                                                                                  |          4 |        157 |          0 |         33 |        190 |
+| backend\API\user (Files)                                                                          |          3 |        134 |          0 |         28 |        162 |
+| backend\API\user\self                                                                             |          1 |         23 |          0 |          5 |         28 |
+| backend\API\users                                                                                 |          3 |         92 |          0 |         18 |        110 |
+| backend\assets                                                                                    |          1 |          7 |          0 |          1 |          8 |
+| backend\assets\scripts                                                                            |          1 |          7 |          0 |          1 |          8 |
+| backend\auth                                                                                      |          4 |         77 |          0 |         20 |         97 |
+| backend\constants                                                                                 |          3 |         26 |          0 |          4 |         30 |
+| backend\database                                                                                  |         21 |      1,274 |          1 |         96 |      1,371 |
+| backend\database (Files)                                                                          |          2 |         33 |          0 |         12 |         45 |
+| backend\database\config                                                                           |          1 |         13 |          1 |          3 |         17 |
+| backend\database\models                                                                           |         18 |      1,228 |          0 |         81 |      1,309 |
+| backend\documents                                                                                 |          1 |          9 |          0 |          1 |         10 |
+| backend\middlewares                                                                               |          9 |        458 |          0 |        114 |        572 |
+| backend\radio_channels                                                                            |          5 |         11 |          0 |          5 |         16 |
+| backend\routers                                                                                   |          2 |         57 |          0 |         18 |         75 |
+| backend\services                                                                                  |          2 |        238 |          0 |          9 |        247 |
+| backend\templates                                                                                 |          2 |        166 |         27 |          2 |        195 |
+| backend\templates\email                                                                           |          2 |        166 |         27 |          2 |        195 |
+| backend\utils                                                                                     |          2 |          0 |          0 |          2 |          2 |
+| public                                                                                            |          9 |      3,653 |          0 |          6 |      3,659 |
+| public (Files)                                                                                    |          1 |         10 |          0 |          0 |         10 |
+| public\models                                                                                     |          8 |      3,643 |          0 |          6 |      3,649 |
+| src                                                                                               |        171 |    167,373 |         76 |      1,786 |    169,235 |
+| src (Files)                                                                                       |          2 |        266 |          2 |         37 |        305 |
+| src\constants                                                                                     |          1 |        422 |          0 |          1 |        423 |
+| src\context                                                                                       |          5 |        236 |          0 |         43 |        279 |
+| src\fonts                                                                                         |          7 |         28 |          0 |         14 |         42 |
+| src\hooks                                                                                         |          1 |         39 |          0 |         13 |         52 |
+| src\layouts                                                                                       |          2 |        145 |          0 |         24 |        169 |
+| src\libraries                                                                                     |         31 |      1,330 |          2 |         64 |      1,396 |
+| src\libraries (Files)                                                                             |          1 |        133 |          1 |         12 |        146 |
+| src\libraries\i18n                                                                                |         30 |      1,197 |          1 |         52 |      1,250 |
+| src\libraries\i18n (Files)                                                                        |          1 |         31 |          1 |          5 |         37 |
+| src\libraries\i18n\translations                                                                   |         29 |      1,166 |          0 |         47 |      1,213 |
+| src\pages                                                                                         |         13 |      3,608 |          3 |        264 |      3,875 |
+| src\pages (Files)                                                                                 |         11 |      3,304 |          2 |        235 |      3,541 |
+| src\pages\my                                                                                      |          2 |        304 |          1 |         29 |        334 |
+| src\styles                                                                                        |          5 |        415 |          1 |         71 |        487 |
+| src\subdomains                                                                                    |          7 |        315 |          0 |         28 |        343 |
+| src\subdomains\help                                                                               |          7 |        315 |          0 |         28 |        343 |
+| src\types                                                                                         |          1 |          8 |          0 |          2 |         10 |
+| src\ui                                                                                            |         91 |    160,479 |         68 |      1,209 |    161,756 |
+| src\ui (Files)                                                                                    |          7 |        432 |          0 |         46 |        478 |
+| src\ui\EmojiMenu                                                                                  |          5 |     76,085 |          0 |        111 |     76,196 |
+| src\ui\EmojiMenu (Files)                                                                          |          1 |        244 |          0 |         43 |        287 |
+| src\ui\EmojiMenu\components                                                                       |          3 |        427 |          0 |         67 |        494 |
+| src\ui\EmojiMenu\data                                                                             |          1 |     75,414 |          0 |          1 |     75,415 |
+| src\ui\GIFMenu                                                                                    |          2 |        357 |          1 |         25 |        383 |
+| src\ui\GIFMenu (Files)                                                                            |          1 |        357 |          1 |         24 |        382 |
+| src\ui\GIFMenu\data                                                                               |          1 |          0 |          0 |          1 |          1 |
+| src\ui\image                                                                                      |          1 |          0 |          0 |          1 |          1 |
+| src\ui\input                                                                                      |          8 |     74,044 |          0 |         95 |     74,139 |
+| src\ui\input (Files)                                                                              |          7 |        662 |          0 |         94 |        756 |
+| src\ui\input\data                                                                                 |          1 |     73,382 |          0 |          1 |     73,383 |
+| src\ui\messages                                                                                   |          5 |        285 |          0 |         30 |        315 |
+| src\ui\modal                                                                                      |         18 |      3,834 |         21 |        371 |      4,226 |
+| src\ui\modal (Files)                                                                              |          6 |      2,611 |         21 |        256 |      2,888 |
+| src\ui\modal\BottomMenu                                                                           |          2 |        297 |          0 |         36 |        333 |
+| src\ui\modal\Menu                                                                                 |         10 |        926 |          0 |         79 |      1,005 |
+| src\ui\navigation                                                                                 |          7 |      1,181 |         21 |        142 |      1,344 |
+| src\ui\others                                                                                     |         13 |      1,392 |          1 |        165 |      1,558 |
+| src\ui\others (Files)                                                                             |         12 |      1,345 |          1 |        159 |      1,505 |
+| src\ui\others\document                                                                            |          1 |         47 |          0 |          6 |         53 |
+| src\ui\post                                                                                       |         14 |      1,673 |          1 |        140 |      1,814 |
+| src\ui\post (Files)                                                                               |          8 |      1,635 |          1 |        129 |      1,765 |
+| src\ui\post\3D                                                                                    |          6 |         38 |          0 |         11 |         49 |
+| src\ui\profile                                                                                    |         11 |      1,196 |         23 |         83 |      1,302 |
+| src\utils                                                                                         |          5 |         82 |          0 |         16 |         98 |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                          | language           | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Users\Xenon\OneDrive\NetVerses\.prettierignore                                                 | Ignore             |          2 |          1 |          1 |          4 |
+| c:\Users\Xenon\OneDrive\NetVerses\.prettierrc                                                     | JSON               |          1 |          0 |          1 |          2 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\link\link-acc.js                               | JavaScript         |         23 |          0 |          5 |         28 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\login.js                                       | JavaScript         |         13 |          0 |          2 |         15 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\logout.js                                      | JavaScript         |          6 |          0 |          1 |          7 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\rotate-token.js                                | JavaScript         |         73 |          0 |         14 |         87 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\status.js                                      | JavaScript         |         17 |          0 |          4 |         21 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\checkAuth.js                                        | JavaScript         |          1 |          0 |          1 |          2 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\checkRegion.js                                      | JavaScript         |         44 |          0 |          5 |         49 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\feed\get-feed.js                                    | JavaScript         |         46 |          0 |          8 |         54 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\feed\get-interests.js                               | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\feed\retrieveLocalFeed.js                           | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\otp\login\otp-request.js                            | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\otp\otp-confirm.js                                  | JavaScript         |        209 |          0 |         30 |        239 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\otp\otp-request.js                                  | JavaScript         |        146 |          1 |         28 |        175 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\safeSerialize.js                                    | JavaScript         |          9 |          0 |          1 |         10 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\security\get-csrf.js                                | JavaScript         |         36 |          0 |         10 |         46 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\security\validateSession.js                         | JavaScript         |         29 |          3 |          8 |         40 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\services\translateVerse.js                          | JavaScript         |         30 |          0 |          3 |         33 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\tokenUtils.js                                       | JavaScript         |          6 |          0 |          2 |          8 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\user\avatarUpload.js                                | JavaScript         |         55 |          0 |         13 |         68 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\user\self\getInterests.js                           | JavaScript         |         23 |          0 |          5 |         28 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\user\syncInterests.js                               | JavaScript         |         37 |          0 |          9 |         46 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\user\updateProfile.js                               | JavaScript         |         42 |          0 |          6 |         48 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\users\checkEmail.js                                 | JavaScript         |         24 |          0 |          6 |         30 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\users\checkUsername.js                              | JavaScript         |         52 |          0 |          8 |         60 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\API\users\user.js                                       | JavaScript         |         16 |          0 |          4 |         20 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\AssetsRoute.js                                          | JavaScript         |         56 |          0 |          2 |         58 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\assets\scripts\ga.js                                    | JavaScript         |          7 |          0 |          1 |          8 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\auth\HandleJWT.js                                       | JavaScript         |         11 |          0 |          3 |         14 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\auth\checkAuth.js                                       | JavaScript         |         56 |          0 |         12 |         68 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\auth\detailsGenerator.js                                | JavaScript         |          9 |          0 |          4 |         13 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\auth\userTracking.js                                    | JavaScript         |          1 |          0 |          1 |          2 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\blacklisted-phones.json                                 | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\constants\ElevatedPrivilegesIPs.json                    | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\constants\blacklistedCountries.js                       | JavaScript         |         14 |          0 |          2 |         16 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\constants\reservedPaths.json                            | JSON               |         12 |          0 |          1 |         13 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\config\database.js                             | JavaScript         |         13 |          1 |          3 |         17 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\index.js                                       | JavaScript         |         11 |          0 |          3 |         14 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Boosts.js                               | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Channels.js                             | JavaScript         |        176 |          0 |         10 |        186 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Clubs.js                                | JavaScript         |        165 |          0 |         10 |        175 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\DataConsentRecord.js                    | JavaScript         |         26 |          0 |          4 |         30 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\DigitalCarbonCredits.js                 | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Feed.js                                 | JavaScript         |        253 |          0 |          8 |        261 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\OTP.js                                  | JavaScript         |         56 |          0 |          3 |         59 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Session.js                              | JavaScript         |         32 |          0 |          3 |         35 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Subscriptions.js                        | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\User.js                                 | JavaScript         |        387 |          0 |         18 |        405 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\UserActions.js                          | JavaScript         |         77 |          0 |          6 |         83 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\UserConnections.js                      | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\UserCredits.js                          | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\digitalReputation.js                    | JavaScript         |         46 |          0 |          5 |         51 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\digitalSignatureParties.js              | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\legalDocuments.js                       | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\legalSignature.js                       | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\userPreferenceData.js                   | JavaScript         |         10 |          0 |          6 |         16 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\database\sync.js                                        | JavaScript         |         22 |          0 |          9 |         31 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\documents\Invoice_template.html                         | HTML               |          9 |          0 |          1 |         10 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\antiddos_middleware.js                      | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\api_middleware.js                           | JavaScript         |        129 |          0 |         29 |        158 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\assets_middleware.js                        | JavaScript         |         53 |          0 |         15 |         68 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\auth_middleware.js                          | JavaScript         |        100 |          0 |         20 |        120 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\content_middleware.js                       | JavaScript         |         57 |          0 |          9 |         66 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\csrf_middleware.js                          | JavaScript         |         44 |          0 |         14 |         58 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\rate_limiter.js                             | JavaScript         |         36 |          0 |         10 |         46 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\routeGuardMiddleware.js                     | JavaScript         |         39 |          0 |         15 |         54 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\tracking_middleware.js                      | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\portforwarding.js                                       | JavaScript         |         56 |          0 |          8 |         64 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\decoder.js                               | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\ollama.py                                | Python             |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\radio_collect.js                         | JavaScript         |         11 |          0 |          1 |         12 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\recordAudioChunks.py                     | Python             |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\speech_to_text.py                        | Python             |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\route.js                                                | JavaScript         |        138 |          0 |          2 |        140 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\routers\selfRouter.js                                   | JavaScript         |         49 |          0 |         14 |         63 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\routers\userRouter.js                                   | JavaScript         |          8 |          0 |          4 |         12 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\server.js                                               | JavaScript         |        324 |          1 |         43 |        368 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\server.rs                                               | Rust               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\servers_list.json                                       | JSON               |          3 |          0 |          0 |          3 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\services\sendEmail.js                                   | JavaScript         |         21 |          0 |          3 |         24 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\services\sendVerification.js                            | JavaScript         |        217 |          0 |          6 |        223 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\templates\email\OTPemail.html                           | HTML               |        157 |         27 |          1 |        185 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\templates\email\emailAdvertising.html                   | HTML               |          9 |          0 |          1 |         10 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\utils\Nuxt.js                                           | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\backend\utils\renderHTML.js                                     | JavaScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\eslint.config.js                                                | JavaScript         |         22 |          0 |          2 |         24 |
+| c:\Users\Xenon\OneDrive\NetVerses\index.html                                                      | HTML               |         38 |          3 |          1 |         42 |
+| c:\Users\Xenon\OneDrive\NetVerses\package-lock.json                                               | JSON               |     14,040 |          0 |          1 |     14,041 |
+| c:\Users\Xenon\OneDrive\NetVerses\package.json                                                    | JSON               |        128 |          0 |          1 |        129 |
+| c:\Users\Xenon\OneDrive\NetVerses\public\models\age_gender_model-weights_manifest.json            | JSON               |        410 |          0 |          1 |        411 |
+| c:\Users\Xenon\OneDrive\NetVerses\public\models\face_expression_model-weights_manifest.json       | JSON               |        344 |          0 |          1 |        345 |
+| c:\Users\Xenon\OneDrive\NetVerses\public\models\face_landmark_68_model-weights_manifest.json      | JSON               |          1 |          0 |          0 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\public\models\face_landmark_68_tiny_model-weights_manifest.json | JSON               |          1 |          0 |          0 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\public\models\face_recognition_model-weights_manifest.json      | JSON               |      1,137 |          0 |          1 |      1,138 |
+| c:\Users\Xenon\OneDrive\NetVerses\public\models\mtcnn_model-weights_manifest.json                 | JSON               |        105 |          0 |          1 |        106 |
+| c:\Users\Xenon\OneDrive\NetVerses\public\models\ssd_mobilenetv1_model-weights_manifest.json       | JSON               |      1,448 |          0 |          1 |      1,449 |
+| c:\Users\Xenon\OneDrive\NetVerses\public\models\tiny_face_detector_model-weights_manifest.json    | JSON               |        197 |          0 |          1 |        198 |
+| c:\Users\Xenon\OneDrive\NetVerses\public\sitemap.xml                                              | XML                |         10 |          0 |          0 |         10 |
+| c:\Users\Xenon\OneDrive\NetVerses\sendStatus.js                                                   | JavaScript         |         31 |          0 |          3 |         34 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\SubdomainDivider.tsx                                        | TypeScript JSX     |        210 |          2 |         22 |        234 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\constants\emojiMap.ts                                       | TypeScript         |        422 |          0 |          1 |        423 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\context\CSRFStore.tsx                                       | TypeScript JSX     |         25 |          0 |          7 |         32 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\context\LocaleContext.tsx                                   | TypeScript JSX     |         36 |          0 |         10 |         46 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\context\Nvi18nContext.tsx                                   | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\context\ThemeContext.tsx                                    | TypeScript JSX     |         72 |          0 |         14 |         86 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\context\UserContext.tsx                                     | TypeScript JSX     |        103 |          0 |         11 |        114 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\fonts\inter.css                                             | PostCSS            |          4 |          0 |          2 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\fonts\jost.css                                              | PostCSS            |          4 |          0 |          2 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\fonts\lato.css                                              | PostCSS            |          4 |          0 |          2 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\fonts\open-sans.css                                         | PostCSS            |          4 |          0 |          2 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\fonts\poppins.css                                           | PostCSS            |          4 |          0 |          2 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\fonts\roboto.css                                            | PostCSS            |          4 |          0 |          2 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\fonts\rubik.css                                             | PostCSS            |          4 |          0 |          2 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\hooks\useDeviceType.tsx                                     | TypeScript JSX     |         39 |          0 |         13 |         52 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\index.tsx                                                   | TypeScript JSX     |         56 |          0 |         15 |         71 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\layouts\DefaultLayout.tsx                                   | TypeScript JSX     |        133 |          0 |         22 |        155 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\layouts\DocumentationLayout.tsx                             | TypeScript JSX     |         12 |          0 |          2 |         14 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\Navi18n.ts                                        | TypeScript         |        133 |          1 |         12 |        146 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\i18n.ts                                      | TypeScript         |         31 |          1 |          5 |         37 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ar-AR.json                      | JSON               |         97 |          0 |          1 |         98 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ary-MA.json                     | JSON               |        133 |          0 |          1 |        134 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\bn-BD.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\de-DE.json                      | JSON               |         49 |          0 |          1 |         50 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\el-GR.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\en-US.json                      | JSON               |        264 |          0 |          1 |        265 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\es-ES.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\fa-IR.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\fil-PH.json                     | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\fr-FR.json                      | JSON               |        255 |          0 |          1 |        256 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\he-IL.json                      | JSON               |         49 |          0 |          1 |         50 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\hi-IN.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\it-IT.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ja-JP.json                      | JSON               |         94 |          0 |          1 |         95 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ko-KR.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ms-MY.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\pl-PL.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\pt-BR.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\pt-PT.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ro-RO.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ru-RU.json                      | JSON               |         49 |          0 |          1 |         50 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\sv-SE.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\sw-KE.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\th-TH.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\tr-TR.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\tzm-DZ-MA.json                  | JSON               |        127 |          0 |         19 |        146 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\uk-UA.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\vi-VN.json                      | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\zh-CN.json                      | JSON               |         49 |          0 |          1 |         50 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\connect-acc.tsx                                       | TypeScript JSX     |         23 |          0 |          3 |         26 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\explore.tsx                                           | TypeScript JSX     |         74 |          0 |          9 |         83 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\home.tsx                                              | TypeScript JSX     |        632 |          0 |         29 |        661 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\landingpage.tsx                                       | TypeScript JSX     |         87 |          0 |          9 |         96 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\messages.tsx                                          | TypeScript JSX     |        726 |          0 |         59 |        785 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\my\clubs.tsx                                          | TypeScript JSX     |        266 |          1 |         23 |        290 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\my\settings.tsx                                       | TypeScript JSX     |         38 |          0 |          6 |         44 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\pagenotfound.tsx                                      | TypeScript JSX     |         57 |          0 |          7 |         64 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\postpage.tsx                                          | TypeScript JSX     |        189 |          0 |          6 |        195 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\profilepage.tsx                                       | TypeScript JSX     |         94 |          0 |          8 |        102 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\recover-pass.tsx                                      | TypeScript JSX     |        127 |          0 |         11 |        138 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\starplus.tsx                                          | TypeScript JSX     |         43 |          0 |          6 |         49 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\pages\usersettings.tsx                                      | TypeScript JSX     |      1,252 |          2 |         88 |      1,342 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\styles\accessories.css                                      | PostCSS            |         18 |          1 |          1 |         20 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\styles\fade.css                                             | PostCSS            |         28 |          0 |          2 |         30 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\styles\global.css                                           | PostCSS            |        140 |          0 |         20 |        160 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\styles\tailwind.css                                         | PostCSS            |          2 |          0 |          1 |          3 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\styles\theme.css                                            | PostCSS            |        227 |          0 |         47 |        274 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\child-sharing-policy.tsx                    | TypeScript JSX     |         55 |          0 |          7 |         62 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\child-sharing-warning.tsx                   | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\cookiepolicy.tsx                            | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\landing.tsx                                 | TypeScript JSX     |         13 |          0 |          3 |         16 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\privacypolicy.tsx                           | TypeScript JSX     |        242 |          0 |         13 |        255 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\sharing-safety.tsx                          | TypeScript JSX     |          1 |          0 |          1 |          2 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\tos.tsx                                     | TypeScript JSX     |          4 |          0 |          2 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\types\global.d.ts                                           | TypeScript         |          8 |          0 |          2 |         10 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\ChannelCard.tsx                                          | TypeScript JSX     |         56 |          0 |          6 |         62 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\ClubCard.tsx                                             | TypeScript JSX     |        177 |          0 |          9 |        186 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\EmojiMenu.tsx                                  | TypeScript JSX     |        244 |          0 |         43 |        287 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\components\EmojiCategory.tsx                   | TypeScript JSX     |        286 |          0 |         46 |        332 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\components\FavoritesCategory.tsx               | TypeScript JSX     |          4 |          0 |          2 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\components\ToneMenu.tsx                        | TypeScript JSX     |        137 |          0 |         19 |        156 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\data\emojisList.json                           | JSON               |     75,414 |          0 |          1 |     75,415 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\GIFMenu\GIFMenu.tsx                                      | TypeScript JSX     |        357 |          1 |         24 |        382 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\GIFMenu\data\gifsList.json                               | JSON               |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\RadioCard.tsx                                            | TypeScript JSX     |         89 |          0 |         11 |        100 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\RadioList.tsx                                            | TypeScript JSX     |          1 |          0 |          1 |          2 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\Tooltip.tsx                                              | TypeScript JSX     |         68 |          0 |         13 |         81 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\TooltipHelp.tsx                                          | TypeScript JSX     |         26 |          0 |          4 |         30 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\image\AdvancedTextEditor.tsx                             | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\Dropdown.tsx                                       | TypeScript JSX     |        200 |          0 |         18 |        218 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\OTP.tsx                                            | TypeScript JSX     |        111 |          0 |         25 |        136 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\Primary.tsx                                        | TypeScript JSX     |         98 |          0 |         15 |        113 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\SearchBar.tsx                                      | TypeScript JSX     |         26 |          0 |          5 |         31 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\SecondaryDropdown.tsx                              | TypeScript JSX     |        121 |          0 |         15 |        136 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\TextArea.tsx                                       | TypeScript JSX     |         62 |          0 |         12 |         74 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\data\careersDatabase.json                          | JSON               |     73,382 |          0 |          1 |     73,383 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\selectMenu.tsx                                     | TypeScript JSX     |         44 |          0 |          4 |         48 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\FriendActivity.tsx                              | TypeScript JSX     |         39 |          0 |          4 |         43 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\FriendMenu.tsx                                  | TypeScript JSX     |         30 |          0 |          4 |         34 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\FriendMessage.tsx                               | TypeScript JSX     |         79 |          0 |          8 |         87 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\FriendProfile.tsx                               | TypeScript JSX     |        107 |          0 |          8 |        115 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\SecondFriendMenu.tsx                            | TypeScript JSX     |         30 |          0 |          6 |         36 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\BottomMenu\CookiesConsent.tsx                      | TypeScript JSX     |        137 |          0 |         16 |        153 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\BottomMenu\LocaleMenu.tsx                          | TypeScript JSX     |        160 |          0 |         20 |        180 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\EmailChange.tsx                                    | TypeScript JSX     |        221 |          0 |         21 |        242 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Advanced.tsx                                  | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Boost.tsx                                     | TypeScript JSX     |        104 |          0 |          8 |        112 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\CustomCookies.tsx                             | TypeScript JSX     |        169 |          0 |         14 |        183 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\EditProfileMenu.tsx                           | TypeScript JSX     |         44 |          0 |          6 |         50 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Ephenemeral.tsx                               | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Media.tsx                                     | TypeScript JSX     |         66 |          0 |          5 |         71 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\TagsModal.tsx                                 | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\VerseMenu.tsx                                 | TypeScript JSX     |        282 |          0 |         19 |        301 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Visibility.tsx                                | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\ZenonChat.tsx                                 | TypeScript JSX     |        261 |          0 |         23 |        284 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Primary.tsx                                        | TypeScript JSX     |        200 |          0 |         15 |        215 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\ProfileCustomization.tsx                           | TypeScript JSX     |        787 |          0 |         85 |        872 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\QRCodeGenerator.js                                 | JavaScript         |         28 |          0 |          6 |         34 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\SignIn.tsx                                         | TypeScript JSX     |        277 |         21 |         34 |        332 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\SignUp.tsx                                         | TypeScript JSX     |      1,098 |          0 |         95 |      1,193 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\BottomBar.tsx                                 | TypeScript JSX     |         84 |          0 |         18 |        102 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\Footer.tsx                                    | TypeScript JSX     |         36 |          0 |          2 |         38 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\LeftBar.tsx                                   | TypeScript JSX     |        394 |          1 |         41 |        436 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\PortableChat.tsx                              | TypeScript JSX     |        153 |          0 |         15 |        168 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\RightBar.tsx                                  | TypeScript JSX     |        300 |          1 |         34 |        335 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\Tooltip.tsx                                   | TypeScript JSX     |         64 |          0 |         12 |         76 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\TopBar.tsx                                    | TypeScript JSX     |        150 |         19 |         20 |        189 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\AchievementList.tsx                               | TypeScript JSX     |         47 |          0 |          6 |         53 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\AttachmentFocus.tsx                               | TypeScript JSX     |        494 |          1 |         44 |        539 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\AttachmentsViewer.tsx                             | TypeScript JSX     |        340 |          0 |         45 |        385 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\Feature.tsx                                       | TypeScript JSX     |         36 |          0 |          3 |         39 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\FeaturesList.tsx                                  | TypeScript JSX     |         50 |          0 |          4 |         54 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\FeedSelection.tsx                                 | TypeScript JSX     |         67 |          0 |          8 |         75 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\HumanReadableDate.tsx                             | TypeScript JSX     |         15 |          0 |          8 |         23 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\Loading.tsx                                       | TypeScript JSX     |         21 |          0 |          3 |         24 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\PageTitle.tsx                                     | TypeScript JSX     |          7 |          0 |          3 |         10 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\RedirectMenu.tsx                                  | TypeScript JSX     |        150 |          0 |         16 |        166 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\TimeAgo.tsx                                       | TypeScript JSX     |         35 |          0 |         12 |         47 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\TodaySummary.tsx                                  | TypeScript JSX     |         83 |          0 |          7 |         90 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\document\DocTab.tsx                               | TypeScript JSX     |         47 |          0 |          6 |         53 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\postColors.ts                                            | TypeScript         |         15 |          0 |          2 |         17 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\3DModelAttachment.tsx                            | TypeScript JSX     |         37 |          0 |          6 |         43 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\ThreeDimensionalPost.tsx                         | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\ThreeDimensionalProfile.tsx                      | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\embedModel.tsx                                   | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\process3DModel.ts                                | TypeScript         |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\upload3DModel.tsx                                | TypeScript JSX     |          1 |          0 |          1 |          2 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\Articles.tsx                                        | TypeScript JSX     |        259 |          0 |         25 |        284 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\BottomPageComponent.tsx                             | TypeScript JSX     |         25 |          0 |          4 |         29 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\Comment.tsx                                         | TypeScript JSX     |        224 |          0 |         14 |        238 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\FocusedPost.tsx                                     | TypeScript JSX     |        345 |          0 |         22 |        367 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\NSFW-flag.tsx                                       | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\Post.tsx                                            | TypeScript JSX     |        393 |          0 |         28 |        421 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\Verse.tsx                                           | TypeScript JSX     |        389 |          1 |         34 |        424 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\facePlugin.tsx                                      | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\3DProfilePreview.tsx                             | TypeScript JSX     |          1 |          0 |          1 |          2 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\AchievementsList.tsx                             | TypeScript JSX     |         93 |          0 |          2 |         95 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\BadgesList.tsx                                   | TypeScript JSX     |         68 |          0 |          3 |         71 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\ConnectionsMap.tsx                               | TypeScript JSX     |          1 |          0 |          1 |          2 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\ContentPreview.tsx                               | TypeScript JSX     |        385 |          0 |         28 |        413 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\ProfilePreview.tsx                               | TypeScript JSX     |        352 |         22 |         27 |        401 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\Pronouns.tsx                                     | TypeScript JSX     |         27 |          1 |          4 |         32 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\StatsTab.tsx                                     | TypeScript JSX     |         53 |          0 |          3 |         56 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\TrustLayersConnections.tsx                       | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\ZodiacSign.tsx                                   | TypeScript JSX     |         78 |          0 |         12 |         90 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\profileColorsMap.ts                              | TypeScript         |        138 |          0 |          1 |        139 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\utils\fetchPageWithCSRF.ts                                  | TypeScript         |         30 |          0 |          5 |         35 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\utils\formatDate.ts                                         | TypeScript         |         10 |          0 |          5 |         15 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\utils\formatNumber.ts                                       | TypeScript         |         12 |          0 |          1 |         13 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\utils\getCssVariable.ts                                     | TypeScript         |          5 |          0 |          1 |          6 |
+| c:\Users\Xenon\OneDrive\NetVerses\src\utils\shadesGenerator.ts                                    | TypeScript         |         25 |          0 |          4 |         29 |
+| c:\Users\Xenon\OneDrive\NetVerses\tailwind.config.js                                              | JavaScript         |         61 |          1 |          2 |         64 |
+| c:\Users\Xenon\OneDrive\NetVerses\tsconfig.json                                                   | JSON with Comments |         22 |          0 |          1 |         23 |
+| c:\Users\Xenon\OneDrive\NetVerses\vite.config.js                                                  | JavaScript         |         40 |          0 |          3 |         43 |
+| Total                                                                                             |                    |    189,248 |        114 |      2,313 |    191,675 |
++---------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

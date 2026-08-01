@@ -33,6 +33,7 @@ export default async function assetsMiddleware(req, res, next) {
     matchRoute(fullPath, element.urlPath),
   );
 
+  if (fullPath.startsWith("/u/")) return next();
   if (
     hostname === "cdn.netverses.com" &&
     (!matchingRoute || fullPath === "/" || fullPath === "")

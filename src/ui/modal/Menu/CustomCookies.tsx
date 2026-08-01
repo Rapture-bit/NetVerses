@@ -3,6 +3,7 @@ import PrimaryModal from "@/ui/modal/Primary";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button, ConfigProvider, Switch } from "antd";
 
+import { useTranslation } from "react-i18next";
 import { ThemeContext } from "@/context/ThemeContext";
 
 interface CustomCookiesProps {
@@ -19,6 +20,7 @@ export default function CustomCookies({
   setConsentedCookiesList,
   consentedCookiesList,
 }: CustomCookiesProps) {
+  const { t } = useTranslation();
   const findElement = (cookieName: string): boolean => {
     return consentedCookiesList.includes(cookieName);
   };
@@ -93,19 +95,19 @@ export default function CustomCookies({
         width={512}
         confirmClose={true}
         onClosed={resetTab}
-        title="Customize Cookies"
+        title={t("cookies_tab.title")}
         noConfirmationDialog={true}
         open={visible}
         setIsOpen={setIsOpen}
         footer={
           <div className="flex flex-row gap-3">
             <Button
-              aria-label="Save Preferences"
+              aria-label={t("cookies_tab.savePreferences")}
               onClick={onSave}
               type="primary"
               className="p-2 bg-transparent bg-violet-900 !border-violet-900 mt-2 hover:!bg-opacity-85 px-8 rounded-lg"
             >
-              Save
+              {t("cookies_tab.savePreferences")}
             </Button>
           </div>
         }
@@ -125,22 +127,21 @@ export default function CustomCookies({
                   <div className="flex flex-col space-y-1">
                     <div className="flex justify-between items-center pl-0 pb-0 p-3">
                       <span className="text-lg font-semibold">
-                        Necessary Cookies
+                        {t("cookies_tab.essential_cookies.title")}
                       </span>
                       <span className="text-xs bg-red-600 text-white rounded-md py-1 px-2">
-                        Required
+                        {t("cookies_tab.requiredLabel")}
                       </span>
                     </div>
                     <span>
-                      These cookies are essential for the basic functionalities
-                      of the platform.
+                      {t("cookies_tab.essential_cookies.description")}
                     </span>
                   </div>
 
                   <div className="flex flex-col space-y-1">
                     <div className="flex justify-between items-center pl-0 pb-0 p-3">
                       <span className="text-lg font-semibold">
-                        Functional Cookies
+                        {t("cookies_tab.analytics_cookies.title")}
                       </span>
                       <div className="py-1 px-2">
                         <Switch
@@ -150,15 +151,14 @@ export default function CustomCookies({
                       </div>
                     </div>
                     <span>
-                      These cookies enhance user experience and functionality on
-                      the platform.
+                      {t("cookies_tab.analytics_cookies.description")}
                     </span>
                   </div>
 
                   <div className="flex flex-col space-y-1">
                     <div className="flex justify-between items-center pl-0 pb-0 p-3">
                       <span className="text-lg font-semibold">
-                        Analytics & Advertising Cookies
+                        {t("cookies_tab.marketing_cookies.title")}
                       </span>
                       <div className="py-1 px-2">
                         <Switch
@@ -168,8 +168,7 @@ export default function CustomCookies({
                       </div>
                     </div>
                     <span>
-                      These cookies help us understand user behavior and provide
-                      personalized ads.
+                      {t("cookies_tab.marketing_cookies.description")}
                     </span>
                   </div>
                 </div>

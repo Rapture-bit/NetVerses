@@ -13,7 +13,29 @@
     "Password": "Password",
     "learnmore": "Learn more",
     "showmore": "Show more",
-    "got-it": "Got it"
+    "got-it": "Got it",
+    "cancel": "Cancel",
+    "posts": "Posts",
+    "followers": "Followers",
+    "following": "Following",
+    "OK": "OK",
+    "Yes": "Yes",
+    "No": "No",
+    "unavailable_page": "This profile is unavailable. It may have been deleted, or the user may have restricted access to their profile.",
+    "readmore": "Read more",
+    "inquiries": "Optional questions to personalize your experience",
+    "inquiries_description": "These questions help us learn more about you and provide personalized recommendations, while avoiding the collection of personal data.",
+    "report": "Report a problem with this article",
+    "questions": {
+      "was_this_article_useful": "Was this article useful?",
+      "did_you_like_this_article": "Did you like this article?",
+      "do_you_think_this_article_is misleading": "Do you think this article is misleading?",
+      "does_this_content_match_your_interests": "Does this content match your interests?"
+    }
+  },
+  "PrimaryModal": {
+    "closeTabQuestion": "Are you sure you wish to close this tab? Any unsaved progress will be lost.",
+    "closeTabTitle": "Close Tab"
   },
   "input": {
     "versesInput": "Share your updates with the universe",
@@ -35,6 +57,7 @@
       "messages": "Messages",
       "clubs": "Clubs",
       "settings": "Settings",
+      "channels": "Channels",
       "starplus": "StarPlus"
     },
     "sortLabel": "Sort by: ",
@@ -89,10 +112,89 @@
   "privacyPage": {
     "Effective": "Effective:"
   },
+  "rightBar": {
+    "search_bar": "Type your search..."
+  },
+  "profileCustomization": {
+    "gettingReady": "We're getting things ready for you!",
+    "tabOneTitle": "Profile Customization",
+    "welcomeWord": "Welcome",
+    "avatarOptionsDescription": "Choose a profile image from our options or upload your own for a personal touch.",
+    "customAvatarUpload": "Use Your Own Profile Image",
+    "size": "Size: 500x500 pixels",
+    "saving": "Saving your preferences...",
+    "tabTwo": {
+      "description": "To finalize this customization process, we need some additional information. You can also change these later in your profile settings.",
+      "displayname": "Display Name",
+      "jobtitle": "Job Title (Optional)",
+      "zodiacsign": "Select Your Zodiac Sign (Optional)",
+      "pronouns": "Select Your Pronouns (Optional)",
+      "errors": {
+        "displayNameTooShort": "The display name must be at least 3 characters long.",
+        "displayNameInvalidChars": "The display name contains invalid characters. It can only contain letters, numbers, hyphens, or underscores."
+      }
+    },
+    "tabThree": {
+      "title": "Choose Your Interests",
+      "description": "Select up to 8 interests to personalize your experience.",
+      "selectedWord": "selected"
+    },
+    "confirmation": {
+      "title": "Account Created Successfully!",
+      "description": "Your profile is now customized and ready to use. Please wait while we redirect you to your feed."
+    }
+  },
+  "pronouns": {
+    "hehim": "He/Him",
+    "sheher": "She/Her",
+    "theythem": "They/Them",
+    "notspecified": "Prefers not to specify"
+  },
+  "zodiacSigns": {
+    "aries": "Aries",
+    "taurus": "Taurus",
+    "gemini": "Gemini",
+    "cancer": "Cancer",
+    "leo": "Leo",
+    "virgo": "Virgo",
+    "libra": "Libra",
+    "scorpio": "Scorpio",
+    "sagittarius": "Sagittarius",
+    "capricorn": "Capricorn",
+    "aquarius": "Aquarius",
+    "pisces": "Pisces",
+    "notspecified": "Prefers not to specify"
+  },
   "cookiesConsent": {
     "title": "uses cookies.",
+    "customize": "Customize",
+    "accept": "Accept All",
     "description": "Our website uses cookies and similar tracking technologies to enhance your browsing experience, ensure the functionality of our services, and provide personalized content and recommendations.",
     "second_description": "Cookies also help us analyze site traffic, understand user behaviour, and improve our products and services. To learn more about how we handle your data and your rights, please visit our "
+  },
+  "cookies_tab": {
+    "title": "Customize Cookies",
+    "essential_cookies": {
+      "title": "Essential Cookies",
+      "description": "These cookies are essential for the basic functionalities of the platform."
+    },
+    "analytics_cookies": {
+      "title": "Functional Cookies",
+      "description": "These cookies enhance user experience and functionality on the platform."
+    },
+    "marketing_cookies": {
+      "title": "Analytics & Advertising Cookies",
+      "description": "These cookies help us understand user behavior and provide personalized ads."
+    },
+    "savePreferences": "Save Preferences",
+    "requiredLabel": "Required"
+  },
+  "badges": {
+    "official_member": "Official Member",
+    "verified": "Verified",
+    "moderator": "Moderator",
+    "business_account": "Business Account",
+    "StarPlus": "StarPlus"
   },
   "errors": {
     "SignUp": {
@@ -117,6 +219,15 @@
     "maxRateLimited": "Max rate limit reached. Please try again later.",
     "invalidEmail": "Provided email is invalid."
   },
+  "titles": {
+    "home": "Home",
+    "explore": "Explore",
+    "messages": "Messages",
+    "clubs": "Clubs",
+    "settings": "Settings",
+    "channels": "Channels",
+    "starplus": "StarPlus"
+  },
   "SignUp": {
     "modalTitle": "Registration",
     "resendCode": "Resend",
@@ -127,6 +238,27 @@
     "accountCreationSuccessful": {
       "title": "Account Successfully Created!",
       "description": "Your account has been successfully created with the chosen username and email address. You will be redirected shortly."
+    },
+    "changeEmail": "Change email"
+  },
+  "SignIn": {
+    "welcomeBack": "Welcome back to NetVerses. Sign in to your account and continue your journey with us.",
+    "identifiersField": "Username or Email",
+    "passwordField": "Password",
+    "forgotPassword": "Recover Password?",
+    "orLabel": "or",
+    "qrLogin": "Sign in with a QR code by scanning the code below with your mobile app or camera.",
+    "continueLabel": "Continue"
+  },
+  "EmailChange": {
+    "enterNewEmail": "Please enter your new email address to continue.",
+    "emailChangeSuccess": {
+      "title": "Email changed successfully!",
+      "description": "Your email address has been updated successfully. You can now use your new email address to log in to your account."
+    },
+    "emailChangeWait": {
+      "leftSentence": "For security reasons, you must wait ",
+      "rightSentence": " before you can change your email address again."
     }
   }
 }

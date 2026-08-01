@@ -13,7 +13,37 @@
     "Password": "Mot de passe",
     "learnmore": "En savoir plus",
     "showmore": "Afficher plus",
-    "got-it": "Compris"
+    "got-it": "Compris",
+    "cancel": "Annuler",
+    "posts": "Publications",
+    "followers": "Abonnés",
+    "following": "Abonnements",
+    "OK": "D'accord",
+    "Yes": "Oui",
+    "No": "Non",
+    "unavailable_page": "Ce profil est indisponible. Il peut avoir été supprimé ou l'utilisateur peut avoir restreint l'accès à son profil.",
+    "readmore": "Lire la suite",
+    "inquiries": "Questions optionnelles pour personnaliser votre expérience",
+    "inquiries_description": "Ces questions nous aident à en savoir plus sur vous et à fournir des recommandations personnalisées, tout en évitant la collecte de données personnelles.",
+    "report": "Signaler un problème avec cet article",
+    "questions": {
+      "was_this_article_useful": "Cet article vous a-t-il été utile?",
+      "did_you_like_this_article": "Avez-vous aimé cet article?",
+      "do_you_think_this_article_is misleading": "Pensez-vous que cet article est trompeur?",
+      "does_this_content_match_your_interests": "Ce contenu correspond-il à vos intérêts?"
+    }
+  },
+  "titles": {
+    "home": "Accueil",
+    "explore": "Explorer",
+    "messages": "Messages",
+    "clubs": "Clubs",
+    "settings": "Paramètres",
+    "starplus": "StarPlus"
+  },
+  "PrimaryModal": {
+    "closeTabQuestion": "Êtes-vous sûr de vouloir fermer cet onglet? Tout progrès non sauvegardé sera perdu.",
+    "closeTabTitle": "Fermer l'onglet"
   },
   "input": {
     "versesInput": "Partagez vos actualités avec l'univers",
@@ -26,9 +56,6 @@
     "viewMoreArticles": "Voir plus d’articles",
     "visitProfile": "Voir le profil",
     "editProfile": "Modifier le profil",
-    "Posts": "Publications",
-    "Followers": "Abonnés",
-    "Following": "Abonnements",
     "leftBar": {
       "home": "Accueil",
       "explore": "Explorer",
@@ -91,6 +118,9 @@
   },
   "cookiesConsent": {
     "title": "utilise des cookies.",
+    "cookiePolicy": "Politique de cookies",
+    "customize": "Personnaliser les cookies",
+    "accept": "Accepter tous les cookies",
     "description": "Notre site web utilise des cookies et des technologies de suivi similaires pour améliorer votre expérience de navigation, assurer le bon fonctionnement de nos services et proposer du contenu et des recommandations personnalisés.",
     "second_description": "Les cookies nous aident également à analyser le trafic du site, à comprendre le comportement des utilisateurs et à améliorer nos produits et services. Pour en savoir plus sur la manière dont nous traitons vos données et vos droits, veuillez consulter notre "
   },
@@ -110,7 +140,7 @@
       "takenUsername": "Nom d'utilisateur déjà pris.",
       "takenEmail": "Adresse e-mail déjà utilisée.",
       "restrictedRegion": "Désolé, les inscriptions depuis votre région sont actuellement restreintes.",
-      "authenticationError": "Le processus d'authentification est actuellement fermé. Veuillez revenir plus tard !"
+      "authenticationError": "Le processus d'authentification est actuellement fermé. Veuillez revenir plus tard!"
     },
     "maxRateLimited": "Limite de tentatives atteinte. Veuillez réessayer plus tard.",
     "invalidEmail": "L'adresse e-mail fournie est invalide."
@@ -126,6 +156,100 @@
     "accountCreationSuccessful": {
       "title": "Compte créé avec succès !",
       "description": "Votre compte a été créé avec succès avec le nom d’utilisateur et l’adresse e-mail choisis. Vous serez redirigé sous peu."
+    },
+    "changeEmail": "Changer d'e-mail"
+  },
+  "cookies_tab": {
+    "title": "Personnaliser les cookies",
+    "essential_cookies": {
+      "title": "Cookies essentiels",
+      "description": "Ces cookies sont essentiels pour les fonctionnalités de base de la plateforme."
+    },
+    "analytics_cookies": {
+      "title": "Cookies fonctionnels",
+      "description": "Ces cookies améliorent l'expérience utilisateur et la fonctionnalité de la plateforme."
+    },
+    "marketing_cookies": {
+      "title": "Cookies d'analyse et de publicité",
+      "description": "Ces cookies nous aident à comprendre le comportement des utilisateurs et à fournir des publicités personnalisées."
+    },
+    "savePreferences": "Enregistrer les préférences",
+    "requiredLabel": "Requis"
+  },
+  "SignIn": {
+    "welcomeBack": "Ravi de vous revoir! Connectez-vous pour continuer votre aventure avec NetVerses",
+    "identifiersField": "Nom d'utilisateur ou e-mail",
+    "passwordField": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié?",
+    "orLabel": "ou",
+    "qrLogin": "Connectez-vous avec un QR code en scannant le code ci-dessous avec votre application mobile ou votre caméra.",
+    "continueLabel": "Continuer"
+  },
+  "EmailChange": {
+    "enterNewEmail": "Veuillez entrer votre nouvelle adresse e-mail pour continuer.",
+    "emailChangeSuccess": {
+      "title": "E-mail changé avec succès!",
+      "description": "Votre adresse e-mail a été mise à jour avec succès. Vous pouvez maintenant utiliser votre nouvelle adresse e-mail pour vous connecter à votre compte."
+    },
+    "emailChangeWait": {
+      "leftSentence": "Pour des raisons de sécurité, vous devez attendre ",
+      "rightSentence": " avant de pouvoir changer à nouveau votre adresse e-mail."
     }
+  },
+  "rightBar": {
+    "localArticles": "Articles locaux",
+    "viewAllArticles": "Voir tous les articles",
+    "trendingClubs": "Clubs en tendance",
+    "search_bar": "Saisissez votre recherche..."
+  },
+  "profileCustomization": {
+    "gettingReady": "Nous préparons votre expérience!",
+    "tabOneTitle": "Personnalisation du profil",
+    "welcomeWord": "Bienvenue",
+    "avatarOptionsDescription": "Choisissez une image de profil parmi nos options ou téléchargez la vôtre pour une touche personnelle.",
+    "customAvatarUpload": "Utilisez votre propre image de profil",
+    "size": "Taille: 500x500 pixels",
+    "saving": "Enregistrement de vos préférences...",
+    "tabTwo": {
+      "description": "Afin de finaliser ce processus de personnalisation, nous avons besoin de quelques informations supplémentaires. Vous pouvez aussi les changer ultérieurement dans les paramètres de votre profil.",
+      "displayname": "Nom d'affichage",
+      "jobtitle": "Titre professionnel (optionnel)",
+      "zodiacsign": "Selectionner votre signe astrologique (optionnel)",
+      "pronouns": "Selectionner vos pronoms (optionnel)",
+      "errors": {
+        "displayNameTooShort": "Le nom d'affichage doit être au moins de 3 caractères",
+        "displayNameInvalidChars": "Le nom d'affichage comporte des caractères invalides. Il ne peut contenir que des lettres, des chiffres, des tirets ou des underscores."
+      }
+    },
+    "tabThree": {
+      "title": "Choisissez vos centres d'intérêt",
+      "description": "Selectionnez jusqu'à 8 centres d'intérêt pour personnaliser votre expérience.",
+      "selectedWord": "sélectionné(s)"
+    },
+    "confirmation": {
+      "title": "Compte créé avec succès!",
+      "description": "Votre profil est maintenant personnalisé et prêt à être utilisé. Veuillez patienter pendant que nous vous redirigeons vers votre fil d'actualité."
+    }
+  },
+  "pronouns": {
+    "hehim": "Il/Lui",
+    "sheher": "Elle/Elle",
+    "theythem": "Iel/Iels",
+    "notspecified": "Prefère ne pas spécifier"
+  },
+  "zodiacSigns": {
+    "aries": "Bélier",
+    "taurus": "Taureau",
+    "gemini": "Gémeaux",
+    "cancer": "Cancer",
+    "leo": "Lion",
+    "virgo": "Vierge",
+    "libra": "Balance",
+    "scorpio": "Scorpion",
+    "sagittarius": "Sagittaire",
+    "capricorn": "Capricorne",
+    "aquarius": "Verseau",
+    "pisces": "Poissons",
+    "notspecified": "Préféré ne pas spécifier"
   }
 }

@@ -1,3 +1,5 @@
+import jobTitles from "@/ui/input/data/careersDatabase.json";
+
 import React, { useState, useEffect, useRef, useContext } from "react";
 import PrimaryModal from "@/ui/modal/Primary";
 import { motion, AnimatePresence } from "framer-motion";
@@ -6,6 +8,8 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import { Tooltip } from "antd";
 import PrimaryInput from "@/ui/input/Primary";
+
+import { useTranslation } from "react-i18next";
 
 import { useCSRFStore } from "@/context/CSRFStore";
 
@@ -19,12 +23,33 @@ interface ErrorState {
   };
 }
 
+const capitalizeFirstAlphabetic = (str?: string): string | null => {
+  if (!str) return null;
+  if (str === "sms") {
+    return "SMS";
+  }
+
+  const chars = str.split("");
+
+  for (let i = 0; i < chars.length; i++) {
+    if (/[a-zA-Z]/.test(chars[i])) {
+      chars[i] = chars[i].toUpperCase();
+      break;
+    }
+  }
+
+  return chars.join("");
+};
+
 export default function ProfileCustomization({ visible, setIsOpen }) {
   const { colorProperties } = useContext(ThemeContext);
   const { userData } = useContext(UserContext)!;
+  const { t } = useTranslation();
 
-  const displayingText = "We're getting things ready for you!";
-  const [displayedText, setDisplayedText] = useState("");
+  const displayingText = t("profileCustomization.gettingReady");
+  const [displayedText, setDisplayedText] = useState(
+    t("profileCustomization.gettingReady"),
+  );
   const [isLoading, setLoading] = useState<boolean>(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -37,12 +62,21 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [jobTitle, setJobTitle] = useState<string | null>(null);
   const [selectedZodiac, setSelectedZodiac] = useState<string>("None");
+  const [CareerComplete, setCareerComplete] = useState<boolean>(false);
   const [clearDropdown, setClearDropdown] = useState<boolean | undefined>(
     undefined,
   );
   const [clearZodiacDropdown, setClearZodiacDropdown] = useState<
     boolean | undefined
   >(undefined);
+
+  const avatars = [
+    "/images/avatars/avatar1.png",
+    "/images/avatars/avatar2.png",
+    "/images/avatars/avatar3.png",
+    "/images/avatars/avatar4.png",
+    "/images/avatars/avatar5.png",
+  ];
 
   const { csrfToken, setCSRFToken } = useCSRFStore();
 
@@ -61,32 +95,31 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
     "Fashion",
     "Photography",
     "Writing",
-    "Local news",
     "Programming",
     "Other",
   ];
 
   const dropdownPronouns = [
-    "Prefer not to say",
-    "He/Him",
-    "She/Her",
-    "They/Them",
+    t("pronouns.notspecified"),
+    t("pronouns.sheher"),
+    t("pronouns.hehim"),
+    t("pronouns.theythem"),
   ];
 
   const zodiacSigns = [
-    "Prefer not to say",
-    "Aries",
-    "Taurus",
-    "Gemini",
-    "Cancer",
-    "Leo",
-    "Virgo",
-    "Libra",
-    "Scorpio",
-    "Sagittarius",
-    "Capricorn",
-    "Aquarius",
-    "Pisces",
+    t("zodiacSigns.notspecified"),
+    t("zodiacSigns.aries"),
+    t("zodiacSigns.taurus"),
+    t("zodiacSigns.gemini"),
+    t("zodiacSigns.cancer"),
+    t("zodiacSigns.leo"),
+    t("zodiacSigns.virgo"),
+    t("zodiacSigns.libra"),
+    t("zodiacSigns.scorpio"),
+    t("zodiacSigns.sagittarius"),
+    t("zodiacSigns.capricorn"),
+    t("zodiacSigns.aquarius"),
+    t("zodiacSigns.pisces"),
   ];
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
@@ -269,7 +302,10 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
     setSelectedAvatar("custom");
   };
 
-  useEffect(() => {}, [currentTab]);
+  useEffect(() => {
+    console.log(jobTitle);
+  }, [jobTitle]);
+
   useEffect(() => {
     const loop = () => {
       if (typingRef.current) {
@@ -336,29 +372,34 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
     const value = e.target.value;
     const trimmed = value.trim();
 
-    if (
-      trimmed.length <= 20 &&
-      trimmed.length >= 3 &&
-      /^[A-Za-z0-9 _.-]+$/.test(trimmed)
-    ) {
-      setDisplayName(value);
-    }
+    const regex = /^[A-Za-z0-9_.-]+( [A-Za-z0-9_.-]+)*$/;
+    const isValid =
+      trimmed.length >= 3 && trimmed.length <= 20 && regex.test(trimmed);
+
+    setDisplayName(value);
 
     setErrorState((prev) => ({
       ...prev,
       TabTwo: {
         ...prev.TabTwo,
         DisplayName: {
-          Invalid: trimmed.length < 3 || !/^[A-Za-z0-9 _.-]+$/.test(trimmed),
+          Invalid: !isValid,
           msg:
             trimmed.length < 3
-              ? "Display name must be at least 3 characters"
-              : !/^[A-Za-z0-9 _.-]+$/.test(trimmed)
-                ? "Display name contains invalid characters"
+              ? t("profileCustomization.tabTwo.errors.displayNameTooShort")
+              : !regex.test(trimmed)
+                ? t(
+                    "profileCustomization.tabTwo.errors.displayNameInvalidChars",
+                  )
                 : "",
         },
       },
     }));
+  };
+
+  const toggleInputComplete = (isComplete: boolean, selectedOption: string) => {
+    setCareerComplete(isComplete);
+    setJobTitle(selectedOption);
   };
 
   useEffect(() => {
@@ -366,14 +407,20 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
   }, [selectedPronouns, selectedZodiac]);
 
   useEffect(() => {
-    if (visible) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    if (!visible) return;
+
+    const html = document.documentElement;
+    const body = document.body;
+
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = body.style.overflow;
+
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = "auto";
+      html.style.overflow = prevHtmlOverflow;
+      body.style.overflow = prevBodyOverflow;
     };
   }, [visible]);
 
@@ -408,7 +455,7 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                 </div>
 
                 <p className="text-xs text-gray-400 mt-1 text-center">
-                  Saving...
+                  {t("profileCustomization.saving")}
                 </p>
               </div>
             )}
@@ -452,100 +499,64 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                   >
                     <div className="flex flex-col space-y-2 w-full">
                       <h2 className="lato font-semibold text-lg dark:text-white/85 text-black text-left">
-                        Profile Customization
+                        {t("profileCustomization.tabOneTitle")}
                       </h2>
                       <div className="flex flex-col space-y-4 w-full">
                         <div className="flex flex-col space-y-0.5">
                           <p className="text-base dark:text-white/70 text-gray-800">
-                            Welcome,{" "}
+                            {t("profileCustomization.welcomeWord")},{" "}
                             <span className="font-medium hover:underline cursor-pointer">
-                              {userData?.username}
+                              {capitalizeFirstAlphabetic(userData?.username)}
                             </span>
                             !
                           </p>
                           <p className="text-sm dark:text-white/60 text-gray-700">
-                            Please choose from the preset avatar options below,
-                            or upload your own image.
+                            {t("profileCustomization.avatarOptionsDescription")}
                           </p>
                         </div>
-                        <div className="grid grid-cols-3 gap-4">
-                          <button
-                            onClick={() =>
-                              setSelectedAvatar("/images/avatars/avatar1.png")
-                            }
-                            className="hover:scale-105 transition-all duration-300"
-                          >
-                            <img
-                              className={`rounded-sm ${selectedAvatar === "/images/avatars/avatar1.png" ? "border-2 border-indigo-400" : ""}`}
-                              src="/images/avatars/avatar1.png"
-                              alt="Avatar 1"
-                            />
-                          </button>
-                          <button
-                            onClick={() =>
-                              setSelectedAvatar("/images/avatars/avatar2.png")
-                            }
-                            className="hover:scale-105 transition-all duration-300"
-                          >
-                            <img
-                              className={`rounded-sm ${selectedAvatar === "/images/avatars/avatar2.png" ? "border-2 border-indigo-400" : ""}`}
-                              src="/images/avatars/avatar2.png"
-                              alt="Avatar 2"
-                            />
-                          </button>
-                          <button
-                            onClick={() =>
-                              setSelectedAvatar("/images/avatars/avatar3.png")
-                            }
-                            className="hover:scale-105 transition-all duration-300"
-                          >
-                            <img
-                              className={`rounded-sm ${selectedAvatar === "/images/avatars/avatar3.png" ? "border-2 border-indigo-400" : ""}`}
-                              src="/images/avatars/avatar3.png"
-                              alt="Avatar 3"
-                            />
-                          </button>
-                          <button
-                            onClick={() =>
-                              setSelectedAvatar("/images/avatars/avatar4.png")
-                            }
-                            className="hover:scale-105 transition-all duration-300"
-                          >
-                            <img
-                              className={`rounded-sm ${selectedAvatar === "/images/avatars/avatar4.png" ? "border-2 border-indigo-400" : ""}`}
-                              src="/images/avatars/avatar4.png"
-                              alt="Avatar 4"
-                            />
-                          </button>
-                          <button
-                            onClick={() =>
-                              setSelectedAvatar("/images/avatars/avatar5.png")
-                            }
-                            className="hover:scale-105 transition-all duration-300"
-                          >
-                            <img
-                              className={`rounded-sm ${selectedAvatar === "/images/avatars/avatar5.png" ? "border-2 border-indigo-400" : ""}`}
-                              src="/images/avatars/avatar5.png"
-                              alt="Avatar 5"
-                            />
-                          </button>
-
-                          <button onClick={handleClick}>
-                            {!customImgSrc && (
-                              <div className="flex flex-col items-center hover:bg-white/10 transition-all duration-300 justify-center border-2 border-dashed rounded-sm h-full w-full p-2">
-                                {" "}
-                                <span className="icon-[material-symbols--upload] w-6 h-6 dark:text-white/70 text-gray-700"></span>{" "}
-                                <p className="text-xs dark:text-white/60 text-gray-600">
-                                  {" "}
-                                  Upload Custom Avatar{" "}
-                                </p>{" "}
-                              </div>
-                            )}
-                            {customImgSrc && (
+                        <div className="grid grid-cols-3 gap-2 sm:gap-4">
+                          {avatars.map((avatar) => (
+                            <button
+                              key={avatar}
+                              onClick={() => setSelectedAvatar(avatar)}
+                              className="relative aspect-square overflow-hidden transition-all duration-300 rounded-lg hover:scale-105 focus:outline-none min-h-0"
+                            >
                               <img
-                                className="rounded-sm"
+                                className={`w-full h-full object-cover rounded-lg border-0 ${
+                                  selectedAvatar === avatar
+                                    ? "border-3 border-indigo-400"
+                                    : ""
+                                }`}
+                                src={avatar}
+                                alt={`Avatar ${avatars.indexOf(avatar) + 1}`}
+                              />
+                            </button>
+                          ))}
+
+                          <button
+                            onClick={handleClick}
+                            className={`relative aspect-square w-full h-full rounded-lg ${selectedAvatar == customImgSrc ? "border-3 border-indigo-400" : "border-2 border-gray-300"} border-dashed dark:border-gray-600 hover:border-indigo-400 dark:hover:border-indigo-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 overflow-hidden min-h-0`}
+                          >
+                            {!customImgSrc ? (
+                              <div className="flex flex-col items-center justify-center w-full h-full p-1.5">
+                                <div className="p-1 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/40 transition-colors duration-300 flex-shrink-0 w-8 h-8 flex">
+                                  <span className="icon-[material-symbols--upload] w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
+                                </div>
+                                <p className="text-[9px] sm:text-[10px] text-center text-gray-600 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300 leading-tight mt-1 px-0.5 font-medium">
+                                  {t("profileCustomization.customAvatarUpload")}
+                                </p>
+                                <p className="text-[8px] sm:text-[9px] text-gray-400 dark:text-gray-500 leading-tight">
+                                  {t("profileCustomization.size")}
+                                  <span className="text-red-400 dark:text-red-500 ml-0.5">
+                                    *
+                                  </span>
+                                </p>
+                              </div>
+                            ) : (
+                              <img
+                                className={`w-full h-full object-cover rounded-lg`}
                                 src={customImgSrc}
-                                alt="Uploaded Image"
+                                alt="Uploaded Avatar"
                               />
                             )}
                           </button>
@@ -569,7 +580,7 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                             onClick={handleConfirm}
                             className={`${!selectedAvatar || isTransitioning || (selectedAvatar === "custom" && !selectedFile) ? "bg-indigo-700/20 text-white/30 cursor-not-allowed!" : "bg-indigo-700 text-white"} font-medium py-2 sm:px-10 px-5 rounded-lg shadow-sm hover:bg-opacity-85 transition duration-300 text-sm`}
                           >
-                            <span>Confirm</span>
+                            <span>{t("general.Confirm")}</span>
                           </button>
                         </div>
                       </div>
@@ -587,13 +598,12 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                     className="lato font-medium dark:text-white/85 text-black"
                   >
                     <h2 className="lato font-semibold text-lg dark:text-white/85 text-black text-left">
-                      Profile Customization
+                      {t("profileCustomization.tabOneTitle")}
                     </h2>
                     <div className="flex flex-col space-y-4 w-full">
                       <div className="flex flex-col space-y-2.5">
                         <p className="text-sm dark:text-white/60 text-gray-700">
-                          To finish the setup, please complete the following.
-                          You can update these later in your profile settings.
+                          {t("profileCustomization.tabTwo.description")}
                         </p>
 
                         <ConfigProvider
@@ -614,7 +624,9 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                             <PrimaryInput
                               maxLength={20}
                               type="text"
-                              placeholder={"Display Name"}
+                              placeholder={t(
+                                "profileCustomization.tabTwo.displayname",
+                              )}
                               ColorSettings={{
                                 BorderColor: errorState.TabTwo.DisplayName[
                                   "Invalid"
@@ -638,9 +650,13 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
 
                           <div className="flex flex-col space-y-1 font-normal">
                             <PrimaryInput
-                              maxLength={20}
-                              type="text"
-                              placeholder={"Job Title (Optional)"}
+                              maxLength={200}
+                              type="selection"
+                              data={jobTitles["job-titles"]}
+                              toggleInputComplete={toggleInputComplete}
+                              placeholder={t(
+                                "profileCustomization.tabTwo.jobtitle",
+                              )}
                               ColorSettings={{
                                 BorderColor: errorState.TabTwo.JobTitle[
                                   "Invalid"
@@ -670,7 +686,9 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                                 setOption={setSelectedPronouns}
                                 currentOption={selectedPronouns}
                                 clearTrigger={clearDropdown}
-                                primaryOption={"Select Pronouns (Optional)"}
+                                primaryOption={t(
+                                  "profileCustomization.tabTwo.pronouns",
+                                )}
                                 contentArray={dropdownPronouns}
                                 size="sm"
                                 openSide="up"
@@ -688,7 +706,9 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                                 setOption={setSelectedZodiac}
                                 currentOption={selectedZodiac}
                                 clearTrigger={clearZodiacDropdown}
-                                primaryOption={"Select Zodiac Sign (Optional)"}
+                                primaryOption={t(
+                                  "profileCustomization.tabTwo.zodiacsign",
+                                )}
                                 contentArray={zodiacSigns}
                                 size="sm"
                                 openSide="up"
@@ -704,12 +724,27 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                                 !displayName ||
                                 isTransitioning ||
                                 errorState.TabTwo.DisplayName["Invalid"] ||
-                                errorState.TabTwo.JobTitle["Invalid"]
+                                errorState.TabTwo.JobTitle["Invalid"] ||
+                                (!CareerComplete &&
+                                  jobTitle &&
+                                  jobTitle.trim() !== "" &&
+                                  jobTitle.length > 0)
                               }
                               onClick={handleConfirm}
-                              className={`${!displayName || isTransitioning ? "bg-indigo-700/20 text-white/30 cursor-not-allowed!" : "bg-indigo-700 text-white"} font-medium py-2 sm:px-10 px-5 rounded-lg shadow-sm hover:bg-opacity-85 transition duration-300 text-sm`}
+                              className={`${
+                                !displayName ||
+                                isTransitioning ||
+                                (!CareerComplete &&
+                                  jobTitle &&
+                                  jobTitle.trim() !== "" &&
+                                  jobTitle.length > 0) ||
+                                errorState.TabTwo.DisplayName["Invalid"] ||
+                                errorState.TabTwo.JobTitle["Invalid"]
+                                  ? "bg-indigo-700/20 text-white/30 cursor-not-allowed!"
+                                  : "bg-indigo-700 text-white"
+                              } font-medium py-2 sm:px-10 px-5 rounded-lg shadow-sm hover:bg-opacity-85 transition duration-300 text-sm`}
                             >
-                              <span>Confirm</span>
+                              <span>{t("general.Confirm")}</span>
                             </button>
                           </div>
                         </ConfigProvider>
@@ -728,12 +763,12 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                     className="lato font-medium dark:text-white/85 text-black"
                   >
                     <h2 className="lato font-semibold text-lg text-left">
-                      Choose Your Interests
+                      {t("profileCustomization.tabThree.title")}
                     </h2>
 
                     <div className="flex flex-col space-y-4 w-full">
                       <p className="text-sm dark:text-white/60 text-gray-700">
-                        Select up to 8 interests to personalize your experience.
+                        {t("profileCustomization.tabThree.description")}
                       </p>
 
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -762,7 +797,8 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                       </div>
 
                       <p className="text-xs text-gray-400">
-                        {selectedInterests.length}/8 selected
+                        {selectedInterests.length}/8{" "}
+                        {t("profileCustomization.tabThree.selectedWord")}
                       </p>
 
                       <div className="w-full flex justify-center mt-2">
@@ -777,7 +813,7 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                               : "bg-indigo-700 text-white"
                           } font-medium py-2 px-6 rounded-lg shadow-sm hover:bg-opacity-85 transition duration-300 text-sm`}
                         >
-                          Confirm
+                          {t("general.Confirm")}
                         </button>
                       </div>
                     </div>
@@ -806,10 +842,12 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                       <span className="icon-[mdi--check] w-8 h-8 text-indigo-400"></span>
                     </motion.div>
 
-                    <h2 className="text-lg font-semibold">You're all set 🎉</h2>
+                    <h2 className="text-lg font-semibold">
+                      {t("SignUp.accountCreationSuccessful.title")}
+                    </h2>
 
                     <p className="text-sm text-gray-400">
-                      Your profile has been successfully created.
+                      {t("SignUp.accountCreationSuccessful.description")}
                     </p>
                   </motion.div>
                 )}

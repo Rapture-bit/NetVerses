@@ -1,7 +1,7 @@
 import route from "../route.js";
 
 import { UserSession } from "../database/models/Session.js";
-import { UserProfile } from "../database/models/User.js";
+import { UserProfile, User } from "../database/models/User.js";
 import { hashToken, generateRefreshToken } from "../API/tokenUtils.js";
 import { createJwtToken } from "../auth/HandleJWT.js";
 
@@ -89,6 +89,8 @@ export default async function authMiddleware(req, res, next) {
 
   if (req.userId) {
     let userProfile = await UserProfile.findByPk(session.userId);
+    let user = await User.findByPk(session.userId);
+
     userData = {
       id: userProfile.id,
       username: userProfile.username,
@@ -99,6 +101,7 @@ export default async function authMiddleware(req, res, next) {
       newlyRegistered: userProfile.newlyRegistered,
       banner: userProfile.banner,
       bio: userProfile.bio,
+      email: user.email,
       preferences: { colorScheme: userProfile.colorPreference },
       career: userProfile.career,
       isVerified: userProfile.isVerified,

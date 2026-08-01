@@ -158,7 +158,7 @@ async function createAccount(req, res, email, username, password, rememberMe) {
   const newUser = await User.create({ email, password: hashedPassword });
   await UserProfile.create({
     id: newUser.id,
-    username,
+    username: username.toLowerCase(),
     display_name: username,
     newlyRegistered: true,
   });

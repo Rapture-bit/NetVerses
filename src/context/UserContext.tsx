@@ -6,7 +6,7 @@ import React, {
   createContext,
 } from "react";
 import { useCSRFStore } from "@/context/CSRFStore";
-import fetchCSRF from "@/utils/fetchPageWithCSRF";
+import fetchCSRF from "@/utils/fetchPageWithCSRFToken";
 
 interface User {
   id: string;
@@ -17,6 +17,9 @@ interface User {
   banner: string;
   bio: string;
   color: string;
+  email: string;
+  phone: string;
+  zodiac_sign: string;
   isVerified: boolean;
   socialMediaConnections: Record<string, string>;
   showCustomizationMenu: boolean;
@@ -33,6 +36,8 @@ interface User {
 interface UserContextType {
   userData: User | null;
   setUserData: React.Dispatch<React.SetStateAction<User | null>>;
+  settingsData: any;
+  setSettingsData: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -41,26 +46,46 @@ export const UserContext = createContext<UserContextType | undefined>(
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [userData, setUserData] = useState<User | null>(null);
+  const [settingsData, setSettingsData] = useState<any>(null);
+
+  useEffect(() => {
+    const settings = window.__SETTINGS__;
+    if (!settings) return;
+
+    setSettingsData({
+      theme: settings.theme ?? "dark",
+      notifications: settings.notifications ?? {
+        email: false,
+        push: false,
+        sms: false,
+      },
+      profileVisibility: settings.profileVisibility ?? "public",
+      showbirthdate: settings.showbirthdate ?? false,
+      showlocation: settings.showlocation ?? false,
+      twoFactorOption: settings.twoFactorOption ?? "disabled",
+    });
+  }, [window.__SETTINGS__]);
 
   useEffect(() => {
     const user = window.__USER__;
     if (!user) return;
 
-    console.log(user.socialMediaConnections);
-
     setUserData({
       id: user.id,
+      email: user.email,
       display_name: user.display_name,
       username: user.username,
       profile_picture: user.pfp,
       badges: user.badges ?? [],
       banner: user.banner ?? "",
-      bio: user.description ?? "",
-      color: user.preferences?.colorScheme ?? "#000000",
+      bio: user.bio ?? "",
+      phone: user.phone ?? "",
+      color: user.preferences?.colorScheme ?? "purple",
       isVerified: user.isVerified ?? false,
       newlyRegistered: user.newlyRegistered ?? false,
       pronouns: user.pronouns ?? "",
       showCustomizationMenu: false,
+      zodiac_sign: user.zodiac_sign ?? "",
       career: user.career ?? "",
       socialMediaConnections: user.socialMediaConnections ?? {
         twitter: "",
@@ -74,12 +99,12 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
       createdAt: user.createdAt ?? "",
       updatedAt: user.updatedAt ?? "",
     });
-
-    console.log(userData);
   }, [window.__USER__]);
 
   return (
-    <UserContext.Provider value={{ userData, setUserData }}>
+    <UserContext.Provider
+      value={{ userData, settingsData, setSettingsData, setUserData }}
+    >
       {children}
     </UserContext.Provider>
   );

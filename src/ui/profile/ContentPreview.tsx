@@ -7,6 +7,7 @@ import {
   Star,
 } from "lucide-react";
 
+import { Link } from "react-router-dom";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 import Post from "../post/Post";
@@ -20,15 +21,15 @@ import DownOutlined from "@ant-design/icons";
 import AchievementsList from "./AchievementsList";
 
 interface Props {
-  userData: any;
+  profileData: any;
 }
 
-const ContentPreview = ({ userData }: Props) => {
+const ContentPreview = ({ profileData }: Props) => {
   const [selectedContent, setSelectedContent] = useState<string>("Posts");
   const [selectedFilter, setSelectedFilter] = useState<string>("Popular");
 
   const [profileColor, setProfileColor] = useState<string>(
-    userData.preferences.colorScheme,
+    profileData.preferences.colorScheme,
   ); // To be updated with API
   const [isLoading, setLoading] = useState<boolean>(true);
   const [userPosts, setUserPosts] = useState<Object[]>([
@@ -38,7 +39,7 @@ const ContentPreview = ({ userData }: Props) => {
       isNSFW: false,
       description:
         "Explore the new platform where news meets innovation. Stay updated with the latest trends and join the conversation.",
-      author: userData.username,
+      author: profileData.username,
       date: "2024-09-16T05:30:00Z",
       interactions: {
         likes: 120,
@@ -58,7 +59,7 @@ const ContentPreview = ({ userData }: Props) => {
       isNSFW: false,
       description:
         "The future of AI is here. Discover how machine learning is transforming industries worldwide.",
-      author: userData.username,
+      author: profileData.username,
       date: "2024-10-01T10:15:00Z",
       interactions: {
         likes: 540,
@@ -78,7 +79,7 @@ const ContentPreview = ({ userData }: Props) => {
       isNSFW: true,
       description:
         "Content warning: A deeper look into controversial technology trends that are dividing opinions.",
-      author: userData.username,
+      author: profileData.username,
       date: "2024-08-30T08:10:00Z",
       interactions: {
         likes: 320,
@@ -98,7 +99,7 @@ const ContentPreview = ({ userData }: Props) => {
       isNSFW: false,
       description:
         "Join the conversation: How social media is evolving with blockchain technology.",
-      author: userData.username,
+      author: profileData.username,
       date: "2024-10-11T14:30:00Z",
       interactions: {
         likes: 430,
@@ -366,6 +367,44 @@ const ContentPreview = ({ userData }: Props) => {
             comments={post.comments}
           />
         ))}
+
+      {!isLoading && selectedContent === "Posts" && (
+        <div className="flex-col w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 mt-1 mb-20 items-start">
+          <span className="font-medium text-lg rubik hover:underline">
+            People you might like
+          </span>
+
+          <div className="mt-2 flex flex-col gap-2">
+            <Link
+              to={""}
+              className="darkerBackgroundColor border borderColor w-full p-4 rounded-lg transition-all duration-300 hover:border-purple-500! hover:shadow-lg"
+            >
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-3">
+                  <Link
+                    to={""}
+                    className={`w-12 h-12 rounded-full overflow-hidden block border border-gray-700 hover:border-gray-500 transition-all duration-200`}
+                  >
+                    <img
+                      src="/images/avatars/default.jpg"
+                      className="w-full h-full object-cover"
+                      alt="Avatar"
+                    />
+                  </Link>
+                  <div className="flex flex-col space-y-1">
+                    <Link
+                      to={""}
+                      className="font-medium text-black text-lg dark:text-white hover:underline"
+                    >
+                      Quantarion
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      )}
     </>
   );
 };

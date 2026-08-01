@@ -1,5 +1,5 @@
 export default function safeSerialize(obj) {
-  if (!safeSerialize) return;
+  if (!obj) return;
   return JSON.stringify(obj)
     .replace(/</g, "\\u003c")
     .replace(/>/g, "\\u003e")

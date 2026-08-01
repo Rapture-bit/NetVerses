@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-export default function GIFMenu({}) {
+export default function GIFMenu({ openMenu }: { openMenu: boolean }) {
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const [indexedTerm, setIndexTerm] = useState<string>("");
 
@@ -191,6 +191,12 @@ export default function GIFMenu({}) {
     setVisible(true);
   };
 
+  useEffect(() => {
+    if (openMenu) {
+      toggleMenu();
+    }
+  }, [openMenu]);
+
   const selectCategory = (category: string) => {
     setSelectedCategory(category);
     setTopVisible(false);
@@ -213,21 +219,19 @@ export default function GIFMenu({}) {
 
   return (
     <>
-      <button
-        onClick={toggleMenu}
-        className="p-3 cursor-pointer bg-gray-800 rounded-lg"
-      >
-        Open GIF Menu
-      </button>
-
       <AnimatePresence>
         <motion.div
+          {...(isVisible && {
+            drag: true,
+            dragMomentum: false,
+            dragElastic: 0.2,
+          })}
           style={{ left: menuPos.x, top: menuPos.y }}
           animate={{ opacity: isVisible ? 1 : 0 }}
           initial={{ opacity: 0 }}
           transition={{ duration: isVisible ? 0.2 : 0.4 }}
-          className={`fixed flex flex-col p-3 rounded-md bg-${profileColor}-800 shadow-lg
-            w-full sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 max-h-[80vh] ${
+          className={`fixed flex flex-col p-3 rounded-md backgroundColor border borderColor shadow-lg
+            w-full sm:w-3/4 md:w-1/2 lg:w-1/3 z-[999] xl:w-1/4 max-h-[80vh] ${
               !isVisible ? "pointer-events-none select-none" : ""
             }`}
         >

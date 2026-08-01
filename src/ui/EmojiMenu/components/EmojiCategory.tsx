@@ -91,8 +91,8 @@ export default function EmojiCategory({
           typeof e.tags === "string"
             ? e.tags.toLowerCase().includes(search)
             : Array.isArray(e.tags)
-            ? e.tags.some((t: string) => t.toLowerCase().includes(search))
-            : false;
+              ? e.tags.some((t: string) => t.toLowerCase().includes(search))
+              : false;
 
         const annotationMatch = annotation.includes(search);
         const categoryMatch = category.includes(search);
@@ -141,7 +141,7 @@ export default function EmojiCategory({
 
   const handleMouseEnter = async (
     e: React.MouseEvent<HTMLButtonElement>,
-    label: string
+    label: string,
   ) => {
     if (!tooltipRef.current) return;
 
@@ -155,7 +155,7 @@ export default function EmojiCategory({
         placement: "bottom",
         strategy: "fixed",
         middleware: [inline(), offset(6), shift({ padding: 8 })],
-      }
+      },
     );
 
     Object.assign(tooltipRef.current.style, {
@@ -189,7 +189,7 @@ export default function EmojiCategory({
 
       child.addEventListener("contextmenu", handleContextMenu);
       contextMenuListeners.push(() =>
-        child.removeEventListener("contextmenu", handleContextMenu)
+        child.removeEventListener("contextmenu", handleContextMenu),
       );
     });
 

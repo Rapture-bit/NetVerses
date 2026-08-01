@@ -3,7 +3,7 @@ import BottomBar from "@/ui/navigation/BottomBar";
 import PageTitle from "@/ui/others/PageTitle";
 import SearchBar from "@/ui/input/SearchBar";
 
-import { Tooltip } from "antd";
+import Tooltip from "@/ui/Tooltip";
 
 const Explore = () => {
   const toggleBack = () => {};
@@ -22,7 +22,7 @@ const Explore = () => {
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">
           <div className="flex flex-row border borderColor justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-1/2 darkerBackgroundColor">
-            <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
+            <Tooltip label="Back">
               <button
                 aria-label="Go Back"
                 onClick={toggleBack}

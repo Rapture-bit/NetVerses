@@ -85,6 +85,7 @@ export default async function apiMiddleware(req, res, next) {
   const method = req.method;
   const clientIP = req.ip;
 
+  if (fullPath.startsWith("/u/")) return next();
   if (fullPath.startsWith("/v1/")) {
     if (hostname === "api.netverses.com") {
       const normalPath = fullPath.replace("/v1", "");

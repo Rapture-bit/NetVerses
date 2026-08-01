@@ -1,0 +1,257 @@
+"filename", "language", "JavaScript", "HTML", "Rust", "JSON", "Python", "TypeScript", "TypeScript JSX", "PostCSS", "comment", "blank", "total"
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\link\link-acc.js", "JavaScript", 23, 0, 0, 0, 0, 0, 0, 0, 0, 5, 28
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\login.js", "JavaScript", 13, 0, 0, 0, 0, 0, 0, 0, 0, 2, 15
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\logout.js", "JavaScript", 6, 0, 0, 0, 0, 0, 0, 0, 0, 1, 7
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\rotate-token.js", "JavaScript", 73, 0, 0, 0, 0, 0, 0, 0, 0, 14, 87
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\auth\status.js", "JavaScript", 17, 0, 0, 0, 0, 0, 0, 0, 0, 4, 21
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\checkAuth.js", "JavaScript", 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\checkRegion.js", "JavaScript", 44, 0, 0, 0, 0, 0, 0, 0, 0, 5, 49
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\feed\get-feed.js", "JavaScript", 46, 0, 0, 0, 0, 0, 0, 0, 0, 8, 54
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\feed\get-interests.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\feed\retrieveLocalFeed.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\otp\login\otp-request.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\otp\otp-confirm.js", "JavaScript", 209, 0, 0, 0, 0, 0, 0, 0, 0, 30, 239
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\otp\otp-request.js", "JavaScript", 146, 0, 0, 0, 0, 0, 0, 0, 1, 28, 175
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\safeSerialize.js", "JavaScript", 9, 0, 0, 0, 0, 0, 0, 0, 0, 1, 10
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\security\get-csrf.js", "JavaScript", 36, 0, 0, 0, 0, 0, 0, 0, 0, 10, 46
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\security\validateSession.js", "JavaScript", 29, 0, 0, 0, 0, 0, 0, 0, 3, 8, 40
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\services\translateVerse.js", "JavaScript", 30, 0, 0, 0, 0, 0, 0, 0, 0, 3, 33
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\tokenUtils.js", "JavaScript", 6, 0, 0, 0, 0, 0, 0, 0, 0, 2, 8
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\user\avatarUpload.js", "JavaScript", 55, 0, 0, 0, 0, 0, 0, 0, 0, 13, 68
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\user\self\getInterests.js", "JavaScript", 23, 0, 0, 0, 0, 0, 0, 0, 0, 5, 28
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\user\syncInterests.js", "JavaScript", 37, 0, 0, 0, 0, 0, 0, 0, 0, 9, 46
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\user\updateProfile.js", "JavaScript", 42, 0, 0, 0, 0, 0, 0, 0, 0, 6, 48
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\users\checkEmail.js", "JavaScript", 24, 0, 0, 0, 0, 0, 0, 0, 0, 6, 30
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\users\checkUsername.js", "JavaScript", 52, 0, 0, 0, 0, 0, 0, 0, 0, 8, 60
+"c:\Users\Xenon\OneDrive\NetVerses\backend\API\users\user.js", "JavaScript", 16, 0, 0, 0, 0, 0, 0, 0, 0, 4, 20
+"c:\Users\Xenon\OneDrive\NetVerses\backend\AssetsRoute.js", "JavaScript", 56, 0, 0, 0, 0, 0, 0, 0, 0, 2, 58
+"c:\Users\Xenon\OneDrive\NetVerses\backend\assets\scripts\ga.js", "JavaScript", 7, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8
+"c:\Users\Xenon\OneDrive\NetVerses\backend\auth\HandleJWT.js", "JavaScript", 11, 0, 0, 0, 0, 0, 0, 0, 0, 3, 14
+"c:\Users\Xenon\OneDrive\NetVerses\backend\auth\checkAuth.js", "JavaScript", 56, 0, 0, 0, 0, 0, 0, 0, 0, 12, 68
+"c:\Users\Xenon\OneDrive\NetVerses\backend\auth\detailsGenerator.js", "JavaScript", 9, 0, 0, 0, 0, 0, 0, 0, 0, 4, 13
+"c:\Users\Xenon\OneDrive\NetVerses\backend\auth\userTracking.js", "JavaScript", 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2
+"c:\Users\Xenon\OneDrive\NetVerses\backend\blacklisted-phones.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\constants\ElevatedPrivilegesIPs.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\constants\blacklistedCountries.js", "JavaScript", 14, 0, 0, 0, 0, 0, 0, 0, 0, 2, 16
+"c:\Users\Xenon\OneDrive\NetVerses\backend\constants\reservedPaths.json", "JSON", 0, 0, 0, 12, 0, 0, 0, 0, 0, 1, 13
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\config\database.js", "JavaScript", 13, 0, 0, 0, 0, 0, 0, 0, 1, 3, 17
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\index.js", "JavaScript", 11, 0, 0, 0, 0, 0, 0, 0, 0, 3, 14
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Boosts.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Channels.js", "JavaScript", 176, 0, 0, 0, 0, 0, 0, 0, 0, 10, 186
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Clubs.js", "JavaScript", 165, 0, 0, 0, 0, 0, 0, 0, 0, 10, 175
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\DataConsentRecord.js", "JavaScript", 26, 0, 0, 0, 0, 0, 0, 0, 0, 4, 30
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\DigitalCarbonCredits.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Feed.js", "JavaScript", 253, 0, 0, 0, 0, 0, 0, 0, 0, 8, 261
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\OTP.js", "JavaScript", 56, 0, 0, 0, 0, 0, 0, 0, 0, 3, 59
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Session.js", "JavaScript", 32, 0, 0, 0, 0, 0, 0, 0, 0, 3, 35
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\Subscriptions.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\User.js", "JavaScript", 387, 0, 0, 0, 0, 0, 0, 0, 0, 18, 405
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\UserActions.js", "JavaScript", 77, 0, 0, 0, 0, 0, 0, 0, 0, 6, 83
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\UserConnections.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\UserCredits.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\digitalReputation.js", "JavaScript", 46, 0, 0, 0, 0, 0, 0, 0, 0, 5, 51
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\digitalSignatureParties.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\legalDocuments.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\legalSignature.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\models\userPreferenceData.js", "JavaScript", 10, 0, 0, 0, 0, 0, 0, 0, 0, 6, 16
+"c:\Users\Xenon\OneDrive\NetVerses\backend\database\sync.js", "JavaScript", 22, 0, 0, 0, 0, 0, 0, 0, 0, 9, 31
+"c:\Users\Xenon\OneDrive\NetVerses\backend\documents\Invoice_template.html", "HTML", 0, 9, 0, 0, 0, 0, 0, 0, 0, 1, 10
+"c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\antiddos_middleware.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\api_middleware.js", "JavaScript", 129, 0, 0, 0, 0, 0, 0, 0, 0, 29, 158
+"c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\assets_middleware.js", "JavaScript", 53, 0, 0, 0, 0, 0, 0, 0, 0, 15, 68
+"c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\auth_middleware.js", "JavaScript", 100, 0, 0, 0, 0, 0, 0, 0, 0, 20, 120
+"c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\content_middleware.js", "JavaScript", 57, 0, 0, 0, 0, 0, 0, 0, 0, 9, 66
+"c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\csrf_middleware.js", "JavaScript", 44, 0, 0, 0, 0, 0, 0, 0, 0, 14, 58
+"c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\rate_limiter.js", "JavaScript", 36, 0, 0, 0, 0, 0, 0, 0, 0, 10, 46
+"c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\routeGuardMiddleware.js", "JavaScript", 39, 0, 0, 0, 0, 0, 0, 0, 0, 15, 54
+"c:\Users\Xenon\OneDrive\NetVerses\backend\middlewares\tracking_middleware.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\portforwarding.js", "JavaScript", 56, 0, 0, 0, 0, 0, 0, 0, 0, 8, 64
+"c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\decoder.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\ollama.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\radio_collect.js", "JavaScript", 11, 0, 0, 0, 0, 0, 0, 0, 0, 1, 12
+"c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\recordAudioChunks.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\radio_channels\speech_to_text.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\route.js", "JavaScript", 138, 0, 0, 0, 0, 0, 0, 0, 0, 2, 140
+"c:\Users\Xenon\OneDrive\NetVerses\backend\routers\selfRouter.js", "JavaScript", 49, 0, 0, 0, 0, 0, 0, 0, 0, 14, 63
+"c:\Users\Xenon\OneDrive\NetVerses\backend\routers\userRouter.js", "JavaScript", 8, 0, 0, 0, 0, 0, 0, 0, 0, 4, 12
+"c:\Users\Xenon\OneDrive\NetVerses\backend\server.js", "JavaScript", 324, 0, 0, 0, 0, 0, 0, 0, 1, 43, 368
+"c:\Users\Xenon\OneDrive\NetVerses\backend\server.rs", "Rust", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\servers_list.json", "JSON", 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3
+"c:\Users\Xenon\OneDrive\NetVerses\backend\services\sendEmail.js", "JavaScript", 21, 0, 0, 0, 0, 0, 0, 0, 0, 3, 24
+"c:\Users\Xenon\OneDrive\NetVerses\backend\services\sendVerification.js", "JavaScript", 217, 0, 0, 0, 0, 0, 0, 0, 0, 6, 223
+"c:\Users\Xenon\OneDrive\NetVerses\backend\templates\email\OTPemail.html", "HTML", 0, 157, 0, 0, 0, 0, 0, 0, 27, 1, 185
+"c:\Users\Xenon\OneDrive\NetVerses\backend\templates\email\emailAdvertising.html", "HTML", 0, 9, 0, 0, 0, 0, 0, 0, 0, 1, 10
+"c:\Users\Xenon\OneDrive\NetVerses\backend\utils\Nuxt.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\backend\utils\renderHTML.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\Xenon\OneDrive\NetVerses\src\SubdomainDivider.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -210, 0, -2, -22, -234
+"c:\Users\Xenon\OneDrive\NetVerses\src\constants\emojiMap.ts", "TypeScript", 0, 0, 0, 0, 0, -422, 0, 0, 0, -1, -423
+"c:\Users\Xenon\OneDrive\NetVerses\src\context\CSRFStore.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -25, 0, 0, -7, -32
+"c:\Users\Xenon\OneDrive\NetVerses\src\context\LocaleContext.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -36, 0, 0, -10, -46
+"c:\Users\Xenon\OneDrive\NetVerses\src\context\Nvi18nContext.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\context\ThemeContext.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -72, 0, 0, -14, -86
+"c:\Users\Xenon\OneDrive\NetVerses\src\context\UserContext.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -103, 0, 0, -11, -114
+"c:\Users\Xenon\OneDrive\NetVerses\src\fonts\inter.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -4, 0, -2, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\fonts\jost.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -4, 0, -2, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\fonts\lato.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -4, 0, -2, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\fonts\open-sans.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -4, 0, -2, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\fonts\poppins.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -4, 0, -2, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\fonts\roboto.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -4, 0, -2, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\fonts\rubik.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -4, 0, -2, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\hooks\useDeviceType.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -39, 0, 0, -13, -52
+"c:\Users\Xenon\OneDrive\NetVerses\src\index.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -56, 0, 0, -15, -71
+"c:\Users\Xenon\OneDrive\NetVerses\src\layouts\DefaultLayout.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -133, 0, 0, -22, -155
+"c:\Users\Xenon\OneDrive\NetVerses\src\layouts\DocumentationLayout.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -12, 0, 0, -2, -14
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\Navi18n.ts", "TypeScript", 0, 0, 0, 0, 0, -133, 0, 0, -1, -12, -146
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\i18n.ts", "TypeScript", 0, 0, 0, 0, 0, -31, 0, 0, -1, -5, -37
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ar-AR.json", "JSON", 0, 0, 0, -97, 0, 0, 0, 0, 0, -1, -98
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ary-MA.json", "JSON", 0, 0, 0, -133, 0, 0, 0, 0, 0, -1, -134
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\bn-BD.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\de-DE.json", "JSON", 0, 0, 0, -49, 0, 0, 0, 0, 0, -1, -50
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\el-GR.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\en-US.json", "JSON", 0, 0, 0, -264, 0, 0, 0, 0, 0, -1, -265
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\es-ES.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\fa-IR.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\fil-PH.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\fr-FR.json", "JSON", 0, 0, 0, -255, 0, 0, 0, 0, 0, -1, -256
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\he-IL.json", "JSON", 0, 0, 0, -49, 0, 0, 0, 0, 0, -1, -50
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\hi-IN.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\it-IT.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ja-JP.json", "JSON", 0, 0, 0, -94, 0, 0, 0, 0, 0, -1, -95
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ko-KR.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ms-MY.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\pl-PL.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\pt-BR.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\pt-PT.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ro-RO.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\ru-RU.json", "JSON", 0, 0, 0, -49, 0, 0, 0, 0, 0, -1, -50
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\sv-SE.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\sw-KE.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\th-TH.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\tr-TR.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\tzm-DZ-MA.json", "JSON", 0, 0, 0, -127, 0, 0, 0, 0, 0, -19, -146
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\uk-UA.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\vi-VN.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\libraries\i18n\translations\zh-CN.json", "JSON", 0, 0, 0, -49, 0, 0, 0, 0, 0, -1, -50
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\connect-acc.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -23, 0, 0, -3, -26
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\explore.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -74, 0, 0, -9, -83
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\home.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -632, 0, 0, -29, -661
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\landingpage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -87, 0, 0, -9, -96
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\messages.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -726, 0, 0, -59, -785
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\my\clubs.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -266, 0, -1, -23, -290
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\my\settings.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -38, 0, 0, -6, -44
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\pagenotfound.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -57, 0, 0, -7, -64
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\postpage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -189, 0, 0, -6, -195
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\profilepage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -94, 0, 0, -8, -102
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\recover-pass.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -127, 0, 0, -11, -138
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\starplus.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -43, 0, 0, -6, -49
+"c:\Users\Xenon\OneDrive\NetVerses\src\pages\usersettings.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -1252, 0, -2, -88, -1342
+"c:\Users\Xenon\OneDrive\NetVerses\src\styles\accessories.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -18, -1, -1, -20
+"c:\Users\Xenon\OneDrive\NetVerses\src\styles\fade.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -28, 0, -2, -30
+"c:\Users\Xenon\OneDrive\NetVerses\src\styles\global.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -140, 0, -20, -160
+"c:\Users\Xenon\OneDrive\NetVerses\src\styles\tailwind.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -2, 0, -1, -3
+"c:\Users\Xenon\OneDrive\NetVerses\src\styles\theme.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, -227, 0, -47, -274
+"c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\child-sharing-policy.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -55, 0, 0, -7, -62
+"c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\child-sharing-warning.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\cookiepolicy.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\landing.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -13, 0, 0, -3, -16
+"c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\privacypolicy.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -242, 0, 0, -13, -255
+"c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\sharing-safety.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -2
+"c:\Users\Xenon\OneDrive\NetVerses\src\subdomains\help\tos.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -4, 0, 0, -2, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\types\global.d.ts", "TypeScript", 0, 0, 0, 0, 0, -8, 0, 0, 0, -2, -10
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\ChannelCard.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -56, 0, 0, -6, -62
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\ClubCard.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -177, 0, 0, -9, -186
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\EmojiMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -244, 0, 0, -43, -287
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\components\EmojiCategory.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -286, 0, 0, -46, -332
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\components\FavoritesCategory.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -4, 0, 0, -2, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\components\ToneMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -137, 0, 0, -19, -156
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\EmojiMenu\data\emojisList.json", "JSON", 0, 0, 0, -75414, 0, 0, 0, 0, 0, -1, -75415
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\GIFMenu\GIFMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -357, 0, -1, -24, -382
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\GIFMenu\data\gifsList.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\RadioCard.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -89, 0, 0, -11, -100
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\RadioList.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -2
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\Tooltip.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -68, 0, 0, -13, -81
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\TooltipHelp.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -26, 0, 0, -4, -30
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\image\AdvancedTextEditor.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\Dropdown.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -200, 0, 0, -18, -218
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\OTP.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -111, 0, 0, -25, -136
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\Primary.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -98, 0, 0, -15, -113
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\SearchBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -26, 0, 0, -5, -31
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\SecondaryDropdown.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -121, 0, 0, -15, -136
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\TextArea.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -62, 0, 0, -12, -74
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\data\careersDatabase.json", "JSON", 0, 0, 0, -73382, 0, 0, 0, 0, 0, -1, -73383
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\input\selectMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -44, 0, 0, -4, -48
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\FriendActivity.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -39, 0, 0, -4, -43
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\FriendMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -30, 0, 0, -4, -34
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\FriendMessage.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -79, 0, 0, -8, -87
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\FriendProfile.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -107, 0, 0, -8, -115
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\messages\SecondFriendMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -30, 0, 0, -6, -36
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\BottomMenu\CookiesConsent.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -137, 0, 0, -16, -153
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\BottomMenu\LocaleMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -160, 0, 0, -20, -180
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\EmailChange.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -221, 0, 0, -21, -242
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Advanced.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Boost.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -104, 0, 0, -8, -112
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\CustomCookies.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -169, 0, 0, -14, -183
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\EditProfileMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -44, 0, 0, -6, -50
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Ephenemeral.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Media.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -66, 0, 0, -5, -71
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\TagsModal.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\VerseMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -282, 0, 0, -19, -301
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\Visibility.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Menu\ZenonChat.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -261, 0, 0, -23, -284
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\Primary.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -200, 0, 0, -15, -215
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\ProfileCustomization.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -787, 0, 0, -85, -872
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\QRCodeGenerator.js", "JavaScript", -28, 0, 0, 0, 0, 0, 0, 0, 0, -6, -34
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\SignIn.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -277, 0, -21, -34, -332
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\modal\SignUp.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -1098, 0, 0, -95, -1193
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\BottomBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -84, 0, 0, -18, -102
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\Footer.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -36, 0, 0, -2, -38
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\LeftBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -394, 0, -1, -41, -436
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\PortableChat.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -153, 0, 0, -15, -168
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\RightBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -300, 0, -1, -34, -335
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\Tooltip.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -64, 0, 0, -12, -76
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\navigation\TopBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -150, 0, -19, -20, -189
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\AchievementList.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -47, 0, 0, -6, -53
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\AttachmentFocus.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -494, 0, -1, -44, -539
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\AttachmentsViewer.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -340, 0, 0, -45, -385
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\Feature.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -36, 0, 0, -3, -39
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\FeaturesList.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -50, 0, 0, -4, -54
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\FeedSelection.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -67, 0, 0, -8, -75
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\HumanReadableDate.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -15, 0, 0, -8, -23
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\Loading.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -21, 0, 0, -3, -24
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\PageTitle.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -7, 0, 0, -3, -10
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\RedirectMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -150, 0, 0, -16, -166
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\TimeAgo.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -35, 0, 0, -12, -47
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\TodaySummary.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -83, 0, 0, -7, -90
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\others\document\DocTab.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -47, 0, 0, -6, -53
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\postColors.ts", "TypeScript", 0, 0, 0, 0, 0, -15, 0, 0, 0, -2, -17
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\3DModelAttachment.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -37, 0, 0, -6, -43
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\ThreeDimensionalPost.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\ThreeDimensionalProfile.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\embedModel.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\process3DModel.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\3D\upload3DModel.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -2
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\Articles.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -259, 0, 0, -25, -284
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\BottomPageComponent.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -25, 0, 0, -4, -29
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\Comment.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -224, 0, 0, -14, -238
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\FocusedPost.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -345, 0, 0, -22, -367
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\NSFW-flag.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\Post.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -393, 0, 0, -28, -421
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\Verse.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -389, 0, -1, -34, -424
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\post\facePlugin.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\3DProfilePreview.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -2
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\AchievementsList.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -93, 0, 0, -2, -95
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\BadgesList.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -68, 0, 0, -3, -71
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\ConnectionsMap.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, -2
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\ContentPreview.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -385, 0, 0, -28, -413
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\ProfilePreview.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -352, 0, -22, -27, -401
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\Pronouns.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -27, 0, -1, -4, -32
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\StatsTab.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -53, 0, 0, -3, -56
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\TrustLayersConnections.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\ZodiacSign.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, -78, 0, 0, -12, -90
+"c:\Users\Xenon\OneDrive\NetVerses\src\ui\profile\profileColorsMap.ts", "TypeScript", 0, 0, 0, 0, 0, -138, 0, 0, 0, -1, -139
+"c:\Users\Xenon\OneDrive\NetVerses\src\utils\fetchPageWithCSRF.ts", "TypeScript", 0, 0, 0, 0, 0, -30, 0, 0, 0, -5, -35
+"c:\Users\Xenon\OneDrive\NetVerses\src\utils\formatDate.ts", "TypeScript", 0, 0, 0, 0, 0, -10, 0, 0, 0, -5, -15
+"c:\Users\Xenon\OneDrive\NetVerses\src\utils\formatNumber.ts", "TypeScript", 0, 0, 0, 0, 0, -12, 0, 0, 0, -1, -13
+"c:\Users\Xenon\OneDrive\NetVerses\src\utils\getCssVariable.ts", "TypeScript", 0, 0, 0, 0, 0, -5, 0, 0, 0, -1, -6
+"c:\Users\Xenon\OneDrive\NetVerses\src\utils\shadesGenerator.ts", "TypeScript", 0, 0, 0, 0, 0, -25, 0, 0, 0, -4, -29
+"Total", "-", 3619, 175, 0, -149947, 0, -829, -16111, -443, -43, -1281, -164860

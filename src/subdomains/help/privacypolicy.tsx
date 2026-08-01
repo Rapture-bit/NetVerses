@@ -141,7 +141,7 @@ export default function PrivacyPage() {
     {
       title: "Cookies Technology",
       descriptions: [
-        `We use cookies and similar technologies to enhance your experience on our platform. Cookies are small text files stored on your device that allow us to remember your preferences, optimize site performance, and provide personalized content. These cookies may also be used for analytics purposes to help us understand how you interact with s, enabling us to improve our services and user experience.`,
+        `We use cookies and similar technologies to enhance your experience on our platform. Cookies are small text files stored on your device that allow us to remember your preferences, optimize site performance, and provide personalized content. These cookies may also be used for analytics purposes to help us understand how you interact with us, enabling us to improve our services and user experience.`,
         `You have the ability to manage or disable cookies through your browser settings at any time. However, please note that disabling cookies may affect the functionality and performance of certain features on our platform. We ensure that all cookies used comply with applicable privacy laws and are handled with the utmost care to safeguard your data.`,
       ],
       sections: [
@@ -175,7 +175,7 @@ export default function PrivacyPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <TopBar />
+      <TopBar doc={true} />
       <PageTitle title="NetVerses ~ Privacy Policy" />
       <div className="relative flex-grow pt-20 md:pt-24 pb-20 md:pb-24 flex flex-col items-center justify-center text-center space-y-4 md:space-y-5 px-4 md:px-10">
         {activeTab === 0 && (
@@ -222,6 +222,7 @@ export default function PrivacyPage() {
               ),
           )}
       </div>
+
       {showScrollButton && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -243,6 +244,29 @@ export default function PrivacyPage() {
                     d="M10.5 16.035L7.404 12.94a1.5 1.5 0 1 0-2.122 2.121l5.657 5.657a1.5 1.5 0 0 0 2.122 0l5.657-5.656a1.5 1.5 0 1 0-2.122-2.122L13.5 16.035V4.5a1.5 1.5 0 0 0-3 0z"
                   />
                 </g>
+              </svg>
+            </button>
+          </div>
+        </motion.div>
+      )}
+      {showScrollButton && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2, ease: "easeInOut" }}
+        >
+          <div className="absolute -translate-y-6 left-1/2 -translate-x-12 z-50">
+            <button onClick={handleScroll} className="text-purple-600 text-xl">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1.5em"
+                height="1.5em"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill={colorTheme}
+                  d="M13.5 7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.282a1.5 1.5 0 0 0-2.122 0L5.282 8.94a1.5 1.5 0 1 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0z"
+                />
               </svg>
             </button>
           </div>

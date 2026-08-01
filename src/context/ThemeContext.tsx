@@ -28,7 +28,7 @@ const defaultColors = {
   borderInputColor: "#d9d9d9",
 };
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [textColor, setTextColor] = useState<string>("");
   const [backgroundColor, setBackgroundColor] = useState<string>("");
   const [primaryColor, setPrimaryColor] = useState<string>("");
@@ -38,7 +38,7 @@ const ThemeProvider = ({ children }) => {
   const [colorProperties, setColorProperties] =
     useState<ColorPropertiesElement>(defaultColors);
 
-  const getCssVariable = (variable) => {
+  const getCssVariable = (variable: string) => {
     const root = document.documentElement;
     return getComputedStyle(root).getPropertyValue(variable).trim();
   };

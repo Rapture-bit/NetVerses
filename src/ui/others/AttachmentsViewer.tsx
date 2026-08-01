@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
 import AttachmentFocus from "./AttachmentFocus";
 import { motion, AnimatePresence } from "framer-motion";
 
+import ThreeDModelAttachment from "@/ui/post/3D/3DModelAttachment";
 import { AttachmentProps } from "./AttachmentFocus";
 
 import { Tooltip } from "antd";
@@ -32,6 +33,8 @@ const videoTypes = [
   "3gp",
 ];
 
+const threeDModelTypes = ["glb", "gltf", "obj", "g3d", "fbx", "stl", "ply"];
+
 interface focusedAttachmentDetails {
   id: string;
   index: number | null;
@@ -51,6 +54,9 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
     [],
   );
   const [videoAttachmentTypes, setVideoAttachmentTypes] = useState<Object[]>(
+    [],
+  );
+  const [ThreeDAttachmentTypes, setThreeDAttachmentTypes] = useState<Object[]>(
     [],
   );
 
@@ -133,10 +139,12 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
     const typesObject = [];
     const imageTypesObject = [];
     const videoTypesObject = [];
+    const threeDModelTypesObject = [];
 
     attachments.map((element, index) => {
       let array = {
         id: element.id,
+        isAI: element.isAI,
         type: null,
         videoType: null,
         attachmentDetails: {
@@ -148,12 +156,27 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
       let isImage;
       let isVideo;
       let videoType;
+      let isThreeDModel;
+
+      threeDModelTypes.some((typeElement) => {
+        const isEqual = compareSrc(typeElement, element.URL);
+        if (isEqual) {
+          isThreeDModel = true;
+          isImage = false;
+          isVideo = false;
+          return true;
+        } else {
+          isThreeDModel = false;
+          return false;
+        }
+      });
 
       imageTypes.some((typeElement) => {
         const isEqual = compareSrc(typeElement, element.URL);
         if (isEqual) {
           isImage = true;
           isVideo = false;
+          isThreeDModel = false;
           return true;
         } else {
           isImage = false;
@@ -167,6 +190,7 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
         if (isEqual) {
           isImage = false;
           isVideo = true;
+          isThreeDModel = false;
           videoType = typeElement;
           return true;
         } else {
@@ -176,7 +200,13 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
         }
       });
 
-      array.type = isImage ? "img" : "vid";
+      array.type = isImage
+        ? "image"
+        : isVideo
+          ? "video"
+          : isThreeDModel
+            ? "3dmodel"
+            : null;
       if (isVideo) {
         array.videoType = videoType;
       } else {
@@ -191,12 +221,17 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
         videoTypesObject.push(array);
       }
 
+      if (isThreeDModel) {
+        threeDModelTypesObject.push(array);
+      }
+
       typesObject.push(array);
     });
 
     setAttachmentsType(typesObject);
     setVideoAttachmentTypes(videoTypesObject);
     setImageAttachmentTypes(imageTypesObject);
+    setThreeDAttachmentTypes(threeDModelTypesObject);
   }, [attachments]);
 
   const findIndexFromAttachmentId = (attachmentId: string) => {
@@ -279,17 +314,28 @@ const AttachmentsViewer = ({ attachments, colorProfile, postDetails }) => {
           ref={scrollContainer}
           className="flex items-center gap-3 overflow-x-scroll scrollbar-hidden scroll-smooth py-2"
         >
+          {ThreeDAttachmentTypes.map((attachment: AttachmentProps, index) => (
+            <>
+              <ThreeDModelAttachment
+                key={index}
+                onClick={handleClick}
+                attachment={attachment}
+              />
+            </>
+          ))}
           {imageAttachmentTypes.map((attachment: AttachmentProps, index) => (
-            <img
-              crossOrigin="anonymous"
-              key={index}
-              onClick={handleClick}
-              className="rounded-lg cursor-pointer hover:brightness-90 duration-300 transition-all w-64 h-40 object-cover flex-shrink-0"
-              id={attachment.id}
-              title={attachment.attachmentDetails.comment}
-              src={attachment.attachmentDetails.src}
-              alt={attachment.attachmentDetails.comment}
-            />
+            <>
+              <img
+                crossOrigin="anonymous"
+                key={index}
+                onClick={handleClick}
+                className={`${attachment.isAI ? "border-2 border-red-500" : ""} rounded-lg cursor-pointer hover:brightness-90 duration-300 transition-all w-64 h-40 object-cover flex-shrink-0`}
+                id={attachment.id}
+                title={attachment.attachmentDetails.comment}
+                src={attachment.attachmentDetails.src}
+                alt={attachment.attachmentDetails.comment}
+              />
+            </>
           ))}
           {videoAttachmentTypes.map((attachment: AttachmentProps, index) => (
             <video

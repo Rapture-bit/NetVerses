@@ -155,9 +155,23 @@ export default function EmailChange({
                 <Button
                   aria-label={`${t("general.Confirm")}`}
                   type="primary"
-                  disabled={countdownLabel !== 0 ? true : false}
+                  disabled={
+                    (countdownLabel !== 0 && emailStates.email === null) ||
+                    emailStates.email.trim() === "" ||
+                    errorState.TabOne.Email["Invalid"] ||
+                    (error && error.trim() != "" && error.length > 3)
+                      ? true
+                      : false
+                  }
                   onClick={toggleConfirm}
-                  className={`!p-3 ${countdownLabel !== 0 ? "!bg-violet-900" : "!bg-violet-700"} !border-violet-900 mt-2 hover:!bg-opacity-85 !px-10 !rounded-full transition-all duration-300`}
+                  className={`!p-3 ${
+                    (countdownLabel !== 0 && emailStates.email === null) ||
+                    emailStates.email.trim() === "" ||
+                    errorState.TabOne.Email["Invalid"] ||
+                    (error && error.trim() != "" && error.length > 3)
+                      ? "!bg-violet-900"
+                      : "!bg-violet-700"
+                  } !border-violet-900 mt-2 hover:!bg-opacity-85 !px-10 !rounded-full transition-all duration-300`}
                 >
                   <span className="font-medium text-white">
                     {t("general.Confirm")}
@@ -175,7 +189,7 @@ export default function EmailChange({
             variants={pageVariants}
           >
             <div className="space-y-4 flex flex-col">
-              <p>Please enter your new email address to proceed.</p>
+              <p>{t("EmailChange.enterNewEmail")}</p>
 
               <div className="flex flex-col space-y-1">
                 <ConfigProvider
@@ -205,7 +219,7 @@ export default function EmailChange({
                     onChange={toggleEmail}
                     infoMessage={
                       countdownLabel !== 0
-                        ? `You must wait ${countdownLabel} seconds before you can change your email.`
+                        ? `${t("EmailChange.emailChangeWait.leftSentence")} ${countdownLabel} ${t("EmailChange.emailChangeWait.rightSentence")}`
                         : null
                     }
                     errorMessage={

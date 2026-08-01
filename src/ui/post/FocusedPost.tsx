@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
-import { Tooltip } from "antd";
+
 import formatNumber from "@/utils/formatNumber";
 import formatDate from "@/utils/formatDate";
 import { useTimeAgo } from "@/ui/others/TimeAgo";
@@ -13,6 +13,7 @@ import DownOutlined from "@ant-design/icons";
 
 import { ThemeContext } from "@/context/ThemeContext";
 
+import Tooltip from "@/ui/Tooltip";
 import { t } from "i18next";
 
 type InteractionCounts = {
@@ -143,7 +144,7 @@ export default function FocusedPost({
   return (
     <>
       <div className="flex border borderColor flex-row justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-full sm:w-3/4 lg:w-3/4 xl:w-1/2 darkerBackgroundColor">
-        <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
+        <Tooltip label={"Back"}>
           <button aria-label="Go Back" onClick={toggleBack} className="w-5 h-5">
             <span className="icon-[eva--arrow-back-outline] w-5 h-5"></span>
           </button>

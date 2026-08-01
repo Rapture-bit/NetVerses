@@ -15,7 +15,7 @@ import { UserContext } from "@/context/UserContext";
 import { useCSRFStore } from "@/context/CSRFStore";
 
 import Loading from "@/ui/others/Loading";
-import fetchCSRF from "./utils/fetchPageWithCSRF";
+import fetchCSRF from "./utils/fetchPageWithCSRFToken";
 
 const UserSettings = React.lazy(() => import("@/pages/usersettings"));
 const LandingPage = React.lazy(() => import("@/pages/landingpage"));
@@ -27,11 +27,13 @@ const PageNotFound = React.lazy(() => import("@/pages/pagenotfound"));
 const PrivacyPage = React.lazy(() => import("@/subdomains/help/privacypolicy"));
 const Messages = React.lazy(() => import("@/pages/messages"));
 const RecoverPassword = React.lazy(() => import("@/pages/recover-pass"));
+const ConnectAccount = React.lazy(() => import("@/pages/connect-existing-acc"));
 const ProfilePage = React.lazy(() => import("@/pages/profilepage"));
+const StarPlus = React.lazy(() => import("@/pages/starplus"));
 const ExplorePage = React.lazy(() => import("@/pages/explore"));
 const TOSPage = React.lazy(() => import("@/subdomains/help/tos"));
 const ChildSharingSafetyPage = React.lazy(
-  () => import("@/subdomains/help/child-sharing-safety"),
+  () => import("@/subdomains/help/child-sharing-policy"),
 );
 const HelpLandingPage = React.lazy(() => import("@/subdomains/help/landing"));
 
@@ -71,7 +73,7 @@ export default function SubdomainDivider() {
     const mediaQueryListener = window.matchMedia(
       "(prefers-color-scheme: dark)",
     );
-    const updateTheme = (event) => {
+    const updateTheme = (event: any) => {
       document.documentElement.setAttribute(
         "data-mode",
         event.matches ? "dark" : "light",
@@ -159,6 +161,7 @@ export default function SubdomainDivider() {
             <Route path="/u/:username/posts/:id" element={<PostsPage />} />
             // Add comments page
             <Route path="/u/:username" element={<ProfilePage />} />
+            <Route path="/starplus" element={<StarPlus />} />
             <Route path="/my/settings" element={<UserSettings />} />
             <Route
               path="/my/messages"
@@ -184,6 +187,7 @@ export default function SubdomainDivider() {
                 )
               }
             />
+            <Route path="/auth/connect" element={<ConnectAccount />} />
             <Route
               path="/recover-password"
               element={

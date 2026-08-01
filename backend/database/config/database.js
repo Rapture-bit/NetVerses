@@ -9,6 +9,7 @@ const sequelize = new Sequelize(
     host: "127.0.0.1",
     dialect: "mariadb",
     port: 3306,
+    logging: false,
   },
 );
 

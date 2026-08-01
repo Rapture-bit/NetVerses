@@ -31,6 +31,24 @@ import { UserContext } from "@/context/UserContext";
 import TextArea from "@/ui/input/TextArea";
 import PrimaryInput from "@/ui/input/Primary";
 
+const capitalizeFirstAlphabetic = (str?: string): string | null => {
+  if (!str) return null;
+  if (str === "sms") {
+    return "SMS";
+  }
+
+  const chars = str.split("");
+
+  for (let i = 0; i < chars.length; i++) {
+    if (/[a-zA-Z]/.test(chars[i])) {
+      chars[i] = chars[i].toUpperCase();
+      break;
+    }
+  }
+
+  return chars.join("");
+};
+
 interface FieldError {
   Invalid: boolean;
   msg: string;
@@ -64,7 +82,6 @@ interface ErrorState {
   SecurityTab: {
     Password: FieldError;
     twoFA: FieldError;
-    Sessions: FieldError;
   };
 }
 
@@ -73,39 +90,112 @@ export default function UserSettings() {
 
   const { colorProperties } = useContext(ThemeContext);
 
-  const [textAdded, setTextAdded] = useState<string>("");
   const [active, setActive] = useState("profile");
   const [search, setSearch] = useState("");
   const [hoveredTextArea, setHoveredTextArea] = useState<boolean>(false);
 
   const [hasChanges, setHasChanges] = useState(false);
-  const [selectedZodiacSign, setSelectedZodiacSign] = useState<string>("");
-  const [selectedProfileVisibility, setProfileVisibility] =
-    useState<string>("");
-  const [selectedProfileTheme, setProfileTheme] = useState<string>("");
   const [clearDropdown, setClearDropdown] = useState<boolean | undefined>(
     undefined,
   );
-  const { userData } = useContext(UserContext)!;
+  const { userData, settingsData } = useContext(UserContext)!;
 
+  const [Bio, setBio] = useState<string>(userData?.bio || "");
+
+  const [selectedZodiacSign, setSelectedZodiacSign] = useState<string>(
+    userData?.zodiac_sign || "",
+  );
+  const [selectedProfileVisibility, setProfileVisibility] = useState<string>(
+    capitalizeFirstAlphabetic(settingsData?.profileVisibility) || "Public",
+  );
+  const [selectedProfileTheme, setProfileTheme] = useState<string>(
+    capitalizeFirstAlphabetic(userData?.color) || "",
+  );
+  const [email, setEmail] = useState<string>(userData?.email || "");
+  const [phone, setPhone] = useState<string>(userData?.phone || "");
+  const [password, setPassword] = useState<string>("");
   const [Username, setUsername] = useState<string>(userData?.username || "");
   const [DisplayName, setDisplayName] = useState<string>(
     userData?.display_name || "",
   );
   const [Status, setStatus] = useState<string>("");
   const [Pronouns, setPronouns] = useState<string>(userData?.pronouns || "");
+  const [twoFAOption, setTwoFAOption] = useState<string>(
+    capitalizeFirstAlphabetic(settingsData?.twoFactorOption) || "Disabled",
+  );
 
   useEffect(() => {
-    if (
-      Username === userData?.username &&
-      DisplayName === userData?.display_name &&
-      Pronouns === userData?.pronouns
-    ) {
-      setHasChanges(false);
+    console.log(selectedProfileVisibility);
+  }, [selectedProfileVisibility]);
+
+  const checkUsernameAvailability = async (username: string) => {};
+
+  useEffect(() => {
+    if (twoFAOption === "Disabled") {
+      // Disable 2FA logic here
     } else {
-      setHasChanges(true);
+      // Enable 2FA logic here based on the selected option (SMS, Authenticator App, Email)
     }
-  }, [Username, DisplayName, Pronouns]);
+  }, [twoFAOption]);
+
+  useEffect(() => {
+    if (active === "profile") {
+      if (Username !== userData?.username) {
+      }
+    }
+  }, [Username, active]);
+
+  useEffect(() => {
+    if (active === "profile") {
+      if (
+        Username === userData?.username &&
+        DisplayName === userData?.display_name &&
+        Bio === userData?.bio &&
+        Pronouns === userData?.pronouns &&
+        selectedProfileTheme === capitalizeFirstAlphabetic(userData?.color)
+      ) {
+        setHasChanges(false);
+      } else {
+        setHasChanges(true);
+      }
+    } else if (active === "account") {
+      if (email === userData?.email && phone === userData?.phone) {
+        setHasChanges(false);
+      } else {
+        setHasChanges(true);
+      }
+    }
+  }, [
+    Username,
+    DisplayName,
+    Bio,
+    Pronouns,
+    selectedProfileTheme,
+    selectedProfileVisibility,
+    selectedZodiacSign,
+  ]);
+
+  const resetFields = () => {
+    setUsername(userData?.username || "");
+    setDisplayName(userData?.display_name || "");
+    setPronouns(userData?.pronouns || "");
+    setSelectedZodiacSign(
+      capitalizeFirstAlphabetic(userData?.zodiac_sign) || "",
+    );
+    setProfileVisibility(
+      capitalizeFirstAlphabetic(settingsData?.profileVisibility) || "Public",
+    );
+    setProfileTheme(capitalizeFirstAlphabetic(userData?.color) || "");
+    setBio(userData?.bio || "");
+  };
+
+  const toggleActive = (id: string) => () => {
+    setActive(id);
+    setSearch("");
+    setClearDropdown((prev) => !prev);
+    resetFields();
+    setHasChanges(false);
+  };
 
   const showEmojiMenu = () => {};
 
@@ -116,6 +206,7 @@ export default function UserSettings() {
     "They/Them",
   ];
 
+  const dropdownTwoFA = ["Disabled", "SMS", "Authenticator", "Email"];
   const dropdownProfileVisibility = [
     "Public",
     "Friends Only",
@@ -177,6 +268,9 @@ export default function UserSettings() {
     "Aquarius",
     "Pisces",
   ];
+
+  const deactivateAccount = () => {};
+  const deleteAccount = () => {};
 
   const [errorState, setErrorState] = useState<ErrorState>({
     ProfileTab: {
@@ -256,13 +350,37 @@ export default function UserSettings() {
   }
 
   function bioInputChanged(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    const input = e.target.value.trim();
+    const input = e.target.value;
+    if (input.length > 160) {
+      setErrorState((prev) => ({
+        ...prev,
+        ProfileTab: {
+          ...prev.ProfileTab,
+          Bio: {
+            Invalid: true,
+            msg: "Bio cannot exceed 160 characters",
+          },
+        },
+      }));
+    } else {
+      setErrorState((prev) => ({
+        ...prev,
+        ProfileTab: {
+          ...prev.ProfileTab,
+          Bio: {
+            Invalid: false,
+            msg: "",
+          },
+        },
+      }));
+      setBio(input);
+    }
   }
 
   return (
     <>
       <PageTitle
-        title={`NetVerses ~ ${active === "profile" ? "Profile Customization" : active === "account" ? "Account Settings" : active === "security" ? "Security Settings" : "User Settings"}`}
+        title={`NetVerses ~ ${active === "profile" ? "Profile Customization" : active === "account" ? "Account Settings" : active === "security" ? "Security Settings" : active === "privacy" ? "Privacy Settings" : "User Settings"}`}
       />
       <div
         className={`flex flex-col gap-3 justify-center items-center w-full h-full pt-24 bg-fixed bg-cover bg-center`}
@@ -331,7 +449,7 @@ export default function UserSettings() {
               return (
                 <div
                   key={item.id}
-                  onClick={() => setActive(item.id)}
+                  onClick={toggleActive(item.id)}
                   className={`flex items-center w-full px-4 py-3 cursor-pointer rounded-md transition-colors duration-150
         ${
           isActive
@@ -403,6 +521,9 @@ export default function UserSettings() {
                   <div className="flex flex-col w-1/2 space-y-2 font-normal">
                     <span className="text-sm font-medium jost select-none">
                       Profile Picture (PFP)
+                    </span>
+                    <span className="text-xs dark:text-white/60 text-gray-600">
+                      Size: 500x500
                     </span>
 
                     <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden cursor-pointer relative group">
@@ -578,9 +699,9 @@ export default function UserSettings() {
                       <span className="icon-[ant-design--profile-outlined] mt-2 ml-2 w-4.5 h-4.5 mr-1"></span>
                       <TextArea
                         minHeight={43}
-                        addText={textAdded}
-                        onChange={bioInputChanged}
+                        value={Bio}
                         placeholder={"Bio"}
+                        onChange={bioInputChanged}
                         className={`!bg-transparent pl-0 ml-1.5 mt-1.5 overflow-hidden resize-none select-none border-none !text-white/80 outline-none text-sm focus:border-none dark:text-white opacity-95 w-full placeholder:text-[#9ca3af]`}
                       />
                     </div>
@@ -591,7 +712,7 @@ export default function UserSettings() {
                       Birthdate
                     </span>
                     <PrimaryInput
-                      maxLength={20}
+                      maxLength={10}
                       type="text"
                       placeholder={"DD/MM/YYYY"}
                       ColorSettings={{
@@ -619,6 +740,7 @@ export default function UserSettings() {
                     </span>
                     <PrimaryInput
                       maxLength={20}
+                      value={userData?.location || ""}
                       type="text"
                       placeholder={"City, Country, Place, Planet"}
                       ColorSettings={{
@@ -652,7 +774,9 @@ export default function UserSettings() {
                           setOption={setSelectedZodiacSign}
                           currentOption={selectedZodiacSign}
                           clearTrigger={clearDropdown}
-                          primaryOption={"Select Zodiac Sign"}
+                          primaryOption={
+                            selectedZodiacSign || "Select Zodiac Sign"
+                          }
                           contentArray={zodiacSigns}
                           size="sm"
                           openSide="up"
@@ -661,37 +785,6 @@ export default function UserSettings() {
                         />
                       </div>
                     </div>
-                  </div>
-
-                  <div className="flex flex-col w-1/2 space-y-1 font-normal">
-                    <span className="text-sm font-medium jost select-none">
-                      Profile Visibility
-                    </span>
-                    <div className="flex flex-row items-center space-x-2 font-normal border dark:border-gray-500/20 hover:border-gray-500/36 transition-all duration-300 rounded-md p-1 px-2.5">
-                      <span className="icon-[material-symbols--visibility] w-4 h-4 mr-1"></span>
-
-                      <div className="flex-1">
-                        <Dropdown
-                          setOption={setProfileVisibility}
-                          currentOption={selectedProfileVisibility}
-                          clearTrigger={clearDropdown}
-                          primaryOption={"Select Visibility"}
-                          contentArray={dropdownProfileVisibility}
-                          size="sm"
-                          openSide="up"
-                          fullWidth={true}
-                          buttonStyling={`${selectedProfileVisibility !== "None" ? `!text-white/70` : `!text-gray-400`} ml-1 w-full justify-between items-center mr-4`}
-                        />
-                      </div>
-                    </div>
-                    <span className="text-xs italic text-neutral-400/80 leading-relaxed tracking-[0.001em]">
-                      {
-                        profileVisibilityDescription.find(
-                          (element) =>
-                            element.value === selectedProfileVisibility,
-                        )?.description
-                      }
-                    </span>
                   </div>
 
                   <div className="flex flex-col w-1/2 space-y-1 font-normal">
@@ -706,7 +799,7 @@ export default function UserSettings() {
                           setOption={setProfileTheme}
                           currentOption={selectedProfileTheme}
                           clearTrigger={clearDropdown}
-                          primaryOption={"Select Theme"}
+                          primaryOption={selectedProfileTheme || "Select Theme"}
                           contentArray={dropdownProfileThemes}
                           size="sm"
                           openSide="up"
@@ -871,28 +964,46 @@ export default function UserSettings() {
                       <span className="text-sm font-medium jost select-none">
                         Email <span className="text-red-500">*</span>
                       </span>
+                      <div className="flex flex-row gap-3">
+                        <PrimaryInput
+                          maxLength={254}
+                          type="text"
+                          placeholder={"Email"}
+                          value={email}
+                          ColorSettings={{
+                            BorderColor: errorState.AccountTab.Email["Invalid"]
+                              ? "#EF4444"
+                              : colorProperties.borderInputColor
+                                ? colorProperties.borderInputColor
+                                : "#1677ff",
+                          }}
+                          prefix={
+                            <span className="icon-[mdi--at] w-4 h-4 mr-1"></span>
+                          }
+                          onChange={(e) => console.log(e)}
+                          errorMessage={
+                            errorState.AccountTab.Email["Invalid"]
+                              ? errorState.AccountTab.Email["msg"]
+                              : ""
+                          }
+                        />
+                        <button
+                          onClick={() => console.log("Save")}
+                          className="px-4 py-2 select-none text-sm font-semibold rounded-lg
+               text-white bg-purple-600
+               shadow-md shadow-purple-600/20
+               transition-all duration-200
+               hover:bg-purple-700 hover:shadow-purple-600/30
+               active:scale-95
+               disabled:opacity-40
+               disabled:cursor-not-allowed
+               disabled:shadow-none
+               disabled:hover:bg-purple-600"
+                        >
+                          Change
+                        </button>
+                      </div>
 
-                      <PrimaryInput
-                        maxLength={20}
-                        type="text"
-                        placeholder={"Email"}
-                        ColorSettings={{
-                          BorderColor: errorState.AccountTab.Email["Invalid"]
-                            ? "#EF4444"
-                            : colorProperties.borderInputColor
-                              ? colorProperties.borderInputColor
-                              : "#1677ff",
-                        }}
-                        prefix={
-                          <span className="icon-[mdi--at] w-4 h-4 mr-1"></span>
-                        }
-                        onChange={(e) => console.log(e)}
-                        errorMessage={
-                          errorState.AccountTab.Email["Invalid"]
-                            ? errorState.AccountTab.Email["msg"]
-                            : ""
-                        }
-                      />
                       <span className="text-xs italic text-neutral-400/80 leading-relaxed tracking-[0.001em]">
                         Used for verification and account recovery
                       </span>
@@ -931,7 +1042,7 @@ export default function UserSettings() {
                     <div className="flex flex-row space-x-5 mt-2">
                       <div className="flex flex-col">
                         <button
-                          onClick={() => console.log("Save")}
+                          onClick={deleteAccount()}
                           className="w-full select-none py-1.5 text-sm font-semibold rounded-lg
                text-white bg-red-800
                shadow-md shadow-red-600/20
@@ -955,7 +1066,7 @@ export default function UserSettings() {
 
                       <div className="flex flex-col">
                         <button
-                          onClick={() => console.log("Save")}
+                          onClick={deactivateAccount()}
                           className="w-full select-none py-1.5 text-sm font-semibold rounded-lg
                text-white bg-neutral-600
                shadow-md shadow-neutral-600/20
@@ -980,9 +1091,106 @@ export default function UserSettings() {
               </>
             )}
 
+            {active === "privacy" && (
+              <>
+                <div className="flex flex-row justify-between w-full">
+                  <span className="text-lg font-semibold hover:underline">
+                    Privacy
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      disabled={!hasChanges}
+                      onClick={() => console.log("Save")}
+                      className="px-4 select-none py-2 text-sm font-semibold rounded-lg
+               text-white bg-purple-600
+               shadow-md shadow-purple-600/20
+               transition-all duration-200
+               hover:bg-purple-700 hover:shadow-purple-600/30
+               active:scale-95
+               disabled:opacity-40
+               disabled:cursor-not-allowed
+               disabled:shadow-none
+               disabled:hover:bg-purple-600"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorBgBase: colorProperties.backgroundColor
+                        ? colorProperties.backgroundColor
+                        : "#1677ff",
+                      colorPrimary: "#535353",
+                      colorTextPlaceholder: "#9ca3af",
+                      colorBorder: colorProperties.borderInputColor
+                        ? colorProperties.borderInputColor
+                        : "#1677ff",
+                    },
+                  }}
+                >
+                  <div className="flex flex-col w-1/2 space-y-1 font-normal">
+                    <span className="text-sm font-medium jost select-none">
+                      Profile Visibility
+                    </span>
+                    <div className="flex flex-row items-center space-x-2 font-normal border dark:border-gray-500/20 hover:border-gray-500/36 transition-all duration-300 rounded-md p-1 px-2.5">
+                      <span className="icon-[material-symbols--visibility] w-4 h-4 mr-1"></span>
+
+                      <div className="flex-1">
+                        <Dropdown
+                          setOption={setProfileVisibility}
+                          currentOption={selectedProfileVisibility}
+                          clearTrigger={clearDropdown}
+                          primaryOption={
+                            selectedProfileVisibility || "Select Visibility"
+                          }
+                          contentArray={dropdownProfileVisibility}
+                          size="sm"
+                          openSide="up"
+                          fullWidth={true}
+                          buttonStyling={`${selectedProfileVisibility !== "None" ? `!text-white/70` : `!text-gray-400`} ml-1 w-full justify-between items-center mr-4`}
+                        />
+                      </div>
+                    </div>
+                    <span className="text-xs italic text-neutral-400/80 leading-relaxed tracking-[0.001em]">
+                      {
+                        profileVisibilityDescription.find(
+                          (element) =>
+                            element.value === selectedProfileVisibility,
+                        )?.description
+                      }
+                    </span>
+                  </div>
+                </ConfigProvider>
+              </>
+            )}
+
             {active === "security" && (
               <>
-                <span className="text-lg font-semibold">Security</span>
+                <div className="flex flex-row justify-between w-full">
+                  <span className="text-lg font-semibold hover:underline">
+                    Security
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      disabled={!hasChanges}
+                      onClick={() => console.log("Save")}
+                      className="px-4 select-none py-2 text-sm font-semibold rounded-lg
+               text-white bg-purple-600
+               shadow-md shadow-purple-600/20
+               transition-all duration-200
+               hover:bg-purple-700 hover:shadow-purple-600/30
+               active:scale-95
+               disabled:opacity-40
+               disabled:cursor-not-allowed
+               disabled:shadow-none
+               disabled:hover:bg-purple-600"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
                 <ConfigProvider
                   theme={{
                     token: {
@@ -1046,8 +1254,74 @@ export default function UserSettings() {
                   </div>
                 </ConfigProvider>
 
-                <span>2FA</span>
-                <span>Sessions</span>
+                <div className="flex flex-col w-1/2 space-y-1 font-normal">
+                  <span className="text-sm font-medium jost select-none">
+                    PIN Code
+                  </span>
+                  <div className="flex flex-row gap-3">
+                    <PrimaryInput
+                      maxLength={0}
+                      disabled
+                      value={"****************"}
+                      type="text"
+                      placeholder={"PIN Code"}
+                      ColorSettings={{
+                        BorderColor: errorState.SecurityTab.Password["Invalid"]
+                          ? "#EF4444"
+                          : colorProperties.borderInputColor
+                            ? colorProperties.borderInputColor
+                            : "#1677ff",
+                      }}
+                      prefix={
+                        <span className="icon-[material-symbols--pin] w-4 h-4 mr-1"></span>
+                      }
+                      onChange={(e) => console.log(e)}
+                      errorMessage={
+                        errorState.SecurityTab.Password["Invalid"]
+                          ? errorState.SecurityTab.Password["msg"]
+                          : ""
+                      }
+                    />
+                    <button
+                      onClick={() => console.log("Save")}
+                      className="px-4 py-2 select-none text-sm font-semibold rounded-lg
+               text-white bg-purple-600
+               shadow-md shadow-purple-600/20
+               transition-all duration-200
+               hover:bg-purple-700 hover:shadow-purple-600/30
+               active:scale-95
+               disabled:opacity-40
+               disabled:cursor-not-allowed
+               disabled:shadow-none
+               disabled:hover:bg-purple-600"
+                    >
+                      Change
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex flex-col w-1/2 space-y-1 font-normal">
+                  <span className="text-sm font-medium jost select-none">
+                    2FA (Two-Factor Authentication)
+                  </span>
+                  <div className="flex flex-row items-center space-x-2 font-normal border dark:border-gray-500/20 hover:border-gray-500/36 transition-all duration-300 rounded-md p-1 px-2.5">
+                    <span className="icon-[material-symbols--security] w-4.5 h-4.5 mr-1"></span>
+
+                    <div className="flex-1">
+                      <Dropdown
+                        setOption={setTwoFAOption}
+                        currentOption={twoFAOption}
+                        clearTrigger={clearDropdown}
+                        primaryOption={twoFAOption || "Select 2FA Option"}
+                        contentArray={dropdownTwoFA}
+                        size="sm"
+                        openSide="up"
+                        fullWidth={true}
+                        buttonStyling={`${twoFAOption !== "None" ? `!text-white/70` : `!text-gray-400`} ml-1 w-full justify-between items-center mr-4`}
+                      />
+                    </div>
+                  </div>
+                </div>
               </>
             )}
 

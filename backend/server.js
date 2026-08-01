@@ -163,13 +163,13 @@ async function startServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser(MISC_KEY));
-  app.use(csrfMiddleware);
   app.use(authMiddleware);
+  app.use("/u/:username", contentMiddleware, userRouter);
+  app.use("/my", selfRouter);
+  app.use(csrfMiddleware);
   app.use(routeGuardMiddleware);
   app.use(apiMiddleware);
   app.use(assetsMiddleware);
-  app.use("/u/:username", contentMiddleware, userRouter);
-  app.use("/my", selfRouter);
   app.use(
     "/v1",
     rateLimiter({
@@ -204,16 +204,23 @@ async function startServer() {
       htmlWithNonce = htmlWithNonce.replace(
         "<!--__USER__-->",
         `<script nonce="${res.locals.nonce}">
-          window.__USER__ = ${safeSerialize(req.user)};
-        </script>`,
+    window.__USER__ = ${safeSerialize(req.user) || null};
+  </script>`,
       );
-      if (req.profile) {
-        htmlWithNonce = htmlWithNonce.replace(
-          "<!--__PROFILE__-->",
-          `<script nonce="${res.locals.nonce}">window.__PROFILE__ = ${safeSerialize(req.profile)};</script>`,
-        );
-      }
 
+      htmlWithNonce = htmlWithNonce.replace(
+        "<!--__PROFILE__-->",
+        `<script nonce="${res.locals.nonce}">
+    window.__PROFILE__ = ${safeSerialize(req.profile) || null};
+  </script>`,
+      );
+
+      htmlWithNonce = htmlWithNonce.replace(
+        "<!--__SETTINGS__-->",
+        `<script nonce="${res.locals.nonce}">
+    window.__SETTINGS__ = ${safeSerialize(req.settings) || null} ;
+  </script>`,
+      );
       res.send(htmlWithNonce);
     });
   } else {
@@ -271,13 +278,53 @@ async function startServer() {
                 "<!--__USER__-->",
                 `
                 <script nonce="${res.locals.nonce}">
-          window.__USER__ = ${safeSerialize(req.user)};
+          window.__USER__ = ${safeSerialize(req.user) || null};
         </script>`,
               );
-              if (req.profile) {
+              html = html.replace(
+                "<!--__PROFILE__-->",
+                `<script nonce="${res.locals.nonce}">window.__PROFILE__ = ${safeSerialize(req.profile) || null};</script>`,
+              );
+              html = html.replace(
+                "<!--__SETTINGS__-->",
+                `<script nonce="${res.locals.nonce}">window.__SETTINGS__ = ${safeSerialize(req.settings) || null};</script>`,
+              );
+
+              const settingsMatch = ">window.__SETTINGS__ =";
+              const foundSettingsScript = html.match(settingsMatch);
+              if (foundSettingsScript) {
+                const termInsideSettings = html.slice(
+                  foundSettingsScript.index + 1,
+                  html
+                    .slice(
+                      foundSettingsScript.index,
+                      foundSettingsScript.index + settingsMatch.length + 1000,
+                    )
+                    .match(";</script>").index + foundSettingsScript.index,
+                );
+                console.log(req.settings);
                 html = html.replace(
-                  "<!--__PROFILE__-->",
-                  `<script nonce="${res.locals.nonce}">window.__PROFILE__ = ${safeSerialize(req.profile)};</script>`,
+                  termInsideSettings,
+                  `window.__SETTINGS__ = ${safeSerialize(req.settings)}`,
+                );
+              }
+
+              const profileMatch = ">window.__PROFILE__ =";
+              const foundProfileScript = html.match(profileMatch);
+              if (foundProfileScript) {
+                const termInsideProfile = html.slice(
+                  foundProfileScript.index + 1,
+                  html
+                    .slice(
+                      foundProfileScript.index,
+                      foundProfileScript.index + profileMatch.length + 1000,
+                    )
+                    .match(";</script>").index + foundProfileScript.index,
+                );
+                console.log("Profile:", req.profile);
+                html = html.replace(
+                  termInsideProfile,
+                  `window.__PROFILE__ = ${safeSerialize(req.profile)}`,
                 );
               }
 
@@ -304,16 +351,15 @@ async function startServer() {
   });
 
   const PORT = 443;
-
   const options = {
     key: fs.readFileSync("key.pem"),
     cert: fs.readFileSync("cert.pem"),
     ca: fs.readFileSync("chain.pem"),
   };
 
-  https.createServer(options, app).listen(PORT, "192.168.0.101", () => {
+  https.createServer(options, app).listen(PORT, "192.168.0.100", () => {
     portforward();
-    console.log(`HTTPS server running on https://192.168.0.101:${PORT}`);
+    console.log(`HTTPS server running on https://192.168.0.100:${PORT}`);
   });
 }
 

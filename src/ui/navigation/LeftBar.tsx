@@ -1,10 +1,11 @@
 import { useLocation, Link } from "react-router-dom";
 
-import { useState, useContext, useEffect } from "react";
+import { useState, useLayoutEffect, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { Tooltip } from "antd";
+import Tooltip from "@/ui/Tooltip";
 import formatNumber from "@/utils/formatNumber";
 import { useTranslation } from "react-i18next";
 
@@ -29,6 +30,24 @@ interface dataProps {
   badges: any;
 }
 
+const capitalizeFirstAlphabetic = (str?: string): string | null => {
+  if (!str) return null;
+  if (str === "sms") {
+    return "SMS";
+  }
+
+  const chars = str.split("");
+
+  for (let i = 0; i < chars.length; i++) {
+    if (/[a-zA-Z]/.test(chars[i])) {
+      chars[i] = chars[i].toUpperCase();
+      break;
+    }
+  }
+
+  return chars.join("");
+};
+
 export default function LeftBar() {
   const { t } = useTranslation();
   const { userData } = useContext(UserContext)!;
@@ -46,6 +65,13 @@ export default function LeftBar() {
     borderColor: `border-${userData?.color}-800`,
     textColor: `text-${userData?.color}-500`,
   });
+  const [followersLabel, setFollowersLabel] = useState<string>(
+    t("general.followers"),
+  );
+  const [followingLabel, setFollowingLabel] = useState<string>(
+    t("general.following"),
+  );
+  const [postsLabel, setPostsLabel] = useState<string>(t("general.posts"));
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -115,7 +141,7 @@ export default function LeftBar() {
     if (path === "/") setSelectedPage("Home");
     else if (path === "/my/messages") setSelectedPage("Messages");
     else if (path === "/my/clubs") setSelectedPage("Clubs");
-    else if (path === "/my/settings") setSelectedPage("Settings");
+    else if (path === "/my/channels") setSelectedPage("Channels");
     else if (path === "/explore") setSelectedPage("Explore");
     else if (path === "/starplus") setSelectedPage("StarPlus");
     else setSelectedPage("");
@@ -172,34 +198,61 @@ export default function LeftBar() {
               <div className="absolute z-10 mt-7 ml-4 w-16 h-16 rounded-full bg-gray-300 dark:bg-gray-700 animate-pulse"></div>
             )}
 
-            <Tooltip
-              placement="bottom"
-              title="Edit Profile"
-              mouseLeaveDelay={0}
-            >
-              <button
-                className="absolute top-2 right-2 z-20 transition-colors inline-flex flex-shrink-0"
-                aria-label="Edit Banner"
-              >
-                <span className="icon-[flowbite--edit-outline] text-[#e2e2e2] hover:text-white transition-all duration-300 text-xl"></span>
-              </button>
-            </Tooltip>
+            <div className="absolute top-2 right-2 z-20 flex flex-row space-x-1">
+              <div className="relative">
+                <Tooltip label="Share">
+                  <button
+                    onClick={(e) => navigate("/my/settings")}
+                    className="transition-colors inline-flex flex-shrink-0"
+                    aria-label="Share Profile"
+                  >
+                    <span className="icon-[humbleicons--share] text-[#e2e2e2] hover:text-white transition-all duration-300 text-lg"></span>
+                  </button>
+                </Tooltip>
+              </div>
+
+              <div className="relative">
+                <Tooltip label="Settings">
+                  <button
+                    onClick={(e) => navigate("/my/settings")}
+                    className="transition-colors inline-flex flex-shrink-0"
+                    aria-label="Settings"
+                  >
+                    <span className="icon-[material-symbols--settings-outline] text-[#e2e2e2] hover:text-white transition-all duration-300 text-lg"></span>
+                  </button>
+                </Tooltip>
+              </div>
+            </div>
           </div>
 
           <div className="flex border borderColor flex-col space-y-3 py-5 px-7 rounded-lg darkerBackgroundColor pt-28">
             <div className="flex flex-col gap-0.5">
-              <div className="inline-flex items-center gap-1">
+              <div className="flex flex-col">
                 {isLoaded ? (
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center gap-2">
                     <Link
                       to={`/u/${userData?.username?.toLowerCase()}`}
-                      className="text-xl font-semibold dark:text-white transition-colors duration-300 leading-none hover:underline"
+                      className="group inline-flex items-center gap-2"
                     >
-                      {userData?.username}
+                      <span className="text-xl font-semibold text-gray-900 dark:text-white leading-none transition-all duration-300 group-hover:text-purple-500">
+                        {userData?.display_name ||
+                          capitalizeFirstAlphabetic(userData?.username) ||
+                          "User"}
+                      </span>
+
+                      {/* <Sparkles className="w-4 h-4 text-purple-500" /> */}
                     </Link>
                   </div>
                 ) : (
-                  <div className="h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                  <div className="h-5 w-28 bg-gray-300 dark:bg-gray-700 rounded-md animate-pulse" />
+                )}
+
+                {isLoaded ? (
+                  <span className="w-fit text-sm text-gray-500 dark:text-gray-400 font-medium tracking-wide hover:text-purple-400 transition-colors duration-120 cursor-pointer">
+                    @{userData?.username}
+                  </span>
+                ) : (
+                  <div className="mt-1 h-4 w-20 bg-gray-300 dark:bg-gray-700 rounded-md animate-pulse" />
                 )}
               </div>
               {userData?.career && (
@@ -239,9 +292,9 @@ export default function LeftBar() {
 
             <div className="flex flex-row justify-center gap-8">
               {[
-                { value: userData?.followers, label: "Followers" },
-                { value: userData?.following, label: "Following" },
-                { value: postsNumber, label: "Posts" },
+                { value: userData?.followers, label: followersLabel },
+                { value: userData?.following, label: followingLabel },
+                { value: postsNumber, label: postsLabel },
               ].map((item, idx) => (
                 <div key={idx} className="flex flex-col items-center">
                   {isLoaded ? (
@@ -327,18 +380,18 @@ export default function LeftBar() {
               </div>
 
               <div className="relative flex items-center justify-center">
-                <button
-                  aria-label={t("home.leftBar.settings")}
-                  onClick={(e) => navigate("/my/settings")}
-                  className={`${selectedPage === "Settings" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
+                <a
+                  href="/my/channels"
+                  aria-label={t("home.leftBar.channels")}
+                  className={`${selectedPage === "Channels" ? "dark:brightness-125 brightness-95 font-medium" : ""} border borderColor p-3 hover:brightness-95 dark:hover:brightness-125 duration-200 transition-all w-64 darkerBackgroundColor rounded-lg flex items-center gap-3`}
                 >
                   <span
-                    className={`${selectedPage === "Settings" ? "icon-[fluent--settings-28-filled]" : "icon-[fluent--settings-28-regular]"} w-6 h-6 flex items-center justify-center`}
+                    className={`${selectedPage === "Channels" ? "icon-[streamline-ultimate--megaphone-bold]" : "icon-[streamline-ultimate--megaphone]"} w-6 h-6 flex items-center justify-center`}
                   ></span>
                   <span className="text-base">
-                    {t("home.leftBar.settings")}
+                    {t("home.leftBar.channels")}
                   </span>
-                </button>
+                </a>
               </div>
             </>
           )}

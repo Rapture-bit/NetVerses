@@ -8,7 +8,6 @@ export default function FriendProfile({ username }) {
   const [friendProfileColor, setFriendProfileColor] = useState<string>("blue");
   const [badges, setBadges] = useState<any>([
     { name: "Official Member" },
-    { name: "Early Creator" },
     { name: "Star+" },
     { name: "Business Account" },
   ]);

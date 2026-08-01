@@ -9,6 +9,99 @@ function generateNonHyphenUUID() {
   return randomUUID().replace(/-/g, "");
 }
 
+class UserSecurity extends Model {}
+UserSecurity.init(
+  {
+    userId: {
+      type: DataTypes.STRING(32),
+      primaryKey: true,
+    },
+    twoFactorOption: {
+      type: DataTypes.ENUM("disabled", "email", "authenticator", "sms"),
+      defaultValue: "disabled",
+    },
+    twoFactorSecret: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    loginAlerts: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    lastPasswordChange: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    failedLoginAttempts: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    lockUntil: {
+      type: DataTypes.DATE,
+      allowNull: true, // 15 min lock usually
+    },
+  },
+  { sequelize, modelName: "UserSecurity" },
+);
+
+class UserPrivacy extends Model {}
+UserPrivacy.init(
+  {
+    userId: {
+      type: DataTypes.STRING(32),
+      primaryKey: true,
+    },
+    profileVisibility: {
+      type: DataTypes.ENUM(
+        "public",
+        "private",
+        "friends",
+        "friends_and_followers",
+        "followers",
+      ),
+      defaultValue: "public",
+    },
+    showBirthDate: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    showLocation: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  },
+  { sequelize, modelName: "UserPrivacy" },
+);
+
+class UserSettings extends Model {}
+UserSettings.init(
+  {
+    userId: {
+      type: DataTypes.STRING(32),
+      primaryKey: true,
+    },
+    theme: {
+      type: DataTypes.STRING,
+      defaultValue: "dark",
+    },
+    language: {
+      type: DataTypes.STRING,
+      defaultValue: "en",
+    },
+    notifications: {
+      type: DataTypes.JSON,
+      defaultValue: {
+        email: true,
+        push: true,
+      },
+    },
+  },
+  {
+    sequelize,
+    modelName: "UserSettings",
+  },
+);
+
 class User extends Model {}
 User.init(
   {
@@ -30,6 +123,11 @@ User.init(
       allowNull: false,
       defaultValue: "user",
     },
+    phone: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+      unique: true,
+    },
     email: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -38,6 +136,10 @@ User.init(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    deactivated: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -133,9 +235,12 @@ UserProfile.init(
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
+      set(value) {
+        this.setDataValue("username", value.toLowerCase());
+      },
       validate: {
         len: [3, 50],
-        is: /^[a-zA-Z0-9_-]+$/,
+        is: /^[a-z0-9_-]+$/,
       },
     },
     profile_picture: {
@@ -244,8 +349,7 @@ UserProfile.init(
       allowNull: false,
       defaultValue: [
         { name: "Official Member" },
-        { name: "Early Creator" },
-        { name: "Star+" },
+        { name: "StarPlus" },
         { name: "Business Account" },
       ],
     },
@@ -264,8 +368,17 @@ UserProfile.init(
   },
 );
 
-User.hasOne(UserProfile, { foreignKey: "id" });
-UserProfile.belongsTo(User, { foreignKey: "id" });
+User.hasOne(UserSecurity, { foreignKey: "userId" });
+UserSecurity.belongsTo(User, { foreignKey: "userId" });
+
+User.hasOne(UserSettings, { foreignKey: "userId" });
+UserSettings.belongsTo(User, { foreignKey: "userId" });
+
+User.hasOne(UserPrivacy, { foreignKey: "userId" });
+UserPrivacy.belongsTo(User, { foreignKey: "userId" });
+
+User.hasOne(UserProfile, { foreignKey: "userId" });
+UserProfile.belongsTo(User, { foreignKey: "userId" });
 
 User.hasMany(UserSession, { foreignKey: "userId" });
 UserSession.belongsTo(User, { foreignKey: "userId" });
@@ -280,4 +393,12 @@ Interest.belongsToMany(User, {
   foreignKey: "interestId",
 });
 
-export { User, UserProfile, Interest, UserInterest };
+export {
+  User,
+  UserProfile,
+  UserSecurity,
+  UserSettings,
+  UserPrivacy,
+  Interest,
+  UserInterest,
+};

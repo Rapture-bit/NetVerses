@@ -5,8 +5,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import formatNumber from "@/utils/formatNumber";
 import ReactDOM from "react-dom";
-import { Tooltip } from "antd";
 
+import Tooltip from "@/ui/Tooltip";
 import { ThemeContext } from "@/context/ThemeContext";
 
 import type { MenuProps } from "antd/es/menu";
@@ -118,10 +118,6 @@ const AttachmentFocus = ({
 
   const toggleBoost = () => {
     setBoostMenuVisible(!isBoostMenuVisible);
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -260,6 +256,7 @@ const AttachmentFocus = ({
                 >
                   {currentAttachment.type === "img" && (
                     <img
+                      draggable={false}
                       src={currentAttachment.attachmentDetails.src}
                       alt="Focused"
                       className="
@@ -325,9 +322,9 @@ const AttachmentFocus = ({
             >
               <div className="flex items-center justify-between w-full">
                 <span className="text-white font-bold">Xenon</span>
-                <Tooltip placement="bottom" mouseLeaveDelay={0} title="Back">
+                <Tooltip label="Back">
                   <button
-                    onClick={() => closeMenu()}
+                    onClick={() => closeModal()}
                     className="flex items-center justify-center"
                   >
                     <span className="icon-[ic--round-close] w-4 h-4 text-neutral-300"></span>

@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { Modal, Button, ConfigProvider } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
 
+import { useTranslation } from "react-i18next";
+
 interface PrimaryModalProps {
   confirmClose: boolean;
   noConfirmationDialog: boolean;
@@ -11,6 +13,7 @@ interface PrimaryModalProps {
   footer?: React.ReactNode;
   setIsOpen: Function;
   onClosed: Function;
+  showCloseBtn?: boolean;
   [key: string]: any;
 }
 
@@ -23,11 +26,34 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
   children,
   onClosed,
   setIsOpen,
+  showCloseBtn = true,
   ...props
 }) => {
   const { colorProperties } = useContext(ThemeContext);
+  const { t } = useTranslation();
   const [showConfirmClose, setShowConfirmClose] = useState<boolean>(false);
   const [modalClosed, setModalClosed] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!open) return;
+    console.log("open");
+
+    setTimeout(() => {
+      const buttons = document.getElementsByTagName(
+        "button",
+      ) as HTMLCollectionOf<HTMLElement>;
+      for (let button of buttons) {
+        if (button.getAttribute("aria-label") === "Close") {
+          console.log(showCloseBtn);
+          if (!showCloseBtn) {
+            button.style.display = "none";
+          } else {
+            button.style.display = "block";
+          }
+        }
+      }
+    }, 100);
+  }, [open]);
 
   const handleBeforeUnload = (e) => {
     if (confirmClose && !modalClosed && open) {
@@ -119,11 +145,11 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
                   }}
                 >
                   <Button aria-label="Cancel" onClick={handleCancel}>
-                    <span>Cancel</span>
+                    <span>{t("general.Cancel")}</span>
                   </Button>
                 </ConfigProvider>
                 <Button aria-label="Ok" type="primary">
-                  <span>OK</span>
+                  <span>{t("general.OK")}</span>
                 </Button>
               </>
             ) : (
@@ -154,34 +180,31 @@ const PrimaryModal: React.FC<PrimaryModalProps> = ({
                   }}
                 >
                   <Button
-                    aria-label="No"
+                    aria-label={t("general.No")}
                     className="rounded-full !bg-transparent"
                     onClick={handleConfirmCancel}
                   >
-                    <span>No</span>
+                    <span>{t("general.No")}</span>
                   </Button>
                 </ConfigProvider>
                 <Button
-                  aria-label="Yes"
+                  aria-label={t("general.Yes")}
                   type="primary"
                   className="rounded-full"
                   onClick={handleConfirmClose}
                   danger
                 >
-                  <span>Yes</span>
+                  <span>{t("general.Yes")}</span>
                 </Button>
               </div>
             </>
           }
-          title="Close Tab"
+          title={t("PrimaryModal.closeTabTitle")}
           centered
           destroyOnClose={true}
           open={showConfirmClose}
         >
-          <span className="mt-3">
-            Are you sure you wish to close this tab? Any unsaved progress will
-            be lost.
-          </span>
+          <span className="mt-3">{t("PrimaryModal.closeTabQuestion")}</span>
         </Modal>
       </ConfigProvider>
     </>

@@ -1,5 +1,23 @@
 const AssetsRoute = [
   {
+    name: "Avatar Upload",
+    urlPath: "/uploads/avatars/:filename",
+    type: "server",
+    filePath: "/images/uploads/avatars/:filename",
+  },
+  {
+    name: "Banner Upload",
+    urlPath: "/uploads/banners/:filename",
+    type: "server",
+    filePath: "/images/uploads/banners/:filename",
+  },
+  {
+    name: "Attachment Upload",
+    urlPath: "/uploads/attachments/:filename",
+    type: "server",
+    filePath: "/attachments/uploads/:filename",
+  },
+  {
     name: "Image Placeholder",
     type: "server",
     urlPath: "/media/image_placeholder.jpg",
@@ -10,12 +28,6 @@ const AssetsRoute = [
     type: "server",
     urlPath: "/uploads/banners/soviet_banner.jpg",
     filePath: "/images/uploads/soviet_banner.jpg",
-  },
-  {
-    name: "Avatar Upload",
-    urlPath: "/uploads/avatars/:filename",
-    type: "server",
-    filePath: "/images/uploads/avatars/:filename",
   },
   {
     name: "Image",

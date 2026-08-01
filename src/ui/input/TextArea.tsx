@@ -5,6 +5,8 @@ interface Props {
   allowEmojis?: boolean;
   addText?: string;
   minHeight?: number;
+  maxHeight?: number;
+  noTextAdded?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   [key: string]: any;
 }
@@ -13,12 +15,14 @@ export default function TextArea({
   allowEmojis = true,
   addText,
   minHeight = 40,
+  maxHeight = 300,
+  noTextAdded = false,
   onChange,
   ...props
 }: Props) {
   const [text, setText] = useState<string>("");
   const [maxChars, setMaxChars] = useState<number>(500);
-  const textAreaRef = useRef(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (addText) {
@@ -34,8 +38,15 @@ export default function TextArea({
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
+
     e.target.style.height = "auto";
-    e.target.style.height = `${e.target.scrollHeight}px`;
+
+    const newHeight = Math.min(e.target.scrollHeight, maxHeight);
+    e.target.style.height = `${newHeight}px`;
+
+    e.target.style.overflowY =
+      e.target.scrollHeight > maxHeight ? "auto" : "hidden";
+
     const updatedText = replaceEmojiNames(inputValue);
     setText(updatedText);
 
@@ -46,9 +57,15 @@ export default function TextArea({
 
   return (
     <textarea
-      style={{ height: `${minHeight}px` }}
+      ref={textAreaRef}
+      style={{
+        height: `${minHeight}px`,
+        maxHeight: `${maxHeight}px`,
+        overflowY: "hidden",
+        resize: "none",
+      }}
       onChange={handleChange}
-      value={text}
+      {...(!noTextAdded && { value: text })}
       dir="ltr"
       {...props}
     />

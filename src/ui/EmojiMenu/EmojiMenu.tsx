@@ -7,14 +7,14 @@ import emojisList from "./data/emojisList.json";
 import EmojiCategory from "./components/EmojiCategory";
 
 interface EmojiMenuProps {
-  position: any;
+  buttonId: any;
   isVisible: any;
   setVisible: any;
 }
 
 type SkinTone = "Light" | "Medium" | "Dark" | "Default";
 export default function EmojiMenu({
-  position,
+  buttonId,
   isVisible,
   setVisible,
 }: EmojiMenuProps) {
@@ -35,6 +35,11 @@ export default function EmojiMenu({
 
   const [isOnFocus, setFocus] = useState<boolean>(false);
   const [categoriesList, setCategoriesList] = useState<any[]>([]);
+
+  const [label, setLabel] = useState<string>("");
+
+  const menuRef = useRef(null);
+  const [menuPos, setMenuPos] = useState({ left: 0, top: 0 });
 
   const moveHighlight = () => {
     const buttonRef =
@@ -74,6 +79,27 @@ export default function EmojiMenu({
     return () => window.removeEventListener("resize", onResize);
   }, [selectedTab]);
 
+  const updateMenuPosition = () => {
+    if (!buttonId) return;
+
+    const buttonElement = document.getElementById(buttonId);
+    if (buttonElement && menuRef.current) {
+      const rect = buttonElement.getBoundingClientRect();
+
+      const left = rect.left;
+      const top = rect.bottom + 10;
+
+      menuRef.current.style.position = "fixed";
+      menuRef.current.style.left = `${left}px`;
+      menuRef.current.style.top = `${top}px`;
+      menuRef.current.style.transform = "none";
+    }
+  };
+
+  useEffect(() => {
+    updateMenuPosition();
+  }, [buttonId, isVisible]);
+
   useEffect(() => {
     const uniqueCategories = new Set<string>();
 
@@ -99,31 +125,53 @@ export default function EmojiMenu({
       }
     };
 
+    const handleEscapeKey = (e) => {
+      if (e.key === "Escape") {
+        setVisible(false);
+      }
+    };
+
+    updateMenuPosition();
+
     window.addEventListener("scroll", onScroll);
+    window.addEventListener("keydown", handleEscapeKey);
+    window.addEventListener("resize", updateMenuPosition);
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateMenuPosition);
+      window.removeEventListener("keydown", handleEscapeKey);
     };
+  }, [buttonId, isVisible]);
+
+  useEffect(() => {
+    if (!buttonId) return;
+    updateMenuPosition();
   }, []);
 
   if (!isRendering) return null;
   return (
     <AnimatePresence>
       <motion.div
+        ref={menuRef}
         animate={{ opacity: isVisible ? 1 : 0 }}
         initial={{ opacity: 0 }}
         transition={{
           duration: isVisible ? 0.2 : 0.4,
+        }}
+        onAnimationStart={() => {
+          if (isVisible) {
+            updateMenuPosition();
+          }
         }}
         onAnimationComplete={() => {
           if (!isVisible) {
             setRenderingStatus(false);
           }
         }}
-        className={`fixed flex flex-col p-3 rounded-md backgroundColor shadow-lg
+        className={`absolute flex flex-col p-3 rounded-md border borderColor darkerBackgroundColor shadow-lg
             w-full z-[999] sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 max-h-120 ${
               !isVisible ? "pointer-events-none select-none" : ""
             }`}
-        style={{ left: position.x, top: position.y }}
       >
         <div
           ref={containerRef}
@@ -222,10 +270,15 @@ export default function EmojiMenu({
               <EmojiCategory
                 key={index}
                 categoryName={element}
+                setLabel={setLabel}
                 tone={selectedTone}
                 searchIndex={indexedTerm}
               />
             ))}
+        </div>
+
+        <div className="flex-shrink-0 h-1/4 justify-start items-center flex">
+          <span className="p-2">{label}</span>
         </div>
       </motion.div>
     </AnimatePresence>

@@ -821,23 +821,23 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
     });
   };
 
-  const toggleEmail = (e) => {
+  const toggleEmail = (e: any) => {
     setEmail(e.target.value);
   };
 
-  const toggleUsername = (e) => {
+  const toggleUsername = (e: any) => {
     setUsername(e.target.value);
   };
 
-  const togglePassword = (e) => {
+  const togglePassword = (e: any) => {
     setPassword(e.target.value);
   };
 
-  const toggleConfirmPassword = (e) => {
+  const toggleConfirmPassword = (e: any) => {
     setConfirmPassword(e.target.value);
   };
 
-  const toggleAgreementChecked = (e) => {
+  const toggleAgreementChecked = (e: any) => {
     setAgreementChecked(e.target.checked);
   };
 
@@ -1022,6 +1022,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
                     <div className="flex flex-col space-y-1">
                       <PrimaryInput
+                        type="text"
                         maxLength={128}
                         ColorSettings={{
                           BorderColor: errorState.TabOne.ConfirmPassword[
@@ -1138,7 +1139,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                       }}
                       className="text-violet-700! hover:underline! w-fit"
                     >
-                      Change email
+                      {t("SignUp.changeEmail")}
                     </a>
                   )}
                 </div>

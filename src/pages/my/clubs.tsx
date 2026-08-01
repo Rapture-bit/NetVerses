@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 
 import { Link } from "react-router-dom";
-import { Tooltip } from "antd";
 
+import Tooltip from "@/ui/Tooltip";
 import ClubCard from "@/ui/ClubCard";
 import ChannelCard from "@/ui/ChannelCard";
 
@@ -195,7 +195,7 @@ export default function ClubsPage() {
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">
           <div className="flex flex-row border borderColor justify-between gap-5 p-4 sm:pl-5 sm:py-4 rounded-md mx-auto sm:mx-0 w-1/2 darkerBackgroundColor">
-            <Tooltip mouseLeaveDelay={0} title={"Back"} placement={"bottom"}>
+            <Tooltip label={"Back"}>
               <button
                 aria-label="Go Back"
                 onClick={toggleBack}
@@ -224,7 +224,7 @@ export default function ClubsPage() {
               <div className="relative w-full">
                 <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#111827] from-[#cfcfcf] to-transparent z-10"></div>
 
-                <div className="flex flex-row snap-start snap-mandatory overscroll-x-contain gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
+                <div className="flex flex-row snap-start snap-mandatory overscroll-x-contain gap-5 overflow-x-scroll scrollbar-thin py-2 scroll-smooth relative">
                   {clubs.map((element, index) => (
                     <ClubCard
                       key={index}
@@ -262,10 +262,10 @@ export default function ClubsPage() {
                 </Link>
               </div>
 
-              <div className="relative w-full">
+              <div className="relative w-full mb-12">
                 <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l dark:from-[#111827] from-[#cfcfcf] to-transparent z-10"></div>
 
-                <div className="flex flex-row gap-5 overflow-x-auto hide-scrollbar py-2 scroll-smooth relative">
+                <div className="flex flex-row gap-5 overflow-x-auto scrollbar-thin py-2 scroll-smooth relative">
                   {channels.map((element, index) => (
                     <ChannelCard
                       name={element.name}

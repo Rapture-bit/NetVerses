@@ -1,6 +1,11 @@
 import { useCSRFStore } from "@/context/CSRFStore";
 
-export default async function fetchCSRF(URL, method, csrfToken?, body?) {
+export default async function fetchCSRF(
+  URL: any,
+  method: any,
+  csrfToken?: any,
+  body?: any,
+) {
   try {
     const postRequest = await fetch(URL, {
       method: method,

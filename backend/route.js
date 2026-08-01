@@ -11,6 +11,14 @@ const route = {
       },
     },
     {
+      name: "Link Account",
+      path: "/auth/link-account",
+      allowedMethods: ["POST"],
+      functionFile: "../API/auth/link/link-acc.js",
+      csrfRequired: true,
+      authRequired: true,
+    },
+    {
       name: "Interests Sync",
       path: "/me/sync/interests",
       allowedMethods: ["POST"],

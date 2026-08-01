@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button, ConfigProvider } from "antd";
 import { ThemeContext } from "@/context/ThemeContext";
 
-import { Tooltip } from "antd";
+import Tooltip from "@/ui/Tooltip";
 
 export default function ZenonAI({ visible, userDetails, setIsOpen }) {
   const { colorProperties } = useContext(ThemeContext);
@@ -154,11 +154,7 @@ export default function ZenonAI({ visible, userDetails, setIsOpen }) {
               <motion.div className="flex flex-col space-y-3 w-full">
                 <div className="flex justify-between border-b border-gray-300 dark:border-gray-600 pb-1.5 items-center w-full">
                   <div className="flex flex-row space-x-2">
-                    <Tooltip
-                      placement="bottom"
-                      mouseLeaveDelay={0}
-                      title="Settings"
-                    >
+                    <Tooltip label="Settings">
                       <button
                         type="button"
                         onClick={() => console.log("Open settings")}
@@ -169,11 +165,7 @@ export default function ZenonAI({ visible, userDetails, setIsOpen }) {
                       </button>
                     </Tooltip>
 
-                    <Tooltip
-                      placement="bottom"
-                      mouseLeaveDelay={0}
-                      title="Chat History"
-                    >
+                    <Tooltip label="History">
                       <button
                         type="button"
                         onClick={() => console.log("Open settings")}
@@ -184,7 +176,7 @@ export default function ZenonAI({ visible, userDetails, setIsOpen }) {
                       </button>
                     </Tooltip>
                   </div>
-                  <Tooltip placement="bottom" mouseLeaveDelay={0} title="Close">
+                  <Tooltip label="Close">
                     <button
                       type="button"
                       onClick={() => toggleVisible()}
@@ -229,11 +221,7 @@ export default function ZenonAI({ visible, userDetails, setIsOpen }) {
                 </div>
 
                 <div className="flex flex-row space-x-3">
-                  <Tooltip
-                    placement="bottom"
-                    mouseLeaveDelay={0}
-                    title="Upload"
-                  >
+                  <Tooltip label="Upload">
                     <button
                       id="toggleUploadModeButton"
                       type="button"
@@ -245,11 +233,7 @@ export default function ZenonAI({ visible, userDetails, setIsOpen }) {
                     </button>
                   </Tooltip>
 
-                  <Tooltip
-                    placement="bottom"
-                    mouseLeaveDelay={0}
-                    title="Select"
-                  >
+                  <Tooltip label="Select">
                     <button
                       type="button"
                       id="toggleSelectModeButton"

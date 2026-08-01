@@ -5,6 +5,8 @@ import { useTimeAgo } from "@/ui/others/TimeAgo";
 import formatNumber from "@/utils/formatNumber";
 import { Tooltip } from "antd";
 
+import { useTranslation } from "react-i18next";
+
 import TooltipHelp from "@/ui/TooltipHelp";
 
 type images = {
@@ -69,6 +71,8 @@ const Articles = ({
   colorProfile,
   emergencySettings,
 }: ArticlesProps) => {
+  const { t } = useTranslation();
+
   const timeAgo = useTimeAgo(date);
   const humanReadableDate = useHumanDate(date);
 
@@ -136,7 +140,7 @@ const Articles = ({
               to={`/channels/${channel}/${id.toString()}`}
               className={`${textColor} hover:underline font-medium`}
             >
-              Read more
+              {t("general.readmore")}
             </Link>
           </span>
         </div>
@@ -209,18 +213,18 @@ const Articles = ({
           )}
 
           <div id="questionnaire" className="flex flex-col gap-2 mt-4">
-            <TooltipHelp title="Inquiries are used to learn more about users and to provide personalized recommendations, while avoiding the collection of personal data">
+            <TooltipHelp title={`${t("general.inquiries_description")}`}>
               <span className="textColor select-none font-medium uppercase tracking-wide text-xs">
-                Inquiries
+                {t("general.inquiries")}
               </span>
             </TooltipHelp>
             <div className="flex flex-row"></div>
             <div className="flex flex-wrap gap-3">
               {[
-                "Was this article useful?",
-                "Did you like this article?",
-                "Do you think this article is misleading?",
-                "Does this content match your interests?",
+                t("general.questions.was_this_article_useful"),
+                t("general.questions.did_you_like_this_article"),
+                t("general.questions.do_you_think_this_article_is misleading"),
+                t("general.questions.does_this_content_match_your_interests"),
               ].map((question, idx) => (
                 <a
                   key={idx}

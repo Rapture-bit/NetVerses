@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useLayoutEffect, useEffect } from "react";
 import BadgesList from "./BadgesList";
+
+import Tooltip from "@/ui/Tooltip";
+
+import { useTranslation } from "react-i18next";
 
 import {
   Volume2,
@@ -23,20 +27,25 @@ import StatsTab from "./StatsTab";
 import EditProfileMenu from "../modal/Menu/EditProfileMenu";
 
 import clsx from "clsx";
-import { Tooltip } from "antd";
-
 import { profileColorsMap } from "./profileColorsMap";
 
-const ProfilePreview = ({ userData }) => {
-  const [Avatar, setAvatar] = useState<string>(userData.profile_picture); // To be updated with API
-  const [Banner, setBanner] = useState<string>(userData.banner); // To be updated with API
-  const [self, setSelf] = useState<boolean>(userData.is_self); // To be updated with API
-  const [followers, setFollselfowers] = useState<number>(userData.followers); // To be updated with API
-  const [connections, setConnections] = useState<number>(userData.connections); // To be updated with API
-  const [following, setFollowing] = useState<number>(userData.following); // To be updated with API
-  const [Job, setJob] = useState<string>(userData.career); // To be updated with API
+const ProfilePreview = ({ profileData }) => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [Avatar, setAvatar] = useState<string>(profileData.profile_picture); // To be updated with API
+  const [Banner, setBanner] = useState<string>(profileData.banner); // To be updated with API
+  const [self, setSelf] = useState<boolean>(profileData.is_self); // To be updated with API
+  const [followers, setFollselfowers] = useState<number>(profileData.followers); // To be updated with API
+  const [numberOfPosts, setNumberOfPosts] = useState<number>(
+    profileData.number_of_posts || 0,
+  );
+  const [connections, setConnections] = useState<number>(
+    profileData.connections,
+  ); // To be updated with API
+  const [following, setFollowing] = useState<number>(profileData.following); // To be updated with API
+  const [Job, setJob] = useState<string>(profileData.career); // To be updated with API
   const [profileColor, setProfileColor] = useState<string>(
-    userData?.preferences.colorScheme,
+    profileData?.preferences.colorScheme,
   ); // To be updated with API
   const [profileColors, setProfileColors] = useState(
     profileColorsMap[profileColor] || profileColorsMap.purple,
@@ -45,7 +54,7 @@ const ProfilePreview = ({ userData }) => {
   const [socialMediaConnections, setSocialMediaConnections] = useState<
     any | null
   >();
-  const [badges, setBadges] = useState<any>(userData.badges);
+  const [badges, setBadges] = useState<any>(profileData.badges);
   useLayoutEffect(() => {
     setProfileColors(profileColorsMap[profileColor] || profileColorsMap.purple);
   }, [profileColor]);
@@ -58,11 +67,11 @@ const ProfilePreview = ({ userData }) => {
 
   useEffect(() => {
     if (
-      !userData.socialMediaConnections ||
-      (!userData.socialMediaConnections.twitter &&
-        !userData.socialMediaConnections.instagram &&
-        !userData.socialMediaConnections.linkedin &&
-        !userData.socialMediaConnections.github)
+      !profileData.socialMediaConnections ||
+      (!profileData.socialMediaConnections.twitter &&
+        !profileData.socialMediaConnections.instagram &&
+        !profileData.socialMediaConnections.linkedin &&
+        !profileData.socialMediaConnections.github)
     ) {
       return setSocialMediaConnections(null);
     }
@@ -71,25 +80,25 @@ const ProfilePreview = ({ userData }) => {
       {
         name: "Twitter",
         icon: Twitter,
-        link: userData.socialMediaConnections.twitter,
+        link: profileData.socialMediaConnections.twitter,
       },
       {
         name: "LinkedIn",
         icon: Linkedin,
-        link: userData.socialMediaConnections.linkedin,
+        link: profileData.socialMediaConnections.linkedin,
       },
       {
         name: "GitHub",
         icon: Github,
-        link: userData.socialMediaConnections.github,
+        link: profileData.socialMediaConnections.github,
       },
       {
         name: "Instagram",
         icon: Instagram,
-        link: userData.socialMediaConnections.instagram,
+        link: profileData.socialMediaConnections.instagram,
       },
     ]);
-  }, [userData.socialMediaConnections]);
+  }, [profileData.socialMediaConnections]);
 
   return (
     <>
@@ -114,21 +123,19 @@ const ProfilePreview = ({ userData }) => {
 
             <div className="absolute flex flex-row space-x-2 top-4 right-3 sm:top-3 sm:right-3">
               {self && (
-                <Tooltip
-                  placement="bottom"
-                  mouseLeaveDelay={0}
-                  title="Change Color"
-                >
-                  <button
-                    className="w-8 h-8 flex items-center justify-center bg-gray-800/80 backdrop-blur-lg rounded-full hover:bg-gray-800 transition-all"
-                    aria-label="Change Color"
-                  >
-                    <span
-                      className="icon-[mdi--color] w-4 h-4 text-gray-100"
-                      aria-hidden="true"
-                    ></span>
-                  </button>
-                </Tooltip>
+                <div className="relative">
+                  <Tooltip label="Change Color">
+                    <button
+                      className="w-8 h-8 flex items-center justify-center bg-gray-800/80 backdrop-blur-lg rounded-full hover:bg-gray-800 transition-all"
+                      aria-label="Change Color"
+                    >
+                      <span
+                        className="icon-[mdi--color] w-4 h-4 text-gray-100"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </Tooltip>
+                </div>
               )}
 
               {/* Fix the Audio (Tooltip) */}
@@ -156,9 +163,9 @@ const ProfilePreview = ({ userData }) => {
             </div>
 
             <Link
-              to={`/${userData.username.toLowerCase()}`}
+              to={`/${profileData.username.toLowerCase()}`}
               className="absolute z-10 top-20 ml-4 w-24 h-24"
-              aria-label={`Profile of ${userData.username}`}
+              aria-label={`Profile of ${profileData.username}`}
               style={{
                 display: "block",
                 width: "6rem",
@@ -193,7 +200,7 @@ const ProfilePreview = ({ userData }) => {
                     <div className="flex flex-col space-y-1">
                       <div className="space-x-2 items-center inline-flex">
                         <span className="text-xl hover:underline cursor-pointer font-semibold dark:text-white transition-colors duration-300 leading-none">
-                          {userData.display_name}
+                          {profileData.display_name}
                         </span>
                         <BadgesList
                           badges={badges}
@@ -207,20 +214,20 @@ const ProfilePreview = ({ userData }) => {
 
               <div className="flex items-center gap-2">
                 {self && (
-                  <a
-                    href={`/my/settings`}
+                  <button
+                    onClick={() => navigate("/my/settings")}
                     className={clsx(
-                      `rounded-md font-semibold text-white py-1.5 px-6 transition-all duration-300 hover:brightness-95`,
+                      `rounded-lg font-semibold text-white py-1.5 px-6 transition-all duration-300 hover:brightness-95`,
                       profileColors.background,
                     )}
                     aria-label="Edit"
                   >
-                    Edit
-                  </a>
+                    {t("home.editProfile")}
+                  </button>
                 )}
 
                 {!self && (
-                  <Tooltip placement="bottom" title="Follow">
+                  <Tooltip label="Follow">
                     <button
                       className={clsx(
                         `rounded-md gap-1 flex items-center bg-transparent border font-semibold dark:text-white py-2 px-3 transition-all duration-300 text-sm`,
@@ -239,7 +246,7 @@ const ProfilePreview = ({ userData }) => {
                 )}
 
                 {!self && (
-                  <Tooltip placement="bottom" title="Message">
+                  <Tooltip label="Message">
                     <button
                       className={clsx(
                         `rounded-md gap-1 flex items-center hover:text-white bg-transparent border font-semibold dark:text-white py-2 px-3 transition-all duration-300 text-sm`,
@@ -261,7 +268,7 @@ const ProfilePreview = ({ userData }) => {
             <div className="pl-2 flex flex-col gap-1">
               <div className="flex flex-col gap-1 mt-1.5">
                 <div className="flex flex-col gap-1">
-                  {(Job || userData.zodiac_sign || userData.pronouns) && (
+                  {(Job || profileData.zodiac_sign || profileData.pronouns) && (
                     <div className="flex flex-row gap-3 -mt-1 flex-wrap">
                       {Job && (
                         <div className="flex-row space-x-1 inline-flex">
@@ -282,17 +289,17 @@ const ProfilePreview = ({ userData }) => {
                         </div>
                       )}
 
-                      {userData.zodiac_sign && (
-                        <ZodiacSign sign={userData.zodiac_sign} />
+                      {profileData.zodiac_sign && (
+                        <ZodiacSign sign={profileData.zodiac_sign} />
                       )}
-                      {userData.pronouns && (
+                      {profileData.pronouns && (
                         <Pronouns
                           sex={
-                            userData.pronouns === "He/Him"
+                            profileData.pronouns === "He/Him"
                               ? "M"
-                              : userData.pronouns === "She/Her"
+                              : profileData.pronouns === "She/Her"
                                 ? "F"
-                                : userData.pronouns === "They/Them"
+                                : profileData.pronouns === "They/Them"
                                   ? "T"
                                   : ""
                           }
@@ -304,35 +311,45 @@ const ProfilePreview = ({ userData }) => {
 
                   <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-1 text-gray-500 text-sm">
                     <div className="flex items-center gap-4 text-sm">
-                      {userData.location && (
+                      {profileData.location && (
                         <div className="flex items-center gap-1 text-neutral-500">
                           <MapPin className="w-3.5 h-3.5" />
-                          <span>{userData.location}</span>
+                          <span>{profileData.location}</span>
                         </div>
                       )}
                       <div className="flex items-center gap-1 text-neutral-500">
-                        <User className="w-4 h-4" />
-                        <span>{userData.username}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-neutral-500">
-                        <Calendar className="w-3.5 h-3.5" />
+                        <Tooltip label="Username">
+                          <User className="w-4 h-4" />
+                        </Tooltip>
+
                         <span>
-                          {new Date(userData.creation_date).toLocaleDateString(
-                            "en-GB",
+                          {profileData.username.replace(
+                            profileData.username.charAt(0),
+                            profileData.username.charAt(0).toUpperCase(),
                           )}
                         </span>
                       </div>
-                      {userData.birthDate && (
+                      <div className="flex items-center gap-1 text-neutral-500">
+                        <Tooltip label="Creation Date">
+                          <Calendar className="w-3.5 h-3.5" />
+                        </Tooltip>
+                        <span>
+                          {new Date(
+                            profileData.creation_date,
+                          ).toLocaleDateString("en-GB")}
+                        </span>
+                      </div>
+                      {profileData.birthDate && (
                         <div className="flex items-center gap-1 text-neutral-500">
                           <Cake className="w-3.5 h-3.5" />
-                          <span>{userData.birthDate}</span>
+                          <span>{profileData.birthDate}</span>
                         </div>
                       )}
                     </div>
                   </div>
 
                   <p className="dark:text-gray-300 text-black text-sm leading-relaxed">
-                    {userData.bio}
+                    {profileData.bio}
                   </p>
                 </div>
               </div>
@@ -340,9 +357,10 @@ const ProfilePreview = ({ userData }) => {
               <StatsTab
                 followers={followers}
                 following={following}
+                posts={numberOfPosts}
                 self={self}
                 connections={connections}
-                username={userData.username}
+                username={profileData.username}
               />
 
               {socialMediaConnections && (

@@ -112,6 +112,10 @@ export default function Dropdown({
       }
     };
 
+    const handleScroll = () => {
+      setShowMenu(false);
+    };
+
     const handleClickOutside = (e) => {
       if (
         menuRef.current &&
@@ -126,10 +130,12 @@ export default function Dropdown({
     window.addEventListener("keydown", handleEscapeKey);
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll);
     return () => (
       window.removeEventListener("keydown", handleEscapeKey),
       window.removeEventListener("resize", handleResize),
-      window.removeEventListener("mousedown", handleClickOutside)
+      window.removeEventListener("mousedown", handleClickOutside),
+      window.addEventListener("scroll", handleScroll)
     );
   }, []);
 

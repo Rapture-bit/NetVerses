@@ -4,16 +4,20 @@ import { UserSession } from "../database/models/Session.js";
 export default async function contentMiddleware(req, res, next) {
   try {
     const username = req.params.username?.toLowerCase();
+    console.log(`Received request for username: ${username}`);
 
     const usernameRegex = /^[a-zA-Z0-9_-]+$/;
     if (!username || username.length < 4 || !usernameRegex.test(username)) {
+      console.log(`Invalid username format: ${username}`);
       req.profile = null;
       return next();
     }
 
     const userProfile = await UserProfile.findOne({
-      where: { username },
+      where: { username: username.toLowerCase() },
     });
+    console.log(`Fetched user profile for username: ${username}`);
+    console.log(`User profile found: ${!!userProfile}`);
 
     if (!userProfile) {
       req.profile = null;

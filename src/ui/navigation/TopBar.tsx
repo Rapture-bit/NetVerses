@@ -4,13 +4,14 @@ import { Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
 
 import ZenonAI from "@/ui/modal/Menu/ZenonChat";
+import VerseMenu from "@/ui/modal/Menu/VerseMenu";
 
 import { UserContext } from "@/context/UserContext";
 
 import SignUpModal from "@/ui/modal/SignUp";
 import SignInModal from "@/ui/modal/SignIn";
 
-export default function TopBar() {
+export default function TopBar({ doc = false }: { doc?: boolean }) {
   const { t } = useTranslation();
   const { userData } = useContext(UserContext)!;
   const [isSignInVisible, setSignInVisible] = useState<boolean>(false);
@@ -47,6 +48,11 @@ export default function TopBar() {
         visible={showZenonMenu}
         setIsOpen={setShowZenonMenu}
       />
+      <VerseMenu
+        userDetails={userData}
+        visible={showVerseMenu}
+        setIsOpen={setShowVerseMenu}
+      />
       <nav
         className="fixed top-0 left-0 right-0 w-full darkerBackgroundColor border-b-2 border-purple-800 text-white px-4 md:px-10 py-3 z-50 nav-hover"
         style={{
@@ -58,11 +64,16 @@ export default function TopBar() {
       >
         <div className="flex flex-row justify-between items-center space-x-3 font-semibold">
           <Link
-            to="https://netverses.com/"
+            to={`${doc ? "https://help.netverses.com/" : "https://netverses.com/"}`}
             className="flex items-center text-xl md:text-2xl select-none"
           >
             <span className="dark:text-gray-200 text-black">Net</span>
             <span className="text-purple-600">Verses</span>
+            {doc && (
+              <span className="text-xs md:text-sm ml-2 mt-1.5 px-2 py-0.5 rounded-md bg-purple-600/10 text-purple-600 dark:bg-purple-400/10 dark:text-purple-300">
+                Docs
+              </span>
+            )}
           </Link>
 
           {userData !== null && (
@@ -78,7 +89,10 @@ export default function TopBar() {
                     alt="Profile"
                   />
                   <span className="text-gray-600 dark:text-gray-200">
-                    {userData?.username || "User"}
+                    {userData?.username.replace(
+                      userData?.username.charAt(0),
+                      userData?.username.charAt(0).toUpperCase(),
+                    ) || "User"}
                   </span>
                 </button>
               </Tooltip>
@@ -95,6 +109,7 @@ export default function TopBar() {
                   <span>Verse</span>
                 </button>
 
+                {/* 
                 <button
                   onClick={triggerZenon}
                   aria-label="AI assistant"
@@ -103,7 +118,9 @@ export default function TopBar() {
                   <span className="icon-[mingcute--ai-fill] w-6 h-6"></span>
                   <span>Zenon</span>
                 </button>
+                */}
 
+                {/* 
                 <button
                   onClick={triggerMenu}
                   aria-label="Menu"
@@ -111,6 +128,7 @@ export default function TopBar() {
                 >
                   <span className="icon-[material-symbols--menu] w-6 h-6"></span>
                 </button>
+                */}
 
                 <Tooltip
                   placement="bottom"
@@ -122,15 +140,6 @@ export default function TopBar() {
                     className="flex duration-300 transition-all items-center justify-center h-full"
                   >
                     <span className="icon-[mingcute--notification-fill] w-6 h-6"></span>
-                  </button>
-                </Tooltip>
-
-                <Tooltip placement="bottom" mouseLeaveDelay={0} title="Report">
-                  <button
-                    aria-label="Report"
-                    className="flex duration-300 transition-all items-center justify-center h-full"
-                  >
-                    <span className="icon-[material-symbols--report] w-6 h-6"></span>
                   </button>
                 </Tooltip>
 

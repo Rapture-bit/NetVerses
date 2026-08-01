@@ -209,16 +209,19 @@ export default function Home() {
         {
           id: "f47ac10b58cc4372a5670e02b2c3d479",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          isAI: false,
           comment: "NetVerses's Default Avatar",
         },
         {
           id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          isAI: false,
           comment: "NetVerses's Default Avatar",
         },
         {
           id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          isAI: false,
           comment: "NetVerses's Default Avatar",
         },
       ],
@@ -248,7 +251,14 @@ export default function Home() {
         boosts: 35,
         comments: 18,
       },
-      attachments: [],
+      attachments: [
+        {
+          id: "f47ac10b58cc4372a5670e02b2c3d479",
+          URL: "https://cdn.netverses.com/uploads/attachments/3d_placeholder.glb",
+          isAI: false,
+          comment: "3D Model of NetVerses Logo",
+        },
+      ],
       comments: [
         {
           author: "FeatureFan",
@@ -326,7 +336,14 @@ export default function Home() {
         boosts: 45,
         comments: 30,
       },
-      attachments: [],
+      attachments: [
+        {
+          id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
+          URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          isAI: true,
+          comment: "NetVerses's Default Avatar",
+        },
+      ],
       comments: [
         {
           author: "PrivacyAdvocate",
@@ -356,43 +373,51 @@ export default function Home() {
         {
           id: "f47ac10b58cc4372a5670e02b2c3d479",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          isAI: true,
           comment: "NetVerses's Default Avatar",
         },
         {
           id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
           comment: "NetVerses's Default Avatar",
+          isAI: true,
         },
         {
           id: "f47ac10b58cc4372a5670e02b2c3d479",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          isAI: true,
           comment: "NetVerses's Default Avatar",
         },
         {
           id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          isAI: true,
           comment: "NetVerses's Default Avatar",
         },
 
         {
           id: "f47ac10b58cc4372a5670e02b2c3d479",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
+          isAI: true,
           comment: "NetVerses's Default Avatar",
         },
         {
           id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
           comment: "NetVerses's Default Avatar",
+          isAI: true,
         },
         {
           id: "f47ac10b58cc4372a5670e02b2c3d479",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
           comment: "NetVerses's Default Avatar",
+          isAI: true,
         },
         {
           id: "e4f8c12d9a3b4c5d8f7e6a1b2c3d4f5a",
           URL: "https://cdn.netverses.com/media/image_placeholder.jpg",
           comment: "NetVerses's Default Avatar",
+          isAI: true,
         },
       ],
       comments: [
@@ -533,7 +558,7 @@ export default function Home() {
         visible={showProfileCustomization}
         setIsOpen={setCustomizationMenuOpen}
       />
-      <PageTitle title="NetVerses ~ Home" />
+      <PageTitle title={`NetVerses ~ ${t("titles.home")}`} />
       <BottomBar />
       <div className="flex flex-col overflow-x-hidden justify-start items-center w-full h-full pt-24 bg-fixed bg-cover bg-center">
         <div className="flex flex-col overflow-x-hidden space-y-5 items-center w-full roboto">
@@ -568,7 +593,7 @@ export default function Home() {
                       }}
                     >
                       <a href="#" onClick={(e) => e.preventDefault()}>
-                        <Space>
+                        <Space className="hover:underline">
                           {t(
                             `home.filterOptions.${selectedFilter.toLowerCase()}`,
                           )}
