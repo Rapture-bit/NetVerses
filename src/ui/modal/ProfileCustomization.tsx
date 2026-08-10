@@ -82,6 +82,7 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
 
   const interestOptions = [
     "Astronomy",
+    "News",
     "Gaming",
     "Art",
     "Cooking",
@@ -89,37 +90,25 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
     "Travel",
     "Sports",
     "Technology",
-    "Fitness",
     "Movies",
     "Books",
-    "Fashion",
     "Photography",
     "Writing",
     "Programming",
-    "Other",
   ];
 
   const dropdownPronouns = [
+    { title: "not_specified", value: t("pronouns.notspecified") },
+    { title: "sheher", value: t("pronouns.sheher") },
+    { title: "hehim", value: t("pronouns.hehim") },
+    { title: "theythem", value: t("pronouns.theythem") },
+  ];
+
+  const dropdownPronounsValues = [
     t("pronouns.notspecified"),
     t("pronouns.sheher"),
     t("pronouns.hehim"),
     t("pronouns.theythem"),
-  ];
-
-  const zodiacSigns = [
-    t("zodiacSigns.notspecified"),
-    t("zodiacSigns.aries"),
-    t("zodiacSigns.taurus"),
-    t("zodiacSigns.gemini"),
-    t("zodiacSigns.cancer"),
-    t("zodiacSigns.leo"),
-    t("zodiacSigns.virgo"),
-    t("zodiacSigns.libra"),
-    t("zodiacSigns.scorpio"),
-    t("zodiacSigns.sagittarius"),
-    t("zodiacSigns.capricorn"),
-    t("zodiacSigns.aquarius"),
-    t("zodiacSigns.pisces"),
   ];
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
@@ -144,6 +133,21 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
   const typingRef = useRef(true);
   const fileInputRef = useRef(null);
 
+  const findPronounsTitle = (v: string) => {
+    const foundElement = dropdownPronouns.find((element) => {
+      console.log(element.value, v);
+      return element.value == v;
+    });
+
+    console.log(foundElement);
+
+    if (foundElement) {
+      return foundElement.title;
+    } else {
+      return;
+    }
+  };
+
   const handleClick = () => {
     if (fileInputRef.current === null) return;
     fileInputRef.current?.click();
@@ -157,6 +161,93 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
       if (prev.length >= 8) return prev;
       return [...prev, interest];
     });
+  };
+
+  useEffect(() => {
+    console.log(findPronounsTitle(selectedPronouns));
+  }, [selectedPronouns]);
+
+  const confirmRequest = async () => {
+    let csrfTokenStore: any;
+    const updateProfileFetch = await fetch(
+      "https://api.netverses.com/v1/me/update-profile",
+      {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({
+          display_name: displayName,
+          career: jobTitle,
+          pronouns:
+            selectedPronouns !== "None" &&
+            findPronounsTitle(selectedPronouns) !== "not_specified"
+              ? selectedPronouns
+              : null,
+          profile_picture:
+            selectedAvatar === "custom"
+              ? await (async () => {
+                  if (!selectedFile) return null;
+                  const formData = new FormData();
+                  formData.append("file", selectedFile);
+
+                  const uploadResponse = await fetch(
+                    "https://api.netverses.com/v1/me/avatar-upload",
+                    {
+                      method: "POST",
+                      credentials: "include",
+                      body: formData,
+                      headers: {
+                        "X-CSRF-Token": csrfToken,
+                      },
+                    },
+                  );
+                  if (!uploadResponse.ok)
+                    throw new Error("Failed to upload avatar");
+                  const uploadData = await uploadResponse.json();
+                  csrfTokenStore = uploadData.csrfToken;
+                  return uploadData.avatar_url;
+                })()
+              : "https://netverses.com" + selectedAvatar,
+          newlyRegistered: false,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfTokenStore ? csrfTokenStore : csrfToken,
+        },
+      },
+    );
+
+    if (!updateProfileFetch.ok) {
+      setIsTransitioning(false);
+      return;
+    }
+
+    const updateProfileResponse = await updateProfileFetch.json();
+    console.log(updateProfileResponse);
+
+    csrfTokenStore = updateProfileResponse.csrfToken;
+    if (!updateProfileResponse) return null;
+    if (!updateProfileResponse.success) return null;
+
+    const syncInterestsFetch = await fetch(
+      "https://api.netverses.com/v1/me/sync/interests",
+      {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({ interests: selectedInterests }),
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfTokenStore,
+        },
+      },
+    );
+
+    if (!syncInterestsFetch.ok) {
+      setIsTransitioning(false);
+      return;
+    }
+
+    csrfTokenStore = (await syncInterestsFetch.json()).csrfToken;
+    window.location.href = "/";
   };
 
   const handleConfirm = () => {
@@ -186,83 +277,7 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
         setIsTransitioning(false);
         setTab(4);
         setTimeout(async () => {
-          let csrfTokenStore;
-          const updateProfileFetch = await fetch(
-            "https://api.netverses.com/v1/me/update-profile",
-            {
-              method: "POST",
-              credentials: "include",
-              body: JSON.stringify({
-                display_name: displayName,
-                career: jobTitle,
-                pronouns: selectedPronouns !== "None" ? selectedPronouns : null,
-                zodiac_sign: selectedZodiac !== "None" ? selectedZodiac : null,
-                profile_picture:
-                  selectedAvatar === "custom"
-                    ? await (async () => {
-                        if (!selectedFile) return null;
-                        const formData = new FormData();
-                        formData.append("file", selectedFile);
-
-                        const uploadResponse = await fetch(
-                          "https://api.netverses.com/v1/me/avatar-upload",
-                          {
-                            method: "POST",
-                            credentials: "include",
-                            body: formData,
-                            headers: {
-                              "X-CSRF-Token": csrfToken,
-                            },
-                          },
-                        );
-                        if (!uploadResponse.ok)
-                          throw new Error("Failed to upload avatar");
-                        const uploadData = await uploadResponse.json();
-                        csrfTokenStore = uploadData.csrfToken;
-                        return uploadData.avatar_url;
-                      })()
-                    : "https://netverses.com" + selectedAvatar,
-                newlyRegistered: false,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-Token": csrfTokenStore ? csrfTokenStore : csrfToken,
-              },
-            },
-          );
-
-          if (!updateProfileFetch.ok) {
-            setIsTransitioning(false);
-            return;
-          }
-
-          const updateProfileResponse = await updateProfileFetch.json();
-          console.log(updateProfileResponse);
-
-          csrfTokenStore = updateProfileResponse.csrfToken;
-          if (!updateProfileResponse) return null;
-          if (!updateProfileResponse.success) return null;
-
-          const syncInterestsFetch = await fetch(
-            "https://api.netverses.com/v1/me/sync/interests",
-            {
-              method: "POST",
-              credentials: "include",
-              body: JSON.stringify({ interests: selectedInterests }),
-              headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-Token": csrfTokenStore,
-              },
-            },
-          );
-
-          if (!syncInterestsFetch.ok) {
-            setIsTransitioning(false);
-            return;
-          }
-
-          csrfTokenStore = (await syncInterestsFetch.json()).csrfToken;
-          window.location.href = "/";
+          await confirmRequest();
         }, 1200);
       }, 1200);
 
@@ -279,6 +294,13 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
 
   const toggleTab = () => {
     setTab(currentTab + 1);
+  };
+
+  const handleSkip = () => {
+    (async () => {
+      setSelectedInterests(null);
+      await confirmRequest();
+    })();
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -689,31 +711,11 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                                 primaryOption={t(
                                   "profileCustomization.tabTwo.pronouns",
                                 )}
-                                contentArray={dropdownPronouns}
+                                contentArray={dropdownPronounsValues}
                                 size="sm"
                                 openSide="up"
                                 fullWidth={true}
                                 buttonStyling={`${selectedPronouns !== "None" ? `!text-white` : `!text-gray-400`} ml-1 w-full justify-between items-center mr-4`}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="flex flex-row items-center space-x-2 font-normal border dark:border-gray-500/20 hover:border-gray-500/36 transition-all duration-300 rounded-md p-1 px-2.5">
-                            <span className="icon-[streamline--zodiac-1] w-4 h-4 mr-1"></span>
-
-                            <div className="flex-1">
-                              <Dropdown
-                                setOption={setSelectedZodiac}
-                                currentOption={selectedZodiac}
-                                clearTrigger={clearZodiacDropdown}
-                                primaryOption={t(
-                                  "profileCustomization.tabTwo.zodiacsign",
-                                )}
-                                contentArray={zodiacSigns}
-                                size="sm"
-                                openSide="up"
-                                fullWidth={true}
-                                buttonStyling={`${selectedZodiac !== "None" ? `!text-white` : `!text-gray-400`} ml-1 w-full justify-between items-center mr-4`}
                               />
                             </div>
                           </div>
@@ -801,20 +803,44 @@ export default function ProfileCustomization({ visible, setIsOpen }) {
                         {t("profileCustomization.tabThree.selectedWord")}
                       </p>
 
-                      <div className="w-full flex justify-center mt-2">
-                        <button
-                          disabled={
-                            selectedInterests.length === 0 || isTransitioning
-                          }
-                          onClick={handleConfirm}
-                          className={`${
-                            selectedInterests.length === 0 || isTransitioning
-                              ? "bg-indigo-700/20 text-white/30 cursor-not-allowed"
-                              : "bg-indigo-700 text-white"
-                          } font-medium py-2 px-6 rounded-lg shadow-sm hover:bg-opacity-85 transition duration-300 text-sm`}
-                        >
-                          {t("general.Confirm")}
-                        </button>
+                      <div className="flex flex-row space-x-3">
+                        <div className="w-full flex justify-center mt-2">
+                          <button
+                            onClick={handleSkip}
+                            disabled={isTransitioning}
+                            className={`
+                              font-medium py-2 px-6 rounded-lg transition duration-300 text-sm
+                              ${
+                                isTransitioning
+                                  ? "bg-white/5 text-white/20 cursor-not-allowed"
+                                  : "bg-white/5 hover:bg-white/10 text-white/50 hover:text-white/70 cursor-pointer"
+                              }
+                              border border-white/5 hover:border-white/10
+                            `}
+                          >
+                            Skip for now
+                          </button>
+                        </div>
+
+                        <div className="w-full flex justify-center mt-2">
+                          <button
+                            disabled={
+                              selectedInterests.length === 0 || isTransitioning
+                            }
+                            onClick={handleConfirm}
+                            className={`
+                              font-medium py-2 px-6 rounded-lg shadow-sm transition duration-300 text-sm
+                              ${
+                                selectedInterests.length === 0 ||
+                                isTransitioning
+                                  ? "bg-indigo-700/20 text-white/30 cursor-not-allowed"
+                                  : "bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer"
+                              }
+                            `}
+                          >
+                            {t("general.Confirm")}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </motion.div>

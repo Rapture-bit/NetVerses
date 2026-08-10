@@ -17,9 +17,14 @@ const ProfilePage = () => {
   const [isAvailable, setIsAvailable] = useState<boolean>(!!window.__PROFILE__);
 
   useEffect(() => {
-    setProfileData(window.__PROFILE__);
-    setIsAvailable(!!window.__PROFILE__);
-  }, [username]);
+    if (window.__PROFILE__) {
+      console.log("Available");
+      setProfileData(window.__PROFILE__);
+      setIsAvailable(!!window.__PROFILE__);
+    } else {
+      console.log("Unavailable?");
+    }
+  }, [window.__PROFILE__, username]);
 
   function toggleBack() {
     if (window.history.length > 1) {

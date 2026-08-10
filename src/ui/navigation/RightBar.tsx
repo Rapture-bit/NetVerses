@@ -145,16 +145,16 @@ export default function RightBar() {
       <div className="flex flex-col space-y-4 justify-center items-center">
         <div
           className={`
-    relative flex items-center justify-center px-4 py-2 
-    transition-all duration-300 
-    xl:w-64 w-full 
+    relative flex items-center justify-center px-4 py-2
+    transition-all duration-300
+    xl:w-64 w-full
     border rounded-lg
-    ${isInputFocused ? "border-purple-700 shadow-[0_0_10px_rgba(147,51,234,0.4)]" : "borderColor"} 
+    ${isInputFocused ? "border-purple-700 shadow-[0_0_10px_rgba(147,51,234,0.4)]" : "borderColor"}
     darkerBackgroundColor
   `}
         >
           <div className="flex items-center w-full gap-2 p-0.5 text-sm text-neutral-700 dark:text-neutral-400 focus-within:text-black dark:focus-within:text-white">
-            <span className="icon-[si--search-line] w-4 h-4 flex-shrink-0 transition-colors duration-300" />
+            <span className="icon-[si--search-line] w-4 h-4 flex-shrink-0 transition-colors duration-300 -translate-x-1" />
             <input
               onInput={(e) => onSearchInput(e.currentTarget.value)}
               ref={searchInputRef}
@@ -187,7 +187,7 @@ export default function RightBar() {
 
           {searchTerm && isInputFocused && (
             <div
-              className="absolute top-full left-0 right-0 mt-3 z-50 backdrop-blur-xl bg-white/95 dark:bg-gray-800/95 rounded-xl border border-gray-200 dark:border-gray-700 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+              className="absolute top-full left-0 right-0 mt-3 z-50 backdrop-blur-xl bg-white/95 darkerBackgroundColor rounded-xl border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
               role="region"
               aria-live="polite"
             >
@@ -196,7 +196,7 @@ export default function RightBar() {
                   Search Results
                 </div>
                 <button
-                  className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700/50 rounded-lg transition-all duration-200 group"
+                  className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700/30 rounded-lg transition-all duration-200 group"
                   type="button"
                 >
                   <div className="flex items-center gap-3">

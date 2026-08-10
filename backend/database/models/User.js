@@ -212,11 +212,6 @@ UserProfile.init(
       primaryKey: true,
       allowNull: false,
     },
-    zodiac_sign: {
-      type: DataTypes.STRING(20),
-      allowNull: true,
-      defaultValue: "",
-    },
     pronouns: {
       type: DataTypes.STRING(20),
       allowNull: true,
@@ -275,7 +270,7 @@ UserProfile.init(
     bio: {
       type: DataTypes.STRING(255),
       allowNull: true,
-      defaultValue: "Welcome to my profile!",
+      defaultValue: "I'm new to NetVerses!",
       validate: {
         len: [0, 255],
       },

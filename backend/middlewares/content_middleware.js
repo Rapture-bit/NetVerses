@@ -5,6 +5,11 @@ export default async function contentMiddleware(req, res, next) {
   try {
     const username = req.params.username?.toLowerCase();
     console.log(`Received request for username: ${username}`);
+    console.log(
+      await UserProfile.findOne({
+        where: { username: username.toLowerCase() },
+      }),
+    );
 
     const usernameRegex = /^[a-zA-Z0-9_-]+$/;
     if (!username || username.length < 4 || !usernameRegex.test(username)) {

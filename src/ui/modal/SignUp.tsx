@@ -420,7 +420,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
   }, [username, usernameCache]);
 
   const refreshPage = () => {
-    window.onbeforeunload = null;
+    setIsOpen(false);
+
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -1022,7 +1023,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
 
                     <div className="flex flex-col space-y-1">
                       <PrimaryInput
-                        type="text"
                         maxLength={128}
                         ColorSettings={{
                           BorderColor: errorState.TabOne.ConfirmPassword[
@@ -1068,7 +1068,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                           <span className="text-sm">
                             {t("SignUp.consentConfirmation")}{" "}
                             <a
-                              href="/terms"
+                              href="https://help.netverses.com/tos"
                               target="_blank"
                               rel="noopener noreferrer"
                               className="underline! hover:text-violet-500! text-violet-600!"
@@ -1077,7 +1077,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, setIsOpen }) => {
                             </a>{" "}
                             {t("general.andLabel")}{" "}
                             <a
-                              href="/privacy"
+                              href="https://help.netverses.com/privacy"
                               target="_blank"
                               rel="noopener noreferrer"
                               className="underline! hover:text-violet-500! text-violet-600!"

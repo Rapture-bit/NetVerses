@@ -400,9 +400,9 @@ export default function UserSettings() {
           </div>
         </div>
         <div
-          className="darkerBackgroundColor 
+          className="darkerBackgroundColor
   h-[70vh] min-h-[500px] max-h-[800px]
-  justify-between relative flex border borderColor flex-row rounded-md 
+  justify-between relative flex border borderColor flex-row rounded-md
   w-full sm:w-3/4 lg:w-3/4 xl:w-1/2"
         >
           <div className="flex flex-col overflow-y-auto w-1/3 border-r borderColor p-2 space-y-1">
@@ -469,7 +469,7 @@ export default function UserSettings() {
             {active === "profile" && (
               <>
                 <div className="justify-between flex flex-row w-full">
-                  <span className="text-lg font-semibold hover:underline">
+                  <span className="text-lg font-semibold">
                     Profile Customization
                   </span>
 
@@ -679,6 +679,29 @@ export default function UserSettings() {
                           currentOption={Pronouns}
                           clearTrigger={clearDropdown}
                           primaryOption={Pronouns || "Select Pronouns"}
+                          contentArray={dropdownPronouns}
+                          size="sm"
+                          openSide="up"
+                          fullWidth={true}
+                          buttonStyling={`${Pronouns !== "None" ? `!text-white/70` : `!text-gray-400`} ml-1 w-full justify-between items-center mr-4`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col w-1/2 space-y-1 font-normal">
+                    <span className="text-sm font-medium jost select-none">
+                      Career
+                    </span>
+                    <div className="flex flex-row items-center space-x-2 font-normal border dark:border-gray-500/20 hover:border-gray-500/36 transition-all duration-300 rounded-md p-1 px-2.5">
+                      <span className="icon-[fa--intersex] w-4 h-4 mr-1"></span>
+
+                      <div className="flex-1">
+                        <Dropdown
+                          setOption={setPronouns}
+                          currentOption={Pronouns}
+                          clearTrigger={clearDropdown}
+                          primaryOption={Pronouns || "Change Career"}
                           contentArray={dropdownPronouns}
                           size="sm"
                           openSide="up"
@@ -922,7 +945,7 @@ export default function UserSettings() {
             {active === "account" && (
               <>
                 <div className="justify-between flex flex-row w-full">
-                  <span className="text-lg font-semibold hover:underline">
+                  <span className="text-lg font-semibold">
                     Account Settings
                   </span>
 
@@ -1094,9 +1117,7 @@ export default function UserSettings() {
             {active === "privacy" && (
               <>
                 <div className="flex flex-row justify-between w-full">
-                  <span className="text-lg font-semibold hover:underline">
-                    Privacy
-                  </span>
+                  <span className="text-lg font-semibold">Privacy</span>
                   <div className="flex items-center gap-2">
                     <button
                       disabled={!hasChanges}
@@ -1169,9 +1190,7 @@ export default function UserSettings() {
             {active === "security" && (
               <>
                 <div className="flex flex-row justify-between w-full">
-                  <span className="text-lg font-semibold hover:underline">
-                    Security
-                  </span>
+                  <span className="text-lg font-semibold">Security</span>
                   <div className="flex items-center gap-2">
                     <button
                       disabled={!hasChanges}

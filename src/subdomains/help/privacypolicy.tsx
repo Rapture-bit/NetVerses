@@ -21,7 +21,10 @@ interface Tab {
 
 export default function PrivacyPage() {
   const [activeTab, setActiveTab] = useState<number>(0);
-  const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
+  const [showScrollButton, setShowScrollButton] = useState({
+    Up: false,
+    Down: false,
+  });
   const [colorTheme, setColorTheme] = useState<string>("");
   const { colorProperties } = useContext(ThemeContext);
 
@@ -30,14 +33,14 @@ export default function PrivacyPage() {
       title: "Privacy Policy",
       subtitles: ["What is a Privacy Policy?"],
       descriptions: [
-        `A Privacy Policy is a legal document that outlines how an 
-        organization collects, uses, stores, and manages personal 
-        information from its users or customers. In this context, 
-        NetVerses operates as part of the corporation ecosystem, 
-        meaning that the practices described in this Privacy Policy 
+        `A Privacy Policy is a legal document that outlines how an
+        organization collects, uses, stores, and manages personal
+        information from its users or customers. In this context,
+        NetVerses operates as part of the corporation ecosystem,
+        meaning that the practices described in this Privacy Policy
         apply to all entities within our network.`,
-        `This document explains how we collect, use, share, and 
-        transfer information. We are committed to keeping you informed 
+        `This document explains how we collect, use, share, and
+        transfer information. We are committed to keeping you informed
         about these practices.`,
       ],
     },
@@ -159,14 +162,27 @@ export default function PrivacyPage() {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      setShowScrollButton(true);
+      setShowScrollButton({ Up: false, Down: true });
     }, 1000);
 
     return () => clearTimeout(timeoutId);
   }, []);
 
-  function handleScroll() {
+  useEffect(() => {
+    if (activeTab == 0) {
+      setShowScrollButton({ Up: false, Down: true });
+      return;
+    }
+
+    setShowScrollButton({ Up: true, Down: true });
+  }, [activeTab]);
+
+  function handleScrollDown() {
     setActiveTab((prev) => (prev < maxTabs ? prev + 1 : 0));
+  }
+
+  function handleScrollUp() {
+    setActiveTab((prev) => prev - 1);
   }
 
   useLayoutEffect(() => {
@@ -223,14 +239,19 @@ export default function PrivacyPage() {
           )}
       </div>
 
-      {showScrollButton && (
+      {showScrollButton.Down && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2, ease: "easeInOut" }}
         >
-          <div className="absolute -translate-y-6 left-1/2 -translate-x-1/2 z-50">
-            <button onClick={handleScroll} className="text-purple-600 text-xl">
+          <div
+            className={`absolute -translate-y-8 left-1/2 ${activeTab !== 0 ? "-translate-x-1/3" : "-translate-x-2/3"} z-50`}
+          >
+            <button
+              onClick={handleScrollDown}
+              className="text-purple-600 text-xl"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1.5em"
@@ -249,14 +270,18 @@ export default function PrivacyPage() {
           </div>
         </motion.div>
       )}
-      {showScrollButton && (
+
+      {showScrollButton.Up && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2, ease: "easeInOut" }}
         >
-          <div className="absolute -translate-y-6 left-1/2 -translate-x-12 z-50">
-            <button onClick={handleScroll} className="text-purple-600 text-xl">
+          <div className="absolute -translate-y-8 left-1/2 -translate-x-12 z-50">
+            <button
+              onClick={handleScrollUp}
+              className="text-purple-600 text-xl"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1.5em"

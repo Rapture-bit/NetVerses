@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState, useRef, useEffect } from "react";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 interface DropdownProps {
   contentArray: any[];
@@ -39,6 +40,8 @@ export default function Dropdown({
     spaceAbove: window.innerHeight,
     spaceBelow: window.innerHeight,
   });
+
+  const { t } = useTranslation();
 
   const buttonRef = useRef(null);
   const menuRef = useRef(null);

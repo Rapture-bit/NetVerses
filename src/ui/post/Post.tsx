@@ -157,7 +157,7 @@ export default function Post({
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3">
             <Link
-              to={author}
+              to={`/u/${author.toLowerCase()}`}
               className={`${type === "Ad" ? "w-9 h-9" : "w-12 h-12"} rounded-full overflow-hidden block border border-gray-700 hover:border-gray-500 transition-all duration-200`}
             >
               <img
@@ -168,7 +168,7 @@ export default function Post({
             </Link>
             <div className="flex flex-col">
               <Link
-                to={author.toLowerCase()}
+                to={`/u/${author.toLowerCase()}`}
                 className="font-medium text-black dark:text-white hover:underline"
               >
                 {author}
@@ -249,7 +249,7 @@ export default function Post({
             </span>
             <div className={`mt-2`}>
               <Link
-                to={`/u/${author}/${id}`}
+                to={`/u/${author.toLowerCase()}/${id}`}
                 className={`inline-block ${textColor} hover:underline font-medium`}
               >
                 {t("general.showmore")}
@@ -260,7 +260,7 @@ export default function Post({
 
         {!isAIGenerated && (
           <Link
-            to={`/u/${author}/${id}`}
+            to={`/u/${author.toLowerCase()}/${id}`}
             className={`mt-3 inline-block ${textColor} hover:underline font-medium`}
           >
             {t("general.showmore")}
@@ -313,9 +313,9 @@ export default function Post({
                       onClick={() => toggleClick(action)}
                       className="
                 group/btn
-                flex items-center 
-                gap-1.5 
-                px-3 py-1.5 
+                flex items-center
+                gap-1.5
+                px-3 py-1.5
                 rounded-full
                 text-sm
                 text-gray-600 dark:text-gray-400
@@ -327,9 +327,9 @@ export default function Post({
                     >
                       <span
                         className={`
-                icon-[${icons[action as keyof typeof icons]}] 
-                w-4 h-4 
-                transition-transform duration-200 
+                icon-[${icons[action as keyof typeof icons]}]
+                w-4 h-4
+                transition-transform duration-200
                 group-hover/btn:scale-110
               `}
                       />
@@ -349,9 +349,9 @@ export default function Post({
                 <button
                   aria-label="Transfer Ownership"
                   className="
-            p-2 
+            p-2
             rounded-full
-            text-gray-400 
+            text-gray-400
             hover:text-gray-700 dark:hover:text-gray-200
             hover:bg-gray-100 dark:hover:bg-white/5
             active:scale-95
@@ -375,7 +375,7 @@ export default function Post({
                   style={{ marginLeft: `${index * 10}px` }}
                 >
                   <Link
-                    to={`/${comment.author}`}
+                    to={`/${comment.author.toLowerCase()}`}
                     className="font-medium hover:underline text-black dark:text-white"
                   >
                     {comment.author}

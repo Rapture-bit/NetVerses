@@ -163,7 +163,7 @@ const ProfilePreview = ({ profileData }) => {
             </div>
 
             <Link
-              to={`/${profileData.username.toLowerCase()}`}
+              to={`/u/${profileData.username.toLowerCase()}`}
               className="absolute z-10 top-20 ml-4 w-24 h-24"
               aria-label={`Profile of ${profileData.username}`}
               style={{
@@ -272,12 +272,14 @@ const ProfilePreview = ({ profileData }) => {
                     <div className="flex flex-row gap-3 -mt-1 flex-wrap">
                       {Job && (
                         <div className="flex-row space-x-1 inline-flex">
-                          <span
-                            className={clsx(
-                              `icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem]`,
-                              profileColors.textColor,
-                            )}
-                          ></span>
+                          <Tooltip label="Career">
+                            <span
+                              className={clsx(
+                                `icon-[mingcute--suitcase-fill] w-[1.15rem] h-[1.15rem]`,
+                                profileColors.textColor,
+                              )}
+                            ></span>
+                          </Tooltip>
                           <span
                             className={clsx(
                               `font-semibold text-sm hover:underline cursor-pointer`,
